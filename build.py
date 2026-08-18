@@ -48,8 +48,8 @@ EXTRA_CSS = """
     display:flex; align-items:center; gap:1.25rem; min-height:var(--topbar-h);
   }
   .brand{
-    font-family:var(--serif); font-size:1.12rem; font-weight:700; color:var(--ink);
-    white-space:nowrap; letter-spacing:-.01em;
+    font-family:var(--display); font-size:1.06rem; font-weight:400; color:var(--ink);
+    white-space:nowrap; letter-spacing:.14em; padding-right:.14em;
   }
   .brand:hover{text-decoration:none; color:var(--accent-ink)}
   .unitnav{display:flex; gap:.15rem; overflow-x:auto; scrollbar-width:none; flex:1}
@@ -439,7 +439,7 @@ for n in (1, 2, 3, 4):
     home_map = home_map.replace('href="#unit%d"' % n, 'href="unit%d.html"' % n)
 
 home = (head("정보과학",
-             "고등학교 『정보과학』(씨마스, 2022 개정 교육과정) 4개 단원을 16주차 계획·그림·실습 위젯으로 정리한 학습 사이트.")
+             "씨마스 『정보과학』 2022 개정 교육과정 핵심 내용 정리 · 보문고등학교 김용득 선생님 제작.")
         + '<body>\n'
         + masthead + "\n\n" + home_map + "\n\n" + HOWTO + "\n" + plan + "\n\n"
         + footer + '\n<script src="assets/app.js"></script>\n</body>\n</html>\n')

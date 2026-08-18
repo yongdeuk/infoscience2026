@@ -12,6 +12,7 @@ button,input,select,textarea{font:inherit}
     --code-bg:#f0f3f6; --code-ink:#1d2530;
     --accent:#3a4bb0; --accent-soft:#e6e9fa; --accent-ink:#26307a;
     --shadow:0 1px 2px rgba(20,25,34,.05), 0 8px 24px -16px rgba(20,25,34,.28);
+    --display:'Malgun Gothic Semilight','Pretendard','Apple SD Gothic Neo','Malgun Gothic','맑은 고딕',sans-serif;
     --serif:'Nanum Myeongjo','NanumMyeongjo','Batang','바탕',Georgia,serif;
     --sans:'Pretendard','Apple SD Gothic Neo','Malgun Gothic','맑은 고딕','Noto Sans KR',system-ui,sans-serif;
     --mono:'D2Coding','Consolas','SFMono-Regular','Menlo','Malgun Gothic',monospace;
@@ -72,11 +73,19 @@ button,input,select,textarea{font:inherit}
   }
   .masthead-in{max-width:1120px; margin:0 auto; display:flex; flex-direction:column; gap:1.1rem}
   .masthead h1{
-    font-family:var(--serif); font-weight:700;
-    font-size:clamp(2.1rem,5.5vw,3.4rem); line-height:1.2; margin:0;
-    letter-spacing:-.01em; text-wrap:balance;
+    font-family:var(--display); font-weight:300;
+    font-size:clamp(2.5rem,6.4vw,4rem); line-height:1.14; margin:0;
+    letter-spacing:.16em; text-indent:.16em; color:var(--ink);
   }
-  .masthead .sub{margin:0; max-width:60ch; color:var(--ink2); font-size:1.02rem}
+  .masthead h1::after{
+    content:''; display:block; width:2.6rem; height:2px;
+    background:var(--accent); margin-top:1rem; opacity:.85;
+  }
+  .masthead .sub{margin:0; max-width:56ch; color:var(--ink2); font-size:1.02rem}
+  .byline{
+    margin:0; font-size:.88rem; color:var(--ink3); letter-spacing:.01em;
+  }
+  .byline b{color:var(--ink2); font-weight:700}
   .meta-row{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.35rem}
   .tag{
     font-size:.78rem; font-family:var(--mono); color:var(--ink2);
@@ -455,8 +464,8 @@ button,input,select,textarea{font:inherit}
     display:flex; align-items:center; gap:1.25rem; min-height:var(--topbar-h);
   }
   .brand{
-    font-family:var(--serif); font-size:1.12rem; font-weight:700; color:var(--ink);
-    white-space:nowrap; letter-spacing:-.01em;
+    font-family:var(--display); font-size:1.06rem; font-weight:400; color:var(--ink);
+    white-space:nowrap; letter-spacing:.14em; padding-right:.14em;
   }
   .brand:hover{text-decoration:none; color:var(--accent-ink)}
   .unitnav{display:flex; gap:.15rem; overflow-x:auto; scrollbar-width:none; flex:1}
