@@ -1,9 +1,11 @@
-# 에듀플로 정보과학
+# 정보과학
 
 고등학교 『정보과학』(씨마스, 2022 개정 교육과정)의 4개 대단원을 **그림·표·짧은 코드**로 정리한 학습 웹페이지입니다.
 1학기 주 3시간 수업의 학습 내용을 중학생 수준에서도 이해할 수 있게 풀어 썼습니다.
 
-🔗 **https://yongdeuk.github.io/infoscience2026/**
+🔗 **https://infoscience2026.vercel.app/**
+
+(예비 주소: https://yongdeuk.github.io/infoscience2026/)
 
 ## 구성
 
