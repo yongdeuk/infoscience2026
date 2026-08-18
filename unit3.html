@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ⅲ 알고리즘 · 정보과학</title>
+<meta name="description" content="복잡도 · 탐색 기반 · 관계 기반 — 더 빠른 해결 전략">
+<meta property="og:title" content="Ⅲ 알고리즘 · 정보과학">
+<meta property="og:description" content="복잡도 · 탐색 기반 · 관계 기반 — 더 빠른 해결 전략">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#129513;</text></svg>">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="u3">
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="index.html">정보과학</a>
+    <nav class="unitnav" aria-label="단원">
+      <a href="unit1.html">Ⅰ 프로그래밍</a>
+      <a href="unit2.html">Ⅱ 데이터 구조</a>
+      <a href="unit3.html" class="is-current">Ⅲ 알고리즘</a>
+      <a href="unit4.html">Ⅳ 정보과학 프로젝트</a>
+    </nav>
+  </div>
+  <div class="progress" data-progress></div>
+</header>
+<div class="crumbbar" data-crumb></div>
+<div class="wrap">
+<aside class="toc" aria-label="이 단원 목차">
+  <a class="toc-home" href="index.html">← 전체 목차</a>
+  <div class="toc-title">Ⅲ 알고리즘<span>10~13주차</span></div>
+  <nav id="toc-nav">
+    <ol>
+        <li><a href="#t3-1" data-level="1"><em>1-1</em>알고리즘의 이해</a></li>
+        <li><a href="#t3-2" data-level="1"><em>1-2</em>알고리즘 복잡도</a></li>
+        <li><a href="#t3-3" data-level="1"><em>2-1</em>탐색 기반 알고리즘의 이해</a></li>
+        <li><a href="#t3-4" data-level="1"><em>2-2</em>탐색 기반 알고리즘의 설계 — 탐색 공간 배제</a></li>
+        <li><a href="#t3-5" data-level="1"><em>3-1</em>관계 기반 알고리즘의 이해 — 분할 정복</a></li>
+        <li><a href="#t3-6" data-level="1"><em>3-2</em>관계 기반 알고리즘의 설계 — 동적 계획법</a></li>
+    </ol>
+  </nav>
+</aside>
+<main>
+
+<section class="unit u3" id="unit3">
+  <div class="unit-head">
+    <span class="roman">Ⅲ</span>
+    <span class="lesson">10~13주차</span>
+    <h2>알고리즘</h2>
+    <p class="goal">같은 문제를 푸는 방법은 여럿이다. 그중 <b>어떤 방법이 더 효율적인지 판단하고</b>, 문제의 성격에 맞는 전략을 고르는 법을 배운다.</p>
+  </div>
+
+  <!-- 1-1 -->
+  <article class="topic" id="t3-1">
+    <h3><span class="idx">1-1</span> 알고리즘의 이해 <span class="lesson">10주차</span></h3>
+    <p class="lede">알고리즘은 문제를 해결하는 체계적인 절차·방법입니다. 접근 방식에 따라 크게 두 갈래로 나뉩니다.</p>
+
+    <figure>
+      <div class="figbody">
+        <svg viewBox="0 0 660 250" role="img" aria-label="알고리즘 전략은 탐색 기반과 관계 기반으로 나뉘고 각각 탐욕법 분기한정법 분할정복법 동적계획법을 포함한다">
+          <defs>
+            <marker id="ar8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+          <rect x="250" y="16" width="160" height="42" rx="3" class="sv-box-a"/>
+          <text x="330" y="42" class="sv-t-a" text-anchor="middle">알고리즘 전략</text>
+          <line x1="330" y1="58" x2="330" y2="76" class="sv-line"/>
+          <line x1="165" y1="76" x2="495" y2="76" class="sv-line"/>
+          <line x1="165" y1="76" x2="165" y2="96" class="sv-line" marker-end="url(#ar8)"/>
+          <line x1="495" y1="76" x2="495" y2="96" class="sv-line" marker-end="url(#ar8)"/>
+
+          <rect x="60" y="98" width="210" height="46" rx="3" class="sv-box"/>
+          <text x="165" y="120" class="sv-t" text-anchor="middle" font-weight="700">탐색 기반 알고리즘</text>
+          <text x="165" y="138" class="sv-t-s" text-anchor="middle">가능한 해를 훑어 최선을 찾는다</text>
+
+          <rect x="390" y="98" width="210" height="46" rx="3" class="sv-box"/>
+          <text x="495" y="120" class="sv-t" text-anchor="middle" font-weight="700">관계 기반 알고리즘</text>
+          <text x="495" y="138" class="sv-t-s" text-anchor="middle">부분으로 나누고 관계를 이용한다</text>
+
+          <rect x="60" y="164" width="100" height="60" rx="3" class="sv-fill" stroke="currentColor"/>
+          <text x="110" y="188" class="sv-t" text-anchor="middle">탐욕법</text>
+          <text x="110" y="208" class="sv-t-s" text-anchor="middle">매 순간 최선</text>
+          <rect x="170" y="164" width="100" height="60" rx="3" class="sv-fill" stroke="currentColor"/>
+          <text x="220" y="188" class="sv-t" text-anchor="middle">분기 한정법</text>
+          <text x="220" y="208" class="sv-t-s" text-anchor="middle">불필요 경로 배제</text>
+
+          <rect x="390" y="164" width="100" height="60" rx="3" class="sv-fill" stroke="currentColor"/>
+          <text x="440" y="188" class="sv-t" text-anchor="middle">분할 정복법</text>
+          <text x="440" y="208" class="sv-t-s" text-anchor="middle">나눠서 해결</text>
+          <rect x="500" y="164" width="100" height="60" rx="3" class="sv-fill" stroke="currentColor"/>
+          <text x="550" y="188" class="sv-t" text-anchor="middle">동적 계획법</text>
+          <text x="550" y="208" class="sv-t-s" text-anchor="middle">답을 기억해 재사용</text>
+
+          <line x1="110" y1="146" x2="110" y2="162" class="sv-line" marker-end="url(#ar8)"/>
+          <line x1="220" y1="146" x2="220" y2="162" class="sv-line" marker-end="url(#ar8)"/>
+          <line x1="440" y1="146" x2="440" y2="162" class="sv-line" marker-end="url(#ar8)"/>
+          <line x1="550" y1="146" x2="550" y2="162" class="sv-line" marker-end="url(#ar8)"/>
+        </svg>
+      </div>
+      <figcaption>“놀이공원에서 제한 시간 안에 놀이기구를 최대한 많이 타려면?” 같은 문제도 네 전략 중 무엇을 고르느냐에 따라 결과가 달라집니다.</figcaption>
+    </figure>
+
+    <div class="callout"><b>알고리즘이 갖춰야 할 조건</b> — <b>입출력</b>(입력을 받아 1개 이상 결과가 나옴) · <b>유한성</b>(언젠가 끝남) · <b>명확성</b>(각 단계가 모호하지 않음) · <b>수행 가능성</b>(실제로 실행 가능함).</div>
+  </article>
+
+  <!-- 1-2 -->
+  <article class="topic" id="t3-2">
+    <h3><span class="idx">1-2</span> 알고리즘 복잡도 <span class="lesson">10주차</span></h3>
+    <p class="lede">“얼마나 빠른가”를 컴퓨터 성능과 상관없이 비교하는 방법이 필요합니다.</p>
+
+    <p><span class="kw">시간 복잡도</span>는 실행에 필요한 <b>연산의 수</b>, <span class="kw">공간 복잡도</span>는 사용하는 <b>메모리의 양</b>입니다. 둘은 대체로 반비례하므로 보통 시간 복잡도를 기준으로 평가합니다.</p>
+
+    <p>실제 실행 시간을 재는 방법은 직관적이지만, 프로그래밍 언어·컴퓨터 성능에 따라 값이 달라집니다. 그래서 입력 크기 n에 대한 함수식으로 표현하는 <span class="kw">빅오(Big-O) 표기법</span>을 씁니다. 빅오는 <b>최악의 경우에도 이 정도까지</b>라는 뜻입니다.</p>
+
+    <figure>
+      <div class="figbody">
+        <svg viewBox="0 0 500 270" role="img" aria-label="입력 크기가 커질 때 O(1) O(log n) O(n) O(n log n) O(n제곱)의 증가 속도 비교 곡선">
+          <line x1="60" y1="210" x2="440" y2="210" class="sv-line"/>
+          <line x1="60" y1="210" x2="60" y2="25" class="sv-line"/>
+          <text x="440" y="232" class="sv-t-s" text-anchor="end">입력 크기 n →</text>
+          <text x="52" y="34" class="sv-t-s" text-anchor="end">연산 수</text>
+
+          <polyline points="60,210 96,208 132,203 168,194 204,181 240,165 276,145 312,122 348,95 384,64 420,30" class="sv-a"/>
+          <text x="424" y="30" class="sv-t-a">O(n²)</text>
+
+          <polyline points="60,210 96,207 132,203 168,196 204,182 240,169 276,156 312,140 348,126 384,110 420,94" class="sv-line"/>
+          <text x="424" y="94" class="sv-t-s">O(n log n)</text>
+
+          <polyline points="60,210 96,200 132,190 168,180 204,170 240,160 276,150 312,140 348,130 384,120 420,110" class="sv-line"/>
+          <text x="424" y="114" class="sv-t-s">O(n)</text>
+
+          <polyline points="60,210 96,196 132,188 168,182 204,178 240,174 276,171 312,168 348,166 384,164 420,162" class="sv-line"/>
+          <text x="424" y="166" class="sv-t-s">O(log n)</text>
+
+          <polyline points="60,202 420,202" class="sv-line" stroke-dasharray="5 3"/>
+          <text x="424" y="206" class="sv-t-s">O(1)</text>
+        </svg>
+      </div>
+      <figcaption>n이 작을 때는 차이가 없어 보여도, 데이터가 커지면 격차가 폭발합니다. 알고리즘 선택이 중요한 이유입니다.</figcaption>
+    </figure>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>시간 복잡도</th><th class="num">n = 10</th><th class="num">n = 100</th><th class="num">n = 1,000</th><th>예시</th></tr></thead>
+        <tbody>
+          <tr><td>O(1)</td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td>공식으로 한 번에 계산</td></tr>
+          <tr><td>O(log n)</td><td class="num">4</td><td class="num">7</td><td class="num">10</td><td>이진 탐색</td></tr>
+          <tr><td>O(n)</td><td class="num">10</td><td class="num">100</td><td class="num">1,000</td><td>순차 탐색, 반복문 1개</td></tr>
+          <tr><td>O(n log n)</td><td class="num">40</td><td class="num">700</td><td class="num">10,000</td><td>퀵 정렬·합병 정렬(평균)</td></tr>
+          <tr><td>O(n²)</td><td class="num">100</td><td class="num">10,000</td><td class="num">1,000,000</td><td>이중 반복문, 선택 정렬</td></tr>
+          <tr><td>O(2ⁿ)</td><td class="num">1,000</td><td class="num">10³⁰</td><td class="num">10³⁰⁰</td><td>재귀 피보나치</td></tr>
+          <tr><td>O(n!)</td><td class="num">3,628,800</td><td class="num">9.33×10¹⁵⁸</td><td class="num">4.02×10²⁵⁶⁸</td><td>모든 순서를 다 만들어 보기</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="lab" id="lab-bigo">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>입력 크기를 바꾸면 연산 수가 얼마나 늘어날까</h5></div>
+      <div class="lab-body">
+        <div class="bars" data-bars></div>
+        <div class="lab-ctrl">
+          <label>n = <input type="range" data-n min="1" max="200" value="20"></label>
+          <span class="bar-val" data-nlabel>20</span>
+          <button class="btn" data-act="n10">n=10</button>
+          <button class="btn" data-act="n100">n=100</button>
+          <button class="btn" data-act="n200">n=200</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite"></p>
+        <p class="lab-note">막대 길이는 가장 큰 값을 기준으로 한 상대 비율입니다. n을 키울수록 O(n²)만 혼자 치솟는 것을 볼 수 있습니다.</p>
+      </div>
+    </div>
+
+    <div class="points">
+      <span class="lbl">핵심 포인트</span>
+      <ul>
+        <li>빅오는 <b>최악의 경우</b>를 나타낸다. 상수와 낮은 차수 항은 버린다.</li>
+        <li>반복문 하나 → O(n), 중첩 반복문 → O(n²), 범위를 절반씩 줄임 → O(log n).</li>
+        <li>공식 한 줄로 끝나면 O(1). <code>sum = n*(n+1)//2</code> 가 반복문보다 압도적으로 빠른 이유.</li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- 2-1 -->
+  <article class="topic" id="t3-3">
+    <h3><span class="idx">2-1</span> 탐색 기반 알고리즘의 이해 <span class="lesson">11주차</span></h3>
+    <p class="lede">가능한 모든 경우를 “상태 공간”으로 그려 놓고, 그 안에서 답을 찾아가는 방식입니다.</p>
+
+    <p>문제는 <b>초기 상태 · 목표 상태 · 행동</b> 세 요소로 정의됩니다. 초기 상태에서 목표 상태까지 가는 동안 거칠 수 있는 <b>모든 상태의 집합</b>이 <span class="kw">상태 공간</span>입니다.</p>
+
+    <figure>
+      <div class="figbody">
+        <svg viewBox="0 0 660 250" role="img" aria-label="8퍼즐의 초기 상태에서 빈칸을 위 왼쪽 아래 오른쪽으로 옮기는 네 가지 행동이 네 개의 다음 상태를 만든다">
+          <defs>
+            <marker id="ar9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+          <rect x="270" y="20" width="120" height="46" rx="3" class="sv-box-a"/>
+          <text x="330" y="41" class="sv-t-a" text-anchor="middle">초기 상태</text>
+          <text x="330" y="58" class="sv-t-s" text-anchor="middle">퍼즐의 시작 배치</text>
+
+          <g class="sv-line" stroke-width="1.2">
+            <line x1="330" y1="66" x2="330" y2="86"/>
+            <line x1="90" y1="86" x2="570" y2="86"/>
+            <line x1="90" y1="86" x2="90" y2="108" marker-end="url(#ar9)"/>
+            <line x1="250" y1="86" x2="250" y2="108" marker-end="url(#ar9)"/>
+            <line x1="410" y1="86" x2="410" y2="108" marker-end="url(#ar9)"/>
+            <line x1="570" y1="86" x2="570" y2="108" marker-end="url(#ar9)"/>
+          </g>
+          <rect x="30" y="110" width="120" height="40" rx="3" class="sv-box"/><text x="90" y="135" class="sv-t" text-anchor="middle">up</text>
+          <rect x="190" y="110" width="120" height="40" rx="3" class="sv-box"/><text x="250" y="135" class="sv-t" text-anchor="middle">left</text>
+          <rect x="350" y="110" width="120" height="40" rx="3" class="sv-box"/><text x="410" y="135" class="sv-t" text-anchor="middle">down</text>
+          <rect x="510" y="110" width="120" height="40" rx="3" class="sv-box"/><text x="570" y="135" class="sv-t" text-anchor="middle">right</text>
+
+          <text x="330" y="180" class="sv-t-s" text-anchor="middle">각 상태에서 다시 네 가지 행동 … 상태 공간은 계속 넓어진다</text>
+          <rect x="250" y="196" width="160" height="40" rx="3" class="sv-box-a"/>
+          <text x="330" y="221" class="sv-t-a" text-anchor="middle">목표 상태 (해)</text>
+        </svg>
+      </div>
+      <figcaption>상태 공간을 그려 보면 문제의 구조가 보이고, 어떤 탐색 알고리즘이 적합한지 판단할 수 있습니다.</figcaption>
+    </figure>
+
+    <h4>탐색 알고리즘을 고르는 두 축</h4>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>축</th><th>구분</th><th>알고리즘</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="2"><b>탐색 공간의 구조</b></td><td>선형 (리스트·큐·스택)</td><td>순차 탐색, 이진 탐색</td></tr>
+          <tr><td>비선형 (트리·그래프)</td><td>깊이 우선 탐색, 너비 우선 탐색</td></tr>
+          <tr><td rowspan="2"><b>탐색 범위</b></td><td>전체 탐색 (무정보·맹목적)</td><td>브루트 포스 — 최적해 보장, 그러나 느림</td></tr>
+          <tr><td>부분 탐색 (정보 이용)</td><td>탐욕법, 분기 한정법 — 빠르지만 주의 필요</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><b>순차 탐색</b>은 처음부터 끝까지 하나씩 확인합니다. 정렬되어 있지 않아도 쓸 수 있지만 시간 복잡도는 O(n)입니다.</p>
+    <pre>def linear_search(arr, target):
+    for i in range(len(arr)):
+        if arr[i] == target:
+            return i
+    return -1</pre>
+  </article>
+
+  <!-- 2-2 -->
+  <article class="topic" id="t3-4">
+    <h3><span class="idx">2-2</span> 탐색 기반 알고리즘의 설계 — 탐색 공간 배제 <span class="lesson">12주차</span></h3>
+    <p class="lede">“볼 필요 없는 곳은 아예 보지 않는다.” 이것이 탐색을 빠르게 만드는 가장 강력한 아이디어입니다.</p>
+
+    <div class="analogy">
+      <span class="lbl">쉽게 말하면</span>
+      <p>호텔 복도의 “← 301~315 / 316~330 →” 표지판. 내 방이 320호라면 왼쪽은 <b>아예 갈 필요가 없습니다.</b> 한 번의 판단으로 절반을 지워 버리는 것이 탐색 공간 배제입니다.</p>
+    </div>
+
+    <h4>이진 탐색 — 매번 절반을 버린다</h4>
+    <figure>
+      <div class="figbody">
+        <svg viewBox="0 0 660 210" role="img" aria-label="1부터 100 중 77을 찾을 때 탐색 범위가 절반씩 줄어드는 과정">
+          <text x="30" y="34" class="sv-t-s">1회</text>
+          <rect x="80" y="18" width="270" height="26" class="sv-fill" stroke="currentColor" opacity="0.45"/>
+          <rect x="350" y="18" width="270" height="26" class="sv-box-a"/>
+          <text x="215" y="36" class="sv-t-s" text-anchor="middle">1 ~ 50  버림</text>
+          <text x="485" y="36" class="sv-t-a" text-anchor="middle">51 ~ 100</text>
+          <text x="350" y="12" class="sv-t-s" text-anchor="middle">중간값 50 &lt; 77</text>
+
+          <text x="30" y="94" class="sv-t-s">2회</text>
+          <rect x="350" y="78" width="135" height="26" class="sv-fill" stroke="currentColor" opacity="0.45"/>
+          <rect x="485" y="78" width="135" height="26" class="sv-box-a"/>
+          <text x="417" y="96" class="sv-t-s" text-anchor="middle">51 ~ 75  버림</text>
+          <text x="552" y="96" class="sv-t-a" text-anchor="middle">76 ~ 100</text>
+          <text x="485" y="72" class="sv-t-s" text-anchor="middle">중간값 75 &lt; 77</text>
+
+          <text x="30" y="154" class="sv-t-s">3회</text>
+          <rect x="485" y="138" width="68" height="26" class="sv-box-a"/>
+          <rect x="553" y="138" width="67" height="26" class="sv-fill" stroke="currentColor" opacity="0.45"/>
+          <text x="519" y="156" class="sv-t-a" text-anchor="middle">76 ~ 88</text>
+          <text x="586" y="156" class="sv-t-s" text-anchor="middle">버림</text>
+
+          <text x="330" y="192" class="sv-t-a" text-anchor="middle">범위를 반복해서 절반으로 줄이므로 시간 복잡도는 O(log n)</text>
+        </svg>
+      </div>
+      <figcaption>단, 이진 탐색을 쓰려면 데이터가 <b>정렬되어 있어야</b> 합니다.</figcaption>
+    </figure>
+
+    <div class="lab" id="lab-bsearch">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>이진 탐색 — 한 번에 절반씩 지워 보기</h5></div>
+      <div class="lab-body">
+        <div class="bsrow" data-row></div>
+        <div class="counter">
+          <div><span class="cnum" data-bcnt>0</span><span class="clab">이진 탐색 비교 횟수</span></div>
+          <div><span class="cnum" data-lcnt>0</span><span class="clab">순차 탐색이라면</span></div>
+        </div>
+        <div class="lab-ctrl">
+          <label>찾을 값 <input type="number" data-target min="1" max="99" value="77"></label>
+          <button class="btn btn-p" data-act="step">다음 단계</button>
+          <button class="btn" data-act="all">끝까지 실행</button>
+          <button class="btn" data-act="rand">다른 값으로</button>
+          <button class="btn" data-act="reset">초기화</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite">찾을 값을 정하고 <b>다음 단계</b>를 눌러 보세요. 중간값과 비교해 절반을 통째로 버립니다.</p>
+        <p class="lab-note">16칸짜리 배열이라 최대 4번이면 찾습니다(2⁴=16). 순차 탐색이라면 최악의 경우 16번을 비교해야 합니다.</p>
+      </div>
+    </div>
+
+    <h4>탐욕 알고리즘 — 매 순간 가장 좋아 보이는 선택</h4>
+    <p>지금 이 단계에서 최선인 것을 고르고 되돌아보지 않습니다. 빠르지만 <b>항상 최적해를 보장하지는 않습니다.</b></p>
+
+    <figure>
+      <div class="figbody">
+        <svg viewBox="0 0 660 250" role="img" aria-label="탐욕 알고리즘은 매 단계 큰 값을 골라 0에서 10 다음 8을 선택해 18을 얻지만 최적해는 0에서 3 다음 100인 103이다">
+          <text x="165" y="24" class="sv-t-a" text-anchor="middle" font-weight="700">탐욕 알고리즘의 선택</text>
+          <g class="sv-line" stroke-width="1.2">
+            <line x1="165" y1="50" x2="95" y2="102"/><line x1="165" y1="50" x2="235" y2="102"/>
+            <line x1="95" y1="130" x2="55" y2="180"/><line x1="95" y1="130" x2="135" y2="180"/>
+            <line x1="235" y1="130" x2="195" y2="180"/><line x1="235" y1="130" x2="275" y2="180"/>
+          </g>
+          <circle cx="165" cy="40" r="19" class="sv-box-a"/><text x="165" y="45" class="sv-t-a" text-anchor="middle">0</text>
+          <circle cx="95" cy="115" r="19" class="sv-box"/><text x="95" y="120" class="sv-t" text-anchor="middle">3</text>
+          <circle cx="235" cy="115" r="19" class="sv-box-a"/><text x="235" y="120" class="sv-t-a" text-anchor="middle">10</text>
+          <circle cx="55" cy="192" r="19" class="sv-box"/><text x="55" y="197" class="sv-t" text-anchor="middle">100</text>
+          <circle cx="135" cy="192" r="19" class="sv-box"/><text x="135" y="197" class="sv-t" text-anchor="middle">4</text>
+          <circle cx="195" cy="192" r="19" class="sv-box"/><text x="195" y="197" class="sv-t" text-anchor="middle">7</text>
+          <circle cx="275" cy="192" r="19" class="sv-box-a"/><text x="275" y="197" class="sv-t-a" text-anchor="middle">8</text>
+          <text x="165" y="232" class="sv-t-a" text-anchor="middle">0 → 10 → 8 = 18</text>
+
+          <line x1="345" y1="20" x2="345" y2="235" class="sv-dash"/>
+
+          <text x="500" y="24" class="sv-t" text-anchor="middle" font-weight="700">실제 최적해</text>
+          <g class="sv-line" stroke-width="1.2">
+            <line x1="500" y1="50" x2="430" y2="102"/><line x1="500" y1="50" x2="570" y2="102"/>
+            <line x1="430" y1="130" x2="390" y2="180"/><line x1="430" y1="130" x2="470" y2="180"/>
+            <line x1="570" y1="130" x2="530" y2="180"/><line x1="570" y1="130" x2="610" y2="180"/>
+          </g>
+          <circle cx="500" cy="40" r="19" class="sv-box-a"/><text x="500" y="45" class="sv-t-a" text-anchor="middle">0</text>
+          <circle cx="430" cy="115" r="19" class="sv-box-a"/><text x="430" y="120" class="sv-t-a" text-anchor="middle">3</text>
+          <circle cx="570" cy="115" r="19" class="sv-box"/><text x="570" y="120" class="sv-t" text-anchor="middle">10</text>
+          <circle cx="390" cy="192" r="19" class="sv-box-a"/><text x="390" y="197" class="sv-t-a" text-anchor="middle">100</text>
+          <circle cx="470" cy="192" r="19" class="sv-box"/><text x="470" y="197" class="sv-t" text-anchor="middle">4</text>
+          <circle cx="530" cy="192" r="19" class="sv-box"/><text x="530" y="197" class="sv-t" text-anchor="middle">7</text>
+          <circle cx="610" cy="192" r="19" class="sv-box"/><text x="610" y="197" class="sv-t" text-anchor="middle">8</text>
+          <text x="500" y="232" class="sv-t-a" text-anchor="middle">0 → 3 → 100 = 103</text>
+        </svg>
+      </div>
+      <figcaption>첫 단계에서 3을 버렸기 때문에 그 아래 숨어 있던 100을 영영 보지 못합니다. <b>배제한 곳에 답이 없다는 확신</b>이 있을 때만 탐욕법을 써야 합니다.</figcaption>
+    </figure>
+
+    <pre>def greedy_coin_change(amount, coins):
+    result = []
+    for coin in coins:              # 큰 동전부터
+        while amount &gt;= coin:
+            amount -= coin
+            result.append(coin)
+    return result
+
+greedy_coin_change(63, [50, 10, 5, 1])   # [50, 10, 1, 1, 1]  최적!
+# 그러나 동전이 [9, 6, 1] 이고 12원이면
+#   탐욕: 9 + 1 + 1 + 1 → 4개
+#   최적: 6 + 6         → 2개  ← 탐욕법이 실패</pre>
+
+    <h4>분기 한정 알고리즘과 백트래킹</h4>
+    <p>탐색 도중 “이 아래에는 답이 없다”고 판단되면 그 가지를 통째로 잘라내고(<b>가지치기</b>), 이전 갈림길로 <b>되돌아가</b> 다른 길을 봅니다. 이 되돌아가기가 <span class="kw">백트래킹</span>입니다.</p>
+
+    <div class="points">
+      <span class="lbl">핵심 포인트</span>
+      <ul>
+        <li>이진 탐색 O(log n) — <b>정렬된</b> 데이터에서만. 매번 절반을 배제한다.</li>
+        <li>탐욕법은 빠르지만(예: O(n)) <b>최적해를 보장하지 않는다.</b> 문제 조건을 반드시 확인.</li>
+        <li>분기 한정법은 가망 없는 가지를 잘라내고 백트래킹으로 되돌아간다.</li>
+        <li>잘못 배제하면 답을 아예 못 찾는다 — 이것이 부분 탐색의 위험.</li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- 3-1 -->
+  <article class="topic" id="t3-5">
+    <h3><span class="idx">3-1</span> 관계 기반 알고리즘의 이해 — 분할 정복 <span class="lesson">13주차</span></h3>
+    <p class="lede">문제를 쪼개고, 전체와 부분 사이의 <b>관계식</b>을 찾아내 해결합니다.</p>
+
+    <p>문제를 분해하면 ① 구조가 잘 보이고 ② 부분 문제 코드를 재사용할 수 있으며 ③ 전체와 부분의 <b>관계</b>를 발견할 수 있습니다. 이 관계식은 대개 수학적 귀납법 형태로 표현되고, 그대로 재귀 함수가 됩니다.</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>문제</th><th>관계식</th></tr></thead>
+        <tbody>
+          <tr><td>1부터 n까지의 합</td><td>f(1)=1, &nbsp; f(n) = f(n−1) + n</td></tr>
+          <tr><td>팩토리얼</td><td>f(1)=1, &nbsp; f(n) = f(n−1) × n</td></tr>
+          <tr><td>하노이 탑 이동 횟수</td><td>T(1)=1, &nbsp; T(n) = 2 × T(n−1) + 1</td></tr>
+          <tr><td>계단 오르기(1칸 또는 2칸)</td><td>f(1)=1, f(2)=2, &nbsp; f(n) = f(n−1) + f(n−2)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>분할 정복법의 3단계</h4>
+    <figure>
+      <div class="figbody">
+        <svg viewBox="0 0 660 250" role="img" aria-label="분할 정복법은 전체 문제를 부분 문제로 분할하고 각각 정복한 뒤 병합해 전체 해를 만든다">
+          <defs>
+            <marker id="ar10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+          <rect x="255" y="16" width="150" height="36" rx="3" class="sv-box-a"/><text x="330" y="39" class="sv-t-a" text-anchor="middle">전체 문제</text>
+          <g class="sv-line" stroke-width="1.2">
+            <line x1="330" y1="52" x2="330" y2="66"/><line x1="160" y1="66" x2="500" y2="66"/>
+            <line x1="160" y1="66" x2="160" y2="84" marker-end="url(#ar10)"/>
+            <line x1="500" y1="66" x2="500" y2="84" marker-end="url(#ar10)"/>
+          </g>
+          <rect x="95" y="86" width="130" height="34" rx="3" class="sv-box"/><text x="160" y="108" class="sv-t" text-anchor="middle">부분 문제 1</text>
+          <rect x="435" y="86" width="130" height="34" rx="3" class="sv-box"/><text x="500" y="108" class="sv-t" text-anchor="middle">부분 문제 2</text>
+
+          <g class="sv-line" stroke-width="1.2">
+            <line x1="160" y1="120" x2="160" y2="146" marker-end="url(#ar10)"/>
+            <line x1="500" y1="120" x2="500" y2="146" marker-end="url(#ar10)"/>
+          </g>
+          <rect x="95" y="148" width="130" height="34" rx="3" class="sv-box"/><text x="160" y="170" class="sv-t" text-anchor="middle">부분 문제 1의 해</text>
+          <rect x="435" y="148" width="130" height="34" rx="3" class="sv-box"/><text x="500" y="170" class="sv-t" text-anchor="middle">부분 문제 2의 해</text>
+
+          <g class="sv-a" stroke-width="1.6">
+            <line x1="160" y1="182" x2="160" y2="198"/><line x1="500" y1="182" x2="500" y2="198"/>
+            <line x1="160" y1="198" x2="500" y2="198"/>
+            <line x1="330" y1="198" x2="330" y2="212" marker-end="url(#ar10)"/>
+          </g>
+          <rect x="255" y="214" width="150" height="34" rx="3" class="sv-box-a"/><text x="330" y="236" class="sv-t-a" text-anchor="middle">전체 문제의 해</text>
+
+          <text x="40" y="105" class="sv-t-a" text-anchor="middle">① 분할</text>
+          <text x="40" y="167" class="sv-t-a" text-anchor="middle">② 정복</text>
+          <text x="40" y="235" class="sv-t-a" text-anchor="middle">③ 병합</text>
+        </svg>
+      </div>
+      <figcaption>분할(더 이상 못 나눌 때까지 쪼개기) → 정복(작은 문제를 직접 해결) → 병합(결과를 합치기). 보통 재귀 함수로 구현합니다.</figcaption>
+    </figure>
+
+    <h4>퀵 정렬 — 기준(피벗)으로 갈라 놓는다</h4>
+    <figure>
+      <div class="figbody">
+        <svg viewBox="0 0 660 240" role="img" aria-label="7 5 9 4 1 리스트를 피벗 기준으로 나누고 정렬한 뒤 병합하는 퀵 정렬 과정">
+          <text x="20" y="30" class="sv-t-s">피벗 7</text>
+          <g>
+            <rect x="120" y="14" width="40" height="26" class="sv-fill" stroke="currentColor"/><text x="140" y="32" class="sv-t" text-anchor="middle">5</text>
+            <rect x="162" y="14" width="40" height="26" class="sv-fill" stroke="currentColor"/><text x="182" y="32" class="sv-t" text-anchor="middle">4</text>
+            <rect x="204" y="14" width="40" height="26" class="sv-fill" stroke="currentColor"/><text x="224" y="32" class="sv-t" text-anchor="middle">1</text>
+            <rect x="256" y="14" width="40" height="26" class="sv-box-a"/><text x="276" y="32" class="sv-t-a" text-anchor="middle">7</text>
+            <rect x="308" y="14" width="40" height="26" class="sv-fill" stroke="currentColor"/><text x="328" y="32" class="sv-t" text-anchor="middle">9</text>
+          </g>
+          <text x="182" y="58" class="sv-t-s" text-anchor="middle">7보다 작은 값 (left)</text>
+          <text x="328" y="58" class="sv-t-s" text-anchor="middle">큰 값 (right)</text>
+
+          <text x="20" y="100" class="sv-t-s">피벗 5</text>
+          <g>
+            <rect x="120" y="84" width="40" height="26" class="sv-fill" stroke="currentColor"/><text x="140" y="102" class="sv-t" text-anchor="middle">4</text>
+            <rect x="162" y="84" width="40" height="26" class="sv-fill" stroke="currentColor"/><text x="182" y="102" class="sv-t" text-anchor="middle">1</text>
+            <rect x="214" y="84" width="40" height="26" class="sv-box-a"/><text x="234" y="102" class="sv-t-a" text-anchor="middle">5</text>
+          </g>
+
+          <text x="20" y="150" class="sv-t-s">피벗 4</text>
+          <g>
+            <rect x="120" y="134" width="40" height="26" class="sv-fill" stroke="currentColor"/><text x="140" y="152" class="sv-t" text-anchor="middle">1</text>
+            <rect x="172" y="134" width="40" height="26" class="sv-box-a"/><text x="192" y="152" class="sv-t-a" text-anchor="middle">4</text>
+          </g>
+
+          <line x1="20" y1="176" x2="640" y2="176" class="sv-dash"/>
+          <text x="20" y="208" class="sv-t-a">병합</text>
+          <g>
+            <rect x="120" y="190" width="40" height="26" class="sv-box-a"/><text x="140" y="208" class="sv-t-a" text-anchor="middle">1</text>
+            <rect x="162" y="190" width="40" height="26" class="sv-box-a"/><text x="182" y="208" class="sv-t-a" text-anchor="middle">4</text>
+            <rect x="204" y="190" width="40" height="26" class="sv-box-a"/><text x="224" y="208" class="sv-t-a" text-anchor="middle">5</text>
+            <rect x="246" y="190" width="40" height="26" class="sv-box-a"/><text x="266" y="208" class="sv-t-a" text-anchor="middle">7</text>
+            <rect x="288" y="190" width="40" height="26" class="sv-box-a"/><text x="308" y="208" class="sv-t-a" text-anchor="middle">9</text>
+          </g>
+          <text x="480" y="208" class="sv-t-s">left + [pivot] + right 를 이어 붙이면 정렬 완료</text>
+        </svg>
+      </div>
+      <figcaption>피벗이 리스트를 절반씩 나누면 O(n log n), 매번 최솟값·최댓값이 피벗이 되면 O(n²)로 나빠집니다.</figcaption>
+    </figure>
+
+    <pre>def quicksort(arr):
+    if len(arr) &lt;= 1:                 # 종료 조건
+        return arr
+    pivot = arr[0]
+    left  = [x for x in arr[1:] if x &lt;= pivot]
+    right = [x for x in arr[1:] if x &gt;  pivot]
+    return quicksort(left) + [pivot] + quicksort(right)
+
+quicksort([7, 5, 9, 4, 1])   # [1, 4, 5, 7, 9]</pre>
+
+    <div class="callout"><b>합병 정렬</b>도 분할 정복법입니다. 리스트를 절반으로 계속 나눈 뒤, 정렬된 두 조각의 <b>앞 값끼리 비교</b>하며 하나로 합칩니다. 항상 균등하게 나누므로 시간 복잡도는 언제나 O(n log n)입니다.</div>
+  </article>
+
+  <!-- 3-2 -->
+  <article class="topic" id="t3-6">
+    <h3><span class="idx">3-2</span> 관계 기반 알고리즘의 설계 — 동적 계획법 <span class="lesson">13주차</span></h3>
+    <p class="lede">한 번 계산한 답을 적어 두었다가 다시 쓰는 것. 그것만으로 속도가 극적으로 달라집니다.</p>
+
+    <figure>
+      <div class="figbody">
+        <svg viewBox="0 0 660 250" role="img" aria-label="재귀만 쓰면 같은 부분 문제를 반복 계산하지만 동적 테이블에 저장하면 한 번만 계산한다">
+          <text x="160" y="24" class="sv-t" text-anchor="middle" font-weight="700">분할 정복(재귀)만 쓸 때</text>
+          <g class="sv-line" stroke-width="1.1">
+            <line x1="160" y1="48" x2="100" y2="90"/><line x1="160" y1="48" x2="220" y2="90"/>
+            <line x1="100" y1="112" x2="60" y2="152"/><line x1="100" y1="112" x2="140" y2="152"/>
+            <line x1="220" y1="112" x2="190" y2="152"/><line x1="220" y1="112" x2="250" y2="152"/>
+          </g>
+          <circle cx="160" cy="40" r="17" class="sv-box"/><text x="160" y="45" class="sv-t" text-anchor="middle">f(5)</text>
+          <circle cx="100" cy="102" r="17" class="sv-box"/><text x="100" y="107" class="sv-t" text-anchor="middle">f(4)</text>
+          <circle cx="220" cy="102" r="17" class="sv-box-a"/><text x="220" y="107" class="sv-t-a" text-anchor="middle">f(3)</text>
+          <circle cx="60" cy="164" r="17" class="sv-box-a"/><text x="60" y="169" class="sv-t-a" text-anchor="middle">f(3)</text>
+          <circle cx="140" cy="164" r="17" class="sv-box"/><text x="140" y="169" class="sv-t" text-anchor="middle">f(2)</text>
+          <circle cx="190" cy="164" r="17" class="sv-box"/><text x="190" y="169" class="sv-t" text-anchor="middle">f(2)</text>
+          <circle cx="250" cy="164" r="17" class="sv-box"/><text x="250" y="169" class="sv-t" text-anchor="middle">f(1)</text>
+          <text x="160" y="204" class="sv-t-a" text-anchor="middle">같은 f(3)을 두 번 계산</text>
+          <text x="160" y="226" class="sv-t-s" text-anchor="middle">f(50)은 사실상 끝나지 않는다 · O(2ⁿ)</text>
+
+          <line x1="330" y1="20" x2="330" y2="235" class="sv-dash"/>
+
+          <text x="500" y="24" class="sv-t-a" text-anchor="middle" font-weight="700">동적 계획법 — 동적 테이블에 기록</text>
+          <g>
+            <rect x="378" y="60" width="46" height="30" class="sv-box-a"/><text x="401" y="80" class="sv-t-a" text-anchor="middle">1</text>
+            <rect x="424" y="60" width="46" height="30" class="sv-box-a"/><text x="447" y="80" class="sv-t-a" text-anchor="middle">1</text>
+            <rect x="470" y="60" width="46" height="30" class="sv-box-a"/><text x="493" y="80" class="sv-t-a" text-anchor="middle">2</text>
+            <rect x="516" y="60" width="46" height="30" class="sv-box-a"/><text x="539" y="80" class="sv-t-a" text-anchor="middle">3</text>
+            <rect x="562" y="60" width="46" height="30" class="sv-box-a"/><text x="585" y="80" class="sv-t-a" text-anchor="middle">5</text>
+          </g>
+          <text x="401" y="108" class="sv-t-s" text-anchor="middle">dp[1]</text>
+          <text x="447" y="108" class="sv-t-s" text-anchor="middle">dp[2]</text>
+          <text x="493" y="108" class="sv-t-s" text-anchor="middle">dp[3]</text>
+          <text x="539" y="108" class="sv-t-s" text-anchor="middle">dp[4]</text>
+          <text x="585" y="108" class="sv-t-s" text-anchor="middle">dp[5]</text>
+          <path d="M401 128 Q447 156 490 132" class="sv-a"/>
+          <path d="M447 128 Q493 156 536 132" class="sv-a"/>
+          <path d="M493 128 Q539 156 582 132" class="sv-a"/>
+          <text x="500" y="182" class="sv-t-a" text-anchor="middle">dp[i] = dp[i−1] + dp[i−2]</text>
+          <text x="500" y="204" class="sv-t-a" text-anchor="middle">각 값을 딱 한 번만 계산</text>
+          <text x="500" y="226" class="sv-t-s" text-anchor="middle">f(50)도 즉시 나온다 · O(n)</text>
+        </svg>
+      </div>
+      <figcaption>계산 결과를 저장해 두는 메모리 공간을 <b>동적 테이블</b>이라고 합니다. 리스트나 딕셔너리를 씁니다.</figcaption>
+    </figure>
+
+    <div class="lab" id="lab-dp">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>피보나치 — 재귀와 동적 계획법의 계산량 차이</h5></div>
+      <div class="lab-body">
+        <div class="bars">
+          <div class="bar-row">
+            <span class="bar-name">재귀만 사용</span>
+            <span class="bar-track"><span class="bar-fill" data-bar1></span></span>
+            <span class="bar-val" data-v1>15회</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-name">동적 계획법</span>
+            <span class="bar-track"><span class="bar-fill" data-bar2></span></span>
+            <span class="bar-val" data-v2>5회</span>
+          </div>
+        </div>
+        <div class="lab-ctrl">
+          <label>n = <input type="range" data-n min="5" max="32" value="10"></label>
+          <span class="bar-val" data-nlabel>10</span>
+          <button class="btn" data-act="m5">n=5</button>
+          <button class="btn" data-act="m20">n=20</button>
+          <button class="btn" data-act="m32">n=32</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite"></p>
+        <p class="lab-note">막대는 <b>함수 호출 횟수</b>입니다. n을 오른쪽으로 밀어 보세요. 재귀는 O(2ⁿ)으로 폭발하지만, 동적 계획법은 O(n)이라 거의 늘지 않습니다.</p>
+      </div>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>방식</th><th>진행 방향</th><th>도구</th><th>특징</th></tr></thead>
+        <tbody>
+          <tr><td>하향식 (top-down)</td><td>큰 문제 → 작은 문제</td><td>재귀 + <b>메모이제이션</b></td><td>기존 재귀 코드에 저장만 추가하면 됨</td></tr>
+          <tr><td>상향식 (bottom-up)</td><td>작은 문제 → 큰 문제</td><td>반복문</td><td>함수 호출이 없어 더 빠름</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="codecap">하향식 — 메모이제이션</p>
+    <pre>dp = {1: 1, 2: 1}
+
+def f(n):
+    if n in dp:            # 이미 계산했으면 꺼내 쓰기
+        return dp[n]
+    dp[n] = f(n - 1) + f(n - 2)
+    return dp[n]
+
+print(f(50))   # 즉시 출력</pre>
+
+    <p class="codecap">상향식 — 반복문으로 테이블 채우기</p>
+    <pre>n = 10
+dp = {1: 1, 2: 1}
+for i in range(3, n + 1):
+    dp[i] = dp[i - 1] + dp[i - 2]
+print(dp[n])   # 55</pre>
+
+    <div class="points">
+      <span class="lbl">핵심 포인트</span>
+      <ul>
+        <li>동적 계획법 = <b>관계식 + 저장(동적 테이블)</b>. 중복 계산을 없애 실행 시간을 크게 줄인다.</li>
+        <li>분할 정복은 부분 문제가 <b>독립적</b>일 때, 동적 계획법은 부분 문제가 <b>겹칠 때</b> 쓴다.</li>
+        <li>하향식(재귀+메모이제이션) / 상향식(반복문) 두 가지 방식이 있다.</li>
+        <li>단점은 <b>메모리 사용량 증가</b> — 저장할 공간이 필요하다.</li>
+        <li>동전 교환처럼 탐욕법이 실패하는 문제도 동적 계획법은 최적해를 찾는다.</li>
+      </ul>
+    </div>
+  </article>
+</section>
+
+</main>
+</div>
+
+<nav class="pager" aria-label="단원 이동">
+  <a class="prev" href="unit2.html"><span class="dir">← 이전 단원</span><span class="ttl">Ⅱ 데이터 구조</span></a>
+  <a class="next" href="unit4.html"><span class="dir">다음 단원 →</span><span class="ttl">Ⅳ 정보과학 프로젝트</span></a>
+</nav>
+<footer>
+  <div class="foot-in">
+    <p><b>정보과학</b> — 고등학교 『정보과학』(씨마스, 2022 개정 교육과정) 1~4단원 학습 정리.</p>
+    <p>모든 개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
+  </div>
+</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

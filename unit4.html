@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ⅳ 정보과학 프로젝트 · 정보과학</title>
+<meta name="description" content="문제 발견부터 검증까지, 실제로 만들어 보는 4단계">
+<meta property="og:title" content="Ⅳ 정보과학 프로젝트 · 정보과학">
+<meta property="og:description" content="문제 발견부터 검증까지, 실제로 만들어 보는 4단계">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#129513;</text></svg>">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="u4">
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="index.html">정보과학</a>
+    <nav class="unitnav" aria-label="단원">
+      <a href="unit1.html">Ⅰ 프로그래밍</a>
+      <a href="unit2.html">Ⅱ 데이터 구조</a>
+      <a href="unit3.html">Ⅲ 알고리즘</a>
+      <a href="unit4.html" class="is-current">Ⅳ 정보과학 프로젝트</a>
+    </nav>
+  </div>
+  <div class="progress" data-progress></div>
+</header>
+<div class="crumbbar" data-crumb></div>
+<div class="wrap">
+<aside class="toc" aria-label="이 단원 목차">
+  <a class="toc-home" href="index.html">← 전체 목차</a>
+  <div class="toc-title">Ⅳ 정보과학 프로젝트<span>14~16주차</span></div>
+  <nav id="toc-nav">
+    <ol>
+        <li><a href="#t4-1" data-level="1"><em>1-1</em>정보과학과 문제 해결</a></li>
+        <li><a href="#t4-2" data-level="1"><em>1-2</em>프로젝트 ① 급식 잔반 최소화</a></li>
+        <li><a href="#t4-3" data-level="1"><em>2-1</em>프로젝트 ② 탄소 발자국 계산</a></li>
+        <li><a href="#t4-4" data-level="1"><em>2-2</em>프로젝트 ③ 교실 자리 배치</a></li>
+    </ol>
+  </nav>
+</aside>
+<main>
+
+<section class="unit u4" id="unit4">
+  <div class="unit-head">
+    <span class="roman">Ⅳ</span>
+    <span class="lesson">14~16주차</span>
+    <h2>정보과학 프로젝트</h2>
+    <p class="goal">앞의 세 단원에서 배운 것을 모두 꺼내 쓴다. 실생활 문제를 찾아 <b>직접 프로그램으로 해결</b>하는 단원.</p>
+  </div>
+
+  <!-- 1-1 -->
+  <article class="topic" id="t4-1">
+    <h3><span class="idx">1-1</span> 정보과학과 문제 해결 <span class="lesson">14주차</span></h3>
+    <p class="lede">데이터를 모으고 분석해서 실제 변화를 만들어 내는 과정, 그 표준 절차를 익힙니다.</p>
+
+    <figure>
+      <div class="figbody">
+        <svg viewBox="0 0 680 240" role="img" aria-label="정보과학 문제 해결 과정은 문제 발견 및 구조화, 알고리즘 설계, 프로그램 작성, 검증 및 디버깅, 배포 및 유지 보수의 다섯 단계를 거치며 디버깅에서 앞 단계로 되돌아간다">
+          <defs>
+            <marker id="ar11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/>
+            </marker>
+          </defs>
+          <g>
+            <rect x="14" y="60" width="118" height="72" rx="3" class="sv-box-a"/>
+            <text x="73" y="84" class="sv-t-a" text-anchor="middle">1단계</text>
+            <text x="73" y="104" class="sv-t" text-anchor="middle">문제 발견</text>
+            <text x="73" y="121" class="sv-t" text-anchor="middle">및 구조화</text>
+
+            <rect x="150" y="60" width="118" height="72" rx="3" class="sv-box-a"/>
+            <text x="209" y="84" class="sv-t-a" text-anchor="middle">2단계</text>
+            <text x="209" y="110" class="sv-t" text-anchor="middle">알고리즘 설계</text>
+
+            <rect x="286" y="60" width="118" height="72" rx="3" class="sv-box-a"/>
+            <text x="345" y="84" class="sv-t-a" text-anchor="middle">3단계</text>
+            <text x="345" y="110" class="sv-t" text-anchor="middle">프로그램 작성</text>
+
+            <rect x="422" y="60" width="118" height="72" rx="3" class="sv-box-a"/>
+            <text x="481" y="84" class="sv-t-a" text-anchor="middle">4단계</text>
+            <text x="481" y="104" class="sv-t" text-anchor="middle">프로그램 검증</text>
+            <text x="481" y="121" class="sv-t" text-anchor="middle">및 디버깅</text>
+
+            <rect x="558" y="60" width="112" height="72" rx="3" class="sv-box"/>
+            <text x="614" y="84" class="sv-t" text-anchor="middle">5단계</text>
+            <text x="614" y="104" class="sv-t" text-anchor="middle">배포 및</text>
+            <text x="614" y="121" class="sv-t" text-anchor="middle">유지 보수</text>
+          </g>
+          <g class="sv-a">
+            <line x1="134" y1="96" x2="146" y2="96" marker-end="url(#ar11)"/>
+            <line x1="270" y1="96" x2="282" y2="96" marker-end="url(#ar11)"/>
+            <line x1="406" y1="96" x2="418" y2="96" marker-end="url(#ar11)"/>
+            <line x1="542" y1="96" x2="554" y2="96" marker-end="url(#ar11)"/>
+          </g>
+          <path d="M481 138 L481 168 L73 168 L73 138" class="sv-a" stroke-dasharray="5 4" marker-end="url(#ar11)"/>
+          <text x="277" y="186" class="sv-t-a" text-anchor="middle">오류를 찾으면 앞 단계로 돌아가 고친다</text>
+          <text x="340" y="34" class="sv-t-s" text-anchor="middle">1~4단계가 교과서 프로젝트의 수행 단계</text>
+          <text x="340" y="216" class="sv-t-s" text-anchor="middle">사용자 피드백을 반영해 계속 개선하는 것까지가 문제 해결이다</text>
+        </svg>
+      </div>
+      <figcaption>세 개의 프로젝트(급식 잔반 · 탄소 발자국 · 자리 배치)는 모두 이 순서를 그대로 따릅니다.</figcaption>
+    </figure>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>단계</th><th>구체적으로 하는 일</th></tr></thead>
+        <tbody>
+          <tr><td>1. 문제 발견 및 구조화</td><td>문제를 명확히 정의 → 관련 데이터 수집 → 작은 단위로 나누어 해결 방안 구조화</td></tr>
+          <tr><td>2. 알고리즘 설계</td><td>필요한 데이터 설정 → 적합한 데이터 구조·알고리즘 선택 → 절차와 함수 설계</td></tr>
+          <tr><td>3. 프로그램 작성</td><td>가독성·유지 보수성을 고려해 코딩, 팀원 간 협업, 테스트 코드 작성</td></tr>
+          <tr><td>4. 검증 및 디버깅</td><td>다양한 테스트 케이스로 성능 평가 → 실행 흐름을 추적해 오류 원인 수정</td></tr>
+          <tr><td>5. 배포 및 유지 보수</td><td>베타 테스트 → 사용자 피드백 반영 → 기능 개선과 모니터링</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout"><b>다른 학문 분야에서도</b> — 생명과학(유전자 편집 정확도), 화학(단백질 접힘 구조 예측), 지구과학(기후 변화 시뮬레이션), 물리학(중력파 탐지). 모두 “문제 구조화 → 알고리즘 설계”라는 같은 틀로 접근합니다.</div>
+  </article>
+
+  <!-- 1-2 -->
+  <article class="topic" id="t4-2">
+    <h3><span class="idx">1-2</span> 프로젝트 ① 급식 잔반 최소화 <span class="lesson">14~15주차</span></h3>
+    <p class="lede">카테고리마다 메뉴를 하나씩 골라 전체 잔반량이 가장 적은 조합을 찾습니다.</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>항목</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td>문제 정의</td><td>학교 급식 잔반량을 조사하고 줄일 방안을 찾는다</td></tr>
+          <tr><td>수집 데이터</td><td>영양 선생님 면담(1인 평균 잔반 약 170g), 처리 비용(1톤당 13~15만 원), 잔반 1kg당 1.65kg CO₂</td></tr>
+          <tr><td>데이터 구조</td><td><b>딕셔너리</b> — 메뉴명을 키, 잔반량·카테고리를 값으로</td></tr>
+          <tr><td>알고리즘</td><td><b>동적 계획법</b> — 카테고리별 선택을 부분 문제로 나누고 중복 계산 제거</td></tr>
+          <tr><td>연결되는 단원</td><td>Ⅲ-3-2 동적 계획법</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">해결 방안은 두 갈래로 구조화됩니다. <b>조리량 조정</b>(메뉴별 잔반 데이터 분석·선호도 조사·미식사 인원 사전 조사)과 <b>학생 인식 개선</b>(환경 영향 교육·메뉴 계획 참여·책임 의식 부여). UN 지속가능발전목표 <b>12. 책임있는 소비와 생산</b>과 연결됩니다.</div>
+  </article>
+
+  <!-- 2-1 -->
+  <article class="topic" id="t4-3">
+    <h3><span class="idx">2-1</span> 프로젝트 ② 탄소 발자국 계산 <span class="lesson">15주차</span></h3>
+    <p class="lede">장소를 노드, 이동할 때 나오는 탄소 배출량을 가중치로 놓고 <b>최소 배출 경로</b>를 찾습니다.</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>항목</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td>문제 정의</td><td>일상 활동의 탄소 발자국을 계산하고 줄일 방법을 제안한다</td></tr>
+          <tr><td>기본 공식</td><td><b>탄소 발자국 = 활동량 × 배출 계수</b><br>전기 1kWh 0.474 · 버스 1km 0.1 · 쌀 1kg 2.7 · 소고기 1kg 27 · 채소 1kg 0.5</td></tr>
+          <tr><td>데이터 구조</td><td><b>딕셔너리 · 우선순위 큐 · 그래프</b></td></tr>
+          <tr><td>알고리즘</td><td><b>다익스트라 알고리즘</b> — 한 노드에서 다른 모든 노드까지의 최단(최소 배출) 경로</td></tr>
+          <tr><td>연결되는 단원</td><td>Ⅱ-1-2 큐(우선순위 큐), Ⅱ-2-2 그래프</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">우선순위 큐를 쓰면 <b>지금까지 배출량이 가장 적은 경로부터</b> 먼저 처리하고, 이미 확정된 노드는 다시 보지 않습니다. Ⅲ단원에서 배운 <b>탐색 공간 배제</b>가 그대로 적용된 사례입니다. UN 지속가능발전목표 <b>13. 기후 행동</b>과 연결됩니다.</div>
+  </article>
+
+  <!-- 2-2 -->
+  <article class="topic" id="t4-4">
+    <h3><span class="idx">2-2</span> 프로젝트 ③ 교실 자리 배치 <span class="lesson">16주차</span></h3>
+    <p class="lede">고정 자리, 선호 자리, 이전 자리 회피 — 여러 조건을 동시에 만족시키는 배치를 찾습니다.</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>항목</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td>요구 사항 우선순위</td><td>① 고정 자리 배정 → ② 선호하는 자리 → ③ 이전 자리 안 앉기 → ④ 무작위 배정</td></tr>
+          <tr><td>데이터</td><td>교실 데이터(행×열 2차원 격자), 학생 데이터(<code>.csv</code> 파일)</td></tr>
+          <tr><td>데이터 구조</td><td><b>클래스</b> — <code>Student</code>, <code>Classroom</code> 객체로 관리</td></tr>
+          <tr><td>알고리즘</td><td><b>전체 탐색 + 백트래킹</b> — 배치가 막히면 이전 단계로 되돌아가 다른 자리를 시도</td></tr>
+          <tr><td>연결되는 단원</td><td>Ⅰ-1-2 클래스와 객체, Ⅲ-2-2 분기 한정·백트래킹</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout"><b>왜 클래스를 쓸까?</b> 학생 한 명이 이름·고정 자리·선호 자리·이전 자리·이전 짝을 한꺼번에 갖고 있기 때문입니다. 관련된 데이터와 기능을 하나의 객체로 묶으면 코드가 훨씬 정리됩니다. UN 지속가능발전목표 <b>4. 양질의 교육</b>과 연결됩니다.</div>
+
+    <div class="points">
+      <span class="lbl">세 프로젝트를 관통하는 것</span>
+      <ul>
+        <li>모두 <b>문제 발견 → 구조화 → 알고리즘 선택 → 구현 → 검증</b>의 같은 절차를 따른다.</li>
+        <li>알고리즘은 새로 배우는 것이 아니라 <b>Ⅱ·Ⅲ단원에서 배운 것을 고르는 것</b>이다.</li>
+        <li>데이터 구조 선택(딕셔너리·우선순위 큐·클래스)이 코드의 난이도를 결정한다.</li>
+        <li>완벽한 답보다 <b>실행 가능하고 개선 가능한</b> 해결책을 만드는 것이 목표.</li>
+      </ul>
+    </div>
+  </article>
+</section>
+
+</main>
+</div>
+
+<nav class="pager" aria-label="단원 이동">
+  <a class="prev" href="unit3.html"><span class="dir">← 이전 단원</span><span class="ttl">Ⅲ 알고리즘</span></a>
+  <a class="next" href="index.html"><span class="dir">처음으로 →</span><span class="ttl">전체 목차와 주차 계획</span></a>
+</nav>
+<footer>
+  <div class="foot-in">
+    <p><b>정보과학</b> — 고등학교 『정보과학』(씨마스, 2022 개정 교육과정) 1~4단원 학습 정리.</p>
+    <p>모든 개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
+  </div>
+</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

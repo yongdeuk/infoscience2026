@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ⅰ 프로그래밍 · 정보과학</title>
+<meta name="description" content="함수 · 모듈 · 재귀 구조 — 코드를 작은 단위로 나누는 법">
+<meta property="og:title" content="Ⅰ 프로그래밍 · 정보과학">
+<meta property="og:description" content="함수 · 모듈 · 재귀 구조 — 코드를 작은 단위로 나누는 법">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#129513;</text></svg>">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="u1">
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="index.html">정보과학</a>
+    <nav class="unitnav" aria-label="단원">
+      <a href="unit1.html" class="is-current">Ⅰ 프로그래밍</a>
+      <a href="unit2.html">Ⅱ 데이터 구조</a>
+      <a href="unit3.html">Ⅲ 알고리즘</a>
+      <a href="unit4.html">Ⅳ 정보과학 프로젝트</a>
+    </nav>
+  </div>
+  <div class="progress" data-progress></div>
+</header>
+<div class="crumbbar" data-crumb></div>
+<div class="wrap">
+<aside class="toc" aria-label="이 단원 목차">
+  <a class="toc-home" href="index.html">← 전체 목차</a>
+  <div class="toc-title">Ⅰ 프로그래밍<span>1~5주차</span></div>
+  <nav id="toc-nav">
+    <ol>
+        <li><a href="#t1-1" data-level="1"><em>1-1</em>함수의 이해</a></li>
+        <li><a href="#t1-2" data-level="1"><em>1-2</em>함수의 활용</a></li>
+        <li><a href="#t1-3" data-level="1"><em>2-1</em>재귀 구조의 이해</a></li>
+        <li><a href="#t1-4" data-level="1"><em>2-2</em>재귀 구조의 활용</a></li>
+    </ol>
+  </nav>
+</aside>
+<main>
+
+<section class="unit u1" id="unit1">
+  <div class="unit-head">
+    <span class="roman">Ⅰ</span>
+    <span class="lesson">1~5주차</span>
+    <h2>프로그래밍</h2>
+    <p class="goal">효율적인 프로그래밍을 위한 <b>함수</b>와 <b>재귀 구조</b>의 활용법을 익혀 다양한 분야의 문제를 해결한다.</p>
+  </div>
+
+  <!-- 1-1 -->
+  <article class="topic" id="t1-1">
+    <h3><span class="idx">1-1</span> 함수의 이해 <span class="lesson">1~2주차</span></h3>
+    <p class="lede">여러 줄짜리 작업을 이름 하나로 묶어 두고, 필요할 때마다 불러 쓰는 장치가 함수입니다.</p>
+
+    <div class="analogy">
+      <span class="lbl">쉽게 말하면</span>
+      <p>로봇에게 “라면 끓여 줘”라고 한마디만 하면 되는 이유는, ‘물 550mL 끓이기 → 면과 수프 넣기 → 5분 끓이기 → 불 끄기 → 그릇에 담기’를 <b>‘라면 끓이기’라는 이름 하나로 묶어 두었기</b> 때문입니다. 이 묶음이 함수이고, ‘라면 3개’, ‘계란 추가’처럼 바꿔 넣는 값이 매개 변수입니다.</p>
+    </div>
+
+    <h4>함수의 구조</h4>
+    <p><span class="kw">함수</span>는 특정한 작업을 수행하도록 작성된 <b>독립적인 코드 블록</b>입니다. 파이썬이 미리 준비해 둔 <b>내장 함수</b>(<code>print()</code>, <code>sum()</code>)와, 필요에 따라 직접 만드는 <b>사용자 정의 함수</b>가 있습니다.</p>
+
+    <pre>def 함수명(매개 변수1, 매개 변수2, ... ):
+    실행할 문장
+    return 반환값</pre>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>구성 요소</th><th>설명</th><th>필수 여부</th></tr></thead>
+        <tbody>
+          <tr><td>함수명</td><td>고유한 함수 이름</td><td>필수</td></tr>
+          <tr><td>매개 변수</td><td>인수를 전달받기 위해 사용하는 변수</td><td>생략 가능</td></tr>
+          <tr><td>함수 본문</td><td>기능을 실행하기 위한 명령어(들여쓰기로 구분)</td><td>필수</td></tr>
+          <tr><td>반환값</td><td>처리 결과를 호출한 쪽으로 되돌려주는 값</td><td>생략 가능</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>호출과 반환의 흐름</h4>
+    <figure>
+      <div class="figbody">
+        <svg viewBox="0 0 700 230" role="img" aria-label="호출자가 인수를 전달하면 함수의 매개 변수가 값을 받고, 본문을 실행한 뒤 return으로 결과를 호출자에게 돌려준다">
+          <defs>
+            <marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+            </marker>
+            <marker id="ar1a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/>
+            </marker>
+          </defs>
+          <rect x="20" y="55" width="200" height="120" rx="3" class="sv-box"/>
+          <text x="120" y="80" class="sv-t" text-anchor="middle" font-weight="700">호출자 (caller)</text>
+          <text x="120" y="112" class="sv-t-s" text-anchor="middle">m = find_middle(5, 7, 3)</text>
+          <text x="120" y="146" class="sv-t-a" text-anchor="middle">인수 5, 7, 3</text>
+
+          <rect x="400" y="30" width="270" height="170" rx="3" class="sv-box-a"/>
+          <text x="535" y="55" class="sv-t-a" text-anchor="middle">함수 정의 (def)</text>
+          <text x="535" y="84" class="sv-t" text-anchor="middle">매개 변수 a=5, b=7, c=3</text>
+          <line x1="425" y1="98" x2="645" y2="98" class="sv-dash"/>
+          <text x="535" y="124" class="sv-t" text-anchor="middle">본문 실행 — 세 수를 정렬</text>
+          <line x1="425" y1="140" x2="645" y2="140" class="sv-dash"/>
+          <text x="535" y="168" class="sv-t" text-anchor="middle">return 중간값</text>
+
+          <line x1="225" y1="90" x2="392" y2="90" class="sv-a" marker-end="url(#ar1a)"/>
+          <text x="308" y="80" class="sv-t-a" text-anchor="middle">① 인수 전달</text>
+
+          <line x1="392" y1="160" x2="225" y2="160" class="sv-line" marker-end="url(#ar1)"/>
+          <text x="308" y="152" class="sv-t" text-anchor="middle">② 반환값 되돌리기</text>
+
+          <text x="350" y="218" class="sv-t-s" text-anchor="middle">정의만 하고 호출하지 않으면 함수는 실행되지 않는다</text>
+        </svg>
+      </div>
+      <figcaption>인수는 호출자가 <em>보내는</em> 값, 매개 변수는 함수 안에서 그 값을 <em>받는</em> 변수입니다. 두 개수는 반드시 일치해야 합니다.</figcaption>
+    </figure>
+
+    <pre>def find_middle_number(a, b, c):
+    numbers = [a, b, c]
+    numbers.sort()
+    return numbers[1]
+
+print(find_middle_number(5, 7, 3))   # 5
+print(find_middle_number(10, 20, 30))  # 20</pre>
+
+    <div class="callout"><b>return의 두 가지 역할</b> — ① 값을 반환한다 ② 함수를 즉시 종료한다. 값 없이 <code>return</code>만 쓰면 <code>None</code>을 반환하며, 그 아래 문장은 실행되지 않습니다.</div>
+
+    <h4>매개 변수·반환값 유무에 따른 4가지 형태</h4>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>형태</th><th>예시</th><th>쓰임</th></tr></thead>
+        <tbody>
+          <tr><td>둘 다 없음</td><td><code>print_numbers()</code></td><td>정해진 동작만 반복</td></tr>
+          <tr><td>매개 변수만 있음</td><td><code>draw_square(length)</code></td><td>받은 값으로 동작만 수행</td></tr>
+          <tr><td>반환값만 있음</td><td><code>get_position()</code></td><td>현재 상태를 알려 줌</td></tr>
+          <tr><td>둘 다 있음</td><td><code>get_dist(p1, p2)</code></td><td>입력을 처리해 결과를 돌려줌</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>지역 변수와 전역 변수</h4>
+    <figure>
+      <div class="figbody">
+        <svg viewBox="0 0 640 250" role="img" aria-label="전역 영역 안에 함수의 지역 영역이 들어 있으며, 같은 이름이면 지역 변수가 먼저 사용된다">
+          <rect x="15" y="20" width="610" height="210" rx="3" class="sv-box"/>
+          <text x="32" y="44" class="sv-t" font-weight="700">전역 영역 · 프로그램 전체</text>
+          <text x="32" y="70" class="sv-t-s">drink = 'coffee'   → 프로그램이 끝날 때까지 메모리에 있음</text>
+
+          <rect x="45" y="92" width="250" height="112" rx="3" class="sv-box-a"/>
+          <text x="62" y="116" class="sv-t-a">print_local_drink()</text>
+          <text x="62" y="142" class="sv-t-s">drink = 'lemonade'</text>
+          <text x="62" y="164" class="sv-t-s">→ 지역 변수(함수 안에서만)</text>
+          <text x="62" y="190" class="sv-t" font-weight="700">출력: lemonade</text>
+
+          <rect x="330" y="92" width="250" height="112" rx="3" class="sv-box"/>
+          <text x="347" y="116" class="sv-t" font-weight="700">print_global_drink()</text>
+          <text x="347" y="142" class="sv-t-s">(같은 이름의 지역 변수 없음)</text>
+          <text x="347" y="164" class="sv-t-s">→ 전역 변수를 그대로 사용</text>
+          <text x="347" y="190" class="sv-t" font-weight="700">출력: coffee</text>
+        </svg>
+      </div>
+      <figcaption>같은 이름이 있으면 <b>가까운 쪽(지역)이 이깁니다.</b> 함수 안에서 전역 변수 자체를 바꾸려면 <code>global</code> 키워드가 필요합니다.</figcaption>
+    </figure>
+
+    <pre>drink = 'coffee'          # 전역 변수
+
+def print_global_drink():
+    global drink          # 전역 변수를 참조하겠다는 선언
+    drink = 'coke'        # 전역 변수의 값 자체가 바뀜
+    print('음료:', drink)</pre>
+
+    <div class="points">
+      <span class="lbl">핵심 포인트</span>
+      <ul>
+        <li>함수 = 특정 작업을 수행하는 <b>독립적인 코드 블록</b>. <code>def</code>로 정의하고 이름으로 호출한다.</li>
+        <li><b>인수</b>는 보내는 값, <b>매개 변수</b>는 받는 변수. 개수가 맞아야 한다.</li>
+        <li><code>return</code>은 <b>값 반환 + 함수 종료</b>. 생략하면 <code>None</code>.</li>
+        <li>함수를 쓰는 이유 세 가지 — <b>가독성 · 재사용성 · 유지 보수 용이성</b>. (클린 코드의 핵심 원칙)</li>
+        <li>지역 변수는 함수가 끝나면 사라지고, 전역 변수는 프로그램이 끝날 때까지 남는다. 전역 변수는 꼭 필요할 때만.</li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- 1-2 -->
+  <article class="topic" id="t1-2">
+    <h3><span class="idx">1-2</span> 함수의 활용 <span class="lesson">3~4주차</span></h3>
+    <p class="lede">매개 변수를 더 유연하게 만들고, 여러 함수를 파일 단위로 묶어 모듈로 관리합니다.</p>
+
+    <h4>기본값 매개 변수</h4>
+    <p>값을 전달하지 않아도 되도록 미리 값을 준비해 둔 매개 변수입니다. 그래서 <b>선택적 매개 변수</b>라고도 합니다. 반드시 <b>일반 매개 변수보다 뒤에</b> 놓아야 합니다.</p>
+    <pre>def apply_discount(prices, discount=0):
+    for price in prices:
+        sale = round(price * (1 - discount))
+        print(f'정가 {price} → 판매가 {sale}원')
+
+apply_discount([1000, 2000])        # 할인 없음(기본값 0)
+apply_discount([1000, 2000], 0.3)   # 30% 할인</pre>
+
+    <h4>가변 인수 매개 변수</h4>
+    <p>몇 개가 들어올지 모를 때 <code>*</code>를 붙입니다. 전달된 인수 전부를 하나의 <b>튜플</b>로 관리하며, 한 함수에 <b>하나만</b>, 그리고 <b>맨 뒤에</b> 놓습니다.</p>
+    <pre>def order_drinks(*drinks):
+    if not drinks:
+        print('주문한 음료가 없습니다.'); return
+    print(', '.join(drinks) + ' 주문이 완료되었습니다.')
+
+order_drinks('콜라', '사이다', '커피')
+order_drinks('녹차', '홍차')
+order_drinks()</pre>
+
+    <h4>여러 개의 값 반환</h4>
+    <p><code>return</code>은 객체 하나만 반환하지만, 콤마로 나열하면 <b>튜플에 담아</b> 한 번에 돌려줍니다.</p>
+    <pre>import math
+g = 9.8
+
+def free_fall(height):
+    time = math.sqrt(2 * height / g)
+    velocity = g * time
+    return time, velocity      # 튜플로 묶여 반환
+
+t, v = free_fall(50)</pre>
+
+    <h4>클래스와 객체</h4>
+    <p><span class="kw">클래스</span>는 객체를 만들기 위한 <b>설계도</b>, <span class="kw">객체</span>는 그 설계도로 찍어낸 <b>실물</b>입니다. 객체가 가지는 데이터는 <b>속성</b>(변수), 객체가 하는 일은 <b>메소드</b>(함수)입니다.</p>
+    <figure>
+      <div class="figbody">
+        <svg viewBox="0 0 620 220" role="img" aria-label="Robot 클래스 하나로 로봇A 로봇B 로봇C 세 개의 객체를 만든다">
+          <defs>
+            <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/>
+            </marker>
+          </defs>
+          <rect x="20" y="35" width="220" height="140" rx="3" class="sv-box-a"/>
+          <text x="130" y="60" class="sv-t-a" text-anchor="middle">클래스 Robot — 설계도</text>
+          <line x1="40" y1="72" x2="220" y2="72" class="sv-dash"/>
+          <text x="42" y="94" class="sv-t-s">속성  name, speed</text>
+          <text x="42" y="118" class="sv-t-s">메소드 speak(), walk(),</text>
+          <text x="42" y="136" class="sv-t-s">       run(), change_speed()</text>
+          <text x="42" y="162" class="sv-t-s">__init__() 이 속성을 초기화</text>
+
+          <line x1="248" y1="105" x2="330" y2="105" class="sv-a" marker-end="url(#ar2)"/>
+          <text x="289" y="95" class="sv-t-a" text-anchor="middle">생성</text>
+
+          <rect x="345" y="30" width="250" height="42" rx="3" class="sv-box"/>
+          <text x="470" y="56" class="sv-t" text-anchor="middle">robot1 = Robot('로봇A')  speed 0</text>
+          <rect x="345" y="84" width="250" height="42" rx="3" class="sv-box"/>
+          <text x="470" y="110" class="sv-t" text-anchor="middle">robot2 = Robot('로봇B')  speed 3</text>
+          <rect x="345" y="138" width="250" height="42" rx="3" class="sv-box"/>
+          <text x="470" y="164" class="sv-t" text-anchor="middle">robot3 = Robot('로봇C')  speed 10</text>
+          <text x="470" y="203" class="sv-t-s" text-anchor="middle">각 객체(인스턴스)는 서로 독립적인 상태를 가진다</text>
+        </svg>
+      </div>
+      <figcaption>메소드의 첫 매개 변수 <code>self</code>는 “지금 이 객체 자신”을 가리킵니다.</figcaption>
+    </figure>
+
+    <pre>class Robot:
+    def __init__(self, name):     # 생성자 — 객체가 만들어질 때 실행
+        self.name = name
+        self.speed = 0
+    def run(self):
+        self.speed = 10
+        print(f'{self.name}가 {self.speed}km/h로 달립니다.')
+
+robot1 = Robot('로봇A')
+robot1.run()</pre>
+
+    <h4>모듈 · 패키지 · 라이브러리</h4>
+    <figure>
+      <div class="figbody">
+        <svg viewBox="0 0 620 230" role="img" aria-label="모듈이 모여 패키지가 되고 패키지가 모여 라이브러리가 되는 포함 관계">
+          <rect x="12" y="14" width="596" height="202" rx="4" class="sv-box-a"/>
+          <text x="30" y="40" class="sv-t-a">라이브러리 — 패키지·모듈의 큰 묶음</text>
+
+          <rect x="34" y="56" width="264" height="140" rx="3" class="sv-box"/>
+          <text x="50" y="80" class="sv-t" font-weight="700">패키지 A (폴더)</text>
+          <rect x="52" y="94" width="228" height="30" rx="2" class="sv-fill" stroke="currentColor" stroke-width="1"/>
+          <text x="166" y="114" class="sv-t-s" text-anchor="middle">모듈 a1.py</text>
+          <rect x="52" y="130" width="228" height="30" rx="2" class="sv-fill" stroke="currentColor" stroke-width="1"/>
+          <text x="166" y="150" class="sv-t-s" text-anchor="middle">모듈 a2.py</text>
+          <rect x="52" y="166" width="228" height="22" rx="2" class="sv-fill" stroke="currentColor" stroke-width="1"/>
+          <text x="166" y="181" class="sv-t-s" text-anchor="middle">모듈 a3.py</text>
+
+          <rect x="322" y="56" width="264" height="140" rx="3" class="sv-box"/>
+          <text x="338" y="80" class="sv-t" font-weight="700">패키지 B (폴더)</text>
+          <rect x="340" y="94" width="228" height="30" rx="2" class="sv-fill" stroke="currentColor" stroke-width="1"/>
+          <text x="454" y="114" class="sv-t-s" text-anchor="middle">모듈 b1.py</text>
+          <rect x="340" y="130" width="228" height="30" rx="2" class="sv-fill" stroke="currentColor" stroke-width="1"/>
+          <text x="454" y="150" class="sv-t-s" text-anchor="middle">모듈 b2.py</text>
+          <rect x="340" y="166" width="228" height="22" rx="2" class="sv-fill" stroke="currentColor" stroke-width="1"/>
+          <text x="454" y="181" class="sv-t-s" text-anchor="middle">모듈 b3.py</text>
+        </svg>
+      </div>
+      <figcaption>모듈 = 하나의 <code>.py</code> 파일 · 패키지 = 모듈이 든 폴더 · 라이브러리 = 그 전체 도구 모음.</figcaption>
+    </figure>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>모듈 불러오기</th><th>함수 호출하기</th></tr></thead>
+        <tbody>
+          <tr><td><code>import spirograph</code></td><td><code>spirograph.draw(60, 20)</code></td></tr>
+          <tr><td><code>import spirograph as sp</code></td><td><code>sp.draw(60, 20)</code></td></tr>
+          <tr><td><code>from spirograph import *</code></td><td><code>draw(60, 20)</code></td></tr>
+          <tr><td><code>from spirograph import draw</code></td><td><code>draw(60, 20)</code></td></tr>
+          <tr><td><code>from spirograph import draw as d</code></td><td><code>d(60, 20)</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>자주 쓰는 내장 함수와 표준 라이브러리</h4>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>분류</th><th>함수</th><th>하는 일</th></tr></thead>
+        <tbody>
+          <tr><td>수학</td><td><code>abs len max min pow sum divmod round</code></td><td>절댓값·길이·최대·최소·거듭제곱·합·몫과나머지·반올림</td></tr>
+          <tr><td>형 변환</td><td><code>bool int float str list tuple set dict</code></td><td>자료형을 서로 바꾸기 (<code>set</code>은 중복 제거에 유용)</td></tr>
+          <tr><td>반복·실행</td><td><code>range enumerate sorted reversed zip map filter eval</code></td><td>반복 가능한 자료를 만들고·정렬하고·묶고·변환하기</td></tr>
+          <tr><td><code>math</code> 모듈</td><td><code>sqrt sin cos log factorial</code></td><td>제곱근·삼각함수·로그·팩토리얼 (import 필요)</td></tr>
+          <tr><td><code>random</code> 모듈</td><td><code>random randint uniform choice shuffle</code></td><td>난수 생성, 무작위 선택·섞기 (import 필요)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="points">
+      <span class="lbl">핵심 포인트</span>
+      <ul>
+        <li><b>기본값 매개 변수</b>는 뒤쪽에, <b>가변 인수(*)</b>는 한 개만 맨 뒤에.</li>
+        <li>여러 값을 <code>return</code>하면 <b>튜플 하나</b>로 묶여 돌아온다.</li>
+        <li>클래스는 설계도, 객체는 실물. 속성은 변수, 메소드는 함수, <code>self</code>는 자기 자신.</li>
+        <li><b>모듈 ⊂ 패키지 ⊂ 라이브러리</b>. 모듈은 호출 파일과 같은 위치에 있어야 한다.</li>
+        <li>내장 함수는 바로 사용, 표준 라이브러리는 <code>import</code>가 필요하다.</li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- 2-1 -->
+  <article class="topic" id="t1-3">
+    <h3><span class="idx">2-1</span> 재귀 구조의 이해 <span class="lesson">5주차</span></h3>
+    <p class="lede">큰 문제를 “같은 모양의 더 작은 문제”로 바꿔 가며 푸는 방식입니다.</p>
+
+    <div class="analogy">
+      <span class="lbl">쉽게 말하면</span>
+      <p>러시아 인형 마트료시카를 열면 똑같이 생긴 더 작은 인형이 나옵니다. 마지막 가장 작은 인형까지 다 열어야 끝나죠. <b>큰 문제 안에 같은 모양의 작은 문제가 들어 있는 구조</b> — 이것이 재귀 구조입니다.</p>
+    </div>
+
+    <h4>재귀 함수의 두 부분</h4>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>단계</th><th>하는 일</th><th>없으면?</th></tr></thead>
+        <tbody>
+          <tr><td><b>기본 단계</b><br>(종료 조건)</td><td>더 이상 나눌 수 없는 가장 작은 문제를 직접 해결하고 재귀를 멈춘다</td><td>무한 호출 → 스택 오버플로</td></tr>
+          <tr><td><b>재귀 단계</b><br>(재귀 호출)</td><td>문제를 더 작게 나눠 자기 자신을 다시 호출한다</td><td>문제가 줄지 않아 끝나지 않는다</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>이 구조는 수학의 <b>수학적 귀납법</b>과 똑같습니다. “n=1일 때 성립” = 기본 단계, “n=k에서 성립하면 n=k+1에서도 성립” = 재귀 단계.</p>
+
+    <h4>호출과 반환은 반대 방향으로 일어난다</h4>
+    <figure>
+      <div class="figbody">
+        <svg viewBox="0 0 600 330" role="img" aria-label="power(2,5)가 power(2,0)까지 내려가며 호출되고 1부터 32까지 거꾸로 반환된다">
+          <defs>
+            <marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+            </marker>
+            <marker id="ar3a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/>
+            </marker>
+          </defs>
+          <text x="140" y="22" class="sv-t" text-anchor="middle" font-weight="700">호출 ↓</text>
+          <text x="470" y="22" class="sv-t-a" text-anchor="middle" font-weight="700">반환 ↑</text>
+
+          <rect x="40" y="34" width="200" height="34" rx="3" class="sv-box"/><text x="140" y="56" class="sv-t" text-anchor="middle">power(2, 5) → 2 × ▢</text>
+          <rect x="40" y="82" width="200" height="34" rx="3" class="sv-box"/><text x="140" y="104" class="sv-t" text-anchor="middle">power(2, 4) → 2 × ▢</text>
+          <rect x="40" y="130" width="200" height="34" rx="3" class="sv-box"/><text x="140" y="152" class="sv-t" text-anchor="middle">power(2, 3) → 2 × ▢</text>
+          <rect x="40" y="178" width="200" height="34" rx="3" class="sv-box"/><text x="140" y="200" class="sv-t" text-anchor="middle">power(2, 2) → 2 × ▢</text>
+          <rect x="40" y="226" width="200" height="34" rx="3" class="sv-box"/><text x="140" y="248" class="sv-t" text-anchor="middle">power(2, 1) → 2 × ▢</text>
+          <rect x="40" y="274" width="200" height="34" rx="3" class="sv-box-a"/><text x="140" y="296" class="sv-t-a" text-anchor="middle">power(2, 0) = 1  ← 기본 단계</text>
+
+          <line x1="20" y1="60" x2="20" y2="290" class="sv-line" marker-end="url(#ar3)"/>
+
+          <rect x="360" y="274" width="200" height="34" rx="3" class="sv-box-a"/><text x="460" y="296" class="sv-t-a" text-anchor="middle">1 반환</text>
+          <rect x="360" y="226" width="200" height="34" rx="3" class="sv-box"/><text x="460" y="248" class="sv-t" text-anchor="middle">2 × 1 = 2</text>
+          <rect x="360" y="178" width="200" height="34" rx="3" class="sv-box"/><text x="460" y="200" class="sv-t" text-anchor="middle">2 × 2 = 4</text>
+          <rect x="360" y="130" width="200" height="34" rx="3" class="sv-box"/><text x="460" y="152" class="sv-t" text-anchor="middle">2 × 4 = 8</text>
+          <rect x="360" y="82" width="200" height="34" rx="3" class="sv-box"/><text x="460" y="104" class="sv-t" text-anchor="middle">2 × 8 = 16</text>
+          <rect x="360" y="34" width="200" height="34" rx="3" class="sv-box"/><text x="460" y="56" class="sv-t" text-anchor="middle" font-weight="700">2 × 16 = 32</text>
+
+          <line x1="580" y1="290" x2="580" y2="60" class="sv-a" marker-end="url(#ar3a)"/>
+          <line x1="248" y1="291" x2="352" y2="291" class="sv-dash"/>
+          <text x="300" y="284" class="sv-t-s" text-anchor="middle">여기서 방향 전환</text>
+        </svg>
+      </div>
+      <figcaption>재귀는 <b>끝까지 내려간 다음</b> 거꾸로 올라오면서 계산을 완성합니다. 그래서 결과는 가장 작은 문제부터 확정됩니다.</figcaption>
+    </figure>
+
+    <div class="lab" id="lab-recur">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>재귀 호출 따라가기 — 함수 스택이 쌓이고 풀리는 과정</h5></div>
+      <div class="lab-body">
+        <div class="lab-stage" style="align-items:flex-start">
+          <div class="sq-col">
+            <div class="sq-mark" data-depth>깊이 0</div>
+            <div class="stackbox rstack" data-rstack></div>
+            <div class="sq-name">함수 스택</div>
+          </div>
+          <div class="trace" data-trace></div>
+        </div>
+        <div class="lab-ctrl">
+          <label>함수
+            <select data-fn>
+              <option value="fact">팩토리얼 factorial(n)</option>
+              <option value="pow">거듭제곱 power(2, n)</option>
+              <option value="digit">자릿수 합 digit_sum(n)</option>
+            </select>
+          </label>
+          <label><span data-nlab>n</span> <input type="number" data-n value="5" min="1" max="7"></label>
+          <button class="btn btn-p" data-act="step">다음 단계</button>
+          <button class="btn" data-act="play">자동 재생</button>
+          <button class="btn" data-act="reset">처음부터</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite"></p>
+        <pre data-code></pre>
+        <p class="lab-note">스택이 <b>끝까지 쌓인 뒤</b>에야 값이 하나씩 반환되는 것을 확인하세요. 호출된 함수가 돌아갈 자리를 기억해 두는 이 구조가 바로 Ⅱ단원에서 배울 <b>스택</b>입니다.</p>
+      </div>
+    </div>
+
+    <pre>def power(x, n):
+    if n == 0:              # 기본 단계
+        return 1
+    else:                   # 재귀 단계
+        return x * power(x, n - 1)
+
+power(2, 5)   # 32</pre>
+
+    <h4>반복 구조와 재귀 구조 — 무엇이 다를까</h4>
+    <figure>
+      <div class="figbody">
+        <svg viewBox="0 0 660 300" role="img" aria-label="fib(5)의 재귀 호출 트리에서 fib(3) fib(2) fib(1)이 중복 호출된다">
+          <defs>
+            <marker id="ar4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+          <g class="sv-line" stroke-width="1.2">
+            <line x1="330" y1="52" x2="200" y2="102"/><line x1="330" y1="52" x2="460" y2="102"/>
+            <line x1="200" y1="122" x2="120" y2="172"/><line x1="200" y1="122" x2="280" y2="172"/>
+            <line x1="460" y1="122" x2="400" y2="172"/><line x1="460" y1="122" x2="530" y2="172"/>
+            <line x1="120" y1="192" x2="70" y2="242"/><line x1="120" y1="192" x2="175" y2="242"/>
+          </g>
+          <circle cx="330" cy="40" r="22" class="sv-box"/><text x="330" y="45" class="sv-t" text-anchor="middle">f(5)</text>
+          <circle cx="200" cy="112" r="22" class="sv-box"/><text x="200" y="117" class="sv-t" text-anchor="middle">f(4)</text>
+          <circle cx="460" cy="112" r="22" class="sv-box-a"/><text x="460" y="117" class="sv-t-a" text-anchor="middle">f(3)</text>
+          <circle cx="120" cy="182" r="22" class="sv-box-a"/><text x="120" y="187" class="sv-t-a" text-anchor="middle">f(3)</text>
+          <circle cx="280" cy="182" r="22" class="sv-box"/><text x="280" y="187" class="sv-t" text-anchor="middle">f(2)</text>
+          <circle cx="400" cy="182" r="22" class="sv-box"/><text x="400" y="187" class="sv-t" text-anchor="middle">f(2)</text>
+          <circle cx="530" cy="182" r="22" class="sv-box"/><text x="530" y="187" class="sv-t" text-anchor="middle">f(1)</text>
+          <circle cx="70" cy="252" r="22" class="sv-box"/><text x="70" y="257" class="sv-t" text-anchor="middle">f(2)</text>
+          <circle cx="175" cy="252" r="22" class="sv-box"/><text x="175" y="257" class="sv-t" text-anchor="middle">f(1)</text>
+          <text x="330" y="292" class="sv-t-a" text-anchor="middle">색칠된 f(3)은 두 번 계산된다 — n이 커질수록 중복이 폭발한다</text>
+        </svg>
+      </div>
+      <figcaption>피보나치를 재귀로 짜면 코드는 짧지만 같은 계산을 반복합니다. 이 문제를 해결하는 방법이 Ⅲ단원의 <b>동적 계획법</b>입니다.</figcaption>
+    </figure>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>구분</th><th>반복 구조 (for/while)</th><th>재귀 구조</th></tr></thead>
+        <tbody>
+          <tr><td>장점</td><td>메모리 효율적, 속도가 빠름</td><td>코드가 짧고 변수가 적어 가독성이 좋음</td></tr>
+          <tr><td>단점</td><td>복잡한 문제에서 코드가 길고 변수가 늘어남</td><td>호출마다 메모리를 더 쓰고, 깊어지면 느려지고 오버플로 위험</td></tr>
+          <tr><td>언제 쓸까</td><td>속도·메모리가 중요할 때</td><td>트리 탐색·분할 정복처럼 <b>스스로를 포함하는 구조</b>일 때</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="points">
+      <span class="lbl">핵심 포인트</span>
+      <ul>
+        <li>재귀 함수는 <b>기본 단계(종료 조건)</b>와 <b>재귀 단계</b>로 이루어진다. 종료 조건이 없으면 무한 호출.</li>
+        <li>호출은 아래로, 반환은 위로. <b>가장 작은 문제부터 결과가 확정</b>된다.</li>
+        <li>수학적 귀납법과 구조가 같다 — 기본 단계 ↔ 기본 단계, 귀납 단계 ↔ 재귀 단계.</li>
+        <li>재귀가 항상 더 빠른 것은 아니다. 피보나치는 반복이 훨씬 빠르다.</li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- 2-2 -->
+  <article class="topic" id="t1-4">
+    <h3><span class="idx">2-2</span> 재귀 구조의 활용 <span class="lesson">5주차</span></h3>
+    <p class="lede">숫자·문자열·하노이 탑·파일 탐색 — 재귀가 진짜 힘을 내는 문제들입니다.</p>
+
+    <h4>① 숫자의 자릿수 합</h4>
+    <p>숫자를 <b>마지막 자릿수</b>와 <b>나머지 자릿수</b>로 쪼개면, 나머지 부분이 똑같은 모양의 작은 문제가 됩니다.</p>
+    <pre>def digit_sum(n):
+    if n &lt; 10:                 # 기본 단계: 한 자리면 그대로
+        return n
+    return digit_sum(n // 10) + n % 10
+
+digit_sum(7925)   # ((7+9)+2)+5 = 23</pre>
+
+    <h4>② 하노이 탑</h4>
+    <figure>
+      <div class="figbody">
+        <svg viewBox="0 0 660 250" role="img" aria-label="원반 3개를 옮기는 문제는 위 2개를 보조 기둥으로 옮기고 큰 원반을 목표로 옮긴 뒤 다시 2개를 목표로 옮기는 세 단계로 나뉜다">
+          <g class="sv-line">
+            <line x1="30" y1="150" x2="200" y2="150"/><line x1="55" y1="150" x2="55" y2="70"/><line x1="115" y1="150" x2="115" y2="70"/><line x1="175" y1="150" x2="175" y2="70"/>
+            <line x1="245" y1="150" x2="415" y2="150"/><line x1="270" y1="150" x2="270" y2="70"/><line x1="330" y1="150" x2="330" y2="70"/><line x1="390" y1="150" x2="390" y2="70"/>
+            <line x1="460" y1="150" x2="630" y2="150"/><line x1="485" y1="150" x2="485" y2="70"/><line x1="545" y1="150" x2="545" y2="70"/><line x1="605" y1="150" x2="605" y2="70"/>
+          </g>
+          <rect x="95" y="128" width="40" height="14" rx="2" class="sv-fill" stroke="currentColor"/>
+          <rect x="89" y="110" width="52" height="14" rx="2" class="sv-fill" stroke="currentColor"/>
+          <rect x="35" y="128" width="40" height="14" rx="2" class="sv-box-a"/>
+
+          <rect x="370" y="128" width="40" height="14" rx="2" class="sv-box-a"/>
+          <rect x="244" y="128" width="52" height="14" rx="2" class="sv-fill" stroke="currentColor"/>
+          <rect x="252" y="110" width="36" height="14" rx="2" class="sv-fill" stroke="currentColor"/>
+
+          <rect x="585" y="128" width="40" height="14" rx="2" class="sv-box-a"/>
+          <rect x="579" y="110" width="52" height="14" rx="2" class="sv-fill" stroke="currentColor"/>
+          <rect x="587" y="92" width="36" height="14" rx="2" class="sv-fill" stroke="currentColor"/>
+
+          <text x="115" y="176" class="sv-t" text-anchor="middle" font-weight="700">① 위 2개 → 보조 (3번)</text>
+          <text x="330" y="176" class="sv-t" text-anchor="middle" font-weight="700">② 가장 큰 원반 → 목표 (1번)</text>
+          <text x="545" y="176" class="sv-t" text-anchor="middle" font-weight="700">③ 보조의 2개 → 목표 (3번)</text>
+          <text x="330" y="212" class="sv-t-a" text-anchor="middle">①과 ③은 원반 2개짜리 같은 문제 — 그래서 재귀로 해결된다</text>
+          <text x="330" y="236" class="sv-t-s" text-anchor="middle">T(1)=1,  T(n)=2×T(n−1)+1  →  원반 3개는 7번</text>
+        </svg>
+      </div>
+      <figcaption>“가장 큰 원반을 옮기려면 그 위의 n−1개를 먼저 치워야 한다”는 한 가지 통찰이 전체 알고리즘을 만듭니다.</figcaption>
+    </figure>
+
+    <div class="lab" id="lab-hanoi">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>하노이 탑 — 최소 횟수로 옮겨 보기</h5></div>
+      <div class="lab-body">
+        <div class="hanoi-wrap">
+          <div class="hanoi" data-hanoi>
+            <button class="peg" data-peg="0" type="button" aria-label="A 기둥"><span class="peg-label">A 출발</span></button>
+            <button class="peg" data-peg="1" type="button" aria-label="B 기둥"><span class="peg-label">B 보조</span></button>
+            <button class="peg" data-peg="2" type="button" aria-label="C 기둥"><span class="peg-label">C 목표</span></button>
+          </div>
+        </div>
+        <div class="counter">
+          <div><span class="cnum" data-moves>0</span><span class="clab">내 이동 횟수</span></div>
+          <div><span class="cnum" data-min>7</span><span class="clab">최소 이동 횟수 (2ⁿ−1)</span></div>
+        </div>
+        <div class="lab-ctrl">
+          <label>원반 수
+            <select data-n>
+              <option value="3" selected>3개</option>
+              <option value="4">4개</option>
+              <option value="5">5개</option>
+            </select>
+          </label>
+          <button class="btn" data-act="undo">한 수 무르기</button>
+          <button class="btn" data-act="reset">처음부터</button>
+          <button class="btn btn-p" data-act="auto">자동 풀이 보기</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite">기둥을 눌러 <b>맨 위 원반을 집고</b>, 다른 기둥을 눌러 내려놓으세요. 모든 원반을 <b>C 기둥</b>으로 옮기면 성공입니다.</p>
+        <p class="lab-note">규칙 — ① 한 번에 원반 하나만 ② 큰 원반을 작은 원반 위에 올릴 수 없음. ‘자동 풀이 보기’는 교과서의 재귀 함수 <code>hanoi_tower()</code>가 만들어 내는 이동 순서를 그대로 재생합니다.</p>
+      </div>
+    </div>
+
+    <pre>def hanoi_tower(n, source, target, spare):
+    if n == 1:
+        print('원반 1', source, '→', target); return
+    hanoi_tower(n - 1, source, spare, target)   # 위 n-1개 → 보조
+    print('원반', n, source, '→', target)        # 가장 큰 원반 → 목표
+    hanoi_tower(n - 1, spare, target, source)   # 보조 n-1개 → 목표
+
+hanoi_tower(3, 'A', 'C', 'B')</pre>
+
+    <h4>③ 폴더 안의 폴더 — 파일 찾기</h4>
+    <p>폴더 안에 폴더가 들어 있는 구조 자체가 재귀입니다. 하위 폴더를 만나면 <b>같은 함수를 그 폴더에 대해 다시</b> 부르면 됩니다.</p>
+    <pre>import os
+
+def find_item(root_path, target):
+    for item in os.listdir(root_path):
+        item_path = os.path.join(root_path, item)
+        if os.path.isdir(item_path):              # 하위 폴더면
+            result = find_item(item_path, target) # 재귀적으로 탐색
+            if result:
+                return result
+        elif item == target:
+            return item_path
+    return None</pre>
+
+    <div class="points">
+      <span class="lbl">핵심 포인트</span>
+      <ul>
+        <li>숫자는 <code>// 10</code>과 <code>% 10</code>으로, 문자열은 앞 글자와 나머지로 쪼개면 재귀 구조가 보인다.</li>
+        <li>하노이 탑: <b>n−1개 → 보조 / 큰 원반 → 목표 / n−1개 → 목표</b>. 이동 횟수 <b>2ⁿ−1</b>.</li>
+        <li>폴더·트리·그래프처럼 <b>자기 자신을 포함하는 구조</b>는 재귀가 가장 자연스럽다.</li>
+        <li>계단 오르기(한 칸/두 칸)처럼 “직전 두 상태의 합”으로 정의되는 문제도 재귀 관계로 표현된다.</li>
+      </ul>
+    </div>
+  </article>
+</section>
+
+</main>
+</div>
+
+<nav class="pager" aria-label="단원 이동">
+  <a class="prev" href="index.html"><span class="dir">← 처음으로</span><span class="ttl">전체 목차와 주차 계획</span></a>
+  <a class="next" href="unit2.html"><span class="dir">다음 단원 →</span><span class="ttl">Ⅱ 데이터 구조</span></a>
+</nav>
+<footer>
+  <div class="foot-in">
+    <p><b>정보과학</b> — 고등학교 『정보과학』(씨마스, 2022 개정 교육과정) 1~4단원 학습 정리.</p>
+    <p>모든 개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
+  </div>
+</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>
