@@ -1,0 +1,5 @@
+*.pdf
+*.hwp
+*.hwpx
+.DS_Store
+Thumbs.db
