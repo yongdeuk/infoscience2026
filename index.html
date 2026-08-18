@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="고등학교 『정보과학』(씨마스, 2022 개정 교육과정) 4개 단원의 핵심을 그림·표·짧은 코드로 정리한 학습 사이트.">
+<meta name="description" content="고등학교 『정보과학』(씨마스, 2022 개정 교육과정) 4개 단원을 그림과 실습 위젯으로 정리한 학습 사이트.">
 <meta property="og:title" content="정보과학">
-<meta property="og:description" content="함수·재귀·데이터 구조·알고리즘·프로젝트를 그림으로 정리한 수업 자료.">
+<meta property="og:description" content="함수·재귀·데이터 구조·알고리즘·프로젝트를 그림과 직접 조작하는 실습으로 정리한 수업 자료.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#129513;</text></svg>">
 <style>
@@ -108,10 +108,11 @@
 
   /* ---------- layout ---------- */
   .wrap{max-width:1120px; margin:0 auto; padding:0 1.25rem 5rem;
-    display:grid; grid-template-columns:1fr; gap:2rem}
+    display:grid; grid-template-columns:minmax(0,1fr); gap:2rem}
   @media (min-width:1000px){
     .wrap{grid-template-columns:216px minmax(0,1fr); gap:3rem; align-items:start}
   }
+  main, .unit, .topic, .lab, .lab-body{min-width:0}
   .toc{display:none}
   @media (min-width:1000px){
     .toc{
@@ -241,6 +242,145 @@
   .sv-a{stroke:var(--accent); stroke-width:1.8; fill:none}
   .sv-dash{stroke:currentColor; stroke-width:1.2; fill:none; stroke-dasharray:4 3; opacity:.5}
 
+  /* ---------- interactive lab ---------- */
+  .lab{border:1px solid var(--accent); background:var(--surface); margin:1.5rem 0}
+  .lab-head{
+    background:var(--accent-soft); padding:.6rem 1rem;
+    display:flex; gap:.7rem; align-items:baseline; flex-wrap:wrap;
+  }
+  .lab-lbl{
+    font-family:var(--mono); font-size:.65rem; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--accent-ink); white-space:nowrap;
+  }
+  .lab-head h5{margin:0; font-size:.95rem; font-weight:700; color:var(--ink)}
+  .lab-body{padding:1.1rem 1rem 1.2rem}
+  .lab-stage{display:flex; flex-wrap:wrap; gap:1.4rem; align-items:flex-end; justify-content:center}
+  .lab-ctrl{
+    display:flex; flex-wrap:wrap; gap:.45rem; align-items:center;
+    margin-top:1.1rem; padding-top:.9rem; border-top:1px solid var(--line-2);
+  }
+  .lab-status{
+    margin:.8rem 0 0; font-size:.86rem; color:var(--ink2);
+    min-height:2.6em; line-height:1.55;
+  }
+  .lab-status b{color:var(--accent-ink)}
+  .lab-note{margin:.7rem 0 0; font-size:.8rem; color:var(--ink3); line-height:1.6}
+
+  .btn{
+    font-family:inherit; font-size:.85rem; line-height:1.2; padding:.45rem .8rem;
+    border:1px solid var(--line); background:var(--surface-2); color:var(--ink);
+    border-radius:2px; cursor:pointer;
+  }
+  .btn:hover:not(:disabled){border-color:var(--accent); color:var(--accent-ink)}
+  .btn:disabled{opacity:.4; cursor:not-allowed}
+  .btn-p{background:var(--accent); border-color:var(--accent); color:var(--surface); font-weight:700}
+  .btn-p:hover:not(:disabled){color:var(--surface); filter:brightness(1.1)}
+  .lab-ctrl label{font-size:.82rem; color:var(--ink2); display:flex; align-items:center; gap:.35rem}
+  .lab-ctrl input[type=text], .lab-ctrl input[type=number], .lab-ctrl select{
+    font-family:inherit; font-size:.85rem; padding:.35rem .5rem; width:5.5rem;
+    border:1px solid var(--line); background:var(--surface-2); color:var(--ink); border-radius:2px;
+  }
+  .lab-ctrl input[type=range]{width:9rem; accent-color:var(--accent)}
+  .lab-sep{flex-basis:100%; height:0}
+
+  /* stack & queue */
+  .sq-col{display:flex; flex-direction:column; align-items:center; gap:.5rem; min-width:0; max-width:100%}
+  .sq-name{font-size:.8rem; color:var(--ink3); font-family:var(--mono)}
+  .stackbox{
+    width:132px; height:216px; padding:6px; display:flex; flex-direction:column-reverse;
+    justify-content:flex-start; gap:5px;
+    border:2px solid currentColor; border-top:none;
+  }
+  .queuebox{
+    width:min(100%,392px); height:66px; padding:6px; display:flex; align-items:center; gap:5px;
+    border:2px solid currentColor; border-left:none; border-right:none; overflow-x:auto;
+  }
+  .cell{
+    flex:0 0 auto; display:flex; align-items:center; justify-content:center;
+    background:var(--accent-soft); border:1px solid var(--accent); color:var(--accent-ink);
+    font-weight:700; font-size:.9rem; border-radius:2px;
+  }
+  .stackbox .cell{height:32px; width:100%}
+  .queuebox .cell{height:100%; width:62px}
+  .cell.new{animation:cellIn .26s ease-out}
+  .cell.peeked{outline:2px dashed var(--accent); outline-offset:2px}
+  @keyframes cellIn{from{opacity:0; transform:scale(.8)}to{opacity:1; transform:scale(1)}}
+  .sq-mark{font-size:.72rem; color:var(--accent-ink); font-family:var(--mono); height:1.2em}
+  .sq-ends{display:flex; justify-content:space-between; width:min(100%,392px); font-size:.72rem;
+    color:var(--accent-ink); font-family:var(--mono)}
+  .outlog{
+    font-family:var(--mono); font-size:.82rem; color:var(--ink2);
+    background:var(--code-bg); border:1px solid var(--line); padding:.45rem .6rem;
+    margin-top:.9rem; overflow-x:auto; white-space:nowrap;
+  }
+
+  /* hanoi */
+  .hanoi{display:flex; gap:10px; justify-content:center; width:100%; max-width:520px; margin:0 auto}
+  .peg{
+    position:relative; flex:1; height:176px; padding:0 0 8px; background:none;
+    border:none; border-bottom:7px solid var(--ink3); border-radius:0;
+    display:flex; flex-direction:column-reverse; align-items:center; justify-content:flex-start;
+    gap:3px; cursor:pointer; font:inherit;
+  }
+  .peg::before{
+    content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+    width:7px; height:158px; background:var(--ink3); border-radius:4px;
+  }
+  .peg:hover{background:var(--surface-2)}
+  .peg.sel{background:var(--accent-soft)}
+  .peg-label{position:absolute; bottom:-24px; left:0; right:0; font-size:.78rem;
+    color:var(--ink3); font-family:var(--mono)}
+  .disk{
+    position:relative; height:21px; border-radius:3px;
+    background:var(--accent-soft); border:1.5px solid var(--accent);
+    color:var(--accent-ink); font-size:.75rem; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .disk.lift{transform:translateY(-6px); box-shadow:0 3px 8px rgba(0,0,0,.22)}
+  .hanoi-wrap{padding-bottom:26px; width:100%}
+  .counter{display:flex; gap:1.4rem; justify-content:center; margin-top:1.6rem; flex-wrap:wrap}
+  .counter div{text-align:center}
+  .counter .cnum{
+    display:block; font-family:var(--serif); font-size:1.7rem; line-height:1.1;
+    color:var(--accent); font-variant-numeric:tabular-nums;
+  }
+  .counter .clab{font-size:.75rem; color:var(--ink3)}
+
+  /* binary search */
+  .bsrow{display:flex; flex-wrap:wrap; gap:4px; justify-content:center}
+  .bs-cell{
+    width:44px; height:40px; display:flex; align-items:center; justify-content:center;
+    border:1px solid var(--line); background:var(--surface-2); color:var(--ink);
+    font-size:.85rem; font-variant-numeric:tabular-nums; border-radius:2px;
+  }
+  .bs-cell.out{opacity:.28; text-decoration:line-through}
+  .bs-cell.mid{background:var(--accent); border-color:var(--accent); color:var(--surface); font-weight:700}
+  .bs-cell.found{background:var(--accent-soft); border:2px solid var(--accent); color:var(--accent-ink); font-weight:700}
+  .bs-cell.target{box-shadow:inset 0 -3px 0 var(--accent)}
+
+  /* bar compare */
+  .bars{display:flex; flex-direction:column; gap:.7rem; width:100%; max-width:520px; margin:0 auto}
+  .bar-row{display:grid; grid-template-columns:6.5rem minmax(0,1fr) auto; gap:.6rem; align-items:center}
+  .bar-name{font-size:.82rem; color:var(--ink2)}
+  .bar-track{background:var(--code-bg); border:1px solid var(--line); height:22px; position:relative}
+  .bar-fill{height:100%; background:var(--accent); min-width:2px; transition:width .35s ease}
+  .bar-val{font-family:var(--mono); font-size:.82rem; font-variant-numeric:tabular-nums;
+    color:var(--accent-ink); white-space:nowrap}
+  @media (prefers-reduced-motion: reduce){
+    .cell.new{animation:none}
+    .bar-fill{transition:none}
+  }
+  @media (max-width:560px){
+    .lab-stage{gap:1.6rem}
+    .stackbox{width:112px; height:200px}
+    .queuebox .cell{width:54px}
+    .peg{height:150px} .peg::before{height:132px}
+    .bar-row{grid-template-columns:5rem minmax(0,1fr) auto; gap:.45rem}
+    .bar-name, .bar-val{font-size:.76rem}
+    .counter{gap:1rem} .counter .cnum{font-size:1.45rem}
+    .bs-cell{width:38px; height:36px; font-size:.78rem}
+  }
+
   /* ---------- footer ---------- */
   footer{
     border-top:1px solid var(--line); margin-top:2rem; padding:2rem 1.25rem 3rem;
@@ -259,7 +399,7 @@
       <span class="tag">1학기 · 주 3시간</span>
       <span class="tag">4개 대단원</span>
       <span class="tag">Python</span>
-      <span class="tag">교과서 308쪽 요약</span>
+      <span class="tag">직접 해 보는 실습 6개</span>
     </div>
   </div>
 </header>
@@ -770,6 +910,37 @@ digit_sum(7925)   # ((7+9)+2)+5 = 23</pre>
       <figcaption>“가장 큰 원반을 옮기려면 그 위의 n−1개를 먼저 치워야 한다”는 한 가지 통찰이 전체 알고리즘을 만듭니다.</figcaption>
     </figure>
 
+    <div class="lab" id="lab-hanoi">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>하노이 탑 — 최소 횟수로 옮겨 보기</h5></div>
+      <div class="lab-body">
+        <div class="hanoi-wrap">
+          <div class="hanoi" data-hanoi>
+            <button class="peg" data-peg="0" type="button" aria-label="A 기둥"><span class="peg-label">A 출발</span></button>
+            <button class="peg" data-peg="1" type="button" aria-label="B 기둥"><span class="peg-label">B 보조</span></button>
+            <button class="peg" data-peg="2" type="button" aria-label="C 기둥"><span class="peg-label">C 목표</span></button>
+          </div>
+        </div>
+        <div class="counter">
+          <div><span class="cnum" data-moves>0</span><span class="clab">내 이동 횟수</span></div>
+          <div><span class="cnum" data-min>7</span><span class="clab">최소 이동 횟수 (2ⁿ−1)</span></div>
+        </div>
+        <div class="lab-ctrl">
+          <label>원반 수
+            <select data-n>
+              <option value="3" selected>3개</option>
+              <option value="4">4개</option>
+              <option value="5">5개</option>
+            </select>
+          </label>
+          <button class="btn" data-act="undo">한 수 무르기</button>
+          <button class="btn" data-act="reset">처음부터</button>
+          <button class="btn btn-p" data-act="auto">자동 풀이 보기</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite">기둥을 눌러 <b>맨 위 원반을 집고</b>, 다른 기둥을 눌러 내려놓으세요. 모든 원반을 <b>C 기둥</b>으로 옮기면 성공입니다.</p>
+        <p class="lab-note">규칙 — ① 한 번에 원반 하나만 ② 큰 원반을 작은 원반 위에 올릴 수 없음. ‘자동 풀이 보기’는 교과서의 재귀 함수 <code>hanoi_tower()</code>가 만들어 내는 이동 순서를 그대로 재생합니다.</p>
+      </div>
+    </div>
+
     <pre>def hanoi_tower(n, source, target, spare):
     if n == 1:
         print('원반 1', source, '→', target); return
@@ -858,6 +1029,29 @@ def find_item(root_path, target):
       <figcaption>스택의 기본 연산은 <b>push · pop · peek · isEmpty</b> 네 가지입니다.</figcaption>
     </figure>
 
+    <div class="lab" id="lab-stack">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>스택 시뮬레이터 — 넣고 빼 보기</h5></div>
+      <div class="lab-body">
+        <div class="lab-stage">
+          <div class="sq-col">
+            <div class="sq-mark" data-top>top → C</div>
+            <div class="stackbox" data-box></div>
+            <div class="sq-name">Stack (LIFO)</div>
+          </div>
+        </div>
+        <div class="lab-ctrl">
+          <label>값 <input type="text" data-val maxlength="4" placeholder="A"></label>
+          <button class="btn btn-p" data-act="push">push</button>
+          <button class="btn" data-act="pop">pop</button>
+          <button class="btn" data-act="peek">peek</button>
+          <button class="btn" data-act="clear">비우기</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite">값을 입력하고 <b>push</b>를 눌러 보세요. 비워 두면 A, B, C… 순으로 자동 입력됩니다.</p>
+        <div class="outlog" data-log>꺼낸 순서: (없음)</div>
+        <p class="lab-note">A → B → C 순서로 넣고 계속 pop 해 보세요. <b>C → B → A</b>, 넣은 것의 정반대 순서로 나옵니다.</p>
+      </div>
+    </div>
+
     <p class="codecap">파이썬 리스트로 구현한 스택</p>
     <pre>class Stack:
     def __init__(self):
@@ -922,6 +1116,34 @@ def find_item(root_path, target):
       </div>
       <figcaption>큐도 연산은 <b>enqueue · dequeue · peek · isEmpty</b> 네 가지. 비었을 때 빼면 언더플로 오류입니다.</figcaption>
     </figure>
+
+    <div class="lab" id="lab-queue">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>스택 vs 큐 — 같은 데이터를 동시에 넣고 빼기</h5></div>
+      <div class="lab-body">
+        <div class="lab-stage">
+          <div class="sq-col">
+            <div class="sq-mark" data-qtop>front → A</div>
+            <div class="queuebox" data-qbox></div>
+            <div class="sq-ends"><span>front (삭제)</span><span>rear (삽입)</span></div>
+            <div class="sq-name">Queue (FIFO)</div>
+          </div>
+          <div class="sq-col">
+            <div class="sq-mark" data-stop>top → C</div>
+            <div class="stackbox" data-sbox></div>
+            <div class="sq-name">Stack (LIFO)</div>
+          </div>
+        </div>
+        <div class="lab-ctrl">
+          <button class="btn btn-p" data-act="in">양쪽에 넣기</button>
+          <button class="btn" data-act="out">양쪽에서 빼기</button>
+          <button class="btn" data-act="demo">A·B·C·D 넣고 전부 빼기</button>
+          <button class="btn" data-act="reset">초기화</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite">두 구조에 <b>똑같은 순서</b>로 데이터를 넣습니다. 뺄 때 무엇이 달라지는지 보세요.</p>
+        <div class="outlog" data-log>큐에서 나온 순서: (없음)<br>스택에서 나온 순서: (없음)</div>
+        <p class="lab-note">넣는 순서는 같아도 나오는 순서는 정반대입니다. 이 차이 하나가 <b>DFS(스택)와 BFS(큐)</b>의 탐색 순서를 갈라놓습니다.</p>
+      </div>
+    </div>
 
     <pre>class Queue:
     def __init__(self):
@@ -1281,6 +1503,22 @@ def bfs(cur):                       # 큐를 직접 사용
       </table>
     </div>
 
+    <div class="lab" id="lab-bigo">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>입력 크기를 바꾸면 연산 수가 얼마나 늘어날까</h5></div>
+      <div class="lab-body">
+        <div class="bars" data-bars></div>
+        <div class="lab-ctrl">
+          <label>n = <input type="range" data-n min="1" max="200" value="20"></label>
+          <span class="bar-val" data-nlabel>20</span>
+          <button class="btn" data-act="n10">n=10</button>
+          <button class="btn" data-act="n100">n=100</button>
+          <button class="btn" data-act="n200">n=200</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite"></p>
+        <p class="lab-note">막대 길이는 가장 큰 값을 기준으로 한 상대 비율입니다. n을 키울수록 O(n²)만 혼자 치솟는 것을 볼 수 있습니다.</p>
+      </div>
+    </div>
+
     <div class="points">
       <span class="lbl">핵심 포인트</span>
       <ul>
@@ -1391,6 +1629,26 @@ def bfs(cur):                       # 큐를 직접 사용
       </div>
       <figcaption>단, 이진 탐색을 쓰려면 데이터가 <b>정렬되어 있어야</b> 합니다.</figcaption>
     </figure>
+
+    <div class="lab" id="lab-bsearch">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>이진 탐색 — 한 번에 절반씩 지워 보기</h5></div>
+      <div class="lab-body">
+        <div class="bsrow" data-row></div>
+        <div class="counter">
+          <div><span class="cnum" data-bcnt>0</span><span class="clab">이진 탐색 비교 횟수</span></div>
+          <div><span class="cnum" data-lcnt>0</span><span class="clab">순차 탐색이라면</span></div>
+        </div>
+        <div class="lab-ctrl">
+          <label>찾을 값 <input type="number" data-target min="1" max="99" value="77"></label>
+          <button class="btn btn-p" data-act="step">다음 단계</button>
+          <button class="btn" data-act="all">끝까지 실행</button>
+          <button class="btn" data-act="rand">다른 값으로</button>
+          <button class="btn" data-act="reset">초기화</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite">찾을 값을 정하고 <b>다음 단계</b>를 눌러 보세요. 중간값과 비교해 절반을 통째로 버립니다.</p>
+        <p class="lab-note">16칸짜리 배열이라 최대 4번이면 찾습니다(2⁴=16). 순차 탐색이라면 최악의 경우 16번을 비교해야 합니다.</p>
+      </div>
+    </div>
 
     <h4>탐욕 알고리즘 — 매 순간 가장 좋아 보이는 선택</h4>
     <p>지금 이 단계에서 최선인 것을 고르고 되돌아보지 않습니다. 빠르지만 <b>항상 최적해를 보장하지는 않습니다.</b></p>
@@ -1626,6 +1884,33 @@ quicksort([7, 5, 9, 4, 1])   # [1, 4, 5, 7, 9]</pre>
       <figcaption>계산 결과를 저장해 두는 메모리 공간을 <b>동적 테이블</b>이라고 합니다. 리스트나 딕셔너리를 씁니다.</figcaption>
     </figure>
 
+    <div class="lab" id="lab-dp">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>피보나치 — 재귀와 동적 계획법의 계산량 차이</h5></div>
+      <div class="lab-body">
+        <div class="bars">
+          <div class="bar-row">
+            <span class="bar-name">재귀만 사용</span>
+            <span class="bar-track"><span class="bar-fill" data-bar1></span></span>
+            <span class="bar-val" data-v1>15회</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-name">동적 계획법</span>
+            <span class="bar-track"><span class="bar-fill" data-bar2></span></span>
+            <span class="bar-val" data-v2>5회</span>
+          </div>
+        </div>
+        <div class="lab-ctrl">
+          <label>n = <input type="range" data-n min="5" max="32" value="10"></label>
+          <span class="bar-val" data-nlabel>10</span>
+          <button class="btn" data-act="m5">n=5</button>
+          <button class="btn" data-act="m20">n=20</button>
+          <button class="btn" data-act="m32">n=32</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite"></p>
+        <p class="lab-note">막대는 <b>함수 호출 횟수</b>입니다. n을 오른쪽으로 밀어 보세요. 재귀는 O(2ⁿ)으로 폭발하지만, 동적 계획법은 O(n)이라 거의 늘지 않습니다.</p>
+      </div>
+    </div>
+
     <div class="tablewrap">
       <table>
         <thead><tr><th>방식</th><th>진행 방향</th><th>도구</th><th>특징</th></tr></thead>
@@ -1826,5 +2111,362 @@ print(dp[n])   # 55</pre>
     <p>모든 개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
   </div>
 </footer>
+
+<script>
+(function () {
+  'use strict';
+  var fmt = function (n) { return n.toLocaleString('ko-KR'); };
+
+  /* ============ 1. 스택 시뮬레이터 ============ */
+  (function () {
+    var root = document.getElementById('lab-stack'); if (!root) return;
+    var box = root.querySelector('[data-box]'),
+        topEl = root.querySelector('[data-top]'),
+        input = root.querySelector('[data-val]'),
+        status = root.querySelector('[data-status]'),
+        log = root.querySelector('[data-log]');
+    var stack = [], out = [], auto = 0, MAX = 6;
+
+    function nextAuto() { return String.fromCharCode(65 + (auto++ % 26)); }
+    function render(newIdx) {
+      box.innerHTML = '';
+      stack.forEach(function (v, i) {
+        var d = document.createElement('div');
+        d.className = 'cell' + (i === newIdx ? ' new' : '');
+        d.textContent = v;
+        box.appendChild(d);
+      });
+      topEl.textContent = stack.length ? 'top → ' + stack[stack.length - 1] : 'top → (빈 스택)';
+      log.textContent = '꺼낸 순서: ' + (out.length ? out.join(' → ') : '(없음)');
+    }
+    function say(html) { status.innerHTML = html; }
+
+    root.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-act]'); if (!b) return;
+      var act = b.dataset.act;
+      if (act === 'push') {
+        if (stack.length >= MAX) { say('스택이 가득 찼습니다 — <b>오버플로</b>. 더 이상 push할 수 없습니다.'); return; }
+        var v = (input.value || '').trim() || nextAuto();
+        stack.push(v); input.value = '';
+        render(stack.length - 1);
+        say('<b>push(\'' + v + '\')</b> — 맨 위(top)에 <b>' + v + '</b>를 쌓았습니다. 현재 ' + stack.length + '개.');
+      } else if (act === 'pop') {
+        if (!stack.length) { say('빈 스택에서 pop을 하면 <b>언더플로 오류</b>입니다. 그래서 삭제 전에 <code>isEmpty()</code>로 검사합니다.'); return; }
+        var p = stack.pop(); out.push(p); render();
+        say('<b>pop()</b> → <b>' + p + '</b>를 반환하고 <b>삭제</b>했습니다. 가장 나중에 넣은 것이 먼저 나옵니다.');
+      } else if (act === 'peek') {
+        if (!stack.length) { say('빈 스택에서는 peek도 할 수 없습니다.'); return; }
+        render(); var last = box.lastElementChild;
+        if (last) { last.classList.add('peeked'); setTimeout(function () { last.classList.remove('peeked'); }, 1100); }
+        say('<b>peek()</b> → <b>' + stack[stack.length - 1] + '</b>. 확인만 하고 <b>삭제하지 않습니다</b>. 개수는 그대로 ' + stack.length + '개.');
+      } else if (act === 'clear') {
+        stack = []; out = []; auto = 0; render();
+        say('스택을 비웠습니다. 다시 push해 보세요.');
+      }
+    });
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); root.querySelector('[data-act="push"]').click(); }
+    });
+    render();
+  })();
+
+  /* ============ 2. 스택 vs 큐 비교 ============ */
+  (function () {
+    var root = document.getElementById('lab-queue'); if (!root) return;
+    var qbox = root.querySelector('[data-qbox]'), sbox = root.querySelector('[data-sbox]'),
+        qtop = root.querySelector('[data-qtop]'), stop = root.querySelector('[data-stop]'),
+        status = root.querySelector('[data-status]'), log = root.querySelector('[data-log]');
+    var q = [], s = [], qout = [], sout = [], auto = 0, MAX = 5, busy = false;
+
+    function render(nq, ns) {
+      qbox.innerHTML = ''; sbox.innerHTML = '';
+      q.forEach(function (v, i) {
+        var d = document.createElement('div');
+        d.className = 'cell' + (i === nq ? ' new' : ''); d.textContent = v; qbox.appendChild(d);
+      });
+      s.forEach(function (v, i) {
+        var d = document.createElement('div');
+        d.className = 'cell' + (i === ns ? ' new' : ''); d.textContent = v; sbox.appendChild(d);
+      });
+      qtop.textContent = q.length ? 'front → ' + q[0] : 'front → (빈 큐)';
+      stop.textContent = s.length ? 'top → ' + s[s.length - 1] : 'top → (빈 스택)';
+      log.innerHTML = '큐에서 나온 순서: ' + (qout.length ? '<b>' + qout.join(' → ') + '</b>' : '(없음)') +
+        '<br>스택에서 나온 순서: ' + (sout.length ? '<b>' + sout.join(' → ') + '</b>' : '(없음)');
+    }
+    function say(h) { status.innerHTML = h; }
+    function push() {
+      if (q.length >= MAX) { say('자리가 가득 찼습니다. 먼저 빼 보세요.'); return false; }
+      var v = String.fromCharCode(65 + (auto++ % 26));
+      q.push(v); s.push(v); render(q.length - 1, s.length - 1);
+      say('두 구조 모두에 <b>' + v + '</b>를 넣었습니다. 큐는 뒤(rear)에, 스택은 위(top)에 쌓입니다.');
+      return true;
+    }
+    function pop() {
+      if (!q.length) { say('둘 다 비어 있습니다. 먼저 넣어 보세요.'); return false; }
+      var a = q.shift(), b = s.pop(); qout.push(a); sout.push(b); render();
+      say('큐는 <b>' + a + '</b>(가장 먼저 넣은 것), 스택은 <b>' + b + '</b>(가장 나중에 넣은 것)를 내놓았습니다.');
+      return true;
+    }
+    function reset() { q = []; s = []; qout = []; sout = []; auto = 0; render(); }
+
+    root.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-act]'); if (!b || busy) return;
+      var act = b.dataset.act;
+      if (act === 'in') push();
+      else if (act === 'out') pop();
+      else if (act === 'reset') { reset(); say('초기화했습니다.'); }
+      else if (act === 'demo') {
+        busy = true; reset();
+        var steps = [push, push, push, push, pop, pop, pop, pop], i = 0;
+        var t = setInterval(function () {
+          steps[i++]();
+          if (i >= steps.length) {
+            clearInterval(t); busy = false;
+            say('넣은 순서는 <b>A → B → C → D</b>로 같았지만, 큐는 <b>A → B → C → D</b>, 스택은 <b>D → C → B → A</b>로 나왔습니다.');
+          }
+        }, 480);
+      }
+    });
+    render();
+  })();
+
+  /* ============ 3. 하노이 탑 ============ */
+  (function () {
+    var root = document.getElementById('lab-hanoi'); if (!root) return;
+    var pegEls = [].slice.call(root.querySelectorAll('.peg')),
+        movesEl = root.querySelector('[data-moves]'), minEl = root.querySelector('[data-min]'),
+        sel = root.querySelector('[data-n]'), status = root.querySelector('[data-status]'),
+        autoBtn = root.querySelector('[data-act="auto"]');
+    var n = 3, pegs = [[], [], []], picked = null, moves = 0, hist = [], timer = null;
+
+    function say(h) { status.innerHTML = h; }
+    function reset(keepMsg) {
+      stopAuto();
+      n = parseInt(sel.value, 10);
+      pegs = [[], [], []];
+      for (var i = n; i >= 1; i--) pegs[0].push(i);
+      picked = null; moves = 0; hist = [];
+      minEl.textContent = Math.pow(2, n) - 1;
+      render();
+      if (!keepMsg) say('원반 <b>' + n + '개</b>로 시작합니다. 기둥을 눌러 맨 위 원반을 집고, 다른 기둥을 눌러 내려놓으세요.');
+    }
+    function render() {
+      movesEl.textContent = moves;
+      pegEls.forEach(function (el, i) {
+        [].slice.call(el.querySelectorAll('.disk')).forEach(function (d) { d.remove(); });
+        el.classList.toggle('sel', picked === i);
+        pegs[i].forEach(function (size, idx) {
+          var d = document.createElement('span');
+          d.className = 'disk';
+          var min = 38, max = 94;
+          d.style.width = (n === 1 ? max : min + (size - 1) * (max - min) / (n - 1)) + '%';
+          d.textContent = size;
+          if (picked === i && idx === pegs[i].length - 1) d.classList.add('lift');
+          el.appendChild(d);
+        });
+      });
+    }
+    function tryMove(from, to, quiet) {
+      var d = pegs[from][pegs[from].length - 1];
+      var t = pegs[to][pegs[to].length - 1];
+      if (t !== undefined && t < d) {
+        say('<b>' + d + '번 원반</b>을 더 작은 <b>' + t + '번 원반</b> 위에 올릴 수 없습니다.');
+        return false;
+      }
+      pegs[from].pop(); pegs[to].push(d); moves++; hist.push([from, to]);
+      if (!quiet) say('원반 <b>' + d + '</b>를 ' + 'ABC'[from] + ' → ' + 'ABC'[to] + '로 옮겼습니다. (' + moves + '번째)');
+      return true;
+    }
+    function checkWin() {
+      if (pegs[2].length !== n) return;
+      var best = Math.pow(2, n) - 1;
+      stopAuto();
+      say(moves === best
+        ? '완성! <b>최소 횟수 ' + best + '번</b>으로 정확히 옮겼습니다. 훌륭합니다.'
+        : '완성! ' + moves + '번 만에 옮겼습니다. 최소는 <b>' + best + '번</b>(2<sup>' + n + '</sup>−1)이니 다시 도전해 보세요.');
+    }
+    function solve(k, a, c, b, list) {
+      if (k === 0) return;
+      solve(k - 1, a, b, c, list); list.push([a, c]); solve(k - 1, b, c, a, list);
+    }
+    function stopAuto() {
+      if (timer) { clearInterval(timer); timer = null; }
+      autoBtn.textContent = '자동 풀이 보기';
+    }
+    function startAuto() {
+      reset(true); var list = []; solve(n, 0, 2, 1, list); var i = 0;
+      autoBtn.textContent = '멈추기';
+      say('재귀 함수가 만든 <b>' + list.length + '번</b>의 이동을 순서대로 재생합니다.');
+      timer = setInterval(function () {
+        if (i >= list.length) { stopAuto(); checkWin(); return; }
+        tryMove(list[i][0], list[i][1], true); render();
+        say('이동 ' + (i + 1) + '/' + list.length + ' — ' + 'ABC'[list[i][0]] + ' → ' + 'ABC'[list[i][1]]);
+        i++;
+      }, 430);
+    }
+
+    pegEls.forEach(function (el, i) {
+      el.addEventListener('click', function () {
+        if (timer) return;
+        if (picked === null) {
+          if (!pegs[i].length) { say('빈 기둥입니다. 원반이 있는 기둥을 먼저 누르세요.'); return; }
+          picked = i; render();
+          say('<b>' + pegs[i][pegs[i].length - 1] + '번 원반</b>을 집었습니다. 내려놓을 기둥을 누르세요.');
+        } else if (picked === i) {
+          picked = null; render(); say('선택을 취소했습니다.');
+        } else {
+          var from = picked; picked = null;
+          if (tryMove(from, i)) { render(); checkWin(); } else { render(); }
+        }
+      });
+    });
+    root.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-act]'); if (!b) return;
+      var act = b.dataset.act;
+      if (act === 'reset') reset();
+      else if (act === 'auto') { if (timer) { stopAuto(); say('멈췄습니다.'); } else startAuto(); }
+      else if (act === 'undo') {
+        if (timer) return;
+        if (!hist.length) { say('되돌릴 이동이 없습니다.'); return; }
+        var h = hist.pop(); pegs[h[0]].push(pegs[h[1]].pop()); moves--; picked = null; render();
+        say('한 수 무렀습니다. 현재 ' + moves + '번째.');
+      }
+    });
+    sel.addEventListener('change', function () { reset(); });
+    reset(true);
+  })();
+
+  /* ============ 4. 이진 탐색 ============ */
+  (function () {
+    var root = document.getElementById('lab-bsearch'); if (!root) return;
+    var row = root.querySelector('[data-row]'), bcnt = root.querySelector('[data-bcnt]'),
+        lcnt = root.querySelector('[data-lcnt]'), tInput = root.querySelector('[data-target]'),
+        status = root.querySelector('[data-status]');
+    var arr = [3, 8, 12, 17, 23, 29, 34, 41, 47, 55, 62, 68, 74, 80, 88, 95];
+    var lo, hi, mid, steps, done, foundIdx;
+
+    function say(h) { status.innerHTML = h; }
+    function reset(msg) {
+      lo = 0; hi = arr.length - 1; mid = -1; steps = 0; done = false; foundIdx = -1;
+      render();
+      var t = parseInt(tInput.value, 10);
+      var k = arr.indexOf(t);
+      lcnt.textContent = k >= 0 ? k + 1 : arr.length;
+      if (msg !== false) say('찾을 값 <b>' + t + '</b>. <b>다음 단계</b>를 눌러 중간값과 비교해 보세요.');
+    }
+    function render() {
+      row.innerHTML = '';
+      var t = parseInt(tInput.value, 10);
+      arr.forEach(function (v, i) {
+        var c = document.createElement('div');
+        c.className = 'bs-cell';
+        if (i === foundIdx) c.className += ' found';
+        else if (i === mid) c.className += ' mid';
+        else if (i < lo || i > hi) c.className += ' out';
+        if (v === t && foundIdx < 0) c.className += ' target';
+        c.textContent = v;
+        row.appendChild(c);
+      });
+      bcnt.textContent = steps;
+    }
+    function step() {
+      if (done) return false;
+      var t = parseInt(tInput.value, 10);
+      if (lo > hi) { done = true; mid = -1; render(); say('탐색 범위가 사라졌습니다. <b>' + t + '</b>는 배열에 없습니다. 비교 ' + steps + '회.'); return false; }
+      mid = Math.floor((lo + hi) / 2); steps++;
+      if (arr[mid] === t) {
+        done = true; foundIdx = mid; render();
+        say('<b>' + arr[mid] + ' = ' + t + '</b> — 찾았습니다! 비교 <b>' + steps + '회</b>. 순차 탐색이라면 ' + lcnt.textContent + '회 필요했습니다.');
+      } else if (arr[mid] < t) {
+        say('중간값 <b>' + arr[mid] + '</b> &lt; ' + t + ' → 왼쪽 절반을 <b>통째로 버립니다</b>.');
+        lo = mid + 1; render();
+      } else {
+        say('중간값 <b>' + arr[mid] + '</b> &gt; ' + t + ' → 오른쪽 절반을 <b>통째로 버립니다</b>.');
+        hi = mid - 1; render();
+      }
+      return !done;
+    }
+    root.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-act]'); if (!b) return;
+      var act = b.dataset.act;
+      if (act === 'step') step();
+      else if (act === 'all') { var g = 0; while (step() && g++ < 40) {} }
+      else if (act === 'reset') reset();
+      else if (act === 'rand') { tInput.value = arr[Math.floor(Math.random() * arr.length)]; reset(); }
+    });
+    tInput.addEventListener('change', function () { reset(); });
+    tInput.value = 74; reset();
+  })();
+
+  /* ============ 5. 재귀 vs 동적 계획법 ============ */
+  (function () {
+    var root = document.getElementById('lab-dp'); if (!root) return;
+    var slider = root.querySelector('[data-n]'), nlab = root.querySelector('[data-nlabel]'),
+        bar1 = root.querySelector('[data-bar1]'), bar2 = root.querySelector('[data-bar2]'),
+        v1 = root.querySelector('[data-v1]'), v2 = root.querySelector('[data-v2]'),
+        status = root.querySelector('[data-status]');
+    var memo = { 1: 1, 2: 1 };
+    function calls(n) {
+      if (memo[n]) return memo[n];
+      for (var i = 3; i <= n; i++) if (!memo[i]) memo[i] = 1 + memo[i - 1] + memo[i - 2];
+      return memo[n];
+    }
+    function update() {
+      var n = parseInt(slider.value, 10);
+      nlab.textContent = n;
+      var rec = calls(n), dp = n;
+      bar1.style.width = '100%';
+      bar2.style.width = Math.max(0.4, dp / rec * 100) + '%';
+      v1.textContent = fmt(rec) + '회';
+      v2.textContent = fmt(dp) + '회';
+      var ratio = Math.round(rec / dp);
+      status.innerHTML = 'n = <b>' + n + '</b> — 재귀는 <b>' + fmt(rec) + '회</b> 호출, 동적 계획법은 <b>' + fmt(dp) + '회</b>. 약 <b>' + fmt(ratio) + '배</b> 차이입니다.';
+    }
+    slider.addEventListener('input', update);
+    root.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-act]'); if (!b) return;
+      slider.value = b.dataset.act.slice(1); update();
+    });
+    update();
+  })();
+
+  /* ============ 6. 빅오 비교 ============ */
+  (function () {
+    var root = document.getElementById('lab-bigo'); if (!root) return;
+    var wrap = root.querySelector('[data-bars]'), slider = root.querySelector('[data-n]'),
+        nlab = root.querySelector('[data-nlabel]'), status = root.querySelector('[data-status]');
+    var defs = [
+      { name: 'O(1)', f: function () { return 1; } },
+      { name: 'O(log n)', f: function (n) { return Math.max(1, Math.ceil(Math.log2(n))); } },
+      { name: 'O(n)', f: function (n) { return n; } },
+      { name: 'O(n log n)', f: function (n) { return n * Math.max(1, Math.ceil(Math.log2(n))); } },
+      { name: 'O(n²)', f: function (n) { return n * n; } }
+    ];
+    defs.forEach(function (d) {
+      var r = document.createElement('div'); r.className = 'bar-row';
+      r.innerHTML = '<span class="bar-name">' + d.name + '</span>' +
+        '<span class="bar-track"><span class="bar-fill"></span></span><span class="bar-val"></span>';
+      wrap.appendChild(r); d.fill = r.querySelector('.bar-fill'); d.val = r.querySelector('.bar-val');
+    });
+    function update() {
+      var n = parseInt(slider.value, 10); nlab.textContent = n;
+      var vals = defs.map(function (d) { return d.f(n); });
+      var max = Math.max.apply(null, vals);
+      defs.forEach(function (d, i) {
+        d.fill.style.width = Math.max(0.4, vals[i] / max * 100) + '%';
+        d.val.textContent = fmt(vals[i]);
+      });
+      status.innerHTML = 'n = <b>' + n + '</b>일 때 O(n²)은 <b>' + fmt(n * n) + '회</b>, O(n)은 ' + fmt(n) +
+        '회, O(log n)은 ' + fmt(defs[1].f(n)) + '회입니다.';
+    }
+    slider.addEventListener('input', update);
+    root.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-act]'); if (!b) return;
+      slider.value = b.dataset.act.slice(1); update();
+    });
+    update();
+  })();
+})();
+</script>
 </body>
 </html>
