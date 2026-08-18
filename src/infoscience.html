@@ -2516,6 +2516,31 @@ print(f'{n1}도시에서 {n2}도시까지 최단 거리는 {min_dist[0]}입니�
     </figure>
 
     <div class="callout"><b>알고리즘이 갖춰야 할 조건</b> — <b>입출력</b>(입력을 받아 1개 이상 결과가 나옴) · <b>유한성</b>(언젠가 끝남) · <b>명확성</b>(각 단계가 모호하지 않음) · <b>수행 가능성</b>(실제로 실행 가능함).</div>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>전략</th><th>한 줄 요약</th><th>학생들의 생각으로 옮기면</th></tr></thead>
+        <tbody>
+          <tr><td>탐욕법</td><td>매 순간 최선의 선택</td><td>“지금까지 본 사람 중 가장 빠르니까 바로 뽑아야지”</td></tr>
+          <tr><td>분기 한정법</td><td>불필요한 경로는 배제</td><td>“조건에 맞는 선수만 골라서 면접을 봐야겠어”</td></tr>
+          <tr><td>분할 정복법</td><td>작은 문제로 분해하여 해결</td><td>“각 그룹에서 뽑힌 선수들만 모아서 선발해야겠군”</td></tr>
+          <tr><td>동적 계획법</td><td>이전에 풀었던 해답을 기억해 활용</td><td>“앞 선수들의 특징을 기억했다가 다음 선수와 비교해야지”</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="drill">
+      <span class="lbl">역량 키우기 · 수행 활동</span>
+      <p><b>놀이공원 최적 경로 계획하기</b> — 정문에서 출발해 놀이기구를 모두 한 번씩만 타고 정문으로 돌아와야 한다. 제한된 시간 안에 최대한 많이 타려면 어떤 경로로 이동해야 할까?</p>
+      <p>네 가지 전략을 각각 적용하면 어떤 계획이 나오는지 적어 보고, 내가 고른 알고리즘과 그 이유를 친구들과 이야기해 보자.</p>
+      <ul>
+        <li><b>탐욕법</b> — 현재 위치에서 가장 가까운 놀이기구부터 탄다</li>
+        <li><b>분기 한정법</b> — 남은 시간보다 이동 시간이 긴 놀이기구는 후보에서 뺀다</li>
+        <li><b>분할 정복법</b> — 놀이공원을 구역으로 나눠 구역별 경로를 짠 뒤 합친다</li>
+        <li><b>동적 계획법</b> — 이미 계산한 구간의 최적 경로를 저장해 두고 재사용한다</li>
+      </ul>
+      <p>단원을 다 배운 뒤 지금 쓴 생각과 비교해 보면, 내 판단이 어떻게 달라졌는지 알 수 있습니다.</p>
+    </div>
   </article>
 
   <!-- 1-2 -->
@@ -2525,7 +2550,40 @@ print(f'{n1}도시에서 {n2}도시까지 최단 거리는 {min_dist[0]}입니�
 
     <p><span class="kw">시간 복잡도</span>는 실행에 필요한 <b>연산의 수</b>, <span class="kw">공간 복잡도</span>는 사용하는 <b>메모리의 양</b>입니다. 둘은 대체로 반비례하므로 보통 시간 복잡도를 기준으로 평가합니다.</p>
 
-    <p>실제 실행 시간을 재는 방법은 직관적이지만, 프로그래밍 언어·컴퓨터 성능에 따라 값이 달라집니다. 그래서 입력 크기 n에 대한 함수식으로 표현하는 <span class="kw">빅오(Big-O) 표기법</span>을 씁니다. 빅오는 <b>최악의 경우에도 이 정도까지</b>라는 뜻입니다.</p>
+    <h4>실행 시간을 직접 재 보면</h4>
+    <p>1부터 n 사이의 소수 개수를 구하는 두 프로그램을 비교해 봅시다. 차이는 <b>어디까지 나눠 보느냐</b> 하나뿐입니다.</p>
+    <pre>&lt;프로그램 1&gt;                        &lt;프로그램 2&gt;
+def chkPrime(k):                   def chkPrime(k):
+    if k == 2:                         for v in range(2, int(k**0.5) + 1):
+        return 1                           if k % v == 0:
+    for v in range(2, k):                      return 0
+        if k % v == 0:                 return 1
+            return 0
+    return 1                       # 2부터 √k 까지만 확인</pre>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>입력값 n</th><th>프로그램</th><th class="num">1회</th><th class="num">2회</th><th class="num">3회</th><th class="num">평균</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="2">1,000</td><td>1</td><td class="num">0.0000초</td><td class="num">0.0070초</td><td class="num">0.0130초</td><td class="num">0.0067초</td></tr>
+          <tr><td>2</td><td class="num">0.0020초</td><td class="num">0.0020초</td><td class="num">0.0020초</td><td class="num">0.0020초</td></tr>
+          <tr><td rowspan="2">50,000</td><td>1</td><td class="num">8.8790초</td><td class="num">7.9990초</td><td class="num">7.9840초</td><td class="num">8.2873초</td></tr>
+          <tr><td>2</td><td class="num">0.0900초</td><td class="num">0.0680초</td><td class="num">0.0720초</td><td class="num">0.0767초</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">n이 1,000일 때는 큰 차이가 없지만 50,000이 되면 <b>100배 넘게</b> 벌어집니다. 다만 이 방법은 프로그래밍 언어와 컴퓨터 성능에 따라 값이 달라지고, 입력이 아주 크면 측정 자체가 어렵다는 한계가 있습니다.</div>
+
+    <p>그래서 언어·컴퓨터와 상관없이 비교할 수 있도록 입력 크기 n에 대한 함수식으로 표현하는 <span class="kw">빅오(Big-O) 표기법</span>을 씁니다. <b>점근적 표기법</b>은 성능에 영향을 주는 함수식에서 중요하지 않은 항과 상수 계수를 지우고 간단히 나타낸 것이며, 빅오는 <b>최악의 경우에도 이 정도까지</b>라는 뜻입니다.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>표기법</th><th>나타내는 것</th></tr></thead>
+        <tbody>
+          <tr><td>빅오(O)</td><td>알고리즘의 <b>최악</b>의 경우 성능</td></tr>
+          <tr><td>빅오메가(Ω)</td><td>알고리즘의 <b>최선</b>의 경우 성능</td></tr>
+          <tr><td>빅세타(Θ)</td><td>알고리즘의 <b>평균적</b> 성능 (최선과 최악을 모두 포함)</td></tr>
+        </tbody>
+      </table>
+    </div>
 
     <figure>
       <div class="figbody">
@@ -2583,6 +2641,43 @@ print(f'{n1}도시에서 {n2}도시까지 최단 거리는 {min_dist[0]}입니�
         <p class="lab-status" data-status role="status" aria-live="polite"></p>
         <p class="lab-note">막대 길이는 가장 큰 값을 기준으로 한 상대 비율입니다. n을 키울수록 O(n²)만 혼자 치솟는 것을 볼 수 있습니다.</p>
       </div>
+    </div>
+
+    <h4>코드를 보고 시간 복잡도 읽기</h4>
+    <p class="codecap">O(n) — 반복문이 n번 돈다</p>
+    <pre>sum = 0
+n = int(input('자연수 입력:'))
+for num in range(n + 1):     # n이 커지면 더하는 횟수도 그만큼 늘어남
+    sum += num
+print(f'1부터 {n}까지의 합은 {sum}입니다.')</pre>
+
+    <p class="codecap">O(1) — 공식으로 한 번에 끝낸다</p>
+    <pre>n = int(input('자연수 입력:'))
+sum = int(n * (n + 1) / 2)   # n과 관계없이 실행 시간이 거의 같음
+print(f'1부터 {n}까지의 합은 {sum}입니다.')</pre>
+
+    <p class="codecap">O(n²) — 반복문이 이중으로 겹친다 (선택 정렬)</p>
+    <pre>nums = [8, 2, 5, 11, 26, 33, 1, 88, 52, 7, 19, 75, 26, 44, 11, 62, 9, 15, 21, 30]
+n = int(input('20 이하의 자연수 입력:'))
+
+for i in range(n):                  # 바깥쪽 반복문 n번
+    min, k = nums[i], i
+    for j in range(i, n):           # 안쪽 반복문 최대 n번
+        if min &gt; nums[j]:
+            min = nums[j]
+            k = j
+    del nums[k]
+    nums.insert(i, min)
+print('크기순 값\\n', nums[:n])</pre>
+    <div class="callout"><b>탐색의 예</b> — 정수 10개에서 앞에서부터 차례로 비교해 값을 찾을 때, 최선은 맨 앞에 있어 1번, 최악은 맨 뒤에 있어 10번 비교합니다. 이 알고리즘의 시간 복잡도는 <b>O(n)</b>입니다.</div>
+
+    <div class="drill">
+      <span class="lbl">역량 키우기 · 수행 활동</span>
+      <p>다음 두 프로그램의 수행 과정을 살펴보고, 예상되는 시간 복잡도를 빅오 표기법으로 나타내 보자. 입력값을 작은 값에서 큰 값으로 바꿔 가며 확인한다.</p>
+      <ol>
+        <li><b>재귀 함수로 1부터 n까지의 합 구하기</b> — 호출이 몇 번 일어나는가?</li>
+        <li><b>배열에서 최댓값을 찾는 두 가지 알고리즘</b>의 시간 복잡도를 비교하기</li>
+      </ol>
     </div>
 
     <div class="points">
@@ -2648,12 +2743,76 @@ print(f'{n1}도시에서 {n2}도시까지 최단 거리는 {min_dist[0]}입니�
       </table>
     </div>
 
+    <div class="callout"><b>8-퍼즐의 연산자</b> — 빈칸을 <code>UP</code>·<code>LEFT</code>·<code>DOWN</code>·<code>RIGHT</code> 네 방향으로 한 칸씩 옮기는 것이 ‘행동’입니다. 가운데가 비어 있으면 네 가지 다음 상태가 만들어지고, 각 상태에서 다시 네 가지… 이렇게 상태 공간이 넓어집니다.</div>
+
+    <h4>전체 탐색 알고리즘의 설계 5단계</h4>
+    <p>무작위로 섞인 열쇠 중 문을 여는 열쇠를 찾으려면 하나씩 다 꽂아 보면 됩니다. 이렇게 모든 경우를 시도하는 것이 <span class="kw">브루트 포스 알고리즘</span>(brute = 단순히, force = 힘)입니다.</p>
+    <ol>
+      <li><b>문제 정의</b> — 문제를 정확히 이해하고 가능한 해의 범위를 정한다</li>
+      <li><b>상태 공간 생성</b> — 가능한 모든 상태(해)를 나열한다</li>
+      <li><b>순회 방법 결정</b> — 재귀 함수 또는 반복문으로 상태 공간을 훑는다</li>
+      <li><b>유효성 검사</b> — 각 상태가 문제 조건을 만족하는지 확인한다</li>
+      <li><b>최적의 해 선택</b> — 조건을 만족하는 상태 중 최선을 고른다</li>
+    </ol>
+
     <p><b>순차 탐색</b>은 처음부터 끝까지 하나씩 확인합니다. 정렬되어 있지 않아도 쓸 수 있지만 시간 복잡도는 O(n)입니다.</p>
     <pre>def linear_search(arr, target):
     for i in range(len(arr)):
         if arr[i] == target:
             return i
-    return -1</pre>
+    return -1
+
+arr = [9, 5, 8, 3, 7]
+print(f'Target found at index: {linear_search(arr, 8)}')   # 2</pre>
+
+    <p class="codecap">선형 전체 탐색의 예 — ‘한수’의 개수 세기</p>
+    <p>각 자릿수가 <b>등차수열</b>을 이루는 수를 한수라고 합니다. 123은 차이가 모두 1이라 한수이고, 124는 차이가 1과 2로 달라 한수가 아닙니다. 한 자리 수와 두 자리 수는 모두 한수입니다.</p>
+    <pre>def is_hansu(number):
+    if number &lt; 100:
+        return True                      # 한/두 자리 수는 모두 한수
+    str_num = str(number)
+    diff1 = int(str_num[0]) - int(str_num[1])
+    diff2 = int(str_num[1]) - int(str_num[2])
+    return diff1 == diff2
+
+def count_hansu(N):
+    count = 0
+    for i in range(1, N + 1):            # 1부터 N까지 순차 탐색
+        if is_hansu(i):
+            count += 1
+    return count
+
+N = int(input('N을 입력하세요: '))
+print(count_hansu(N))</pre>
+
+    <h4>비선형 전체 탐색 — 3×3 행렬에서 최소 합 찾기</h4>
+    <p>행과 열이 겹치지 않게 숫자 3개를 골라 합이 최소가 되게 하는 문제입니다. 첫 행에서 3개, 둘째 행에서 남은 2개, 셋째 행에서 1개 — 경우의 수는 <b>3! = 6</b>가지이고, n×n이면 <b>n!</b>가지입니다.</p>
+    <pre>m = [[1, 5, 3], [2, 5, 7], [9, 3, 5]]
+visited = [False] * 3                # 열 사용 여부
+min_solution = float('inf')
+
+def find_min_sum(row, current_sum):
+    global min_solution
+    if row == 3:                     # 마지막 행까지 모두 선택했으면
+        min_solution = min(min_solution, current_sum)
+        return
+    for col in range(3):
+        if not visited[col]:         # 아직 쓰지 않은 열이면
+            visited[col] = True
+            find_min_sum(row + 1, current_sum + m[row][col])
+            visited[col] = False     # 되돌리기 — 다른 경로도 탐색
+
+find_min_sum(0, 0)
+print('최소 합:', min_solution)      # 8  (3 + 2 + 3)</pre>
+    <div class="callout">전체 탐색은 <b>최적해를 보장</b>하지만, 상태 공간이 <code>n!</code>처럼 폭발적으로 커지면 계산 비용과 시간이 감당하기 어려워집니다. 그래서 다음 절에서 <b>탐색 공간을 배제하는 방법</b>을 배웁니다.</div>
+
+    <div class="drill">
+      <span class="lbl">스스로 해결하기</span>
+      <ol>
+        <li>집에서 학교까지 가는 경로를 그래프로 그리고, 갈 수 있는 모든 경우의 수를 <b>상태 공간</b>으로 표현해 보자.</li>
+        <li>다음 상황에 알맞은 탐색을 골라 보자. ① 정렬된 리스트에서 특정 항목 찾기 ② 조직도에서 상위 관리자부터 부서별로 직원 찾기 ③ 진로 사이트에서 조건에 맞는 학과 찾기 <br>(선형/비선형 · 전체/부분)</li>
+      </ol>
+    </div>
   </article>
 
   <!-- 2-2 -->
@@ -2771,8 +2930,81 @@ greedy_coin_change(63, [50, 10, 5, 1])   # [50, 10, 1, 1, 1]  최적!
 #   탐욕: 9 + 1 + 1 + 1 → 4개
 #   최적: 6 + 6         → 2개  ← 탐욕법이 실패</pre>
 
+    <p class="codecap">이진 탐색 구현</p>
+    <pre>def binary_search(arr, target):
+    lo, hi = 0, len(arr) - 1
+    while lo &lt;= hi:
+        mid = (lo + hi) // 2
+        if arr[mid] == target:
+            return mid            # 찾음
+        elif arr[mid] &lt; target:
+            lo = mid + 1          # 왼쪽 절반을 통째로 배제
+        else:
+            hi = mid - 1          # 오른쪽 절반을 통째로 배제
+    return -1                     # 못 찾음</pre>
+
+    <div class="drill">
+      <span class="lbl">스스로 해결하기</span>
+      <p><b>수업 시간표 짜기</b> — 과목별 시작·종료 시간이 아래와 같을 때, 최대한 많은 수업을 들을 수 있는 시간표를 탐욕 알고리즘으로 만들어 보자.</p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>과목</th><th>시작</th><th>종료</th></tr></thead>
+        <tbody>
+          <tr><td>미술</td><td>9:00</td><td>10:00</td></tr>
+          <tr><td>영어</td><td>9:30</td><td>10:30</td></tr>
+          <tr><td>수학</td><td>10:00</td><td>11:00</td></tr>
+          <tr><td>컴퓨터</td><td>10:30</td><td>11:30</td></tr>
+          <tr><td>음악</td><td>11:00</td><td>12:00</td></tr>
+        </tbody>
+      </table></div>
+      <p>전략: <b>가장 빨리 끝나는 과목</b>을 먼저 고르고, 그 종료 시간 이후에 시작하면서 또 가장 빨리 끝나는 과목을 고르기를 반복한다.</p>
+      <pre>classes = [('미술', 9, 10), ('영어', 9.5, 10.5), ('수학', 10, 11),
+           ('컴퓨터', 10.5, 11.5), ('음악', 11, 12)]
+classes.sort(key=lambda x: x[2])      # 종료 시간 기준 정렬
+selected_classes = []
+last_end_time = 0
+
+for cls in classes:
+    # 시작 시간이 마지막 선택 수업의 종료 시간 이후이면 선택
+    ...
+
+print('최대한 많은 수업을 들을 수 있는 시간표: ', selected_classes)</pre>
+    </div>
+
     <h4>분기 한정 알고리즘과 백트래킹</h4>
     <p>탐색 도중 “이 아래에는 답이 없다”고 판단되면 그 가지를 통째로 잘라내고(<b>가지치기</b>), 이전 갈림길로 <b>되돌아가</b> 다른 길을 봅니다. 이 되돌아가기가 <span class="kw">백트래킹</span>입니다.</p>
+    <div class="callout"><b>가지치기에 비유하면</b> — 나무를 키울 때 모든 가지를 다 키우기보다 가치 있는 가지만 남기고 불필요한 가지를 미리 쳐내는 것이 효율적입니다. 탐색도 최적해가 있을 가능성이 없는 부분은 아예 제외합니다.</div>
+
+    <p class="codecap">예제 — 둘레가 9인 삼각형 화단은 몇 가지나 만들 수 있을까</p>
+    <p>삼각형이 되려면 <b>두 변의 길이 합이 나머지 한 변보다 커야</b> 합니다. 따라서 한 변은 둘레의 절반을 넘을 수 없습니다. 이 조건으로 탐색 범위를 미리 잘라 냅니다.</p>
+    <pre>perimeter = 9
+count = 0
+
+a = 1
+while a &lt; (perimeter // 2):            # ❶ 한 변은 둘레의 절반 미만
+    b = a
+    while b &lt;= (perimeter - a) // 2:
+        c = perimeter - a - b
+        if c &lt; b:                      # ❷ 성립 불가 — 가지치기
+            break
+        if a + b &gt; c and a + c &gt; b and b + c &gt; a:   # ❸ 삼각형 조건
+            count += 1
+        b += 1
+    a += 1
+
+print(f'만들 수 있는 화단의 수: {count}')   # 3
+# (1, 4, 4), (2, 3, 4), (3, 3, 3)</pre>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>구분</th><th>분기 한정 알고리즘</th><th>탐욕 알고리즘</th></tr></thead>
+        <tbody>
+          <tr><td>접근 방식</td><td>분기점마다 유망하지 않은 경로를 배제</td><td>현재 단계에서 가장 좋은 선택을 함</td></tr>
+          <tr><td>최적해</td><td><b>보장함</b></td><td>보장하지 않음</td></tr>
+          <tr><td>계산 복잡도</td><td>일반적으로 높음(분기마다 한계치 계산)</td><td>일반적으로 낮음</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">분기 한정법은 최적해를 보장하지만 분기점마다 한계치를 계산해야 해서 <b>모든 문제에서 가장 효율적이지는 않습니다.</b> 문제의 특성과 제약 조건을 분석해 알맞은 방법을 고르는 것이 중요합니다.</div>
 
     <div class="points">
       <span class="lbl">핵심 포인트</span>
@@ -2897,7 +3129,47 @@ greedy_coin_change(63, [50, 10, 5, 1])   # [50, 10, 1, 1, 1]  최적!
 
 quicksort([7, 5, 9, 4, 1])   # [1, 4, 5, 7, 9]</pre>
 
-    <div class="callout"><b>합병 정렬</b>도 분할 정복법입니다. 리스트를 절반으로 계속 나눈 뒤, 정렬된 두 조각의 <b>앞 값끼리 비교</b>하며 하나로 합칩니다. 항상 균등하게 나누므로 시간 복잡도는 언제나 O(n log n)입니다.</div>
+    <h4>합병 정렬</h4>
+    <p>8명을 두 조로 나눠 각각 줄 세운 뒤, <b>두 조의 맨 앞 사람끼리 비교</b>해 작은 쪽을 앞에 세우기를 반복하면 전체가 정렬됩니다. 한쪽이 먼저 비면 남은 쪽을 그대로 이어 붙입니다.</p>
+    <pre>[4, 5, 2, 1, 3, 8, 6, 7]
+분할 → [4, 5, 2, 1] [3, 8, 6, 7]
+     → [4, 5] [2, 1] [3, 8] [6, 7]
+     → [4] [5] [2] [1] [3] [8] [6] [7]     ← 크기 1이면 이미 정렬됨
+
+합병 → [4, 5] + [1, 2] → [1, 2, 4, 5]
+     → [3, 8] + [6, 7] → [3, 6, 7, 8]
+최종 → [1, 2, 3, 4, 5, 6, 7, 8]</pre>
+    <pre>def merge_sort(arr):
+    if len(arr) &lt;= 1:                    # 종료 조건
+        return arr
+    mid = len(arr) // 2
+    left  = merge_sort(arr[:mid])        # 분할 + 정복
+    right = merge_sort(arr[mid:])
+    return merge(left, right)            # 병합
+
+def merge(a, b):
+    result, i, j = [], 0, 0
+    while i &lt; len(a) and j &lt; len(b):
+        if a[i] &lt;= b[j]:                 # 앞 값끼리 비교
+            result.append(a[i]);  i += 1
+        else:
+            result.append(b[j]);  j += 1
+    result += a[i:]                      # 남은 쪽을 그대로 이어 붙임
+    result += b[j:]
+    return result
+
+print(merge_sort([7, 5, 9, 4, 1]))   # [1, 4, 5, 7, 9]</pre>
+    <div class="callout">퀵 정렬과 달리 합병 정렬은 <b>항상 정확히 절반으로</b> 나누므로, 최악의 경우에도 시간 복잡도가 <b>O(n log n)</b>으로 유지됩니다. 대신 합칠 공간이 따로 필요해 메모리를 더 씁니다.</div>
+
+    <div class="drill">
+      <span class="lbl">스스로 해결하기</span>
+      <ol>
+        <li>팩토리얼을 부분 문제로 분해하고, 관계식과 재귀 함수 코드를 각각 써 보자.<br>
+          <code>f(n) = 1 × 2 × 3 × … × n = n!</code> → <code>f(1) = 1</code>, <code>f(n) = ?</code></li>
+        <li>선택 정렬의 비교 횟수가 <code>n(n−1)/2</code>임을 확인하고, 시간 복잡도가 O(n²)인 이유를 설명해 보자.</li>
+        <li>퀵 정렬에서 피벗을 <b>가장 오른쪽 값</b> 또는 <b>가운데 값</b>으로 바꿔 구현해 보고 결과를 비교해 보자.</li>
+      </ol>
+    </div>
   </article>
 
   <!-- 3-2 -->
@@ -3004,6 +3276,77 @@ dp = {1: 1, 2: 1}
 for i in range(3, n + 1):
     dp[i] = dp[i - 1] + dp[i - 2]
 print(dp[n])   # 55</pre>
+
+    <h4>계단 오르기 문제</h4>
+    <p>한 번에 한 계단 또는 두 계단을 오를 수 있을 때 n개의 계단을 오르는 방법의 수입니다. 3개의 계단이면 ① 1+1+1 ② 1+2 ③ 2+1 로 세 가지입니다.</p>
+    <pre>관계식:  f(1) = 1,  f(2) = 2,  f(n) = f(n-1) + f(n-2)</pre>
+    <p class="codecap">재귀만 쓰면 — 같은 계산을 반복해 O(2ⁿ)</p>
+    <pre>def climbstairs(n):
+    if n == 1: return 1
+    if n == 2: return 2
+    return climbstairs(n - 1) + climbstairs(n - 2)
+
+print(climbstairs(10))   # 89</pre>
+    <p class="codecap">하향식 동적 계획법 — 계산한 값을 저장해 재사용</p>
+    <pre>dp = {1: 1, 2: 2}
+
+def climbstairs(n):
+    if n in dp:
+        return dp[n]
+    dp[n] = climbstairs(n - 1) + climbstairs(n - 2)
+    return dp[n]
+
+print(climbstairs(10))   # 89</pre>
+
+    <h4>배낭 채우기 문제</h4>
+    <p>최대 용량 w인 배낭에 물건을 담되, 무게를 넘기지 않으면서 <b>가치의 합이 최대</b>가 되게 하는 문제입니다. 세 가지 접근을 비교해 봅시다.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>물건</th><th class="num">무게</th><th class="num">가치</th></tr></thead>
+        <tbody>
+          <tr><td>1번</td><td class="num">2kg</td><td class="num">3</td></tr>
+          <tr><td>2번</td><td class="num">3kg</td><td class="num">4</td></tr>
+          <tr><td>3번</td><td class="num">4kg</td><td class="num">5</td></tr>
+          <tr><td>4번</td><td class="num">5kg</td><td class="num">6</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><b>① 브루트 포스</b> — 각 물건마다 담는다/안 담는다 두 가지이므로 경우의 수는 <b>2ⁿ</b>. 시간 복잡도 O(2ⁿ)으로 비효율적입니다.</p>
+    <p><b>② 탐욕 알고리즘</b> — 배낭 용량이 5kg일 때 가치가 가장 높은 4번(5kg, 가치 6)을 담으면 더 담을 수 없어 총 가치가 <b>6</b>입니다. 그러나 1번+2번(2+3=5kg)을 담으면 가치가 <b>7</b>입니다. <b>탐욕법으로는 풀리지 않습니다.</b></p>
+    <p><b>③ 동적 계획법</b> — 2차원 동적 테이블 <code>dp[i][w]</code>를 만듭니다. “i번째 물건까지 고려했을 때, 무게 한도가 w이면 얻을 수 있는 최대 가치”입니다.</p>
+    <pre>wi &gt; w 일 때:   dp[i][w] = dp[i-1][w]
+                (i번째 물건이 너무 무거워 못 넣음 → 이전 값 그대로)
+
+wi ≤ w 일 때:   dp[i][w] = max( vi + dp[i-1][w - wi],   # 넣는 경우
+                                dp[i-1][w] )            # 안 넣는 경우</pre>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>i \ w</th><th class="num">0</th><th class="num">1</th><th class="num">2</th><th class="num">3</th><th class="num">4</th><th class="num">5</th></tr></thead>
+        <tbody>
+          <tr><td>0 (물건 없음)</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td><td class="num">0</td></tr>
+          <tr><td>1 (2kg, 3)</td><td class="num">0</td><td class="num">0</td><td class="num">3</td><td class="num">3</td><td class="num">3</td><td class="num">3</td></tr>
+          <tr><td>2 (3kg, 4)</td><td class="num">0</td><td class="num">0</td><td class="num">3</td><td class="num">4</td><td class="num">4</td><td class="num">7</td></tr>
+          <tr><td>3 (4kg, 5)</td><td class="num">0</td><td class="num">0</td><td class="num">3</td><td class="num">4</td><td class="num">5</td><td class="num">7</td></tr>
+          <tr><td>4 (5kg, 6)</td><td class="num">0</td><td class="num">0</td><td class="num">3</td><td class="num">4</td><td class="num">5</td><td class="num">7</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <pre>items = [(2, 3), (3, 4), (4, 5), (5, 6)]     # (무게, 가치)
+W = 5
+n = len(items)
+dp = [[0] * (W + 1) for _ in range(n + 1)]
+
+for i in range(1, n + 1):
+    wi, vi = items[i - 1]
+    for w in range(W + 1):
+        if wi &gt; w:
+            dp[i][w] = dp[i - 1][w]                       # 못 넣음
+        else:
+            dp[i][w] = max(vi + dp[i - 1][w - wi],        # 넣는 경우
+                           dp[i - 1][w])                  # 안 넣는 경우
+
+print('최대 가치:', dp[n][W])   # 7</pre>
+    <div class="callout">표의 오른쪽 아래 <b>dp[4][5] = 7</b>이 답입니다. 탐욕법이 놓친 “1번 + 2번” 조합을 동적 계획법은 정확히 찾아냅니다.</div>
 
     <div class="points">
       <span class="lbl">핵심 포인트</span>
