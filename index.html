@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="고등학교 『정보과학』(씨마스, 2022 개정 교육과정) 4개 단원을 51차시 계획·그림·실습 위젯으로 정리한 학습 사이트.">
+<meta name="description" content="고등학교 『정보과학』(씨마스, 2022 개정 교육과정) 4개 단원을 16주차 계획·그림·실습 위젯으로 정리한 학습 사이트.">
 <meta property="og:title" content="정보과학">
 <meta property="og:description" content="함수·재귀·데이터 구조·알고리즘·프로젝트를 그림과 직접 조작하는 실습으로 정리한 수업 자료.">
 <meta property="og:type" content="website">
@@ -96,7 +96,7 @@
 
   /* ---------- unit map ---------- */
   .unitmap{max-width:1120px; margin:0 auto; padding:2rem 1.25rem 0;
-    display:grid; gap:.9rem; grid-template-columns:repeat(auto-fit,minmax(228px,1fr))}
+    display:grid; gap:.9rem; grid-template-columns:repeat(auto-fit,minmax(min(228px,100%),1fr))}
   .mapcard{
     display:block; background:var(--surface); border:1px solid var(--line);
     border-top:3px solid var(--accent); padding:1rem 1.1rem 1.15rem; color:inherit;
@@ -106,7 +106,7 @@
   .mapcard h3{margin:.35rem 0 .3rem; font-size:1.05rem; font-weight:700}
   .mapcard p{margin:0; font-size:.85rem; color:var(--ink3); line-height:1.6}
 
-  /* ---------- 차시 계획 ---------- */
+  /* ---------- 주차 계획 ---------- */
   .lesson{
     font-family:var(--mono); font-size:.7rem; letter-spacing:.02em; white-space:nowrap;
     color:var(--accent-ink); background:var(--accent-soft);
@@ -128,7 +128,7 @@
   .plan summary span{font-weight:400; color:var(--ink3); font-size:.82rem}
   .plan-grid{
     padding:1.1rem; display:grid; gap:1.6rem;
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));
   }
   .plan-grid h4{
     margin:0 0 .55rem; font-size:.9rem; font-weight:700; color:var(--accent-ink);
@@ -139,8 +139,12 @@
   .plan-grid th{background:none}
   .plan-grid td:first-child{
     white-space:nowrap; width:1%; font-family:var(--mono); font-size:.76rem;
-    color:var(--accent); font-variant-numeric:tabular-nums; text-align:right;
+    color:var(--accent); font-variant-numeric:tabular-nums; text-align:right; vertical-align:top;
+    padding-top:.5rem;
   }
+  .plan-grid td ol{margin:0; padding-left:1.15rem; font-size:.82rem; line-height:1.55}
+  .plan-grid td li{margin:.12rem 0}
+  .plan-grid td li::marker{color:var(--ink3); font-family:var(--mono); font-size:.72rem}
 
   /* ---------- layout ---------- */
   .wrap{max-width:1120px; margin:0 auto; padding:0 1.25rem 5rem;
@@ -452,7 +456,7 @@
     <h1>정보과학</h1>
     <p class="sub">고등학교 『정보과학』(씨마스, 2022 개정 교육과정) 네 단원의 핵심을 그림·표·짧은 코드로 정리했습니다. 함수에서 시작해 데이터 구조와 알고리즘을 거쳐, 마지막에는 직접 프로젝트를 만드는 흐름입니다.</p>
     <div class="meta-row">
-      <span class="tag">1학기 · 주 3시간</span>
+      <span class="tag">1학기 16주 · 주 3시간</span>
       <span class="tag">4개 대단원</span>
       <span class="tag">Python</span>
       <span class="tag">직접 해 보는 실습 7개</span>
@@ -461,94 +465,51 @@
 </header>
 
 <nav class="unitmap" aria-label="단원 바로가기">
-  <a class="mapcard u1" href="#unit1"><span class="num">Ⅰ</span><h3>프로그래밍</h3><p>함수 · 모듈 · 재귀 구조 — 코드를 작은 단위로 나누는 법</p><span class="lesson">1~15차시</span></a>
-  <a class="mapcard u2" href="#unit2"><span class="num">Ⅱ</span><h3>데이터 구조</h3><p>스택 · 큐 · 트리 · 그래프 — 데이터를 담는 그릇의 모양</p><span class="lesson">16~27차시</span></a>
-  <a class="mapcard u3" href="#unit3"><span class="num">Ⅲ</span><h3>알고리즘</h3><p>복잡도 · 탐색 기반 · 관계 기반 — 더 빠른 해결 전략</p><span class="lesson">28~41차시</span></a>
-  <a class="mapcard u4" href="#unit4"><span class="num">Ⅳ</span><h3>정보과학 프로젝트</h3><p>문제 발견부터 검증까지, 실제로 만들어 보는 4단계</p><span class="lesson">42~51차시</span></a>
+  <a class="mapcard u1" href="#unit1"><span class="num">Ⅰ</span><h3>프로그래밍</h3><p>함수 · 모듈 · 재귀 구조 — 코드를 작은 단위로 나누는 법</p><span class="lesson">1~5주차</span></a>
+  <a class="mapcard u2" href="#unit2"><span class="num">Ⅱ</span><h3>데이터 구조</h3><p>스택 · 큐 · 트리 · 그래프 — 데이터를 담는 그릇의 모양</p><span class="lesson">6~9주차</span></a>
+  <a class="mapcard u3" href="#unit3"><span class="num">Ⅲ</span><h3>알고리즘</h3><p>복잡도 · 탐색 기반 · 관계 기반 — 더 빠른 해결 전략</p><span class="lesson">10~13주차</span></a>
+  <a class="mapcard u4" href="#unit4"><span class="num">Ⅳ</span><h3>정보과학 프로젝트</h3><p>문제 발견부터 검증까지, 실제로 만들어 보는 4단계</p><span class="lesson">14~16주차</span></a>
 </nav>
 
 <section class="plan" id="plan">
   <details>
-    <summary>1학기 51차시 운영 계획 <span>주 3시간 · 17주 기준</span></summary>
+    <summary>1학기 16주차 운영 계획 <span>주 3시간 · 총 48시간</span></summary>
     <div class="plan-grid">
       <div class="u1">
-        <h4>Ⅰ. 프로그래밍 · 1~15차시</h4>
-        <div class="tablewrap"><table>
-          <tbody>
-            <tr><td>1</td><td>오리엔테이션 — 정보과학은 무엇을 배우는 과목인가</td></tr>
-            <tr><td>2</td><td>함수의 개념 — 내장 함수와 사용자 정의 함수</td></tr>
-            <tr><td>3</td><td>함수의 정의(<code>def</code>)와 네 가지 구성 요소</td></tr>
-            <tr><td>4</td><td>함수 호출 — 인수와 매개 변수의 관계</td></tr>
-            <tr><td>5</td><td><code>return</code>의 두 역할 / 매개 변수·반환값 4가지 형태</td></tr>
-            <tr><td>6</td><td>지역 변수와 전역 변수, <code>global</code></td></tr>
-            <tr><td>7</td><td>[역량] 음악 플레이 리스트 관리 프로그램 만들기</td></tr>
-            <tr><td>8</td><td>기본값 매개 변수와 가변 인수 매개 변수</td></tr>
-            <tr><td>9</td><td>여러 값 반환 / 클래스와 객체</td></tr>
-            <tr><td>10</td><td>모듈 만들기와 <code>import</code> / 패키지·라이브러리</td></tr>
-            <tr><td>11</td><td>내장 함수와 표준 라이브러리 / [역량] 가위바위보 게임</td></tr>
-            <tr><td>12</td><td>재귀 구조의 이해 — 수학적 귀납법과 재귀 관계</td></tr>
-            <tr><td>13</td><td>재귀 함수의 동작 원리 — 호출과 반환</td></tr>
-            <tr><td>14</td><td>반복 구조와 재귀 구조의 비교 · 적절한 선택</td></tr>
-            <tr><td>15</td><td>재귀 활용 — 자릿수 합, 하노이 탑 / [역량] 파일 찾기</td></tr>
-          </tbody>
-        </table></div>
+        <h4>Ⅰ. 프로그래밍 · 1~5주차</h4>
+        <div class="tablewrap"><table><tbody>
+            <tr><td>1주차</td><td><ol><li>오리엔테이션 — 정보과학은 무엇을 배우는 과목인가</li><li>함수의 개념 — 내장 함수와 사용자 정의 함수</li><li>함수의 정의(<code>def</code>)와 네 가지 구성 요소</li></ol></td></tr>
+            <tr><td>2주차</td><td><ol><li>함수 호출 — 인수와 매개 변수의 관계</li><li><code>return</code>의 두 역할 / 매개 변수·반환값 4가지 형태</li><li>지역 변수와 전역 변수, <code>global</code></li></ol></td></tr>
+            <tr><td>3주차</td><td><ol><li>[역량] 음악 플레이 리스트 관리 프로그램</li><li>기본값 매개 변수와 가변 인수 매개 변수</li><li>여러 값 반환 / 클래스와 객체</li></ol></td></tr>
+            <tr><td>4주차</td><td><ol><li>모듈 만들기와 <code>import</code></li><li>패키지·라이브러리 / 내장 함수와 표준 라이브러리</li><li>[역량] 가위바위보 게임 만들기</li></ol></td></tr>
+            <tr><td>5주차</td><td><ol><li>재귀 구조의 이해 — 수학적 귀납법과 재귀 관계</li><li>재귀 함수의 동작 원리 — 호출과 반환</li><li>반복 vs 재귀 / 재귀 활용 — 자릿수 합·하노이 탑</li></ol></td></tr>
+        </tbody></table></div>
       </div>
       <div class="u2">
-        <h4>Ⅱ. 데이터 구조 · 16~27차시</h4>
-        <div class="tablewrap"><table>
-          <tbody>
-            <tr><td>16</td><td>데이터 구조의 분류 / 스택의 개념(LIFO)</td></tr>
-            <tr><td>17</td><td>스택의 연산 — push, pop, peek, isEmpty</td></tr>
-            <tr><td>18</td><td>리스트로 스택 구현하기 · 활용 사례 조사</td></tr>
-            <tr><td>19</td><td>큐의 개념(FIFO)과 연산</td></tr>
-            <tr><td>20</td><td>리스트로 큐 구현하기 / 덱·우선순위 큐</td></tr>
-            <tr><td>21</td><td>[역량] 스택·큐를 활용한 프로그램 만들기</td></tr>
-            <tr><td>22</td><td>트리의 개념과 구성 요소</td></tr>
-            <tr><td>23</td><td>트리의 표현 — 인접 행렬과 인접 리스트</td></tr>
-            <tr><td>24</td><td>이진 트리와 순차 데이터 구조 표현</td></tr>
-            <tr><td>25</td><td>이진 탐색 트리의 규칙과 활용</td></tr>
-            <tr><td>26</td><td>그래프의 개념·종류와 표현</td></tr>
-            <tr><td>27</td><td>그래프 탐색 — 깊이 우선 탐색과 너비 우선 탐색</td></tr>
-          </tbody>
-        </table></div>
+        <h4>Ⅱ. 데이터 구조 · 6~9주차</h4>
+        <div class="tablewrap"><table><tbody>
+            <tr><td>6주차</td><td><ol><li>데이터 구조의 분류 / 스택의 개념(LIFO)</li><li>스택의 연산 — push, pop, peek, isEmpty</li><li>리스트로 스택 구현하기 · 활용 사례</li></ol></td></tr>
+            <tr><td>7주차</td><td><ol><li>큐의 개념(FIFO)과 연산</li><li>리스트로 큐 구현하기 / 덱·우선순위 큐</li><li>[역량] 스택·큐를 활용한 프로그램</li></ol></td></tr>
+            <tr><td>8주차</td><td><ol><li>트리의 개념과 구성 요소</li><li>트리의 표현 — 인접 행렬과 인접 리스트</li><li>이진 트리와 순차 데이터 구조 표현</li></ol></td></tr>
+            <tr><td>9주차</td><td><ol><li>이진 탐색 트리의 규칙과 활용</li><li>그래프의 개념·종류와 표현</li><li>그래프 탐색 — 깊이 우선·너비 우선 탐색</li></ol></td></tr>
+        </tbody></table></div>
       </div>
       <div class="u3">
-        <h4>Ⅲ. 알고리즘 · 28~41차시</h4>
-        <div class="tablewrap"><table>
-          <tbody>
-            <tr><td>28</td><td>알고리즘의 이해와 문제 해결 전략 네 가지</td></tr>
-            <tr><td>29</td><td>알고리즘 성능 평가 — 시간 복잡도와 공간 복잡도</td></tr>
-            <tr><td>30</td><td>빅오 표기법과 알고리즘 성능 비교</td></tr>
-            <tr><td>31</td><td>문제의 세 요소와 상태 공간</td></tr>
-            <tr><td>32</td><td>탐색 공간의 구조와 탐색 범위</td></tr>
-            <tr><td>33</td><td>전체 탐색 — 브루트 포스와 순차 탐색</td></tr>
-            <tr><td>34</td><td>비선형 전체 탐색 — DFS·BFS 적용</td></tr>
-            <tr><td>35</td><td>탐색 공간 배제와 이진 탐색</td></tr>
-            <tr><td>36</td><td>탐욕 알고리즘 — 거스름돈·시간표 문제</td></tr>
-            <tr><td>37</td><td>분기 한정 알고리즘과 백트래킹</td></tr>
-            <tr><td>38</td><td>문제 분해와 전체·부분 문제의 관계식</td></tr>
-            <tr><td>39</td><td>분할 정복법 — 퀵 정렬</td></tr>
-            <tr><td>40</td><td>분할 정복법 — 합병 정렬</td></tr>
-            <tr><td>41</td><td>동적 계획법 — 메모이제이션과 상향식 / 계단 오르기</td></tr>
-          </tbody>
-        </table></div>
+        <h4>Ⅲ. 알고리즘 · 10~13주차</h4>
+        <div class="tablewrap"><table><tbody>
+            <tr><td>10주차</td><td><ol><li>알고리즘의 이해와 문제 해결 전략 네 가지</li><li>알고리즘 성능 평가 — 시간·공간 복잡도</li><li>빅오 표기법과 알고리즘 성능 비교</li></ol></td></tr>
+            <tr><td>11주차</td><td><ol><li>문제의 세 요소와 상태 공간</li><li>탐색 공간의 구조·범위 / 전체 탐색과 순차 탐색</li><li>비선형 전체 탐색 — DFS·BFS 적용</li></ol></td></tr>
+            <tr><td>12주차</td><td><ol><li>탐색 공간 배제와 이진 탐색</li><li>탐욕 알고리즘 — 거스름돈·시간표 문제</li><li>분기 한정 알고리즘과 백트래킹</li></ol></td></tr>
+            <tr><td>13주차</td><td><ol><li>문제 분해와 전체·부분 문제의 관계식</li><li>분할 정복법 — 퀵 정렬과 합병 정렬</li><li>동적 계획법 — 메모이제이션과 상향식</li></ol></td></tr>
+        </tbody></table></div>
       </div>
       <div class="u4">
-        <h4>Ⅳ. 정보과학 프로젝트 · 42~51차시</h4>
-        <div class="tablewrap"><table>
-          <tbody>
-            <tr><td>42</td><td>정보과학으로 문제 해결하기 · 문제 해결 5단계</td></tr>
-            <tr><td>43</td><td>다양한 학문 분야의 문제 탐색 / 모둠 구성·주제 선정</td></tr>
-            <tr><td>44</td><td>[프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화</td></tr>
-            <tr><td>45</td><td>[프로젝트 ①] 알고리즘 설계와 프로그램 작성</td></tr>
-            <tr><td>46</td><td>[프로젝트 ②] 탄소 발자국 — 데이터 수집과 구조화</td></tr>
-            <tr><td>47</td><td>[프로젝트 ②] 다익스트라 알고리즘으로 구현하기</td></tr>
-            <tr><td>48</td><td>[프로젝트 ③] 교실 자리 배치 — 요구 사항 분석</td></tr>
-            <tr><td>49</td><td>[프로젝트 ③] 백트래킹으로 구현하기</td></tr>
-            <tr><td>50</td><td>프로그램 검증 및 디버깅 · 산출물 정리</td></tr>
-            <tr><td>51</td><td>프로젝트 발표와 상호 평가</td></tr>
-          </tbody>
-        </table></div>
+        <h4>Ⅳ. 정보과학 프로젝트 · 14~16주차</h4>
+        <div class="tablewrap"><table><tbody>
+            <tr><td>14주차</td><td><ol><li>정보과학으로 문제 해결하기 · 문제 해결 5단계</li><li>학문 분야별 문제 탐색 / 모둠 구성·주제 선정</li><li>[프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화</li></ol></td></tr>
+            <tr><td>15주차</td><td><ol><li>[프로젝트 ①] 알고리즘 설계와 프로그램 작성</li><li>[프로젝트 ②] 탄소 발자국 — 데이터 수집과 구조화</li><li>[프로젝트 ②] 다익스트라 알고리즘으로 구현하기</li></ol></td></tr>
+            <tr><td>16주차</td><td><ol><li>[프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계</li><li>[프로젝트 ③] 백트래킹 구현과 디버깅</li><li>산출물 정리 / 프로젝트 발표와 상호 평가</li></ol></td></tr>
+        </tbody></table></div>
       </div>
     </div>
   </details>
@@ -601,14 +562,14 @@
 <section class="unit u1" id="unit1">
   <div class="unit-head">
     <span class="roman">Ⅰ</span>
-    <span class="lesson">1~15차시</span>
+    <span class="lesson">1~5주차</span>
     <h2>프로그래밍</h2>
     <p class="goal">효율적인 프로그래밍을 위한 <b>함수</b>와 <b>재귀 구조</b>의 활용법을 익혀 다양한 분야의 문제를 해결한다.</p>
   </div>
 
   <!-- 1-1 -->
   <article class="topic" id="t1-1">
-    <h3><span class="idx">1-1</span> 함수의 이해 <span class="lesson">2~7차시</span></h3>
+    <h3><span class="idx">1-1</span> 함수의 이해 <span class="lesson">1~2주차</span></h3>
     <p class="lede">여러 줄짜리 작업을 이름 하나로 묶어 두고, 필요할 때마다 불러 쓰는 장치가 함수입니다.</p>
 
     <div class="analogy">
@@ -740,7 +701,7 @@ def print_global_drink():
 
   <!-- 1-2 -->
   <article class="topic" id="t1-2">
-    <h3><span class="idx">1-2</span> 함수의 활용 <span class="lesson">8~11차시</span></h3>
+    <h3><span class="idx">1-2</span> 함수의 활용 <span class="lesson">3~4주차</span></h3>
     <p class="lede">매개 변수를 더 유연하게 만들고, 여러 함수를 파일 단위로 묶어 모듈로 관리합니다.</p>
 
     <h4>기본값 매개 변수</h4>
@@ -890,7 +851,7 @@ robot1.run()</pre>
 
   <!-- 2-1 -->
   <article class="topic" id="t1-3">
-    <h3><span class="idx">2-1</span> 재귀 구조의 이해 <span class="lesson">12~14차시</span></h3>
+    <h3><span class="idx">2-1</span> 재귀 구조의 이해 <span class="lesson">5주차</span></h3>
     <p class="lede">큰 문제를 “같은 모양의 더 작은 문제”로 바꿔 가며 푸는 방식입니다.</p>
 
     <div class="analogy">
@@ -1041,7 +1002,7 @@ power(2, 5)   # 32</pre>
 
   <!-- 2-2 -->
   <article class="topic" id="t1-4">
-    <h3><span class="idx">2-2</span> 재귀 구조의 활용 <span class="lesson">15차시</span></h3>
+    <h3><span class="idx">2-2</span> 재귀 구조의 활용 <span class="lesson">5주차</span></h3>
     <p class="lede">숫자·문자열·하노이 탑·파일 탐색 — 재귀가 진짜 힘을 내는 문제들입니다.</p>
 
     <h4>① 숫자의 자릿수 합</h4>
@@ -1155,14 +1116,14 @@ def find_item(root_path, target):
 <section class="unit u2" id="unit2">
   <div class="unit-head">
     <span class="roman">Ⅱ</span>
-    <span class="lesson">16~27차시</span>
+    <span class="lesson">6~9주차</span>
     <h2>데이터 구조</h2>
     <p class="goal">데이터를 어떤 <b>모양의 그릇</b>에 담느냐에 따라 문제 해결의 효율이 달라진다. 선형 구조(스택·큐)와 비선형 구조(트리·그래프)를 익힌다.</p>
   </div>
 
   <!-- 1-1 스택 -->
   <article class="topic" id="t2-1">
-    <h3><span class="idx">1-1</span> 스택 — 나중에 넣은 것이 먼저 나온다 <span class="lesson">16~18차시</span></h3>
+    <h3><span class="idx">1-1</span> 스택 — 나중에 넣은 것이 먼저 나온다 <span class="lesson">6주차</span></h3>
     <p class="lede">한쪽 끝만 열려 있어서, 넣고 빼는 일이 모두 그 한 곳(top)에서만 일어납니다.</p>
 
     <div class="analogy">
@@ -1255,7 +1216,7 @@ def find_item(root_path, target):
 
   <!-- 1-2 큐 -->
   <article class="topic" id="t2-2">
-    <h3><span class="idx">1-2</span> 큐 — 먼저 온 사람이 먼저 나간다 <span class="lesson">19~21차시</span></h3>
+    <h3><span class="idx">1-2</span> 큐 — 먼저 온 사람이 먼저 나간다 <span class="lesson">7주차</span></h3>
     <p class="lede">양쪽이 열려 있어서, 넣는 곳(rear)과 빼는 곳(front)이 서로 다릅니다.</p>
 
     <div class="analogy">
@@ -1355,7 +1316,7 @@ def find_item(root_path, target):
 
   <!-- 2-1 트리 -->
   <article class="topic" id="t2-3">
-    <h3><span class="idx">2-1</span> 트리 — 계층을 표현하는 구조 <span class="lesson">22~25차시</span></h3>
+    <h3><span class="idx">2-1</span> 트리 — 계층을 표현하는 구조 <span class="lesson">8~9주차</span></h3>
     <p class="lede">학교 조직도, 폴더 구조처럼 위아래 관계가 있는 데이터를 담습니다.</p>
 
     <figure>
@@ -1442,7 +1403,7 @@ def find_item(root_path, target):
 
   <!-- 2-2 그래프 -->
   <article class="topic" id="t2-4">
-    <h3><span class="idx">2-2</span> 그래프 — 관계와 경로를 표현하는 구조 <span class="lesson">26~27차시</span></h3>
+    <h3><span class="idx">2-2</span> 그래프 — 관계와 경로를 표현하는 구조 <span class="lesson">9주차</span></h3>
     <p class="lede">트리보다 자유로운 구조. 사이클이 있어도 되고, 두 노드 사이에 여러 경로가 있어도 됩니다.</p>
 
     <div class="callout"><b>트리와 그래프의 관계</b> — 트리는 사실 그래프의 한 종류입니다. <b>사이클이 없고, 두 노드 사이 경로가 오직 하나뿐인</b> 그래프가 트리입니다.</div>
@@ -1569,14 +1530,14 @@ def bfs(cur):                       # 큐를 직접 사용
 <section class="unit u3" id="unit3">
   <div class="unit-head">
     <span class="roman">Ⅲ</span>
-    <span class="lesson">28~41차시</span>
+    <span class="lesson">10~13주차</span>
     <h2>알고리즘</h2>
     <p class="goal">같은 문제를 푸는 방법은 여럿이다. 그중 <b>어떤 방법이 더 효율적인지 판단하고</b>, 문제의 성격에 맞는 전략을 고르는 법을 배운다.</p>
   </div>
 
   <!-- 1-1 -->
   <article class="topic" id="t3-1">
-    <h3><span class="idx">1-1</span> 알고리즘의 이해 <span class="lesson">28차시</span></h3>
+    <h3><span class="idx">1-1</span> 알고리즘의 이해 <span class="lesson">10주차</span></h3>
     <p class="lede">알고리즘은 문제를 해결하는 체계적인 절차·방법입니다. 접근 방식에 따라 크게 두 갈래로 나뉩니다.</p>
 
     <figure>
@@ -1630,7 +1591,7 @@ def bfs(cur):                       # 큐를 직접 사용
 
   <!-- 1-2 -->
   <article class="topic" id="t3-2">
-    <h3><span class="idx">1-2</span> 알고리즘 복잡도 <span class="lesson">29~30차시</span></h3>
+    <h3><span class="idx">1-2</span> 알고리즘 복잡도 <span class="lesson">10주차</span></h3>
     <p class="lede">“얼마나 빠른가”를 컴퓨터 성능과 상관없이 비교하는 방법이 필요합니다.</p>
 
     <p><span class="kw">시간 복잡도</span>는 실행에 필요한 <b>연산의 수</b>, <span class="kw">공간 복잡도</span>는 사용하는 <b>메모리의 양</b>입니다. 둘은 대체로 반비례하므로 보통 시간 복잡도를 기준으로 평가합니다.</p>
@@ -1707,7 +1668,7 @@ def bfs(cur):                       # 큐를 직접 사용
 
   <!-- 2-1 -->
   <article class="topic" id="t3-3">
-    <h3><span class="idx">2-1</span> 탐색 기반 알고리즘의 이해 <span class="lesson">31~34차시</span></h3>
+    <h3><span class="idx">2-1</span> 탐색 기반 알고리즘의 이해 <span class="lesson">11주차</span></h3>
     <p class="lede">가능한 모든 경우를 “상태 공간”으로 그려 놓고, 그 안에서 답을 찾아가는 방식입니다.</p>
 
     <p>문제는 <b>초기 상태 · 목표 상태 · 행동</b> 세 요소로 정의됩니다. 초기 상태에서 목표 상태까지 가는 동안 거칠 수 있는 <b>모든 상태의 집합</b>이 <span class="kw">상태 공간</span>입니다.</p>
@@ -1768,7 +1729,7 @@ def bfs(cur):                       # 큐를 직접 사용
 
   <!-- 2-2 -->
   <article class="topic" id="t3-4">
-    <h3><span class="idx">2-2</span> 탐색 기반 알고리즘의 설계 — 탐색 공간 배제 <span class="lesson">35~37차시</span></h3>
+    <h3><span class="idx">2-2</span> 탐색 기반 알고리즘의 설계 — 탐색 공간 배제 <span class="lesson">12주차</span></h3>
     <p class="lede">“볼 필요 없는 곳은 아예 보지 않는다.” 이것이 탐색을 빠르게 만드는 가장 강력한 아이디어입니다.</p>
 
     <div class="analogy">
@@ -1897,7 +1858,7 @@ greedy_coin_change(63, [50, 10, 5, 1])   # [50, 10, 1, 1, 1]  최적!
 
   <!-- 3-1 -->
   <article class="topic" id="t3-5">
-    <h3><span class="idx">3-1</span> 관계 기반 알고리즘의 이해 — 분할 정복 <span class="lesson">38~40차시</span></h3>
+    <h3><span class="idx">3-1</span> 관계 기반 알고리즘의 이해 — 분할 정복 <span class="lesson">13주차</span></h3>
     <p class="lede">문제를 쪼개고, 전체와 부분 사이의 <b>관계식</b>을 찾아내 해결합니다.</p>
 
     <p>문제를 분해하면 ① 구조가 잘 보이고 ② 부분 문제 코드를 재사용할 수 있으며 ③ 전체와 부분의 <b>관계</b>를 발견할 수 있습니다. 이 관계식은 대개 수학적 귀납법 형태로 표현되고, 그대로 재귀 함수가 됩니다.</p>
@@ -2012,7 +1973,7 @@ quicksort([7, 5, 9, 4, 1])   # [1, 4, 5, 7, 9]</pre>
 
   <!-- 3-2 -->
   <article class="topic" id="t3-6">
-    <h3><span class="idx">3-2</span> 관계 기반 알고리즘의 설계 — 동적 계획법 <span class="lesson">41차시</span></h3>
+    <h3><span class="idx">3-2</span> 관계 기반 알고리즘의 설계 — 동적 계획법 <span class="lesson">13주차</span></h3>
     <p class="lede">한 번 계산한 답을 적어 두었다가 다시 쓰는 것. 그것만으로 속도가 극적으로 달라집니다.</p>
 
     <figure>
@@ -2132,14 +2093,14 @@ print(dp[n])   # 55</pre>
 <section class="unit u4" id="unit4">
   <div class="unit-head">
     <span class="roman">Ⅳ</span>
-    <span class="lesson">42~51차시</span>
+    <span class="lesson">14~16주차</span>
     <h2>정보과학 프로젝트</h2>
     <p class="goal">앞의 세 단원에서 배운 것을 모두 꺼내 쓴다. 실생활 문제를 찾아 <b>직접 프로그램으로 해결</b>하는 단원.</p>
   </div>
 
   <!-- 1-1 -->
   <article class="topic" id="t4-1">
-    <h3><span class="idx">1-1</span> 정보과학과 문제 해결 <span class="lesson">42~43차시</span></h3>
+    <h3><span class="idx">1-1</span> 정보과학과 문제 해결 <span class="lesson">14주차</span></h3>
     <p class="lede">데이터를 모으고 분석해서 실제 변화를 만들어 내는 과정, 그 표준 절차를 익힙니다.</p>
 
     <figure>
@@ -2207,7 +2168,7 @@ print(dp[n])   # 55</pre>
 
   <!-- 1-2 -->
   <article class="topic" id="t4-2">
-    <h3><span class="idx">1-2</span> 프로젝트 ① 급식 잔반 최소화 <span class="lesson">44~45차시</span></h3>
+    <h3><span class="idx">1-2</span> 프로젝트 ① 급식 잔반 최소화 <span class="lesson">14~15주차</span></h3>
     <p class="lede">카테고리마다 메뉴를 하나씩 골라 전체 잔반량이 가장 적은 조합을 찾습니다.</p>
 
     <div class="tablewrap">
@@ -2228,7 +2189,7 @@ print(dp[n])   # 55</pre>
 
   <!-- 2-1 -->
   <article class="topic" id="t4-3">
-    <h3><span class="idx">2-1</span> 프로젝트 ② 탄소 발자국 계산 <span class="lesson">46~47차시</span></h3>
+    <h3><span class="idx">2-1</span> 프로젝트 ② 탄소 발자국 계산 <span class="lesson">15주차</span></h3>
     <p class="lede">장소를 노드, 이동할 때 나오는 탄소 배출량을 가중치로 놓고 <b>최소 배출 경로</b>를 찾습니다.</p>
 
     <div class="tablewrap">
@@ -2249,7 +2210,7 @@ print(dp[n])   # 55</pre>
 
   <!-- 2-2 -->
   <article class="topic" id="t4-4">
-    <h3><span class="idx">2-2</span> 프로젝트 ③ 교실 자리 배치 <span class="lesson">48~51차시</span></h3>
+    <h3><span class="idx">2-2</span> 프로젝트 ③ 교실 자리 배치 <span class="lesson">16주차</span></h3>
     <p class="lede">고정 자리, 선호 자리, 이전 자리 회피 — 여러 조건을 동시에 만족시키는 배치를 찾습니다.</p>
 
     <div class="tablewrap">
