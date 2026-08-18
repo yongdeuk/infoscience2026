@@ -3435,7 +3435,64 @@ print('최대 가치:', dp[n][W])   # 7</pre>
       </table>
     </div>
 
-    <div class="callout"><b>다른 학문 분야에서도</b> — 생명과학(유전자 편집 정확도), 화학(단백질 접힘 구조 예측), 지구과학(기후 변화 시뮬레이션), 물리학(중력파 탐지). 모두 “문제 구조화 → 알고리즘 설계”라는 같은 틀로 접근합니다.</div>
+    <h4>정보과학으로 문제를 해결한 사례</h4>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>사례</th><th>쓰인 기술</th><th>기대 효과</th></tr></thead>
+        <tbody>
+          <tr><td>스마트팜</td><td>IoT 센서·빅데이터 분석·드론으로 토양 수분, 영양 상태, 날씨를 실시간 모니터링</td><td>생산성 향상, 자원 사용 최적화, 병충해 예방, 노동력 절감</td></tr>
+          <tr><td>스마트 교통 시스템</td><td>IoT 센서·빅데이터·AI로 교통량, 차량 속도, 사고 위험 지역 모니터링</td><td>교통량 관리, 혼잡 시간대 예측과 경로 분산, 교통사고 예방</td></tr>
+          <tr><td>대기질 모니터링</td><td>도시 곳곳의 IoT 센서로 오염 물질 측정·시각화·예측</td><td>시민 건강 보호, 오염원 저감 정책 수립</td></tr>
+          <tr><td>스마트 물류</td><td>AI 수요 예측, RFID 태그로 실시간 추적</td><td>재고 관리, 운송 경로·배송 시간 최적화, 공급망 효율 극대화</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>다양한 학문 분야의 문제</h4>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>분야 · 문제</th><th>문제 분석 및 구조화</th><th>알고리즘 설계</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>생명과학</b><br>CRISPR-Cas9 유전자 편집 정확도</td>
+            <td>목표가 아닌 유사 DNA를 잘못 수정하는 오프 타깃 위험. 표적 탐지 → 오프 타깃 예측 → 편집 성공률 평가로 구조화</td>
+            <td>서열 비교 알고리즘으로 표적 탐지, 딥러닝으로 오프 타깃 위험 예측, <b>베이즈 최적화</b>로 최적 RNA 생성</td>
+          </tr>
+          <tr>
+            <td><b>화학</b><br>단백질 접힘 구조 예측(AlphaFold)</td>
+            <td>아미노산 서열이 3차원으로 접히는 과정이 매우 복잡. 데이터 학습 → 접힘 경로 시뮬레이션 → 에너지 최소화 → 3D 구조 생성</td>
+            <td>딥러닝으로 서열–구조 관계 학습, <b>몬테카를로 시뮬레이션</b>으로 접힘 경로 계산, 에너지 최소화로 안정 구조 탐색</td>
+          </tr>
+          <tr>
+            <td><b>지구과학</b><br>기후 변화 시뮬레이션</td>
+            <td>대기 온도·해수면·온실가스 농도 변화 예측. 데이터 입력 → 대기·해양 순환 모델 → 시나리오 생성</td>
+            <td>대기·해양 변화를 작은 부분으로 나눠 계산, 카오스 이론으로 상호 작용 모델링, 머신러닝으로 학습·시각화</td>
+          </tr>
+          <tr>
+            <td><b>물리학</b><br>중력파 탐지(LIGO)</td>
+            <td>지진·바람·기기 진동 노이즈가 미세한 중력파 탐지를 방해. 수집 → 노이즈 제거 → 신호 탐지 → 물리량 추정</td>
+            <td><b>푸리에 변환</b>으로 주파수 변환, 패턴 매칭으로 이론 파형과 비교, <b>베이즈 추론</b>으로 블랙홀 질량·충돌 속도 계산</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>용어</b> — <b>푸리에 변환</b>: 복잡한 신호를 단순한 파동들의 조합으로 쪼개는 방법 · <b>베이즈 추론</b>: 새 정보로 기존 생각을 업데이트하는 방법 · <b>베이즈 최적화</b>: 이전 실험 결과를 바탕으로 다음에 어디를 시도할지 예측 · <b>몬테카를로 시뮬레이션</b>: 많은 실험을 수행해 전체 경향을 예측하는 방법</div>
+
+    <div class="drill">
+      <span class="lbl">역량 키우기 · 수행 활동</span>
+      <p><b>산불 발생 감소 및 예방 방안</b>을 정보과학으로 설계해 보자. 산불의 주요 원인은 입산자의 취사 행위로 인한 실화, 쓰레기 소각, 영농 부산물 불법 소각, 버려진 담배 순입니다.</p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>단계</th><th>작성 예시</th></tr></thead>
+        <tbody>
+          <tr><td>문제 정의</td><td>산불 발생 줄이기 — <b>초기 상태</b>: 한 해 175건 발생 / <b>목표 상태</b>: 연간 100건 이하로 감축</td></tr>
+          <tr><td>문제 분석 및 구조화</td><td>원인은 입산자 실화와 불법 소각이며 건조한 날씨·강풍이 확률을 높임. 기상 데이터와 산불 발생 데이터를 분석해 <b>고위험 지역과 시기</b> 도출</td></tr>
+          <tr><td>해결 방안 모색</td><td>탐욕 알고리즘으로 확산 가능성이 높은 지역을 기준으로 방화선 구축</td></tr>
+          <tr><td>해결 방안 검증</td><td>한정된 자원을 효율적으로 배분할 수 있기 때문</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <div class="callout"><b>UN 지속가능발전목표(SDGs)</b> — 이 단원의 프로젝트는 UN이 채택한 17개 목표 중 <b>12. 책임있는 소비와 생산</b>, <b>13. 기후 행동</b>, <b>4. 양질의 교육</b>과 연결됩니다. 오픈 소스를 활용하고 수행한 프로젝트를 공유하며 협업하는 것 자체가 더 좋은 사회를 만드는 데 도움이 됩니다.</div>
   </article>
 
   <!-- 1-2 -->
@@ -3456,7 +3513,105 @@ print('최대 가치:', dp[n][W])   # 7</pre>
       </table>
     </div>
 
-    <div class="callout">해결 방안은 두 갈래로 구조화됩니다. <b>조리량 조정</b>(메뉴별 잔반 데이터 분석·선호도 조사·미식사 인원 사전 조사)과 <b>학생 인식 개선</b>(환경 영향 교육·메뉴 계획 참여·책임 의식 부여). UN 지속가능발전목표 <b>12. 책임있는 소비와 생산</b>과 연결됩니다.</div>
+    <h4>1단계 · 문제 발견 및 구조화</h4>
+    <p>음식물 쓰레기는 환경·경제·사회 모든 측면에서 문제를 일으킵니다.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>측면</th><th>문제</th></tr></thead>
+        <tbody>
+          <tr><td>환경</td><td>쓰레기 처리 과정에서 나오는 <b>메탄가스</b>는 이산화탄소보다 25배나 강하다</td></tr>
+          <tr><td>경제</td><td>음식물 쓰레기를 처리하는 데 매우 많은 비용이 든다</td></tr>
+          <tr><td>사회</td><td>한쪽에서는 식량이 낭비되는데 다른 한편에서는 많은 사람이 굶주린다</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>지표</th><th class="num">값</th></tr></thead>
+        <tbody>
+          <tr><td>하루 음식물 쓰레기 평균 발생량</td><td class="num">약 14,314톤</td></tr>
+          <tr><td>연간 처리 비용</td><td class="num">8천억 원</td></tr>
+          <tr><td>연간 온실가스 배출량</td><td class="num">885만 톤</td></tr>
+          <tr><td>연간 경제적 손실</td><td class="num">20조 원</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lab-note" style="font-size:.82rem">출처: 환경부, 한국환경공단</p>
+
+    <p><b>수집한 데이터</b> — 영양 선생님 면담 결과 학생 1명이 남기는 평균 잔반은 약 170g(고등학생 연간 33kg ÷ 190일 ≈ 173g). 처리 비용은 1톤당 약 13~15만 원. 잔반 1kg당 <b>1.65kg CO₂</b>의 온실가스가 발생하며, 이는 소나무 다섯 그루가 흡수하는 양과 비슷합니다. 선호도가 높은 음식이 나오면 잔반량이 줄었습니다.</p>
+    <div class="callout"><b>데이터 수집 시 유의 사항</b> — ① 다양한 데이터를 충분히 모아 문제의 본질을 이해한다 ② 배경 지식을 사전에 학습한다 ③ 면담 전에 질문 목록을 준비한다 ④ 출처를 명확히 해 신뢰할 수 있는 데이터를 모은다.</div>
+
+    <p><b>해결 방안 구조화</b> — 두 갈래로 정리됩니다.</p>
+    <ul>
+      <li><b>조리량 조정</b> ① 메뉴별 평균 잔반량을 분석해 적정 조리량 계산 ② 선호도 조사로 인기 메뉴는 늘리고 비인기 메뉴는 줄이기 ③ 급식을 먹지 않는 학생 수를 미리 조사해 식재료 낭비 줄이기</li>
+      <li><b>학생 인식 개선</b> ① 잔반의 환경 영향 교육 ② 메뉴 계획에 학생 참여 ③ 먹겠다고 하고 먹지 않는 경우에 대한 책임 의식 부여</li>
+    </ul>
+
+    <h4>2단계 · 알고리즘 설계</h4>
+    <p>각 카테고리에서 메뉴를 하나씩 골라 <b>전체 잔반량이 최소</b>가 되는 조합을 찾습니다. 카테고리별 선택을 부분 문제로 나누고, 이미 계산한 상태는 저장해 두어 중복 계산을 피합니다.</p>
+
+    <h4>3단계 · 프로그램 작성</h4>
+    <p class="codecap">① 데이터 입력 — 딕셔너리로 메뉴와 카테고리 정의</p>
+    <pre>menu_data = {
+    '닭고기': {'waste': 40}, '돼지고기': {'waste': 50}, '소고기': {'waste': 30},
+    '브로콜리': {'waste': 20}, '시금치': {'waste': 25}, '양배추': {'waste': 35},
+    '미역국': {'waste': 50}, '된장국': {'waste': 20}, '김치찌개': {'waste': 40},
+    '김치': {'waste': 15}, '멸치볶음': {'waste': 35}, '나물': {'waste': 25}
+}
+
+categories = {
+    '고기': ['닭고기', '돼지고기', '소고기'],
+    '야채': ['브로콜리', '시금치', '양배추'],
+    '국':   ['미역국', '된장국', '김치찌개'],
+    '반찬': ['김치', '멸치볶음', '나물']
+}</pre>
+
+    <p class="codecap">② 알고리즘 구현 — 동적 계획법</p>
+    <pre>def dp_minimize_waste(menu_data, categories):
+    category_keys = list(categories.keys())   # (1) 카테고리 개수 계산
+    n = len(category_keys)                    #     여기서는 4
+    dp = {}                                   #     동적 테이블
+
+    def get_min_waste(index, chosen):
+        if index == n:                        # (2)-① 종료 조건
+            return 0, []                      #      모두 골랐으면 낭비 0
+        if (index, tuple(chosen)) in dp:      # (2)-② 중복 계산 확인
+            return dp[(index, tuple(chosen))]
+
+        min_waste = float('inf')              # (2)-③ 초기화
+        best_combination = []
+
+        current_category = category_keys[index]          # (3) 최소 조합 찾기
+        for menu in categories[current_category]:
+            if menu not in chosen:
+                chosen.append(menu)
+                waste, combination = get_min_waste(index + 1, chosen)
+                waste += menu_data[menu]['waste']        # 현재 메뉴의 잔반 더하기
+                if waste &lt; min_waste:
+                    min_waste = waste
+                    best_combination = [menu] + combination
+                chosen.pop()                             # 되돌리기
+
+        dp[(index, tuple(chosen))] = (min_waste, best_combination)
+        return min_waste, best_combination
+
+    return get_min_waste(0, [])               # (4) 계산 시작</pre>
+
+    <p class="codecap">③ 메인 함수 실행 및 결과 출력</p>
+    <pre>min_waste, best_menu = dp_minimize_waste(menu_data, categories)
+print('최적 메뉴 조합:', best_menu)
+print('최소 잔반량:', min_waste, 'g')
+# 최적 메뉴 조합: ['소고기', '브로콜리', '된장국', '김치']
+# 최소 잔반량: 85 g</pre>
+
+    <div class="drill">
+      <span class="lbl">해 보기</span>
+      <ol>
+        <li>우리 학교 급식 상황에 맞게 카테고리와 메뉴를 정하고 잔반량을 지정해 <code>menu_data</code>를 다시 만들어 보자.</li>
+        <li>우리 학교의 잔반량·처리 비용 데이터를 직접 수집하고, 전국 평균과 비교해 보자.</li>
+        <li>모둠원의 역할을 나누고 문제를 정의해 보자.</li>
+      </ol>
+    </div>
   </article>
 
   <!-- 2-1 -->
@@ -3478,6 +3633,87 @@ print('최대 가치:', dp[n][W])   # 7</pre>
     </div>
 
     <div class="callout">우선순위 큐를 쓰면 <b>지금까지 배출량이 가장 적은 경로부터</b> 먼저 처리하고, 이미 확정된 노드는 다시 보지 않습니다. Ⅲ단원에서 배운 <b>탐색 공간 배제</b>가 그대로 적용된 사례입니다. UN 지속가능발전목표 <b>13. 기후 행동</b>과 연결됩니다.</div>
+
+    <h4>1단계 · 문제 발견 및 구조화</h4>
+    <p><span class="kw">탄소 발자국</span>은 개인·기업·국가가 활동하거나 상품을 생산·소비하는 과정에서 발생하는 온실가스, 특히 이산화탄소의 총량입니다. 클수록 배출량이 많다는 뜻이며, 줄이면 지구 온난화 문제 해결에 기여합니다.</p>
+    <p><b>수집할 데이터</b> — ① 교통수단 사용 정보(주요 수단, 주행 거리, 연비) ② 가정 내 에너지 소비량(전기·가스·물) ③ 식품 소비 정보(음식 종류, 수입 여부) ④ 제품 사용과 폐기 정보(사용 기간, 폐기 시 배출량)</p>
+    <p><b>분석할 내용</b> — ① 활동별 탄소 배출 영향 비교 ② 개인 활동에 따른 배출량 계산 ③ 개인별 감축 목표 설정(자전거로 등교하기, 샤워 10분 안에 끝내기, 노트북 사용 1시간 줄이기 등)</p>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>활동</th><th class="num">배출 계수</th></tr></thead>
+        <tbody>
+          <tr><td>전기 사용 (1kWh)</td><td class="num">0.474</td></tr>
+          <tr><td>버스 이용 (1km)</td><td class="num">0.1</td></tr>
+          <tr><td>LPG 사용 (1L)</td><td class="num">1.5</td></tr>
+          <tr><td>플라스틱 사용 (1kg)</td><td class="num">2.5</td></tr>
+          <tr><td>쌀 섭취 (1kg)</td><td class="num">2.7</td></tr>
+          <tr><td>소고기 섭취 (1kg)</td><td class="num">27</td></tr>
+          <tr><td>채소 섭취 (1kg)</td><td class="num">0.5</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>탄소 발자국 = 활동량 × 배출 계수.</b> 배출 계수는 특정 활동에서 나오는 온실가스 환산값으로, 기준 단위·산정 시기·기관에 따라 달라질 수 있으니 최신 자료를 참고해야 합니다. (참고: 온실가스종합정보센터, 에너지관리공단)</div>
+
+    <p><b>해결 방안 구조화</b> — ① <b>대안 행동</b> 제안(자동차 대신 자전거·대중교통, 재활용 가능 제품 구매) ② <b>탄소 배출 시각화</b>(실천한 행동이 얼마나 줄였는지 그래프로 확인) ③ <b>사회적 활동과 연계</b>(학교·지역 사회의 탄소 중립 챌린지 참여)</p>
+
+    <h4>3단계 · 프로그램 작성</h4>
+    <p class="codecap">① 데이터 입력 — 장소 간 이동 시 배출되는 탄소량(g CO₂)</p>
+    <pre>carbon_network = {
+    '집':     {'학교': 300, '도서관': 450, '카페': 600},
+    '학교':   {'집': 300, '학원': 200, '도서관': 250},
+    '학원':   {'학교': 200, '카페': 150},
+    '도서관': {'집': 450, '학교': 250, '카페': 100},
+    '카페':   {'집': 600, '학원': 150, '도서관': 100}
+}
+# '집': {'학교': 300, …} 은 집에서 학교로 가면 300g CO2가 나온다는 뜻</pre>
+
+    <p class="codecap">② 알고리즘 구현 — 다익스트라</p>
+    <pre>import heapq
+
+def dijkstra(graph, start):
+    # (1) 초기 설정 — 모든 장소를 무한대로, 출발점만 0
+    co2 = {node: float('inf') for node in graph}
+    co2[start] = 0
+    priority_queue = [(0, start)]      # (배출량, 장소) 튜플
+    step_count = 1
+
+    while priority_queue:
+        # (2) 방문할 장소 선택 — 배출량이 가장 적은 것부터
+        current_co2, current_node = heapq.heappop(priority_queue)
+        if current_co2 &gt; co2[current_node]:
+            continue                   # 이미 더 좋은 경로가 있으면 무시
+
+        # (3) 배출량 업데이트
+        for neighbor, co2_amount in graph[current_node].items():
+            new_co2 = current_co2 + co2_amount
+            if new_co2 &lt; co2[neighbor]:            # 더 적으면 갱신
+                co2[neighbor] = new_co2
+                heapq.heappush(priority_queue, (new_co2, neighbor))
+
+        # (4) 알고리즘 단계 출력 — 과정을 눈으로 확인
+        print(f'[{step_count}단계] 현재 장소: {current_node}, '
+              f'누적 배출량: {current_co2}')
+        print('  배출량 상태:', co2)
+        print('  우선순위 큐:', priority_queue)
+        step_count += 1
+
+    return co2</pre>
+    <div class="callout"><code>float('inf')</code>로 초기화하는 이유는 <b>아직 그 장소로 가는 경로를 찾지 못했음</b>을 나타내기 위해서입니다. <code>heapq</code>는 파이썬의 우선순위 큐 모듈로, 가장 작은 값을 먼저 꺼냅니다.</div>
+
+    <p class="codecap">③ 메인 함수 실행 및 결과 출력</p>
+    <pre>result = dijkstra(carbon_network, '집')
+target = '학원'
+print(f'\\n집에서 {target}까지 최소 탄소 배출량: {result[target]}g CO2')</pre>
+
+    <div class="drill">
+      <span class="lbl">해 보기</span>
+      <ol>
+        <li>학교를 기준으로 주변 장소를 정하고 이동 거리를 조사해 <code>carbon_network</code>에 반영해 보자.</li>
+        <li>일상 활동의 탄소 발자국을 조사해 표를 채워 보자. (일회용 컵 1개 사용 = 11g / 샤워 15분 / 헤어드라이기 5분 / 세탁기 1시간 / 노트북 4시간 / TV 2시간 / 냉장고 24시간 / 전기밥솥 10시간 / 교실 형광등 10시간)</li>
+        <li>탄소 발자국과 관련해 궁금한 점을 질문으로 적고, 모둠에서 해결할 문제를 정의해 보자.</li>
+      </ol>
+    </div>
   </article>
 
   <!-- 2-2 -->
@@ -3499,6 +3735,120 @@ print('최대 가치:', dp[n][W])   # 7</pre>
     </div>
 
     <div class="callout"><b>왜 클래스를 쓸까?</b> 학생 한 명이 이름·고정 자리·선호 자리·이전 자리·이전 짝을 한꺼번에 갖고 있기 때문입니다. 관련된 데이터와 기능을 하나의 객체로 묶으면 코드가 훨씬 정리됩니다. UN 지속가능발전목표 <b>4. 양질의 교육</b>과 연결됩니다.</div>
+
+    <h4>1단계 · 문제 분석 및 구조화</h4>
+    <p>제비뽑기나 완전 무작위 프로그램은 학생들의 다양한 요구를 반영하기 어렵습니다. 요구 사항을 모아 <b>중요도에 따라 우선순위</b>를 정합니다.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>구분</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td>최우선 고려 사항</td><td>고정 자리 배정하기</td></tr>
+          <tr><td>고려 사항 우선순위</td><td>선호하는 자리에 앉기 → 이전 자리에 안 앉기 → 무작위로 자리 배정하기</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><b>교실 데이터</b>는 행과 열로 이루어진 2차원 격자로 정의하고, 짝과 함께 앉는 형태인지 여부를 입력받습니다. <b>학생 데이터</b>는 스프레드시트에서 다루기 쉬운 <code>.csv</code> 파일로 관리합니다.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>학생 이름</th><th>고정 자리</th><th>선호(앞)</th><th>선호(뒤)</th><th>이전 자리</th><th>이전 짝 이름</th></tr></thead>
+        <tbody><tr><td>구민지</td><td>(0, 0)</td><td>0</td><td>0</td><td>(1, 2)</td><td>최지영</td></tr></tbody>
+      </table>
+    </div>
+
+    <p><b>기능 구조화</b> — 복잡한 문제를 작은 단위로 나눕니다.</p>
+    <ol>
+      <li><b>데이터 입력 및 초기화</b> — 교실·학생 데이터를 읽어 다루기 쉬운 형태로 변환</li>
+      <li><b>고정 자리 배정</b> — 지정된 자리에 우선 배치</li>
+      <li><b>선호도 반영 자리 배정</b> — 가능한 한 많은 학생의 선호를 만족(이전 자리 안 앉기 조건 반영)</li>
+      <li><b>무작위 자리 배정</b> — 남은 학생을 빈자리에 배치</li>
+      <li><b>저장 및 출력</b> — 결과를 화면에 출력하고 파일로 저장</li>
+    </ol>
+
+    <h4>3단계 · 프로그램 작성</h4>
+    <p class="codecap">① Student 클래스</p>
+    <pre>class Student:
+    def __init__(self, name, fixed_seat=None, preferred_seat=None,
+                 previous_seat=None, previous_partner=None):
+        self.name = name
+        self.fixed_seat = fixed_seat
+        # 기본값을 딕셔너리로 직접 쓰지 않는 이유는 아래 설명 참고
+        self.preferred_seat = preferred_seat if preferred_seat else {'front': 0, 'back': 0}
+        self.previous_seat = previous_seat
+        self.previous_partner = previous_partner</pre>
+    <div class="callout"><b>매개 변수 기본값에 딕셔너리를 쓰면 안 되는 이유</b> — 기본값 딕셔너리는 함수가 호출될 때마다 새로 만들어지지 않고 <b>하나의 객체를 모든 호출이 공유</b>합니다. 한 학생의 선호를 바꿨는데 다른 학생까지 바뀌는 사고가 납니다. 그래서 기본값은 <code>None</code>으로 두고 함수 안에서 새로 만들어 줍니다.</div>
+
+    <p class="codecap">② Classroom 클래스</p>
+    <pre>class Classroom:
+    def __init__(self, rows, cols, allow_prev_seat):
+        self.rows = rows
+        self.cols = cols
+        self.seats = [[None for _ in range(cols)] for _ in range(rows)]
+        self.allow_prev_seat = allow_prev_seat    # 이전 자리 허용 여부
+
+    def assign_seat(self, row, col, student):     # 특정 자리에 학생 배정
+        self.seats[row][col] = student
+
+    def display_seats(self):                      # 현재 배치 상태 출력
+        for row in self.seats:
+            for student in row:
+                if isinstance(student, Student):
+                    print(f'{student.name:&lt;6}', end='')   # 왼쪽 정렬, 너비 6
+                else:
+                    print(f'{"빈자리":&lt;6}', end='')
+            print()
+        print()</pre>
+
+    <p class="codecap">③ 단위 테스트로 중간 확인</p>
+    <pre>if __name__ == '__main__':
+    classroom = Classroom(4, 4, False)
+    print('\\n***** 초기 자리 배치 상태 *****')
+    classroom.display_seats()
+
+# ***** 초기 자리 배치 상태 *****
+# 빈자리   빈자리   빈자리   빈자리
+# 빈자리   빈자리   빈자리   빈자리
+# 빈자리   빈자리   빈자리   빈자리
+# 빈자리   빈자리   빈자리   빈자리</pre>
+    <div class="callout"><b>단위 테스트</b>는 개별 함수나 메소드가 예상대로 동작하는지 검증하는 것입니다. 실행 중간에 현재 상태를 출력해 보는 것도 단위 테스트의 한 형태입니다. 이 프로젝트는 <b>만들면서 동시에 확인</b>하는 방식으로 진행합니다.</div>
+
+    <p class="codecap">④ 메인 실행 흐름</p>
+    <pre>import os
+
+classroom = Classroom(4, 4, False)
+students = load_students_from_csv('students.csv')
+
+remaining_students = assign_fixed_seats(classroom, students)   # 고정 자리 먼저
+
+print('\\n***** 이전 자리 배치 상태 출력 *****')
+if os.path.exists('result.csv'):
+    read_csv_display('result.csv')
+
+print('\\n***** 선호도 반영 자리 배치 결과 *****')
+assign_seats(classroom, remaining_students)                    # 선호도 + 무작위
+classroom.display_seats()
+
+update_data(classroom, students)
+save_students_to_csv('students.csv', students)
+export_classroom_seating_to_csv(classroom, 'result.csv')</pre>
+
+    <h4>4단계 · 프로그램 검증 및 디버깅</h4>
+    <p>‘이전 짝 피하기’ 기능을 새로 추가하면서 생기는 오류를 찾아 고쳐 봅니다.</p>
+    <ol>
+      <li><code>students.csv</code>와 <code>Student</code> 클래스에 <b>이전 짝</b>(<code>previous_partner</code>) 정보를 추가한다</li>
+      <li><code>Classroom</code> 클래스에 <code>allow_prev_partner</code> 속성을 추가하고, 객체 생성 시 True/False를 저장한다</li>
+      <li><code>load_students_from_csv()</code>가 이전 짝 정보도 함께 읽어 오도록 한다</li>
+      <li>배치할 때 <code>is_safe()</code> 함수에서 <b>현재 짝이 이전 짝인지</b> 검사하도록 한다</li>
+    </ol>
+    <div class="callout"><b>발생하는 오류</b> — 앞줄에 고정 자리 2명, 앞자리 선호 학생 2명이 있고 이전 자리·이전 짝을 모두 허용하지 않으면 조건이 서로 충돌해 <b>배정 실패</b>가 납니다. (“구정식은 이전 짝꿍인 강민재의 옆자리이기 때문에 (0, 3)에 앉을 수 없습니다” → “선호도 반영한 앞자리 배정 실패”) 조건이 너무 많아 <b>해가 존재하지 않는 상황</b>을 어떻게 처리할지가 디버깅의 핵심입니다.</div>
+
+    <div class="drill">
+      <span class="lbl">해 보기</span>
+      <ol>
+        <li>우리 반의 교실 데이터와 학생 데이터를 구조화하고, 모둠이 최우선으로 고려할 사항을 정해 배치 과정을 설계해 보자.</li>
+        <li>우리 모둠의 최우선 고려 사항에 맞춰 <code>.csv</code> 파일을 만들고 클래스를 정의해 보자.</li>
+        <li>조건이 충돌해 배정이 불가능할 때 <b>어떤 조건부터 완화할지</b> 정책을 정하고 코드에 반영해 보자.</li>
+      </ol>
+    </div>
 
     <div class="points">
       <span class="lbl">세 프로젝트를 관통하는 것</span>
