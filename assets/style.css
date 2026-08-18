@@ -10,8 +10,10 @@ button,input,select,textarea{font:inherit}
     --ink:#141922; --ink2:#48525f; --ink3:#7a838f;
     --line:#dde2e8; --line-2:#eef1f5;
     --code-bg:#f0f3f6; --code-ink:#1d2530;
+    --dot:#dfe4ec; --hair:#eaeef3;
     --accent:#3a4bb0; --accent-soft:#e6e9fa; --accent-ink:#26307a;
     --shadow:0 1px 2px rgba(20,25,34,.05), 0 8px 24px -16px rgba(20,25,34,.28);
+    --lift:0 1px 2px rgba(20,25,34,.05), 0 14px 30px -20px rgba(20,25,34,.45);
     --display:'Malgun Gothic Semilight','Pretendard','Apple SD Gothic Neo','Malgun Gothic','맑은 고딕',sans-serif;
     --serif:'Nanum Myeongjo','NanumMyeongjo','Batang','바탕',Georgia,serif;
     --sans:'Pretendard','Apple SD Gothic Neo','Malgun Gothic','맑은 고딕','Noto Sans KR',system-ui,sans-serif;
@@ -23,8 +25,10 @@ button,input,select,textarea{font:inherit}
       --ink:#e7ebf1; --ink2:#adb6c2; --ink3:#7f8895;
       --line:#262d38; --line-2:#1e242d;
       --code-bg:#0d131b; --code-ink:#d5dce6;
+      --dot:#232a35; --hair:#1c222b;
       --accent:#8f9dff; --accent-soft:#1a2040; --accent-ink:#b6c0ff;
       --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+      --lift:0 1px 2px rgba(0,0,0,.5), 0 14px 30px -20px rgba(0,0,0,.9);
     }
   }
   :root[data-theme="dark"]{
@@ -32,8 +36,10 @@ button,input,select,textarea{font:inherit}
     --ink:#e7ebf1; --ink2:#adb6c2; --ink3:#7f8895;
     --line:#262d38; --line-2:#1e242d;
     --code-bg:#0d131b; --code-ink:#d5dce6;
+    --dot:#232a35; --hair:#1c222b;
     --accent:#8f9dff; --accent-soft:#1a2040; --accent-ink:#b6c0ff;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+    --lift:0 1px 2px rgba(0,0,0,.5), 0 14px 30px -20px rgba(0,0,0,.9);
   }
 
   *{box-sizing:border-box}
@@ -68,10 +74,22 @@ button,input,select,textarea{font:inherit}
 
   /* ---------- masthead ---------- */
   .masthead{
+    position:relative; overflow:hidden;
     border-bottom:1px solid var(--line); background:var(--surface);
-    padding:clamp(2.5rem,6vw,4.5rem) 1.25rem clamp(2rem,4vw,3rem);
+    padding:clamp(3rem,7vw,5.5rem) 1.25rem clamp(2.2rem,4vw,3.2rem);
   }
-  .masthead-in{max-width:1120px; margin:0 auto; display:flex; flex-direction:column; gap:1.1rem}
+  /* 아주 옅은 격자 — 모눈종이·픽셀 격자를 연상시키되 글 읽기를 방해하지 않는 농도 */
+  .masthead::before{
+    content:''; position:absolute; inset:0; pointer-events:none;
+    background-image:radial-gradient(circle at 1px 1px, var(--dot) 1px, transparent 0);
+    background-size:22px 22px;
+    -webkit-mask-image:linear-gradient(to bottom, #000 0%, transparent 72%);
+    mask-image:linear-gradient(to bottom, #000 0%, transparent 72%);
+  }
+  .masthead-in{
+    position:relative; max-width:1120px; margin:0 auto;
+    display:flex; flex-direction:column; gap:1.1rem;
+  }
   .masthead h1{
     font-family:var(--display); font-weight:300;
     font-size:clamp(2.5rem,6.4vw,4rem); line-height:1.14; margin:0;
@@ -96,13 +114,32 @@ button,input,select,textarea{font:inherit}
   .unitmap{max-width:1120px; margin:0 auto; padding:2rem 1.25rem 0;
     display:grid; gap:.9rem; grid-template-columns:repeat(auto-fit,minmax(min(228px,100%),1fr))}
   .mapcard{
-    display:block; background:var(--surface); border:1px solid var(--line);
-    border-top:3px solid var(--accent); padding:1rem 1.1rem 1.15rem; color:inherit;
+    position:relative; overflow:hidden; display:block;
+    background:var(--surface); border:1px solid var(--line);
+    border-top:2px solid var(--accent); padding:1.3rem 1.2rem 1.35rem; color:inherit;
+    transition:border-color .18s ease, transform .18s ease, box-shadow .18s ease;
   }
-  .mapcard:hover{text-decoration:none; border-color:var(--accent)}
-  .mapcard .num{font-family:var(--serif); font-size:1.5rem; color:var(--accent); line-height:1}
-  .mapcard h3{margin:.35rem 0 .3rem; font-size:1.05rem; font-weight:700}
-  .mapcard p{margin:0; font-size:.85rem; color:var(--ink3); line-height:1.6}
+  .mapcard:hover{
+    text-decoration:none; border-color:var(--accent);
+    transform:translateY(-2px); box-shadow:var(--lift);
+  }
+  /* 큰 로마 숫자를 워터마크로 — 단원 정체성을 조용히 드러낸다 */
+  .mapcard .num{
+    position:absolute; right:.55rem; top:-.5rem; pointer-events:none;
+    font-family:var(--serif); font-size:4.6rem; line-height:1;
+    color:var(--accent); opacity:.12; transition:opacity .18s ease;
+  }
+  .mapcard:hover .num{opacity:.2}
+  /* 워터마크 자리를 비워 두어 글자와 겹치지 않게 한다 */
+  .mapcard h3{
+    margin:0 0 .35rem; font-size:1.08rem; font-weight:700; letter-spacing:-.005em;
+    padding-right:3.2rem;
+  }
+  .mapcard p{margin:0; font-size:.85rem; color:var(--ink3); line-height:1.65; padding-right:3.2rem}
+  @media (max-width:560px){
+    .mapcard .num{font-size:3.6rem; opacity:.1}
+    .mapcard h3, .mapcard p{padding-right:2.6rem}
+  }
 
   /* ---------- 주차 계획 ---------- */
   .lesson{
@@ -114,7 +151,9 @@ button,input,select,textarea{font:inherit}
   .unit-head .lesson{display:inline-block; margin-top:.35rem}
   .topic > h3 .lesson{font-weight:400}
   .plan{max-width:1120px; margin:0 auto; padding:1.6rem 1.25rem 0}
-  .plan details{border:1px solid var(--line); background:var(--surface)}
+  .plan details{border:1px solid var(--line); background:var(--surface); border-radius:3px}
+  .plan summary{transition:background .16s ease}
+  .plan summary:hover{background:var(--surface-2)}
   .plan summary{
     padding:.9rem 1.1rem; cursor:pointer; font-weight:700; font-size:.95rem;
     display:flex; justify-content:space-between; align-items:center; gap:1rem; list-style:none;
@@ -446,6 +485,54 @@ button,input,select,textarea{font:inherit}
     .bs-cell{width:2.4rem; height:2.25rem; font-size:.78rem}
   }
 
+  /* ---------- 마감 디테일 ---------- */
+  ::selection{background:var(--accent-soft); color:var(--accent-ink)}
+  .toc, pre, .tablewrap, .trace, .unitnav, .figbody, .queuebox{
+    scrollbar-width:thin; scrollbar-color:var(--line) transparent;
+  }
+  .toc::-webkit-scrollbar, pre::-webkit-scrollbar, .tablewrap::-webkit-scrollbar,
+  .trace::-webkit-scrollbar, .figbody::-webkit-scrollbar{height:8px; width:8px}
+  .toc::-webkit-scrollbar-thumb, pre::-webkit-scrollbar-thumb,
+  .tablewrap::-webkit-scrollbar-thumb, .trace::-webkit-scrollbar-thumb,
+  .figbody::-webkit-scrollbar-thumb{background:var(--line); border-radius:4px}
+  .toc::-webkit-scrollbar-track, pre::-webkit-scrollbar-track,
+  .tablewrap::-webkit-scrollbar-track, .trace::-webkit-scrollbar-track,
+  .figbody::-webkit-scrollbar-track{background:transparent}
+
+  /* 상자 라벨 뒤로 이어지는 실선 — 절제된 구획감 */
+  .points .lbl, .deep .lbl, .drill .lbl, .lab-lbl{
+    display:flex; align-items:center; gap:.65rem;
+  }
+  .points .lbl::after, .deep .lbl::after, .drill .lbl::after{
+    content:''; flex:1; height:1px; background:var(--line);
+  }
+
+  /* 코드 블록 — 모서리를 부드럽게, 위쪽에 얇은 경계 */
+  pre{border-radius:3px}
+  .codecap{display:flex; align-items:center; gap:.55rem}
+  .codecap::after{content:''; flex:1; height:1px; background:var(--hair)}
+
+  /* 그림·표 컨테이너를 카드처럼 정돈 */
+  figure{border-radius:3px}
+  .points, .deep, .drill, .lab{border-radius:3px}
+  .analogy{border-radius:3px}
+
+  /* 소단원 제목 앞의 작은 표식 */
+  .topic > h3 .idx{border-radius:2px}
+  .topic h4{scroll-margin-top:4.6rem; 
+    display:flex; align-items:baseline; gap:.6rem;
+  }
+  .topic h4::after{content:''; flex:1; height:1px; background:var(--hair)}
+
+  /* 표 — 줄무늬 대신 옅은 구분선으로 */
+  tbody tr{transition:background .14s ease}
+  tbody tr:hover{background:var(--surface-2)}
+
+  @media (prefers-reduced-motion: reduce){
+    .mapcard, .mapcard .num, tbody tr{transition:none}
+    .mapcard:hover{transform:none}
+  }
+
   /* ---------- footer ---------- */
   footer{
     border-top:1px solid var(--line); margin-top:2rem; padding:2rem 1.25rem 3rem;
@@ -457,8 +544,9 @@ button,input,select,textarea{font:inherit}
   /* ---------- 상단 바 ---------- */
   .topbar{
     position:sticky; top:0; z-index:50; background:var(--surface);
-    border-bottom:1px solid var(--line);
+    border-bottom:1px solid var(--line); transition:box-shadow .22s ease;
   }
+  body.is-scrolled .topbar{box-shadow:0 8px 18px -12px rgba(20,25,34,.28)}
   .topbar-in{
     max-width:1120px; margin:0 auto; padding:0 1.25rem;
     display:flex; align-items:center; gap:1.25rem; min-height:var(--topbar-h);
@@ -540,16 +628,23 @@ button,input,select,textarea{font:inherit}
     display:grid; gap:.8rem; grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));
   }
   .pager a{
-    border:1px solid var(--line); background:var(--surface); padding:.9rem 1.1rem;
-    color:var(--ink); display:block;
+    border:1px solid var(--line); background:var(--surface); padding:1rem 1.15rem;
+    color:var(--ink); display:block; border-radius:3px;
+    transition:border-color .18s ease, transform .18s ease, box-shadow .18s ease;
   }
-  .pager a:hover{border-color:var(--accent); text-decoration:none}
+  .pager a:hover{
+    border-color:var(--accent); text-decoration:none;
+    transform:translateY(-2px); box-shadow:var(--lift);
+  }
   .pager .dir{
     display:block; font-family:var(--mono); font-size:.68rem; letter-spacing:.14em;
     text-transform:uppercase; color:var(--ink3); margin-bottom:.3rem;
   }
   .pager .ttl{font-weight:700; font-size:.98rem}
   .pager .next{text-align:right}
+  @media (prefers-reduced-motion: reduce){
+    .pager a{transition:none} .pager a:hover{transform:none}
+  }
 
   /* ---------- 홈 ---------- */
   .home-lead{max-width:1120px; margin:0 auto; padding:0 1.25rem}
@@ -561,6 +656,15 @@ button,input,select,textarea{font:inherit}
     max-width:1120px; margin:1.2rem auto 0; padding:0 1.25rem;
     display:grid; gap:1rem; grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));
   }
-  .howto div{border:1px solid var(--line); background:var(--surface); padding:1rem 1.1rem}
+  .howto div{
+    border:1px solid var(--line); background:var(--surface); padding:1.15rem 1.2rem;
+    border-radius:3px; transition:border-color .18s ease, box-shadow .18s ease;
+  }
+  .howto div:hover{border-color:var(--accent); box-shadow:var(--shadow)}
+  .howto h3{position:relative; padding-left:.85rem}
+  .howto h3::before{
+    content:''; position:absolute; left:0; top:.42em;
+    width:.32rem; height:.32rem; background:var(--accent); border-radius:50%;
+  }
   .howto h3{margin:0 0 .35rem; font-size:.95rem; font-weight:700}
   .howto p{margin:0; font-size:.86rem; color:var(--ink3); line-height:1.6}

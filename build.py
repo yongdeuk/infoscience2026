@@ -41,8 +41,9 @@ EXTRA_CSS = """
   /* ---------- 상단 바 ---------- */
   .topbar{
     position:sticky; top:0; z-index:50; background:var(--surface);
-    border-bottom:1px solid var(--line);
+    border-bottom:1px solid var(--line); transition:box-shadow .22s ease;
   }
+  body.is-scrolled .topbar{box-shadow:0 8px 18px -12px rgba(20,25,34,.28)}
   .topbar-in{
     max-width:1120px; margin:0 auto; padding:0 1.25rem;
     display:flex; align-items:center; gap:1.25rem; min-height:var(--topbar-h);
@@ -124,16 +125,23 @@ EXTRA_CSS = """
     display:grid; gap:.8rem; grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));
   }
   .pager a{
-    border:1px solid var(--line); background:var(--surface); padding:.9rem 1.1rem;
-    color:var(--ink); display:block;
+    border:1px solid var(--line); background:var(--surface); padding:1rem 1.15rem;
+    color:var(--ink); display:block; border-radius:3px;
+    transition:border-color .18s ease, transform .18s ease, box-shadow .18s ease;
   }
-  .pager a:hover{border-color:var(--accent); text-decoration:none}
+  .pager a:hover{
+    border-color:var(--accent); text-decoration:none;
+    transform:translateY(-2px); box-shadow:var(--lift);
+  }
   .pager .dir{
     display:block; font-family:var(--mono); font-size:.68rem; letter-spacing:.14em;
     text-transform:uppercase; color:var(--ink3); margin-bottom:.3rem;
   }
   .pager .ttl{font-weight:700; font-size:.98rem}
   .pager .next{text-align:right}
+  @media (prefers-reduced-motion: reduce){
+    .pager a{transition:none} .pager a:hover{transform:none}
+  }
 
   /* ---------- 홈 ---------- */
   .home-lead{max-width:1120px; margin:0 auto; padding:0 1.25rem}
@@ -145,7 +153,16 @@ EXTRA_CSS = """
     max-width:1120px; margin:1.2rem auto 0; padding:0 1.25rem;
     display:grid; gap:1rem; grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));
   }
-  .howto div{border:1px solid var(--line); background:var(--surface); padding:1rem 1.1rem}
+  .howto div{
+    border:1px solid var(--line); background:var(--surface); padding:1.15rem 1.2rem;
+    border-radius:3px; transition:border-color .18s ease, box-shadow .18s ease;
+  }
+  .howto div:hover{border-color:var(--accent); box-shadow:var(--shadow)}
+  .howto h3{position:relative; padding-left:.85rem}
+  .howto h3::before{
+    content:''; position:absolute; left:0; top:.42em;
+    width:.32rem; height:.32rem; background:var(--accent); border-radius:50%;
+  }
   .howto h3{margin:0 0 .35rem; font-size:.95rem; font-weight:700}
   .howto p{margin:0; font-size:.86rem; color:var(--ink3); line-height:1.6}
 """
@@ -270,6 +287,8 @@ EXTRA_JS = """
   function update() {
     ticking = false;
     var line = window.pageYOffset + 90;
+
+    document.body.classList.toggle('is-scrolled', window.pageYOffset > 8);
 
     if (bar) {
       var h = document.documentElement.scrollHeight - window.innerHeight;

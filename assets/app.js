@@ -528,6 +528,8 @@
     ticking = false;
     var line = window.pageYOffset + 90;
 
+    document.body.classList.toggle('is-scrolled', window.pageYOffset > 8);
+
     if (bar) {
       var h = document.documentElement.scrollHeight - window.innerHeight;
       bar.style.width = (h > 0 ? Math.max(0, Math.min(100, window.pageYOffset / h * 100)) : 0) + '%';
