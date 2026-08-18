@@ -62,6 +62,22 @@ EXTRA_CSS = """
   .unitnav a:hover{text-decoration:none; color:var(--ink)}
   .unitnav a.is-current{color:var(--accent-ink); border-bottom-color:var(--accent); font-weight:700}
   .progress{height:2px; background:var(--accent); width:0; transition:width .12s linear}
+  .themetoggle{
+    flex:0 0 auto; display:inline-flex; align-items:center; gap:.4rem;
+    padding:.34rem .6rem; border:1px solid var(--line); background:var(--surface-2);
+    color:var(--ink2); border-radius:2px; cursor:pointer; font-size:.78rem; line-height:1;
+    transition:border-color .18s ease, color .18s ease;
+  }
+  .themetoggle:hover{border-color:var(--accent); color:var(--accent-ink)}
+  .themetoggle svg{width:1rem; height:1rem; display:block}
+  .themetoggle .ico-sun{display:none}
+  :root[data-theme="dark"] .themetoggle .ico-sun{display:block}
+  :root[data-theme="dark"] .themetoggle .ico-moon{display:none}
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .themetoggle .ico-sun{display:block}
+    :root:not([data-theme="light"]) .themetoggle .ico-moon{display:none}
+  }
+  @media (max-width:640px){ .themetoggle .ico-label{display:none} .themetoggle{padding:.5rem .6rem} }
   @media (prefers-reduced-motion: reduce){ .progress{transition:none} }
   .crumbbar{
     display:none; border-bottom:1px solid var(--line); background:var(--surface-2);
@@ -229,6 +245,36 @@ style += EXTRA_CSS
 
 # ---------- 추가 JS(스크롤 스파이) ----------
 EXTRA_JS = """
+/* ============ 밝게/어둡게 전환 ============ */
+(function () {
+  'use strict';
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-toggle]'));
+  if (!btns.length) return;
+  var root = document.documentElement;
+
+  function current() {
+    var t = root.getAttribute('data-theme');
+    if (t === 'dark' || t === 'light') return t;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  function apply(t, save) {
+    root.setAttribute('data-theme', t);
+    if (save) { try { localStorage.setItem('theme', t); } catch (e) {} }
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(t === 'dark'));
+      b.title = (t === 'dark') ? '밝은 화면으로' : '어두운 화면으로';
+      var lab = b.querySelector('.ico-label');
+      if (lab) lab.textContent = (t === 'dark') ? '밝게' : '어둡게';
+    });
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(current() === 'dark' ? 'light' : 'dark', true);
+    });
+  });
+  apply(current(), false);
+})();
+
 /* ============ 목차 자동 생성 + 스크롤 스파이 ============ */
 (function () {
   'use strict';
@@ -366,11 +412,21 @@ def head(title, desc, css="assets/style.css"):
 <meta property="og:description" content="%s">
 <meta property="og:type" content="website">
 %s
+<script>
+(function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
+</script>
 <link rel="stylesheet" href="%s">
 </head>
 """ % (title, desc, title, desc, FAVICON, css)
 
-def topbar(current, prefix=""):
+THEME_BTN = """    <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false" title="어두운 화면으로">
+      <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.6v2M12 19.4v2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M2.6 12h2M19.4 12h2M5.2 18.8l1.4-1.4M17.4 6.6l1.4-1.4"/></svg>
+      <span class="ico-label">어둡게</span>
+    </button>"""
+
+
+def topbar(current, prefix="", brand=True):
     links = []
     for n in (1, 2, 3, 4):
         r, name, wk, _ = UNIT_META[n]
@@ -378,14 +434,17 @@ def topbar(current, prefix=""):
         links.append('      <a href="%sunit%d.html"%s>%s %s</a>' % (prefix, n, cls, r, name))
     return """<header class="topbar">
   <div class="topbar-in">
-    <a class="brand" href="%sindex.html">정보과학</a>
+%s
     <nav class="unitnav" aria-label="단원">
 %s
     </nav>
+%s
   </div>
   <div class="progress" data-progress></div>
 </header>
-""" % (prefix, "\n".join(links))
+""" % (
+        ('    <a class="brand" href="%sindex.html">정보과학</a>' % prefix) if brand else '',
+        "\n".join(links), THEME_BTN)
 
 def toc(n):
     r, name, wk, _ = UNIT_META[n]
@@ -460,6 +519,7 @@ for n in (1, 2, 3, 4):
 home = (head("정보과학",
              "씨마스 『정보과학』 2022 개정 교육과정 핵심 내용 정리 · 보문고등학교 김용득 선생님 제작.")
         + '<body>\n'
+        + topbar(None, brand=False)
         + masthead + "\n\n" + home_map + "\n\n" + HOWTO + "\n" + plan + "\n\n"
         + footer + '\n<script src="assets/app.js"></script>\n</body>\n</html>\n')
 io.open(os.path.join(OUT, "index.html"), "w", encoding="utf-8", newline="\n").write(home)

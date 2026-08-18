@@ -469,6 +469,36 @@
   })();
 })();
 
+/* ============ 밝게/어둡게 전환 ============ */
+(function () {
+  'use strict';
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-toggle]'));
+  if (!btns.length) return;
+  var root = document.documentElement;
+
+  function current() {
+    var t = root.getAttribute('data-theme');
+    if (t === 'dark' || t === 'light') return t;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  function apply(t, save) {
+    root.setAttribute('data-theme', t);
+    if (save) { try { localStorage.setItem('theme', t); } catch (e) {} }
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(t === 'dark'));
+      b.title = (t === 'dark') ? '밝은 화면으로' : '어두운 화면으로';
+      var lab = b.querySelector('.ico-label');
+      if (lab) lab.textContent = (t === 'dark') ? '밝게' : '어둡게';
+    });
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(current() === 'dark' ? 'light' : 'dark', true);
+    });
+  });
+  apply(current(), false);
+})();
+
 /* ============ 목차 자동 생성 + 스크롤 스파이 ============ */
 (function () {
   'use strict';

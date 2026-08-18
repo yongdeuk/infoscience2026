@@ -6,10 +6,12 @@
     --line:#dde2e8; --line-2:#eef1f5;
     --code-bg:#f0f3f6; --code-ink:#1d2530;
     --dot:#dfe4ec; --hair:#eaeef3;
+    --title-shadow:0 1px 1px rgba(20,25,34,.10), 0 6px 18px rgba(20,25,34,.14);
     --accent:#3a4bb0; --accent-soft:#e6e9fa; --accent-ink:#26307a;
     --shadow:0 1px 2px rgba(20,25,34,.05), 0 8px 24px -16px rgba(20,25,34,.28);
     --lift:0 1px 2px rgba(20,25,34,.05), 0 14px 30px -20px rgba(20,25,34,.45);
     --display:'Malgun Gothic Semilight','Pretendard','Apple SD Gothic Neo','Malgun Gothic','맑은 고딕',sans-serif;
+    --display-solid:'Pretendard','Apple SD Gothic Neo','Malgun Gothic','맑은 고딕',sans-serif;
     --serif:'Nanum Myeongjo','NanumMyeongjo','Batang','바탕',Georgia,serif;
     --sans:'Pretendard','Apple SD Gothic Neo','Malgun Gothic','맑은 고딕','Noto Sans KR',system-ui,sans-serif;
     --mono:'D2Coding','Consolas','SFMono-Regular','Menlo','Malgun Gothic',monospace;
@@ -21,6 +23,7 @@
       --line:#262d38; --line-2:#1e242d;
       --code-bg:#0d131b; --code-ink:#d5dce6;
       --dot:#232a35; --hair:#1c222b;
+      --title-shadow:0 1px 2px rgba(0,0,0,.55), 0 8px 24px rgba(0,0,0,.45);
       --accent:#8f9dff; --accent-soft:#1a2040; --accent-ink:#b6c0ff;
       --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
       --lift:0 1px 2px rgba(0,0,0,.5), 0 14px 30px -20px rgba(0,0,0,.9);
@@ -32,6 +35,7 @@
     --line:#262d38; --line-2:#1e242d;
     --code-bg:#0d131b; --code-ink:#d5dce6;
     --dot:#232a35; --hair:#1c222b;
+    --title-shadow:0 1px 2px rgba(0,0,0,.55), 0 8px 24px rgba(0,0,0,.45);
     --accent:#8f9dff; --accent-soft:#1a2040; --accent-ink:#b6c0ff;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
     --lift:0 1px 2px rgba(0,0,0,.5), 0 14px 30px -20px rgba(0,0,0,.9);
@@ -85,15 +89,16 @@
     display:flex; flex-direction:column; gap:1.1rem;
   }
   .masthead h1{
-    font-family:var(--display); font-weight:300;
-    font-size:clamp(2.5rem,6.4vw,4rem); line-height:1.14; margin:0;
-    letter-spacing:.16em; text-indent:.16em; color:var(--ink);
+    font-family:var(--display-solid); font-weight:500;
+    font-size:clamp(1.95rem,4.4vw,2.85rem); line-height:1.22; margin:0;
+    letter-spacing:.1em; text-indent:.1em; color:var(--ink);
+    text-shadow:var(--title-shadow);
   }
   .masthead h1::after{
     content:''; display:block; width:2.6rem; height:2px;
     background:var(--accent); margin-top:1rem; opacity:.85;
   }
-  .masthead .sub{margin:0; max-width:56ch; color:var(--ink2); font-size:1.02rem}
+  .masthead .sub{margin:0; max-width:44rem; color:var(--ink2); font-size:1.02rem; text-wrap:balance}
   .byline{
     margin:0; font-size:.88rem; color:var(--ink3); letter-spacing:.01em;
   }
