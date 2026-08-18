@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="고등학교 『정보과학』(씨마스, 2022 개정 교육과정) 4개 단원을 그림과 실습 위젯으로 정리한 학습 사이트.">
+<meta name="description" content="고등학교 『정보과학』(씨마스, 2022 개정 교육과정) 4개 단원을 51차시 계획·그림·실습 위젯으로 정리한 학습 사이트.">
 <meta property="og:title" content="정보과학">
 <meta property="og:description" content="함수·재귀·데이터 구조·알고리즘·프로젝트를 그림과 직접 조작하는 실습으로 정리한 수업 자료.">
 <meta property="og:type" content="website">
@@ -105,6 +105,42 @@
   .mapcard .num{font-family:var(--serif); font-size:1.5rem; color:var(--accent); line-height:1}
   .mapcard h3{margin:.35rem 0 .3rem; font-size:1.05rem; font-weight:700}
   .mapcard p{margin:0; font-size:.85rem; color:var(--ink3); line-height:1.6}
+
+  /* ---------- 차시 계획 ---------- */
+  .lesson{
+    font-family:var(--mono); font-size:.7rem; letter-spacing:.02em; white-space:nowrap;
+    color:var(--accent-ink); background:var(--accent-soft);
+    padding:.12rem .45rem; border-radius:2px;
+  }
+  .mapcard .lesson{display:inline-block; margin-top:.5rem}
+  .unit-head .lesson{display:inline-block; margin-top:.35rem}
+  .topic > h3 .lesson{font-weight:400}
+  .plan{max-width:1120px; margin:0 auto; padding:1.6rem 1.25rem 0}
+  .plan details{border:1px solid var(--line); background:var(--surface)}
+  .plan summary{
+    padding:.9rem 1.1rem; cursor:pointer; font-weight:700; font-size:.95rem;
+    display:flex; justify-content:space-between; align-items:center; gap:1rem; list-style:none;
+  }
+  .plan summary::-webkit-details-marker{display:none}
+  .plan summary::after{content:'펼치기 ▾'; font-family:var(--mono); font-size:.72rem; color:var(--ink3)}
+  .plan details[open] summary::after{content:'접기 ▴'}
+  .plan details[open] summary{border-bottom:1px solid var(--line)}
+  .plan summary span{font-weight:400; color:var(--ink3); font-size:.82rem}
+  .plan-grid{
+    padding:1.1rem; display:grid; gap:1.6rem;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  }
+  .plan-grid h4{
+    margin:0 0 .55rem; font-size:.9rem; font-weight:700; color:var(--accent-ink);
+    padding-bottom:.35rem; border-bottom:2px solid var(--accent);
+  }
+  .plan-grid table{min-width:0; font-size:.83rem}
+  .plan-grid th, .plan-grid td{padding:.32rem .5rem; border:none; border-bottom:1px solid var(--line-2)}
+  .plan-grid th{background:none}
+  .plan-grid td:first-child{
+    white-space:nowrap; width:1%; font-family:var(--mono); font-size:.76rem;
+    color:var(--accent); font-variant-numeric:tabular-nums; text-align:right;
+  }
 
   /* ---------- layout ---------- */
   .wrap{max-width:1120px; margin:0 auto; padding:0 1.25rem 5rem;
@@ -314,6 +350,26 @@
     margin-top:.9rem; overflow-x:auto; white-space:nowrap;
   }
 
+  /* recursion trace */
+  .rstack{width:190px; height:auto; min-height:216px; justify-content:flex-start}
+  .rstack .cell{
+    width:100%; height:auto; min-height:30px; padding:.25rem .4rem;
+    font-size:.8rem; font-weight:400; flex-direction:column; gap:1px; line-height:1.3;
+  }
+  .rstack .cell b{font-weight:700; font-size:.84rem}
+  .rstack .cell.done{background:var(--surface-2); border-style:dashed; color:var(--ink3)}
+  .rstack .cell.active{box-shadow:0 0 0 2px var(--accent) inset}
+  .trace{
+    flex:1 1 240px; min-width:0; max-height:246px; overflow-y:auto;
+    border:1px solid var(--line); background:var(--code-bg); padding:.5rem .65rem;
+    font-family:var(--mono); font-size:.78rem; line-height:1.7;
+  }
+  .trace div{white-space:nowrap; color:var(--ink3)}
+  .trace div.call{color:var(--ink2)}
+  .trace div.ret{color:var(--accent-ink); font-weight:700}
+  .trace div.now{background:var(--accent-soft); margin:0 -.65rem; padding:0 .65rem}
+  #lab-recur pre{margin:1rem 0 0; font-size:.8rem}
+
   /* hanoi */
   .hanoi{display:flex; gap:10px; justify-content:center; width:100%; max-width:520px; margin:0 auto}
   .peg{
@@ -399,17 +455,104 @@
       <span class="tag">1학기 · 주 3시간</span>
       <span class="tag">4개 대단원</span>
       <span class="tag">Python</span>
-      <span class="tag">직접 해 보는 실습 6개</span>
+      <span class="tag">직접 해 보는 실습 7개</span>
     </div>
   </div>
 </header>
 
 <nav class="unitmap" aria-label="단원 바로가기">
-  <a class="mapcard u1" href="#unit1"><span class="num">Ⅰ</span><h3>프로그래밍</h3><p>함수 · 모듈 · 재귀 구조 — 코드를 작은 단위로 나누는 법</p></a>
-  <a class="mapcard u2" href="#unit2"><span class="num">Ⅱ</span><h3>데이터 구조</h3><p>스택 · 큐 · 트리 · 그래프 — 데이터를 담는 그릇의 모양</p></a>
-  <a class="mapcard u3" href="#unit3"><span class="num">Ⅲ</span><h3>알고리즘</h3><p>복잡도 · 탐색 기반 · 관계 기반 — 더 빠른 해결 전략</p></a>
-  <a class="mapcard u4" href="#unit4"><span class="num">Ⅳ</span><h3>정보과학 프로젝트</h3><p>문제 발견부터 검증까지, 실제로 만들어 보는 4단계</p></a>
+  <a class="mapcard u1" href="#unit1"><span class="num">Ⅰ</span><h3>프로그래밍</h3><p>함수 · 모듈 · 재귀 구조 — 코드를 작은 단위로 나누는 법</p><span class="lesson">1~15차시</span></a>
+  <a class="mapcard u2" href="#unit2"><span class="num">Ⅱ</span><h3>데이터 구조</h3><p>스택 · 큐 · 트리 · 그래프 — 데이터를 담는 그릇의 모양</p><span class="lesson">16~27차시</span></a>
+  <a class="mapcard u3" href="#unit3"><span class="num">Ⅲ</span><h3>알고리즘</h3><p>복잡도 · 탐색 기반 · 관계 기반 — 더 빠른 해결 전략</p><span class="lesson">28~41차시</span></a>
+  <a class="mapcard u4" href="#unit4"><span class="num">Ⅳ</span><h3>정보과학 프로젝트</h3><p>문제 발견부터 검증까지, 실제로 만들어 보는 4단계</p><span class="lesson">42~51차시</span></a>
 </nav>
+
+<section class="plan" id="plan">
+  <details>
+    <summary>1학기 51차시 운영 계획 <span>주 3시간 · 17주 기준</span></summary>
+    <div class="plan-grid">
+      <div class="u1">
+        <h4>Ⅰ. 프로그래밍 · 1~15차시</h4>
+        <div class="tablewrap"><table>
+          <tbody>
+            <tr><td>1</td><td>오리엔테이션 — 정보과학은 무엇을 배우는 과목인가</td></tr>
+            <tr><td>2</td><td>함수의 개념 — 내장 함수와 사용자 정의 함수</td></tr>
+            <tr><td>3</td><td>함수의 정의(<code>def</code>)와 네 가지 구성 요소</td></tr>
+            <tr><td>4</td><td>함수 호출 — 인수와 매개 변수의 관계</td></tr>
+            <tr><td>5</td><td><code>return</code>의 두 역할 / 매개 변수·반환값 4가지 형태</td></tr>
+            <tr><td>6</td><td>지역 변수와 전역 변수, <code>global</code></td></tr>
+            <tr><td>7</td><td>[역량] 음악 플레이 리스트 관리 프로그램 만들기</td></tr>
+            <tr><td>8</td><td>기본값 매개 변수와 가변 인수 매개 변수</td></tr>
+            <tr><td>9</td><td>여러 값 반환 / 클래스와 객체</td></tr>
+            <tr><td>10</td><td>모듈 만들기와 <code>import</code> / 패키지·라이브러리</td></tr>
+            <tr><td>11</td><td>내장 함수와 표준 라이브러리 / [역량] 가위바위보 게임</td></tr>
+            <tr><td>12</td><td>재귀 구조의 이해 — 수학적 귀납법과 재귀 관계</td></tr>
+            <tr><td>13</td><td>재귀 함수의 동작 원리 — 호출과 반환</td></tr>
+            <tr><td>14</td><td>반복 구조와 재귀 구조의 비교 · 적절한 선택</td></tr>
+            <tr><td>15</td><td>재귀 활용 — 자릿수 합, 하노이 탑 / [역량] 파일 찾기</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div class="u2">
+        <h4>Ⅱ. 데이터 구조 · 16~27차시</h4>
+        <div class="tablewrap"><table>
+          <tbody>
+            <tr><td>16</td><td>데이터 구조의 분류 / 스택의 개념(LIFO)</td></tr>
+            <tr><td>17</td><td>스택의 연산 — push, pop, peek, isEmpty</td></tr>
+            <tr><td>18</td><td>리스트로 스택 구현하기 · 활용 사례 조사</td></tr>
+            <tr><td>19</td><td>큐의 개념(FIFO)과 연산</td></tr>
+            <tr><td>20</td><td>리스트로 큐 구현하기 / 덱·우선순위 큐</td></tr>
+            <tr><td>21</td><td>[역량] 스택·큐를 활용한 프로그램 만들기</td></tr>
+            <tr><td>22</td><td>트리의 개념과 구성 요소</td></tr>
+            <tr><td>23</td><td>트리의 표현 — 인접 행렬과 인접 리스트</td></tr>
+            <tr><td>24</td><td>이진 트리와 순차 데이터 구조 표현</td></tr>
+            <tr><td>25</td><td>이진 탐색 트리의 규칙과 활용</td></tr>
+            <tr><td>26</td><td>그래프의 개념·종류와 표현</td></tr>
+            <tr><td>27</td><td>그래프 탐색 — 깊이 우선 탐색과 너비 우선 탐색</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div class="u3">
+        <h4>Ⅲ. 알고리즘 · 28~41차시</h4>
+        <div class="tablewrap"><table>
+          <tbody>
+            <tr><td>28</td><td>알고리즘의 이해와 문제 해결 전략 네 가지</td></tr>
+            <tr><td>29</td><td>알고리즘 성능 평가 — 시간 복잡도와 공간 복잡도</td></tr>
+            <tr><td>30</td><td>빅오 표기법과 알고리즘 성능 비교</td></tr>
+            <tr><td>31</td><td>문제의 세 요소와 상태 공간</td></tr>
+            <tr><td>32</td><td>탐색 공간의 구조와 탐색 범위</td></tr>
+            <tr><td>33</td><td>전체 탐색 — 브루트 포스와 순차 탐색</td></tr>
+            <tr><td>34</td><td>비선형 전체 탐색 — DFS·BFS 적용</td></tr>
+            <tr><td>35</td><td>탐색 공간 배제와 이진 탐색</td></tr>
+            <tr><td>36</td><td>탐욕 알고리즘 — 거스름돈·시간표 문제</td></tr>
+            <tr><td>37</td><td>분기 한정 알고리즘과 백트래킹</td></tr>
+            <tr><td>38</td><td>문제 분해와 전체·부분 문제의 관계식</td></tr>
+            <tr><td>39</td><td>분할 정복법 — 퀵 정렬</td></tr>
+            <tr><td>40</td><td>분할 정복법 — 합병 정렬</td></tr>
+            <tr><td>41</td><td>동적 계획법 — 메모이제이션과 상향식 / 계단 오르기</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div class="u4">
+        <h4>Ⅳ. 정보과학 프로젝트 · 42~51차시</h4>
+        <div class="tablewrap"><table>
+          <tbody>
+            <tr><td>42</td><td>정보과학으로 문제 해결하기 · 문제 해결 5단계</td></tr>
+            <tr><td>43</td><td>다양한 학문 분야의 문제 탐색 / 모둠 구성·주제 선정</td></tr>
+            <tr><td>44</td><td>[프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화</td></tr>
+            <tr><td>45</td><td>[프로젝트 ①] 알고리즘 설계와 프로그램 작성</td></tr>
+            <tr><td>46</td><td>[프로젝트 ②] 탄소 발자국 — 데이터 수집과 구조화</td></tr>
+            <tr><td>47</td><td>[프로젝트 ②] 다익스트라 알고리즘으로 구현하기</td></tr>
+            <tr><td>48</td><td>[프로젝트 ③] 교실 자리 배치 — 요구 사항 분석</td></tr>
+            <tr><td>49</td><td>[프로젝트 ③] 백트래킹으로 구현하기</td></tr>
+            <tr><td>50</td><td>프로그램 검증 및 디버깅 · 산출물 정리</td></tr>
+            <tr><td>51</td><td>프로젝트 발표와 상호 평가</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+  </details>
+</section>
 
 <div class="wrap">
 
@@ -458,13 +601,14 @@
 <section class="unit u1" id="unit1">
   <div class="unit-head">
     <span class="roman">Ⅰ</span>
+    <span class="lesson">1~15차시</span>
     <h2>프로그래밍</h2>
     <p class="goal">효율적인 프로그래밍을 위한 <b>함수</b>와 <b>재귀 구조</b>의 활용법을 익혀 다양한 분야의 문제를 해결한다.</p>
   </div>
 
   <!-- 1-1 -->
   <article class="topic" id="t1-1">
-    <h3><span class="idx">1-1</span> 함수의 이해</h3>
+    <h3><span class="idx">1-1</span> 함수의 이해 <span class="lesson">2~7차시</span></h3>
     <p class="lede">여러 줄짜리 작업을 이름 하나로 묶어 두고, 필요할 때마다 불러 쓰는 장치가 함수입니다.</p>
 
     <div class="analogy">
@@ -596,7 +740,7 @@ def print_global_drink():
 
   <!-- 1-2 -->
   <article class="topic" id="t1-2">
-    <h3><span class="idx">1-2</span> 함수의 활용</h3>
+    <h3><span class="idx">1-2</span> 함수의 활용 <span class="lesson">8~11차시</span></h3>
     <p class="lede">매개 변수를 더 유연하게 만들고, 여러 함수를 파일 단위로 묶어 모듈로 관리합니다.</p>
 
     <h4>기본값 매개 변수</h4>
@@ -746,7 +890,7 @@ robot1.run()</pre>
 
   <!-- 2-1 -->
   <article class="topic" id="t1-3">
-    <h3><span class="idx">2-1</span> 재귀 구조의 이해</h3>
+    <h3><span class="idx">2-1</span> 재귀 구조의 이해 <span class="lesson">12~14차시</span></h3>
     <p class="lede">큰 문제를 “같은 모양의 더 작은 문제”로 바꿔 가며 푸는 방식입니다.</p>
 
     <div class="analogy">
@@ -804,6 +948,36 @@ robot1.run()</pre>
       </div>
       <figcaption>재귀는 <b>끝까지 내려간 다음</b> 거꾸로 올라오면서 계산을 완성합니다. 그래서 결과는 가장 작은 문제부터 확정됩니다.</figcaption>
     </figure>
+
+    <div class="lab" id="lab-recur">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>재귀 호출 따라가기 — 함수 스택이 쌓이고 풀리는 과정</h5></div>
+      <div class="lab-body">
+        <div class="lab-stage" style="align-items:flex-start">
+          <div class="sq-col">
+            <div class="sq-mark" data-depth>깊이 0</div>
+            <div class="stackbox rstack" data-rstack></div>
+            <div class="sq-name">함수 스택</div>
+          </div>
+          <div class="trace" data-trace></div>
+        </div>
+        <div class="lab-ctrl">
+          <label>함수
+            <select data-fn>
+              <option value="fact">팩토리얼 factorial(n)</option>
+              <option value="pow">거듭제곱 power(2, n)</option>
+              <option value="digit">자릿수 합 digit_sum(n)</option>
+            </select>
+          </label>
+          <label><span data-nlab>n</span> <input type="number" data-n value="5" min="1" max="7"></label>
+          <button class="btn btn-p" data-act="step">다음 단계</button>
+          <button class="btn" data-act="play">자동 재생</button>
+          <button class="btn" data-act="reset">처음부터</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite"></p>
+        <pre data-code></pre>
+        <p class="lab-note">스택이 <b>끝까지 쌓인 뒤</b>에야 값이 하나씩 반환되는 것을 확인하세요. 호출된 함수가 돌아갈 자리를 기억해 두는 이 구조가 바로 Ⅱ단원에서 배울 <b>스택</b>입니다.</p>
+      </div>
+    </div>
 
     <pre>def power(x, n):
     if n == 0:              # 기본 단계
@@ -867,7 +1041,7 @@ power(2, 5)   # 32</pre>
 
   <!-- 2-2 -->
   <article class="topic" id="t1-4">
-    <h3><span class="idx">2-2</span> 재귀 구조의 활용</h3>
+    <h3><span class="idx">2-2</span> 재귀 구조의 활용 <span class="lesson">15차시</span></h3>
     <p class="lede">숫자·문자열·하노이 탑·파일 탐색 — 재귀가 진짜 힘을 내는 문제들입니다.</p>
 
     <h4>① 숫자의 자릿수 합</h4>
@@ -981,13 +1155,14 @@ def find_item(root_path, target):
 <section class="unit u2" id="unit2">
   <div class="unit-head">
     <span class="roman">Ⅱ</span>
+    <span class="lesson">16~27차시</span>
     <h2>데이터 구조</h2>
     <p class="goal">데이터를 어떤 <b>모양의 그릇</b>에 담느냐에 따라 문제 해결의 효율이 달라진다. 선형 구조(스택·큐)와 비선형 구조(트리·그래프)를 익힌다.</p>
   </div>
 
   <!-- 1-1 스택 -->
   <article class="topic" id="t2-1">
-    <h3><span class="idx">1-1</span> 스택 — 나중에 넣은 것이 먼저 나온다</h3>
+    <h3><span class="idx">1-1</span> 스택 — 나중에 넣은 것이 먼저 나온다 <span class="lesson">16~18차시</span></h3>
     <p class="lede">한쪽 끝만 열려 있어서, 넣고 빼는 일이 모두 그 한 곳(top)에서만 일어납니다.</p>
 
     <div class="analogy">
@@ -1080,7 +1255,7 @@ def find_item(root_path, target):
 
   <!-- 1-2 큐 -->
   <article class="topic" id="t2-2">
-    <h3><span class="idx">1-2</span> 큐 — 먼저 온 사람이 먼저 나간다</h3>
+    <h3><span class="idx">1-2</span> 큐 — 먼저 온 사람이 먼저 나간다 <span class="lesson">19~21차시</span></h3>
     <p class="lede">양쪽이 열려 있어서, 넣는 곳(rear)과 빼는 곳(front)이 서로 다릅니다.</p>
 
     <div class="analogy">
@@ -1180,7 +1355,7 @@ def find_item(root_path, target):
 
   <!-- 2-1 트리 -->
   <article class="topic" id="t2-3">
-    <h3><span class="idx">2-1</span> 트리 — 계층을 표현하는 구조</h3>
+    <h3><span class="idx">2-1</span> 트리 — 계층을 표현하는 구조 <span class="lesson">22~25차시</span></h3>
     <p class="lede">학교 조직도, 폴더 구조처럼 위아래 관계가 있는 데이터를 담습니다.</p>
 
     <figure>
@@ -1267,7 +1442,7 @@ def find_item(root_path, target):
 
   <!-- 2-2 그래프 -->
   <article class="topic" id="t2-4">
-    <h3><span class="idx">2-2</span> 그래프 — 관계와 경로를 표현하는 구조</h3>
+    <h3><span class="idx">2-2</span> 그래프 — 관계와 경로를 표현하는 구조 <span class="lesson">26~27차시</span></h3>
     <p class="lede">트리보다 자유로운 구조. 사이클이 있어도 되고, 두 노드 사이에 여러 경로가 있어도 됩니다.</p>
 
     <div class="callout"><b>트리와 그래프의 관계</b> — 트리는 사실 그래프의 한 종류입니다. <b>사이클이 없고, 두 노드 사이 경로가 오직 하나뿐인</b> 그래프가 트리입니다.</div>
@@ -1394,13 +1569,14 @@ def bfs(cur):                       # 큐를 직접 사용
 <section class="unit u3" id="unit3">
   <div class="unit-head">
     <span class="roman">Ⅲ</span>
+    <span class="lesson">28~41차시</span>
     <h2>알고리즘</h2>
     <p class="goal">같은 문제를 푸는 방법은 여럿이다. 그중 <b>어떤 방법이 더 효율적인지 판단하고</b>, 문제의 성격에 맞는 전략을 고르는 법을 배운다.</p>
   </div>
 
   <!-- 1-1 -->
   <article class="topic" id="t3-1">
-    <h3><span class="idx">1-1</span> 알고리즘의 이해</h3>
+    <h3><span class="idx">1-1</span> 알고리즘의 이해 <span class="lesson">28차시</span></h3>
     <p class="lede">알고리즘은 문제를 해결하는 체계적인 절차·방법입니다. 접근 방식에 따라 크게 두 갈래로 나뉩니다.</p>
 
     <figure>
@@ -1454,7 +1630,7 @@ def bfs(cur):                       # 큐를 직접 사용
 
   <!-- 1-2 -->
   <article class="topic" id="t3-2">
-    <h3><span class="idx">1-2</span> 알고리즘 복잡도</h3>
+    <h3><span class="idx">1-2</span> 알고리즘 복잡도 <span class="lesson">29~30차시</span></h3>
     <p class="lede">“얼마나 빠른가”를 컴퓨터 성능과 상관없이 비교하는 방법이 필요합니다.</p>
 
     <p><span class="kw">시간 복잡도</span>는 실행에 필요한 <b>연산의 수</b>, <span class="kw">공간 복잡도</span>는 사용하는 <b>메모리의 양</b>입니다. 둘은 대체로 반비례하므로 보통 시간 복잡도를 기준으로 평가합니다.</p>
@@ -1531,7 +1707,7 @@ def bfs(cur):                       # 큐를 직접 사용
 
   <!-- 2-1 -->
   <article class="topic" id="t3-3">
-    <h3><span class="idx">2-1</span> 탐색 기반 알고리즘의 이해</h3>
+    <h3><span class="idx">2-1</span> 탐색 기반 알고리즘의 이해 <span class="lesson">31~34차시</span></h3>
     <p class="lede">가능한 모든 경우를 “상태 공간”으로 그려 놓고, 그 안에서 답을 찾아가는 방식입니다.</p>
 
     <p>문제는 <b>초기 상태 · 목표 상태 · 행동</b> 세 요소로 정의됩니다. 초기 상태에서 목표 상태까지 가는 동안 거칠 수 있는 <b>모든 상태의 집합</b>이 <span class="kw">상태 공간</span>입니다.</p>
@@ -1592,7 +1768,7 @@ def bfs(cur):                       # 큐를 직접 사용
 
   <!-- 2-2 -->
   <article class="topic" id="t3-4">
-    <h3><span class="idx">2-2</span> 탐색 기반 알고리즘의 설계 — 탐색 공간 배제</h3>
+    <h3><span class="idx">2-2</span> 탐색 기반 알고리즘의 설계 — 탐색 공간 배제 <span class="lesson">35~37차시</span></h3>
     <p class="lede">“볼 필요 없는 곳은 아예 보지 않는다.” 이것이 탐색을 빠르게 만드는 가장 강력한 아이디어입니다.</p>
 
     <div class="analogy">
@@ -1721,7 +1897,7 @@ greedy_coin_change(63, [50, 10, 5, 1])   # [50, 10, 1, 1, 1]  최적!
 
   <!-- 3-1 -->
   <article class="topic" id="t3-5">
-    <h3><span class="idx">3-1</span> 관계 기반 알고리즘의 이해 — 분할 정복</h3>
+    <h3><span class="idx">3-1</span> 관계 기반 알고리즘의 이해 — 분할 정복 <span class="lesson">38~40차시</span></h3>
     <p class="lede">문제를 쪼개고, 전체와 부분 사이의 <b>관계식</b>을 찾아내 해결합니다.</p>
 
     <p>문제를 분해하면 ① 구조가 잘 보이고 ② 부분 문제 코드를 재사용할 수 있으며 ③ 전체와 부분의 <b>관계</b>를 발견할 수 있습니다. 이 관계식은 대개 수학적 귀납법 형태로 표현되고, 그대로 재귀 함수가 됩니다.</p>
@@ -1836,7 +2012,7 @@ quicksort([7, 5, 9, 4, 1])   # [1, 4, 5, 7, 9]</pre>
 
   <!-- 3-2 -->
   <article class="topic" id="t3-6">
-    <h3><span class="idx">3-2</span> 관계 기반 알고리즘의 설계 — 동적 계획법</h3>
+    <h3><span class="idx">3-2</span> 관계 기반 알고리즘의 설계 — 동적 계획법 <span class="lesson">41차시</span></h3>
     <p class="lede">한 번 계산한 답을 적어 두었다가 다시 쓰는 것. 그것만으로 속도가 극적으로 달라집니다.</p>
 
     <figure>
@@ -1956,13 +2132,14 @@ print(dp[n])   # 55</pre>
 <section class="unit u4" id="unit4">
   <div class="unit-head">
     <span class="roman">Ⅳ</span>
+    <span class="lesson">42~51차시</span>
     <h2>정보과학 프로젝트</h2>
     <p class="goal">앞의 세 단원에서 배운 것을 모두 꺼내 쓴다. 실생활 문제를 찾아 <b>직접 프로그램으로 해결</b>하는 단원.</p>
   </div>
 
   <!-- 1-1 -->
   <article class="topic" id="t4-1">
-    <h3><span class="idx">1-1</span> 정보과학과 문제 해결</h3>
+    <h3><span class="idx">1-1</span> 정보과학과 문제 해결 <span class="lesson">42~43차시</span></h3>
     <p class="lede">데이터를 모으고 분석해서 실제 변화를 만들어 내는 과정, 그 표준 절차를 익힙니다.</p>
 
     <figure>
@@ -2030,7 +2207,7 @@ print(dp[n])   # 55</pre>
 
   <!-- 1-2 -->
   <article class="topic" id="t4-2">
-    <h3><span class="idx">1-2</span> 프로젝트 ① 급식 잔반 최소화</h3>
+    <h3><span class="idx">1-2</span> 프로젝트 ① 급식 잔반 최소화 <span class="lesson">44~45차시</span></h3>
     <p class="lede">카테고리마다 메뉴를 하나씩 골라 전체 잔반량이 가장 적은 조합을 찾습니다.</p>
 
     <div class="tablewrap">
@@ -2051,7 +2228,7 @@ print(dp[n])   # 55</pre>
 
   <!-- 2-1 -->
   <article class="topic" id="t4-3">
-    <h3><span class="idx">2-1</span> 프로젝트 ② 탄소 발자국 계산</h3>
+    <h3><span class="idx">2-1</span> 프로젝트 ② 탄소 발자국 계산 <span class="lesson">46~47차시</span></h3>
     <p class="lede">장소를 노드, 이동할 때 나오는 탄소 배출량을 가중치로 놓고 <b>최소 배출 경로</b>를 찾습니다.</p>
 
     <div class="tablewrap">
@@ -2072,7 +2249,7 @@ print(dp[n])   # 55</pre>
 
   <!-- 2-2 -->
   <article class="topic" id="t4-4">
-    <h3><span class="idx">2-2</span> 프로젝트 ③ 교실 자리 배치</h3>
+    <h3><span class="idx">2-2</span> 프로젝트 ③ 교실 자리 배치 <span class="lesson">48~51차시</span></h3>
     <p class="lede">고정 자리, 선호 자리, 이전 자리 회피 — 여러 조건을 동시에 만족시키는 배치를 찾습니다.</p>
 
     <div class="tablewrap">
@@ -2230,7 +2407,123 @@ print(dp[n])   # 55</pre>
     render();
   })();
 
-  /* ============ 3. 하노이 탑 ============ */
+  /* ============ 3. 재귀 호출 따라가기 ============ */
+  (function () {
+    var root = document.getElementById('lab-recur'); if (!root) return;
+    var box = root.querySelector('[data-rstack]'), trace = root.querySelector('[data-trace]'),
+        depthEl = root.querySelector('[data-depth]'), fnSel = root.querySelector('[data-fn]'),
+        nIn = root.querySelector('[data-n]'), nLab = root.querySelector('[data-nlab]'),
+        status = root.querySelector('[data-status]'), codeEl = root.querySelector('[data-code]'),
+        playBtn = root.querySelector('[data-act="play"]');
+
+    var SPEC = {
+      fact: {
+        nlab: 'n', min: 1, max: 7, def: 5, name: 'factorial',
+        code: 'def factorial(n):\n    if n <= 1:          # 기본 단계\n        return 1\n    return n * factorial(n - 1)   # 재귀 단계',
+        run: function (n, ev) {
+          ev.push({ t: 'call', label: 'factorial(' + n + ')', arg: n });
+          if (n <= 1) { ev.push({ t: 'ret', label: 'factorial(' + n + ')', expr: '1 (기본 단계)', val: 1 }); return 1; }
+          var r = this.run(n - 1, ev), v = n * r;
+          ev.push({ t: 'ret', label: 'factorial(' + n + ')', expr: n + ' × ' + r + ' = ' + v, val: v });
+          return v;
+        }
+      },
+      pow: {
+        nlab: 'n', min: 0, max: 8, def: 5, name: 'power',
+        code: 'def power(x, n):\n    if n == 0:          # 기본 단계\n        return 1\n    return x * power(x, n - 1)    # 재귀 단계',
+        run: function (n, ev) {
+          ev.push({ t: 'call', label: 'power(2, ' + n + ')', arg: n });
+          if (n === 0) { ev.push({ t: 'ret', label: 'power(2, 0)', expr: '1 (기본 단계)', val: 1 }); return 1; }
+          var r = this.run(n - 1, ev), v = 2 * r;
+          ev.push({ t: 'ret', label: 'power(2, ' + n + ')', expr: '2 × ' + r + ' = ' + v, val: v });
+          return v;
+        }
+      },
+      digit: {
+        nlab: '숫자', min: 1, max: 999999, def: 7925, name: 'digit_sum',
+        code: 'def digit_sum(n):\n    if n < 10:          # 기본 단계\n        return n\n    return digit_sum(n // 10) + n % 10   # 재귀 단계',
+        run: function (n, ev) {
+          ev.push({ t: 'call', label: 'digit_sum(' + n + ')', arg: n });
+          if (n < 10) { ev.push({ t: 'ret', label: 'digit_sum(' + n + ')', expr: n + ' (기본 단계)', val: n }); return n; }
+          var r = this.run(Math.floor(n / 10), ev), v = r + (n % 10);
+          ev.push({ t: 'ret', label: 'digit_sum(' + n + ')', expr: r + ' + ' + (n % 10) + ' = ' + v, val: v });
+          return v;
+        }
+      }
+    };
+
+    var ev = [], step = 0, frames = [], timer = null, spec = SPEC.fact;
+
+    function build() {
+      stop();
+      spec = SPEC[fnSel.value];
+      nLab.textContent = spec.nlab;
+      nIn.min = spec.min; nIn.max = spec.max;
+      var n = parseInt(nIn.value, 10);
+      if (isNaN(n) || n < spec.min || n > spec.max) { n = spec.def; nIn.value = n; }
+      codeEl.textContent = spec.code;
+      ev = []; spec.run(n, ev); step = 0; frames = [];
+      render();
+      status.innerHTML = '<b>다음 단계</b>를 누를 때마다 호출 하나가 쌓이거나 값 하나가 반환됩니다. 총 ' + ev.length + '단계.';
+    }
+    function render(msg) {
+      box.innerHTML = '';
+      frames.forEach(function (f, i) {
+        var d = document.createElement('div');
+        d.className = 'cell' + (f.done ? ' done' : '') + (i === frames.length - 1 && !f.done ? ' active' : '');
+        d.innerHTML = '<b>' + f.label + '</b>' + (f.done ? '<span>→ ' + f.expr + '</span>' : '<span>계산 대기 중</span>');
+        box.appendChild(d);
+      });
+      var live = frames.filter(function (f) { return !f.done; }).length;
+      depthEl.textContent = '깊이 ' + live;
+      trace.innerHTML = '';
+      ev.slice(0, step).forEach(function (e, i) {
+        var d = document.createElement('div');
+        d.className = (e.t === 'call' ? 'call' : 'ret') + (i === step - 1 ? ' now' : '');
+        d.textContent = (e.t === 'call' ? '↓ 호출  ' : '↑ 반환  ') + e.label + (e.t === 'ret' ? ' = ' + e.val : '');
+        trace.appendChild(d);
+      });
+      trace.scrollTop = trace.scrollHeight;
+      if (msg) status.innerHTML = msg;
+    }
+    function next() {
+      if (step >= ev.length) return false;
+      var e = ev[step++];
+      if (e.t === 'call') {
+        frames.push({ label: e.label, done: false });
+        render('<b>' + e.label + '</b> 호출 — 스택에 쌓입니다. 아직 답을 모르니 <b>기다립니다</b>.');
+      } else {
+        for (var i = frames.length - 1; i >= 0; i--) {
+          if (!frames[i].done) { frames[i].done = true; frames[i].expr = e.expr; break; }
+        }
+        render('<b>' + e.label + '</b>가 <b>' + e.val + '</b>를 반환 — 스택에서 빠지고, 기다리던 위 단계가 계산을 이어갑니다.');
+      }
+      if (step >= ev.length) {
+        var last = ev[ev.length - 1];
+        status.innerHTML = '끝났습니다. 최종 결과는 <b>' + last.val + '</b>. 호출은 위에서 아래로, 반환은 <b>아래에서 위로</b> 일어났습니다.';
+      }
+      return step < ev.length;
+    }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } playBtn.textContent = '자동 재생'; }
+    function play() {
+      if (timer) { stop(); return; }
+      if (step >= ev.length) { build(); }
+      playBtn.textContent = '멈추기';
+      timer = setInterval(function () { if (!next()) stop(); }, 620);
+    }
+
+    root.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-act]'); if (!b) return;
+      if (b.dataset.act === 'step') { stop(); next(); }
+      else if (b.dataset.act === 'play') play();
+      else if (b.dataset.act === 'reset') build();
+    });
+    fnSel.addEventListener('change', function () { nIn.value = SPEC[fnSel.value].def; build(); });
+    nIn.addEventListener('change', build);
+    build();
+  })();
+
+  /* ============ 4. 하노이 탑 ============ */
   (function () {
     var root = document.getElementById('lab-hanoi'); if (!root) return;
     var pegEls = [].slice.call(root.querySelectorAll('.peg')),
@@ -2336,7 +2629,7 @@ print(dp[n])   # 55</pre>
     reset(true);
   })();
 
-  /* ============ 4. 이진 탐색 ============ */
+  /* ============ 5. 이진 탐색 ============ */
   (function () {
     var root = document.getElementById('lab-bsearch'); if (!root) return;
     var row = root.querySelector('[data-row]'), bcnt = root.querySelector('[data-bcnt]'),
@@ -2398,7 +2691,7 @@ print(dp[n])   # 55</pre>
     tInput.value = 74; reset();
   })();
 
-  /* ============ 5. 재귀 vs 동적 계획법 ============ */
+  /* ============ 6. 재귀 vs 동적 계획법 ============ */
   (function () {
     var root = document.getElementById('lab-dp'); if (!root) return;
     var slider = root.querySelector('[data-n]'), nlab = root.querySelector('[data-nlabel]'),
@@ -2430,7 +2723,7 @@ print(dp[n])   # 55</pre>
     update();
   })();
 
-  /* ============ 6. 빅오 비교 ============ */
+  /* ============ 7. 빅오 비교 ============ */
   (function () {
     var root = document.getElementById('lab-bigo'); if (!root) return;
     var wrap = root.querySelector('[data-bars]'), slider = root.querySelector('[data-n]'),
