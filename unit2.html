@@ -132,13 +132,95 @@
 
     <div class="callout"><b>왜 리스트의 뒤쪽을 쓸까?</b> 앞쪽에서 넣고 빼면 나머지 데이터가 전부 한 칸씩 밀려야 합니다. 뒤쪽은 그런 이동이 없어 훨씬 빠릅니다.</div>
 
+    <p class="codecap">전체 동작 확인</p>
+    <pre>s = Stack()
+s.push('사과')
+s.push('수박')
+print(s.peek())   # 수박  ← 확인만, 삭제 안 함
+s.push('포도')    # ['사과', '수박', '포도']
+print(s.pop())    # 포도
+print(s.pop())    # 수박
+print(s.pop())    # 사과</pre>
+
+    <div class="callout"><b>ADT(추상 자료형)</b>란 데이터 구조가 <b>어떻게 동작해야 하는지</b>를 구현 방법과 분리해 정의한 것입니다. 스택의 ADT는 <code>push(i)</code> 추가 · <code>pop()</code> 삭제 · <code>isEmpty()</code> 공백 검사 · <code>peek()</code> 확인 네 가지입니다.</div>
+
     <h4>스택이 쓰이는 곳</h4>
     <ul>
       <li>웹 브라우저의 <b>뒤로 가기</b> — 방문한 주소를 쌓아 두었다가 마지막 것부터 꺼낸다</li>
       <li><b>함수 호출과 복귀</b> — 돌아갈 위치를 저장하는 함수 스택 (재귀의 동작 원리)</li>
       <li>편집기의 <b>되돌리기(Undo)</b>, 소스 코드의 <b>괄호 검사</b></li>
       <li>미로의 <b>깊이 우선 탐색(DFS)</b>, 문자열 뒤집기·회문 검사</li>
+      <li>중위 표기식을 후위 표기식으로 변환하기, 후위 표기법 계산</li>
     </ul>
+
+    <div class="deep">
+      <span class="lbl">정보과학으로 지식 키우기 · 보충 심화</span>
+      <h5>스택 오버플로</h5>
+      <p><b>스택 오버플로</b>는 스택의 메모리 용량을 초과하는 상황입니다. 이 상태가 되면 더 이상 데이터를 삽입할 수 없습니다. 주로 <b>무한 재귀 호출</b>, 비정상적인 반복 호출, 메모리 제한 상황에서 발생합니다.</p>
+      <p>다만 파이썬에서 스택은 보통 <b>리스트</b>로 구현하므로, 파이썬 프로그래밍 환경에서 스택 오버플로가 발생할 가능성은 거의 없습니다. 반대로 비어 있는 스택에서 <code>pop</code>·<code>peek</code>을 하면 <b>언더플로 오류</b>가 납니다.</p>
+    </div>
+
+    <h4>스택으로 문제 해결하기 ① 문자열 뒤집기</h4>
+    <p>문자를 차례로 스택에 넣은 뒤 하나씩 꺼내면 <b>입력의 정반대 순서</b>가 나옵니다. 간단한 암호문을 만들 수 있습니다.</p>
+    <pre>def input_str(Stack):
+    sts = input('문자열 입력: ')
+    for i in sts:
+        Stack.push(i)              # 한 글자씩 스택에 삽입
+
+def reverse(Stack):
+    print('암호문 출력: ', end='')
+    while not Stack.isEmpty():     # 공백이 될 때까지
+        print(Stack.pop(), end='') # 하나씩 꺼내 출력
+
+s = Stack()
+input_str(s)   # 예: hello
+reverse(s)     # 예: olleh</pre>
+
+    <h4>스택으로 문제 해결하기 ② 회문 검사</h4>
+    <p>문자열의 <b>앞쪽 절반</b>을 스택에 넣고, <b>뒤쪽 절반</b>을 읽으면서 하나씩 꺼내 비교합니다. 끝까지 모두 같으면 회문입니다. 길이가 홀수면 가운데 글자 하나는 건너뜁니다.</p>
+    <pre>def check(string):
+    s = Stack()
+    length = len(string)
+    mid = length // 2                 # 중간 위치
+    for i in range(mid):
+        s.push(string[i])             # 앞쪽 절반을 스택에 삽입
+
+    if length % 2 != 0:               # 길이가 홀수이면
+        mid += 1                      # 가운데 글자는 검사에서 제외
+
+    for i in range(mid, length):      # 뒤쪽 절반과 1:1 비교
+        if s.pop() != string[i]:
+            print('회문이 아닙니다.')
+            return
+    print('회문입니다.')
+
+check('토마토')    # 회문입니다.
+check('ABCDAB')   # 회문이 아닙니다.</pre>
+    <div class="callout"><b>스택 없이도 가능할까?</b> ① 문자열 슬라이싱 <code>s == s[::-1]</code>로 비교 ② 투 포인터 기법으로 양 끝에서 안쪽으로 좁혀 가며 비교 — 두 방법 모두 가능합니다.</div>
+
+    <div class="drill">
+      <span class="lbl">역량 키우기 · 수행 활동</span>
+      <p><b>괄호 검사 프로그램</b> — 프로그래밍 언어에서 대괄호 <code>[ ]</code>, 중괄호 <code>{ }</code>, 소괄호 <code>( )</code>는 반드시 짝을 이뤄야 합니다. 왼쪽 괄호는 스택에 넣고, 오른쪽 괄호를 만나면 스택에서 꺼내 짝이 맞는지 검사합니다.</p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>예시</th><th>판정</th></tr></thead>
+        <tbody>
+          <tr><td><code>A[ ( i + 1 ) ] = 0</code></td><td>오류 없음</td></tr>
+          <tr><td><code>if ((i==0) &amp;&amp; (j==0)</code></td><td>왼쪽 괄호가 남음 — 조건 위반</td></tr>
+          <tr><td><code>while (i &lt; 10) ) :</code></td><td>오른쪽 괄호가 더 많음 — 조건 위반</td></tr>
+          <tr><td><code>A[ ( i+1 ] ) = 0</code></td><td>괄호의 종류가 어긋남 — 조건 위반</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <div class="drill">
+      <span class="lbl">스스로 해결하기</span>
+      <ol>
+        <li>다음 연산을 차례로 수행할 때 스택의 변화를 그려 보자.<br>
+          <code>push(사과) → push(바나나) → push(딸기) → push(수박) → pop() → push(포도) → pop() → pop() → pop()</code></li>
+        <li><code>main()</code>이 <code>a()</code>를 부르고, <code>a()</code>가 <code>b()</code>와 <code>c()</code>를 부를 때 <b>함수 스택</b>이 어떻게 쌓이고 사라지는지 단계별로 그려 보자.</li>
+        <li>스택을 사용하지 않고 문자열을 뒤집는 방법을 생각해 보자.</li>
+      </ol>
+    </div>
   </article>
 
   <!-- 1-2 큐 -->
@@ -228,7 +310,59 @@
       <li>동영상 <b>버퍼링</b> — 먼저 받은 데이터부터 재생</li>
       <li>미로의 <b>너비 우선 탐색(BFS)</b></li>
       <li><b>우선순위 큐</b> — 들어온 순서가 아니라 우선순위가 높은 것부터 나가는 변형 (Ⅳ단원 다익스트라에서 사용)</li>
+      <li>데이터 패킷 모델링, 공항 활주로 비행기 시뮬레이션, 은행 대기열 시뮬레이션</li>
     </ul>
+    <div class="callout"><b>덱(deque)</b>은 앞과 뒤 <b>양쪽에서 모두</b> 삽입·삭제가 가능한 구조입니다. 스택처럼도, 큐처럼도 쓸 수 있습니다.</div>
+
+    <h4>큐로 문제 해결하기 ① 급식 대기 프로그램</h4>
+    <p>대기 줄에 선 학생 수에 한 명당 5분을 곱해 예상 대기 시간을 알려 주고, 앞에서부터 한 명씩 입장시킵니다.</p>
+    <pre>def wait(Queue):                                  # 대기 시간 계산
+    time = len(Queue.que) * 5
+    return time
+
+def display(Queue):                               # 현재 상태 출력
+    print('▶현재 대기 상태:', ' → '.join(Queue.que), end=' ')
+    print('▶현재 예상 대기 시간:', wait(Queue), '분')
+
+def enter(Queue):                                 # 맨 앞 학생 입장
+    if not Queue.isEmpty():
+        person = Queue.dequeue()
+        print(person, '이(가) 급식실에 입장했습니다.')
+
+q = Queue()
+q.enqueue('지원');  display(q)   # 지원, 5분
+q.enqueue('수현');  display(q)   # 지원 → 수현, 10분
+q.enqueue('채원');  display(q)   # 지원 → 수현 → 채원, 15분
+enter(q);           display(q)   # 수현 → 채원, 10분
+enter(q);           display(q)   # 채원, 5분</pre>
+    <div class="callout"><code>'구분자'.join(리스트)</code>는 리스트의 문자열들을 구분자로 이어 붙입니다. <code>print(…, end=' ')</code>는 줄바꿈 대신 공백을 넣어 다음 출력을 같은 줄에 이어 씁니다.</div>
+
+    <h4>큐로 문제 해결하기 ② 피보나치수열 계산</h4>
+    <p>큐에 앞의 두 항만 남겨 두고 굴려 가며 계산합니다. 첫 값은 계산 후 버려야 하므로 <code>dequeue()</code>로 꺼내고, 두 번째 값은 다음에도 써야 하므로 <code>peek()</code>으로 <b>확인만</b> 합니다.</p>
+    <pre>def fibo(n):
+    print('F(1) = 1')
+    for i in range(2, n + 1):
+        first = q.dequeue()          # 이전 항 — 꺼내고 삭제
+        second = q.peek()            # 현재 항 — 확인만
+        new_value = first + second
+        q.enqueue(new_value)         # 새 항을 큐 뒤에 추가
+        print(f'F({i}) = {new_value}')
+
+q = Queue()
+q.enqueue(0)    # F(0) = 0
+q.enqueue(1)    # F(1) = 1
+fibo(10)</pre>
+
+    <div class="callout"><b>파이썬 내장 <code>queue</code> 모듈</b> — 직접 구현하지 않아도 됩니다. <code>from queue import Queue</code> 후 <code>put(i)</code> 삽입, <code>get()</code> 삭제, <code>empty()</code> 공백 검사, <code>qsize()</code> 크기 확인을 쓸 수 있습니다.</div>
+
+    <div class="drill">
+      <span class="lbl">스스로 해결하기</span>
+      <ol>
+        <li>다음 연산을 차례로 수행할 때 큐의 변화를 그려 보자.<br>
+          <code>enqueue(3) → enqueue(4) → enqueue(5) → dequeue() → dequeue() → enqueue(6) → enqueue(1) → dequeue() → dequeue()</code></li>
+        <li>파이썬 내장 <code>queue</code> 모듈로 위 과정을 그대로 구현해 보자.</li>
+      </ol>
+    </div>
 
     <div class="points">
       <span class="lbl">스택 · 큐 한눈 정리</span>
@@ -276,6 +410,25 @@
       <figcaption>루트는 단 하나. 루트를 뺀 모든 노드는 부모가 정확히 하나씩 있습니다.</figcaption>
     </figure>
 
+    <h4>트리에서 자주 쓰는 용어</h4>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>용어</th><th>뜻</th></tr></thead>
+        <tbody>
+          <tr><td>노드 · 링크</td><td>데이터를 저장하는 자리 · 노드를 잇는 선</td></tr>
+          <tr><td>루트 노드</td><td>최상위 노드. 트리에 <b>하나만</b> 존재한다</td></tr>
+          <tr><td>부모 노드</td><td>어떤 노드와 직접 연결된 <b>위쪽</b> 노드. 루트를 뺀 모든 노드는 부모가 하나씩 있다</td></tr>
+          <tr><td>자식 노드</td><td>어떤 노드와 직접 연결된 <b>아래쪽</b> 노드. 없을 수도, 여럿일 수도 있다</td></tr>
+          <tr><td>형제 노드</td><td>부모가 같은 노드끼리</td></tr>
+          <tr><td>단말 노드</td><td>자식이 없는 노드 (잎 노드)</td></tr>
+          <tr><td>서브 트리</td><td>어떤 노드를 루트로 삼는 트리. 모든 노드는 자신의 서브 트리를 이룬다</td></tr>
+          <tr><td>레벨 · 높이</td><td>루트에서 떨어진 단계 · 트리 전체의 최대 레벨</td></tr>
+          <tr><td>차수</td><td>한 노드가 가진 자식의 수</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>데이터 구조의 체계</b> — 선형 구조에는 <b>스택·큐</b>가, 비선형 구조에는 <b>트리·그래프</b>가 속합니다. 트리를 ‘나무’라 부르는 이유는 루트를 위에 두고 뒤집어 놓으면 나무 모양이 되기 때문입니다.</div>
+
     <h4>트리를 컴퓨터에 저장하는 두 가지 방법</h4>
     <div class="tablewrap">
       <table>
@@ -286,6 +439,42 @@
         </tbody>
       </table>
     </div>
+
+    <p class="codecap">인접 행렬로 트리 저장하기</p>
+    <pre>n = int(input('노드 개수: '))
+m = n - 1                                    # 트리의 링크 수는 항상 n-1
+am = [[0 for _ in range(n)] for _ in range(n)]   # n × n 2차원 리스트
+
+print(f'링크 정보를 부모 노드와 자식 노드 순서로 {m}개 입력하세요.')
+for i in range(m):
+    e1, e2 = input().split()                 # 노드 이름은 대문자로, 한 칸 띄워 입력
+    am[ord(e1) - ord('A')][ord(e2) - ord('A')] = 1
+
+for i in range(n):                           # 저장된 값 출력
+    for j in range(n):
+        print(am[i][j], end=' ')
+    print()</pre>
+    <div class="callout"><code>ord('A')</code>는 문자 A의 정숫값(65)을 돌려줍니다. <code>ord(문자) - ord('A')</code>로 A→0, B→1 … 처럼 <b>이름을 인덱스로</b> 바꿉니다. <code>split()</code>은 공백을 기준으로 문자열을 나눕니다.</div>
+
+    <p class="codecap">인접 리스트로 트리 저장하기</p>
+    <pre>n = int(input('노드 개수: '))
+m = n - 1
+al = [[0] for _ in range(n)]                 # 각 리스트의 첫 칸은 부모 노드 자리
+
+print(f'링크 정보를 부모 노드와 자식 노드 순서로 {m}개 입력하세요.')
+for i in range(m):
+    e1, e2 = input().split()
+    al[ord(e1) - ord('A')].append(e2)        # 부모의 리스트에 자식 추가
+    al[ord(e2) - ord('A')][0] = e1           # 자식의 리스트 첫 칸에 부모 저장
+
+vertex = 'A'
+for vlist in al:
+    print(f'[{vertex}]: ', end=' ')
+    for v in vlist:
+        print(v, end=' ')
+    print()
+    vertex = chr(ord(vertex) + 1)            # 다음 알파벳으로</pre>
+    <div class="callout">루트 노드는 부모가 없으므로 첫 칸에 <code>0</code>이 남습니다. 예를 들어 <code>A → 0 B C D</code>는 “A는 부모가 없고 자식이 B·C·D”라는 뜻입니다.</div>
 
     <h4>이진 트리와 이진 탐색 트리</h4>
     <p><span class="kw">이진 트리</span>는 자식이 <b>최대 2개</b>(왼쪽·오른쪽)인 트리입니다. 리스트에 순서대로 담으면 인덱스 계산만으로 가족 관계를 알 수 있습니다.</p>
@@ -326,6 +515,69 @@
       </div>
       <figcaption><b>왼쪽 서브 트리는 모두 작은 값, 오른쪽 서브 트리는 모두 큰 값.</b> 이 규칙이 모든 노드에 재귀적으로 적용되기 때문에 한 번 비교할 때마다 절반을 버릴 수 있습니다.</figcaption>
     </figure>
+
+    <div class="callout"><b>이진 탐색 트리의 3가지 규칙</b> — ① 모든 노드는 서로 다른 값을 가진다 ② 왼쪽 서브 트리에는 그 노드보다 <b>작은</b> 값만 있다 ③ 오른쪽 서브 트리에는 그 노드보다 <b>큰</b> 값만 있다. 이 규칙은 <b>모든 서브 트리에 재귀적으로</b> 적용됩니다.</div>
+
+    <p class="codecap">데이터를 넣는 과정 — 8, 3, 5, 14, 2, 10 순서로 입력</p>
+    <pre>8  입력 → 루트가 된다
+3  입력 → 8보다 작으므로 왼쪽
+5  입력 → 8보다 작아 왼쪽, 3보다 크므로 3의 오른쪽
+14 입력 → 8보다 크므로 오른쪽
+2  입력 → 8보다 작아 왼쪽, 3보다 작으므로 3의 왼쪽
+10 입력 → 8보다 커서 오른쪽, 14보다 작으므로 14의 왼쪽</pre>
+
+    <p class="codecap">리스트로 표현한 이진 탐색 트리에 저장하고 탐색하기</p>
+    <pre>def insert(idx, num):                 # idx: 저장 위치, num: 저장할 값
+    if bst[idx] == 0:                 # 빈자리면 저장
+        bst[idx] = num
+    elif num &lt; bst[idx]:
+        insert(idx * 2, num)          # 작으면 왼쪽 자식으로
+    else:
+        insert(idx * 2 + 1, num)      # 크면 오른쪽 자식으로
+
+def search(idx, num, cnt):            # cnt: 비교 횟수
+    if bst[idx] == 0:
+        print(f'{num} 탐색 실패 (비교 {cnt}회)');  return
+    if bst[idx] == num:
+        print(f'{num} 탐색 성공 (비교 {cnt}회)');  return
+    if num &lt; bst[idx]:
+        search(idx * 2, num, cnt + 1)
+    else:
+        search(idx * 2 + 1, num, cnt + 1)
+
+input_num  = [10, 5, 3, 13, 2, 14, 7, 9, 4, 12]
+search_num = [5, 2, 7, 12, 1]
+bst = [0] * 30                        # 순차 표현용 리스트(루트 인덱스는 1)
+
+for v in input_num:
+    insert(1, v)
+for v in search_num:
+    search(1, v, 1)</pre>
+    <div class="callout"><b>균형이 중요합니다.</b> 한쪽으로 치우친 트리는 탐색이 느려집니다. 이를 자동으로 맞춰 주는 <b>AVL 트리</b>, <b>레드-블랙 트리</b> 같은 구조도 있습니다.</div>
+
+    <div class="drill">
+      <span class="lbl">역량 키우기 · 수행 활동</span>
+      <p><b>토너먼트 대진표</b> — 128개 동아리가 신청 순서대로 대결하는 토너먼트에서, 두 팀의 신청 번호를 입력받아 <b>서로 만나려면 각각 몇 번 이겨야 하는지</b> 계산해 보자. 토너먼트 대진표가 곧 이진 트리이므로, 두 노드가 같은 부모를 만날 때까지 <code>i // 2</code>로 거슬러 올라가면 됩니다.</p>
+      <pre>print('신청 번호 2개를 공백으로 구분하여 입력하시오.')
+num1, num2 = list(map(int, input().split()))
+num1 += 127          # 신청 번호를 단말 노드의 인덱스로 변환
+num2 += 127
+cnt = -1
+while num1 != num2:  # 같은 노드에서 만날 때까지 부모로 거슬러 올라감
+    num1 //= 2
+    num2 //= 2
+    cnt += 1
+print(f'{cnt + 1}번 이기면 만날 수 있습니다.')</pre>
+    </div>
+
+    <div class="drill">
+      <span class="lbl">스스로 해결하기</span>
+      <ol>
+        <li>주어진 트리에서 <b>루트 노드 · E의 부모 노드 · D의 자식 노드 · F의 형제 노드 · 단말 노드</b>를 각각 찾아보자.</li>
+        <li>같은 트리를 <b>인접 행렬</b>과 <b>인접 리스트</b> 두 가지로 표현해 보고, 사용한 칸 수를 비교해 보자.</li>
+        <li>이진 트리를 순차 데이터 구조로 저장하고, 특정 노드의 부모·왼쪽 자식·오른쪽 자식 인덱스를 계산해 확인해 보자.</li>
+      </ol>
+    </div>
   </article>
 
   <!-- 2-2 그래프 -->
@@ -382,7 +634,19 @@
       <figcaption>내비게이션은 가중치 그래프에서 가중치 합이 가장 작은 경로를 찾아 안내합니다.</figcaption>
     </figure>
 
+    <h4>경로와 사이클</h4>
+    <p><span class="kw">경로</span>는 한 노드에서 다른 노드로 가는 길입니다. 두 노드 사이에 경로가 여러 개일 수 있습니다. 출발한 노드로 <b>다시 돌아오는</b> 경로를 <span class="kw">사이클</span>이라고 합니다.</p>
+    <div class="callout">예를 들어 대학 전공 과목 위계도에서 ‘컴퓨터 과학 개론 → 프로그래밍과 문제 해결 → 파이썬 프로그래밍’과 ‘컴퓨터 과학 개론 → 프로그래밍과 문제 해결 → 객체지향 프로그래밍 → 파이썬 프로그래밍’은 서로 다른 <b>두 경로</b>입니다. ‘데이터 구조 → 알고리즘 → 인공지능 개론 → 데이터 구조’처럼 제자리로 돌아오면 <b>사이클</b>입니다.</div>
+
     <p><b>완전 그래프</b>는 모든 노드가 자신을 뺀 나머지 전부와 연결된 그래프입니다. 노드가 n개일 때 링크 수는 무방향이면 <code>n(n−1)/2</code>, 방향이면 <code>n(n−1)</code>개입니다.</p>
+    <div class="callout"><b>희소 그래프와 밀집 그래프</b> — 노드 수에 비해 링크가 적으면 <b>희소 그래프</b>, 많으면 <b>밀집 그래프</b>입니다. 희소 그래프는 인접 리스트가, 완전 그래프에 가까운 밀집 그래프는 인접 행렬이 유리합니다.</div>
+
+    <div class="deep">
+      <span class="lbl">정보과학으로 지식 키우기 · 보충 심화</span>
+      <h5>케빈 베이컨의 6단계 법칙</h5>
+      <p>세상 모든 사람은 <b>최대 6단계</b>의 관계만 거치면 서로 연결된다는 법칙입니다. 배우들은 같은 영화에 함께 출연하며 연결되고, 이렇게 하나의 거대한 네트워크가 만들어집니다.</p>
+      <p>이 개념은 영화계 이야기로 끝나지 않고 <b>사회관계망 서비스 분석</b>의 중요한 이론으로 발전했습니다. 인터넷 구조, 바이러스 확산 등 다양한 네트워크 분석에도 쓰입니다.</p>
+    </div>
 
     <h4>그래프 탐색 — DFS와 BFS</h4>
     <figure>
@@ -439,6 +703,82 @@ def bfs(cur):                       # 큐를 직접 사용
         for col in range(n):
             if am[cur][col] == 1 and v[col] == 0:
                 visit(col)</pre>
+
+    <h4>그래프를 인접 행렬로 저장하는 프로그램</h4>
+    <p>방향·가중치 여부를 함께 입력받아 한 프로그램으로 세 종류를 모두 처리합니다.</p>
+    <pre>a1 = input('방향 그래프인가요?[Y/N]')
+a2 = input('가중치 그래프인가요?[Y/N]')
+n = int(input('노드 개수: '))
+m = int(input('링크 개수: '))
+am = [[0 for _ in range(n)] for _ in range(n)]
+
+print(f'링크 정보를 {m}개 입력하세요.')
+for i in range(m):
+    if a2 == 'Y':                          # 가중치 그래프면
+        n1, n2, w = input().split()        # 노드 2개와 가중치
+    else:
+        n1, n2 = input().split()
+        w = 1
+    if a1 != 'Y':                          # 무방향이면 양쪽에 모두 표시
+        am[ord(n2) - ord('A')][ord(n1) - ord('A')] = int(w)
+    am[ord(n1) - ord('A')][ord(n2) - ord('A')] = int(w)
+
+for i in range(n):
+    for j in range(n):
+        print(am[i][j], end=' ')
+    print()</pre>
+    <div class="callout"><b>무방향 그래프는 대칭</b>입니다. A—B가 연결되면 A행-B열과 B행-A열에 모두 표시해야 합니다. 방향 그래프는 화살표 방향의 한쪽에만 표시합니다. 가중치 그래프는 1 대신 가중치 값을 적습니다.</div>
+
+    <h4>그래프 탐색으로 문제 해결하기</h4>
+    <p class="codecap">① 두 노드가 연결되어 있는지 확인 — 섬 사이를 자동차로 갈 수 있을까?</p>
+    <pre>n = 6
+am = [[0,0,0,1,1,0], [0,0,0,0,0,0], [0,0,0,0,1,0],
+      [1,0,0,0,0,0], [1,0,1,0,0,0], [0,0,0,0,0,0]]
+v = [0 for _ in range(n)]
+possible = [False]
+
+def dfs(cur, t):                    # 현재 노드, 목표 노드
+    if cur == t:
+        possible[0] = True
+    v[cur] = 1
+    for col in range(n):
+        if am[cur][col] == 1 and v[col] == 0:
+            dfs(col, t)
+
+n1, n2 = input().split()            # 예: A F
+dfs(ord(n1) - ord('A'), ord(n2) - ord('A'))
+print('자동차로 이동 가능' if possible[0] else '자동차로 이동 불가능')</pre>
+
+    <p class="codecap">② 최단 거리 탐색 — 모든 경로를 따라가며 가장 짧은 것 찾기</p>
+    <pre>n = 6
+am = [[0,5,0,2,11,13], [5,0,10,0,0,0], [0,10,0,0,0,2],
+      [2,0,0,0,5,0], [11,0,0,5,0,5], [13,0,2,0,5,0]]
+v = [0 for _ in range(n)]
+min_dist = [99999]                  # 최단 거리 초기화
+
+def dfs(cur, t, dist):
+    if cur == t and dist &lt; min_dist[0]:
+        min_dist[0] = dist          # 더 짧은 경로를 찾으면 갱신
+        return
+    for col in range(n):
+        if am[cur][col] &gt; 0 and v[col] == 0:
+            v[col] = 1
+            dfs(col, t, dist + am[cur][col])
+            v[col] = 0              # 되돌아오며 방문 표시 해제(백트래킹)
+
+n1, n2 = input().split()
+dfs(ord(n1) - ord('A'), ord(n2) - ord('A'), 0)
+print(f'{n1}도시에서 {n2}도시까지 최단 거리는 {min_dist[0]}입니다.')</pre>
+    <div class="callout">모든 경로를 다 확인하므로 정확하지만 느립니다. 가중치 그래프에서 한 지점부터 다른 모든 지점까지의 최단 경로를 효율적으로 구하는 방법이 <b>다익스트라 알고리즘</b>이며, Ⅳ단원 탄소 발자국 프로젝트에서 사용합니다.</div>
+
+    <div class="drill">
+      <span class="lbl">스스로 해결하기</span>
+      <ol>
+        <li>주어진 그래프가 방향·무방향·가중치 중 어느 종류인지 판별하고, <b>인접 행렬</b>과 <b>인접 리스트</b>로 각각 표현해 보자.</li>
+        <li>깊이 우선 탐색과 너비 우선 탐색을 수행했을 때의 <b>방문 순서</b>를 각각 적어 보자. (같은 조건이면 알파벳 순서가 빠른 노드를 먼저 방문한다)</li>
+        <li>우리 주변에서 그래프 구조로 표현하면 좋은 데이터를 찾아 표로 정리해 보자.</li>
+      </ol>
+    </div>
 
     <div class="points">
       <span class="lbl">핵심 포인트</span>
