@@ -695,7 +695,15 @@
   var form = gate.querySelector('[data-gate-form]');
   var pw = gate.querySelector('[data-gate-pw]');
   var msg = gate.querySelector('[data-gate-msg]');
-  var KEY = '보문고';
+  // 한글 IME가 꺼진 상태에서 친 영문 자판 값(qhansrh)도 함께 받아 준다.
+  // 맥에서 자모가 분리되어 들어오는 경우를 위해 NFC로 정규화한다.
+  var KEYS = ['보문고', 'qhansrh'];
+
+  function norm(s) {
+    s = (s || '').trim().toLowerCase();
+    try { s = s.normalize('NFC'); } catch (e) {}
+    return s;
+  }
 
   function unlock() {
     try { localStorage.setItem('unlocked', 'yes'); } catch (e) {}
@@ -707,12 +715,12 @@
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    var v = (pw.value || '').trim();
-    if (v === KEY) {
+    var v = norm(pw.value);
+    if (KEYS.map(norm).indexOf(v) >= 0) {
       msg.textContent = '';
       unlock();
     } else {
-      msg.textContent = '비밀번호가 맞지 않습니다. 수업 시간에 안내된 비밀번호를 확인해 주세요.';
+      msg.textContent = '비밀번호가 맞지 않습니다. 한글 입력 상태인지 확인해 주세요.';
       pw.value = '';
       pw.focus();
     }

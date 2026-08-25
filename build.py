@@ -276,6 +276,7 @@ EXTRA_CSS = """
     border-radius:2px;
   }
   #gate-pw:focus{outline:2px solid var(--accent); outline-offset:-2px}
+  .gate-hint{margin:.45rem 0 0; font-size:.74rem; color:var(--ink3); line-height:1.55}
   .gate-msg{margin:.6rem 0 0; font-size:.82rem; color:var(--err); min-height:1.2em}
   .gate-btn{margin-top:.9rem; width:100%; justify-content:center; padding:.6rem}
   .gate-note{
@@ -619,7 +620,15 @@ EXTRA_JS = """
   var form = gate.querySelector('[data-gate-form]');
   var pw = gate.querySelector('[data-gate-pw]');
   var msg = gate.querySelector('[data-gate-msg]');
-  var KEY = '보문고';
+  // 한글 IME가 꺼진 상태에서 친 영문 자판 값(qhansrh)도 함께 받아 준다.
+  // 맥에서 자모가 분리되어 들어오는 경우를 위해 NFC로 정규화한다.
+  var KEYS = ['보문고', 'qhansrh'];
+
+  function norm(s) {
+    s = (s || '').trim().toLowerCase();
+    try { s = s.normalize('NFC'); } catch (e) {}
+    return s;
+  }
 
   function unlock() {
     try { localStorage.setItem('unlocked', 'yes'); } catch (e) {}
@@ -631,12 +640,12 @@ EXTRA_JS = """
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    var v = (pw.value || '').trim();
-    if (v === KEY) {
+    var v = norm(pw.value);
+    if (KEYS.map(norm).indexOf(v) >= 0) {
       msg.textContent = '';
       unlock();
     } else {
-      msg.textContent = '비밀번호가 맞지 않습니다. 수업 시간에 안내된 비밀번호를 확인해 주세요.';
+      msg.textContent = '비밀번호가 맞지 않습니다. 한글 입력 상태인지 확인해 주세요.';
       pw.value = '';
       pw.focus();
     }
@@ -823,8 +832,9 @@ GATE = """<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-t
     <h1 id="gate-title">정보과학</h1>
     <p class="gate-sub">씨마스 『정보과학』 2022 개정 교육과정 수업 자료</p>
     <label class="gate-lab" for="gate-pw">열람 비밀번호</label>
-    <input id="gate-pw" type="password" data-gate-pw autocomplete="off"
-           inputmode="text" placeholder="수업 시간에 안내된 비밀번호">
+    <input id="gate-pw" type="text" data-gate-pw autocomplete="off"
+           spellcheck="false" autocapitalize="off" placeholder="수업 시간에 안내된 비밀번호">
+    <p class="gate-hint">한글로 입력하세요. 대소문자와 앞뒤 공백은 구분하지 않습니다.</p>
     <p class="gate-msg" data-gate-msg role="status" aria-live="polite"></p>
     <button class="btn btn-p gate-btn" type="submit">들어가기</button>
     <p class="gate-note">본 자료는 학교 수업 목적으로 제작되었으며,
