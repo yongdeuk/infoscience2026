@@ -32,7 +32,7 @@ for n in (1, 2, 3, 4):
 # ---------- 실행 가능한 코드 블록 표시 ----------
 import ast as _ast, html as _html
 
-_NO_RUN = ('turtle', 'pip install', 'import os', 'os.path', 'csv', '...', '⋮', '•')
+_NO_RUN = ('turtle', 'ColabTurtle', 'pip install', 'import os', 'os.path', 'csv', '...', '⋮', '•')
 
 def mark_runnable(body):
     """파이썬으로 파싱되고, 최상위에서 실제 실행되며, 출력이 있는 블록에만 data-run을 단다."""
@@ -58,13 +58,36 @@ def mark_runnable(body):
                     runnable = False
         if runnable:
             cnt += 1
-            attrs = ' data-run'
+            attrs = ' data-run data-editable'
             if 'input(' in code:
                 attrs += ' data-needs-stdin'
             out.append('<pre%s>%s</pre>' % (attrs, m.group(1)))
         else:
             out.append(part)
     return ''.join(out), cnt
+
+
+_DRILL_RE = re.compile(
+    r'(<div class="drill">\s*<span class="lbl">스스로 해결하기</span>)(.*?)'
+    r'(?=<div class="(?:drill|deep)"|</article>|<h4|<h3)', re.S)
+
+def mark_editable_drill(body):
+    """'스스로 해결하기' 안의 코드는 학생이 직접 고쳐 쓰는 것이 목적이므로,
+    미완성 코드라도 항상 수정 가능(data-editable)한 실행 블록으로 만든다."""
+    cnt = 0
+    def block_sub(bm):
+        nonlocal cnt
+        def pre_sub(pm):
+            nonlocal cnt
+            cnt += 1
+            code = pm.group(1)
+            attrs = ' data-run data-editable'
+            if 'input(' in _html.unescape(code):
+                attrs += ' data-needs-stdin'
+            return '<pre%s>%s</pre>' % (attrs, code)
+        content = re.sub(r'<pre>(.*?)</pre>', pre_sub, bm.group(2), flags=re.S)
+        return bm.group(1) + content
+    return _DRILL_RE.sub(block_sub, body), cnt
 
 
 UNIT_META = {
@@ -76,8 +99,9 @@ UNIT_META = {
 
 _run_total = 0
 for _n in (1, 2, 3, 4):
-    units[_n], _c = mark_runnable(units[_n])
-    _run_total += _c
+    units[_n], _c0 = mark_editable_drill(units[_n])
+    units[_n], _c1 = mark_runnable(units[_n])
+    _run_total += _c0 + _c1
 
 # ---------- 추가 CSS ----------
 EXTRA_CSS = """
@@ -180,6 +204,10 @@ EXTRA_CSS = """
 
   /* ---------- 파이썬 코드 실행기 ---------- */
   pre[data-run]{margin-bottom:0; border-radius:3px 3px 0 0}
+  pre.is-editable{
+    outline:2px dashed var(--accent); outline-offset:-2px; cursor:text;
+  }
+  pre.is-editable:focus{outline-style:solid; background:var(--accent-soft)}
   .runner{
     margin:0 0 1.2rem; border:1px solid var(--line); border-top:none;
     background:var(--surface); border-radius:0 0 3px 3px;
@@ -343,6 +371,22 @@ EXTRA_JS = """
   function globalsOf(py) { if (!gvars) gvars = py.toPy({}); return gvars; }
   function resetVars() { if (gvars) { gvars.destroy(); gvars = null; } }
 
+  // execCommand('insertText', ...)는 더 이상 표준이 아니고 브라우저마다 동작이
+  // 다르므로, 편집 가능한 코드 블록에서는 Selection/Range API로 직접 텍스트
+  // 노드를 다뤄 Tab·Enter·붙여넣기가 항상 같은 방식으로 동작하게 한다.
+  function insertPlainText(text) {
+    var sel = window.getSelection();
+    if (!sel.rangeCount) return;
+    var range = sel.getRangeAt(0);
+    range.deleteContents();
+    var node = document.createTextNode(text);
+    range.insertNode(node);
+    range.setStartAfter(node);
+    range.collapse(true);
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+
   function run(pre, out, stdinEl, btn) {
     var label = btn.textContent;
     btn.disabled = true;
@@ -352,25 +396,37 @@ EXTRA_JS = """
     out.textContent = booting ? '실행 중…'
       : '파이썬 실행기를 준비하고 있습니다. 처음 한 번만 몇 초 걸립니다…';
 
+    var NL = String.fromCharCode(10), CR = String.fromCharCode(13);
+    var raw = stdinEl ? stdinEl.value.split(CR).join('') : '';
+    var lines = stdinEl ? raw.split(NL) : [];
+    var i = 0;
+    var buf = [];
+
+    // stdout은 줄바꿈이 없으면 곧바로 batched 콜백으로 넘어오지 않고 뒤늦게
+    // 모아서 전달될 수 있어, input() 프롬프트와 입력값을 실행 도중 실시간으로
+    // 순서대로 재현하기 어렵다. 그 대신 실제로 소비된 입력값을 결과 맨 앞에
+    // 따로 정리해 보여 주어, input()을 쓴 예제도 결과를 바로 확인할 수 있게 한다.
+    function withInputSummary(body) {
+      if (!i) return body;
+      var used = lines.slice(0, i).map(function (v) { return v === '' ? '(빈 값)' : v; });
+      return 'input() 입력값 → ' + used.join(', ') + NL + NL + body;
+    }
+
     boot().then(function (py) {
-      var NL = String.fromCharCode(10), CR = String.fromCharCode(13);
-      var raw = stdinEl ? stdinEl.value.split(CR).join('') : '';
-      var lines = stdinEl ? raw.split(NL) : [];
-      var i = 0;
       py.setStdin({ stdin: function () { return i < lines.length ? lines[i++] : ''; } });
-      var buf = [];
       py.setStdout({ batched: function (s) { buf.push(s); } });
       py.setStderr({ batched: function (s) { buf.push(s); } });
       return py.runPythonAsync(pre.textContent, { globals: globalsOf(py) })
         .then(function () {
           out.className = 'runner-out';
-          out.textContent = buf.length ? buf.join(String.fromCharCode(10)) : '(출력 없음)';
+          out.textContent = withInputSummary(buf.length ? buf.join(NL) : '(출력 없음)');
         });
     }).catch(function (e) {
       out.className = 'runner-out err';
       var msg = String((e && e.message) || e);
       var m = msg.match(new RegExp('([A-Za-z_]*(?:Error|Exception)[^]*)$'));
-      out.textContent = (m ? m[1] : msg).trim();
+      var errText = (m ? m[1] : msg).trim();
+      out.textContent = withInputSummary(buf.length ? buf.join(NL) + NL + NL + errText : errText);
       if (/NameError/.test(msg)) {
         out.textContent += String.fromCharCode(10,10) + '힌트: 이 예제는 앞 코드 블록에서 만든 함수나 변수를 씁니다. 위쪽 블록을 먼저 실행해 보세요.';
       }
@@ -381,6 +437,9 @@ EXTRA_JS = """
   }
 
   pres.forEach(function (pre) {
+    var editable = pre.hasAttribute('data-editable');
+    var original = pre.textContent;
+
     var wrap = el('div', 'runner');
     var bar = el('div', 'runner-bar');
 
@@ -388,7 +447,39 @@ EXTRA_JS = """
     var copyBtn = el('button', 'btn', '복사');          copyBtn.type = 'button';
     var resetBtn = el('button', 'btn', '변수 초기화');   resetBtn.type = 'button';
     bar.appendChild(runBtn); bar.appendChild(copyBtn); bar.appendChild(resetBtn);
-    bar.appendChild(el('span', 'hint', '브라우저 안에서 실행됩니다'));
+
+    if (editable) {
+      pre.classList.add('is-editable');
+      pre.contentEditable = 'true';
+      pre.spellcheck = false;
+      pre.setAttribute('aria-label', '코드를 직접 고칠 수 있습니다');
+
+      var revertBtn = el('button', 'btn', '원래 코드로');  revertBtn.type = 'button';
+      revertBtn.addEventListener('click', function () {
+        pre.textContent = original;
+        out.hidden = true;
+      });
+      bar.appendChild(revertBtn);
+
+      pre.addEventListener('paste', function (e) {
+        e.preventDefault();
+        var text = (e.clipboardData || window.clipboardData).getData('text/plain');
+        insertPlainText(text);
+      });
+      pre.addEventListener('keydown', function (e) {
+        if (e.key === 'Tab') {
+          e.preventDefault();
+          insertPlainText('    ');
+        } else if (e.key === 'Enter') {
+          // contenteditable 기본 동작은 줄바꿈 대신 <div>/<br>을 넣어
+          // textContent에 개행이 사라지므로, 실제 개행 문자를 직접 삽입한다.
+          e.preventDefault();
+          insertPlainText(String.fromCharCode(10));
+        }
+      });
+    }
+
+    bar.appendChild(el('span', 'hint', editable ? '직접 고쳐서 실행해 보세요' : '브라우저 안에서 실행됩니다'));
     wrap.appendChild(bar);
 
     var stdinEl = null;

@@ -240,19 +240,19 @@ def chkPrime(k):                   def chkPrime(k):
 
     <h4>코드를 보고 시간 복잡도 읽기</h4>
     <p class="codecap">O(n) — 반복문이 n번 돈다</p>
-    <pre data-run data-needs-stdin>sum = 0
+    <pre data-run data-editable data-needs-stdin>sum = 0
 n = int(input('자연수 입력:'))
 for num in range(n + 1):     # n이 커지면 더하는 횟수도 그만큼 늘어남
     sum += num
 print(f'1부터 {n}까지의 합은 {sum}입니다.')</pre>
 
     <p class="codecap">O(1) — 공식으로 한 번에 끝낸다</p>
-    <pre data-run data-needs-stdin>n = int(input('자연수 입력:'))
+    <pre data-run data-editable data-needs-stdin>n = int(input('자연수 입력:'))
 sum = int(n * (n + 1) / 2)   # n과 관계없이 실행 시간이 거의 같음
 print(f'1부터 {n}까지의 합은 {sum}입니다.')</pre>
 
     <p class="codecap">O(n²) — 반복문이 이중으로 겹친다 (선택 정렬)</p>
-    <pre data-run data-needs-stdin>nums = [8, 2, 5, 11, 26, 33, 1, 88, 52, 7, 19, 75, 26, 44, 11, 62, 9, 15, 21, 30]
+    <pre data-run data-editable data-needs-stdin>nums = [8, 2, 5, 11, 26, 33, 1, 88, 52, 7, 19, 75, 26, 44, 11, 62, 9, 15, 21, 30]
 n = int(input('20 이하의 자연수 입력:'))
 
 for i in range(n):                  # 바깥쪽 반복문 n번
@@ -351,7 +351,7 @@ print('크기순 값\\n', nums[:n])</pre>
     </ol>
 
     <p><b>순차 탐색</b>은 처음부터 끝까지 하나씩 확인합니다. 정렬되어 있지 않아도 쓸 수 있지만 시간 복잡도는 O(n)입니다.</p>
-    <pre data-run>def linear_search(arr, target):
+    <pre data-run data-editable>def linear_search(arr, target):
     for i in range(len(arr)):
         if arr[i] == target:
             return i
@@ -362,7 +362,7 @@ print(f'Target found at index: {linear_search(arr, 8)}')   # 2</pre>
 
     <p class="codecap">선형 전체 탐색의 예 — ‘한수’의 개수 세기</p>
     <p>각 자릿수가 <b>등차수열</b>을 이루는 수를 한수라고 합니다. 123은 차이가 모두 1이라 한수이고, 124는 차이가 1과 2로 달라 한수가 아닙니다. 한 자리 수와 두 자리 수는 모두 한수입니다.</p>
-    <pre data-run data-needs-stdin>def is_hansu(number):
+    <pre data-run data-editable data-needs-stdin>def is_hansu(number):
     if number &lt; 100:
         return True                      # 한/두 자리 수는 모두 한수
     str_num = str(number)
@@ -382,7 +382,7 @@ print(count_hansu(N))</pre>
 
     <h4>비선형 전체 탐색 — 3×3 행렬에서 최소 합 찾기</h4>
     <p>행과 열이 겹치지 않게 숫자 3개를 골라 합이 최소가 되게 하는 문제입니다. 첫 행에서 3개, 둘째 행에서 남은 2개, 셋째 행에서 1개 — 경우의 수는 <b>3! = 6</b>가지이고, n×n이면 <b>n!</b>가지입니다.</p>
-    <pre data-run>m = [[1, 5, 3], [2, 5, 7], [9, 3, 5]]
+    <pre data-run data-editable>m = [[1, 5, 3], [2, 5, 7], [9, 3, 5]]
 visited = [False] * 3                # 열 사용 여부
 min_solution = float('inf')
 
@@ -552,7 +552,7 @@ greedy_coin_change(63, [50, 10, 5, 1])   # [50, 10, 1, 1, 1]  최적!
         </tbody>
       </table></div>
       <p>전략: <b>가장 빨리 끝나는 과목</b>을 먼저 고르고, 그 종료 시간 이후에 시작하면서 또 가장 빨리 끝나는 과목을 고르기를 반복한다.</p>
-      <pre>classes = [('미술', 9, 10), ('영어', 9.5, 10.5), ('수학', 10, 11),
+      <pre data-run data-editable>classes = [('미술', 9, 10), ('영어', 9.5, 10.5), ('수학', 10, 11),
            ('컴퓨터', 10.5, 11.5), ('음악', 11, 12)]
 classes.sort(key=lambda x: x[2])      # 종료 시간 기준 정렬
 selected_classes = []
@@ -571,7 +571,7 @@ print('최대한 많은 수업을 들을 수 있는 시간표: ', selected_class
 
     <p class="codecap">예제 — 둘레가 9인 삼각형 화단은 몇 가지나 만들 수 있을까</p>
     <p>삼각형이 되려면 <b>두 변의 길이 합이 나머지 한 변보다 커야</b> 합니다. 따라서 한 변은 둘레의 절반을 넘을 수 없습니다. 이 조건으로 탐색 범위를 미리 잘라 냅니다.</p>
-    <pre data-run>perimeter = 9
+    <pre data-run data-editable>perimeter = 9
 count = 0
 
 a = 1
@@ -734,7 +734,7 @@ quicksort([7, 5, 9, 4, 1])   # [1, 4, 5, 7, 9]</pre>
 합병 → [4, 5] + [1, 2] → [1, 2, 4, 5]
      → [3, 8] + [6, 7] → [3, 6, 7, 8]
 최종 → [1, 2, 3, 4, 5, 6, 7, 8]</pre>
-    <pre data-run>def merge_sort(arr):
+    <pre data-run data-editable>def merge_sort(arr):
     if len(arr) &lt;= 1:                    # 종료 조건
         return arr
     mid = len(arr) // 2
@@ -855,7 +855,7 @@ print(merge_sort([7, 5, 9, 4, 1]))   # [1, 4, 5, 7, 9]</pre>
     </div>
 
     <p class="codecap">하향식 — 메모이제이션</p>
-    <pre data-run>dp = {1: 1, 2: 1}
+    <pre data-run data-editable>dp = {1: 1, 2: 1}
 
 def f(n):
     if n in dp:            # 이미 계산했으면 꺼내 쓰기
@@ -866,7 +866,7 @@ def f(n):
 print(f(50))   # 즉시 출력</pre>
 
     <p class="codecap">상향식 — 반복문으로 테이블 채우기</p>
-    <pre data-run>n = 10
+    <pre data-run data-editable>n = 10
 dp = {1: 1, 2: 1}
 for i in range(3, n + 1):
     dp[i] = dp[i - 1] + dp[i - 2]
@@ -876,14 +876,14 @@ print(dp[n])   # 55</pre>
     <p>한 번에 한 계단 또는 두 계단을 오를 수 있을 때 n개의 계단을 오르는 방법의 수입니다. 3개의 계단이면 ① 1+1+1 ② 1+2 ③ 2+1 로 세 가지입니다.</p>
     <pre>관계식:  f(1) = 1,  f(2) = 2,  f(n) = f(n-1) + f(n-2)</pre>
     <p class="codecap">재귀만 쓰면 — 같은 계산을 반복해 O(2ⁿ)</p>
-    <pre data-run>def climbstairs(n):
+    <pre data-run data-editable>def climbstairs(n):
     if n == 1: return 1
     if n == 2: return 2
     return climbstairs(n - 1) + climbstairs(n - 2)
 
 print(climbstairs(10))   # 89</pre>
     <p class="codecap">하향식 동적 계획법 — 계산한 값을 저장해 재사용</p>
-    <pre data-run>dp = {1: 1, 2: 2}
+    <pre data-run data-editable>dp = {1: 1, 2: 2}
 
 def climbstairs(n):
     if n in dp:
@@ -926,7 +926,7 @@ wi ≤ w 일 때:   dp[i][w] = max( vi + dp[i-1][w - wi],   # 넣는 경우
         </tbody>
       </table>
     </div>
-    <pre data-run>items = [(2, 3), (3, 4), (4, 5), (5, 6)]     # (무게, 가치)
+    <pre data-run data-editable>items = [(2, 3), (3, 4), (4, 5), (5, 6)]     # (무게, 가치)
 W = 5
 n = len(items)
 dp = [[0] * (W + 1) for _ in range(n + 1)]
@@ -967,7 +967,7 @@ print('최대 가치:', dp[n][W])   # 7</pre>
         <pre>순차 탐색: 1000회 / 이진 탐색: 10회</pre>
         <details><summary>정답과 해설</summary><div class="answer">
           <p>O(n)과 O(log n)의 차이를 숫자로 확인할 수 있습니다. 2¹⁰ = 1024이므로 10번이면 1000개를 훑습니다.</p>
-          <pre data-run>data = list(range(1, 1001))
+          <pre data-run data-editable>data = list(range(1, 1001))
 target = 1000
 
 count = 0
@@ -999,7 +999,7 @@ print('이진 탐색:', count, '회')</pre>
 [1,3,5,6]에서 7 → 4</pre>
         <details><summary>정답과 해설</summary><div class="answer">
           <p>이진 탐색이 끝났을 때 <code>lo</code>가 가리키는 자리가 정확히 삽입 위치입니다.</p>
-          <pre data-run>def search_insert(arr, target):
+          <pre data-run data-editable>def search_insert(arr, target):
     lo, hi = 0, len(arr) - 1
     while lo &lt;= hi:
         mid = (lo + hi) // 2
@@ -1023,7 +1023,7 @@ for t in [5, 2, 7, 0]:
         <pre>12원: 탐욕 4개(9+1+1+1) / 최적 2개(6+6)</pre>
         <details><summary>정답과 해설</summary><div class="answer">
           <p>최적해는 동적 계획법으로 구합니다. 두 결과를 비교하면 탐욕법이 어디서 무너지는지 정확히 보입니다.</p>
-          <pre data-run>coins = [9, 6, 1]
+          <pre data-run data-editable>coins = [9, 6, 1]
 
 def greedy(amount):
     n = 0
@@ -1055,7 +1055,7 @@ for money in range(1, 31):
 → 4개: (1,4) (5,7) (8,9) … </pre>
         <details><summary>정답과 해설</summary><div class="answer">
           <p><b>종료 시간이 빠른 것부터</b> 고르는 것이 최적임이 증명되어 있습니다. 시작 시간이나 길이 기준으로 고르면 최적이 아닙니다.</p>
-          <pre data-run>meetings = [(1,4), (3,5), (0,6), (5,7), (8,9), (5,9)]
+          <pre data-run data-editable>meetings = [(1,4), (3,5), (0,6), (5,7), (8,9), (5,9)]
 meetings.sort(key=lambda m: m[1])      # 종료 시간 기준 정렬
 
 selected = []
@@ -1077,7 +1077,7 @@ print('개수:', len(selected))</pre>
 [1, 3, 0, 2]  ← i행 퀸이 몇 열에 있는지</pre>
         <details><summary>정답과 해설</summary><div class="answer">
           <p>한 행에 하나씩 놓으면서, <b>놓을 수 없으면 되돌아가</b> 다른 열을 시도합니다(백트래킹). 같은 열과 두 대각선만 검사하면 됩니다.</p>
-          <pre data-run>N = 4
+          <pre data-run data-editable>N = 4
 board = [-1] * N          # board[행] = 열
 answers = []
 
@@ -1113,7 +1113,7 @@ for a in answers:
 → [3, 9, 10, 27, 38, 43, 82]</pre>
         <details><summary>정답과 해설</summary><div class="answer">
           <p>크기가 1이면 이미 정렬된 것으로 봅니다(기본 단계). 합칠 때는 <b>양쪽 맨 앞을 비교</b>해 작은 쪽을 먼저 담습니다.</p>
-          <pre data-run>def merge_sort(arr, depth=0):
+          <pre data-run data-editable>def merge_sort(arr, depth=0):
     if len(arr) &lt;= 1:
         return arr
     mid = len(arr) // 2
@@ -1143,7 +1143,7 @@ print('결과:', merge_sort([38, 27, 43, 3, 9, 82, 10]))</pre>
         <pre>n=3 → 4가지,  n=5 → 13가지,  n=10 → 274가지</pre>
         <details><summary>정답과 해설</summary><div class="answer">
           <p>관계식은 <code>f(n) = f(n−1) + f(n−2) + f(n−3)</code>입니다. 상향식으로 표를 채우면 재귀보다 훨씬 빠릅니다.</p>
-          <pre data-run>def climb(n):
+          <pre data-run data-editable>def climb(n):
     dp = [0] * (n + 1)
     dp[0] = 1                       # 아무것도 안 오른 경우 1가지
     for i in range(1, n + 1):
@@ -1163,7 +1163,7 @@ for n in [3, 5, 10]:
         <pre>[-2, 1, -3, 4, -1, 2, 1, -5, 4]  →  6   ([4, -1, 2, 1])</pre>
         <details><summary>정답과 해설</summary><div class="answer">
           <p>“여기서 새로 시작할까, 앞의 합에 이어 붙일까”를 각 자리에서 한 번씩만 판단하면 됩니다. O(n)으로 끝납니다.</p>
-          <pre data-run>nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
+          <pre data-run data-editable>nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
 
 best = now = nums[0]
 for x in nums[1:]:
@@ -1180,7 +1180,7 @@ print('최대 연속 부분합:', best)   # 6</pre>
         <pre>(3kg,4) (4kg,5) (2kg,3) (5kg,6)  →  최대 가치 9</pre>
         <details><summary>정답과 해설</summary><div class="answer">
           <p>표를 채운 뒤 <b>거꾸로 되짚어</b> 어떤 물건을 담았는지 알아낼 수 있습니다.</p>
-          <pre data-run>items = [(3, 4), (4, 5), (2, 3), (5, 6)]     # (무게, 가치)
+          <pre data-run data-editable>items = [(3, 4), (4, 5), (2, 3), (5, 6)]     # (무게, 가치)
 W = 7
 n = len(items)
 dp = [[0] * (W + 1) for _ in range(n + 1)]
