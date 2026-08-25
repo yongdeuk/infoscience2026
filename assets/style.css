@@ -582,6 +582,10 @@ button,input,select,textarea{font:inherit}
   }
   .foot-in{max-width:1120px; margin:0 auto; color:var(--ink3); font-size:.85rem}
   .foot-in p{margin:.3rem 0; max-width:70ch}
+  .copyright{
+    margin-top:1.1rem !important; padding-top:.9rem;
+    border-top:1px solid var(--line); color:var(--ink2); font-weight:700;
+  }
 
   /* ---------- 상단 바 ---------- */
   .topbar{
@@ -709,6 +713,44 @@ button,input,select,textarea{font:inherit}
   }
   .runner-out.err{color:var(--err)}
   .runner-out.wait{color:var(--ink3)}
+
+  /* ---------- 열람 잠금 화면 ---------- */
+  html:not(.unlocked) body{overflow:hidden}
+  html.unlocked #gate{display:none}
+  #gate{
+    position:fixed; inset:0; z-index:100; background:var(--paper);
+    display:flex; align-items:center; justify-content:center; padding:1.5rem;
+    background-image:radial-gradient(circle at 1px 1px, var(--dot) 1px, transparent 0);
+    background-size:22px 22px;
+  }
+  .gate-card{
+    width:100%; max-width:23rem; background:var(--surface);
+    border:1px solid var(--line); border-top:2px solid var(--accent);
+    border-radius:3px; padding:2rem 1.8rem 1.6rem; box-shadow:var(--lift);
+    display:flex; flex-direction:column;
+  }
+  .gate-card h1{
+    font-family:var(--display-solid); font-weight:500; font-size:1.9rem;
+    letter-spacing:.1em; text-indent:.1em; margin:0; color:var(--ink);
+    text-shadow:var(--title-shadow);
+  }
+  .gate-sub{margin:.7rem 0 1.6rem; font-size:.86rem; color:var(--ink3); line-height:1.6}
+  .gate-lab{
+    font-family:var(--mono); font-size:.68rem; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--accent); margin-bottom:.4rem;
+  }
+  #gate-pw{
+    width:100%; padding:.6rem .7rem; font-size:1rem;
+    border:1px solid var(--line); background:var(--surface-2); color:var(--ink);
+    border-radius:2px;
+  }
+  #gate-pw:focus{outline:2px solid var(--accent); outline-offset:-2px}
+  .gate-msg{margin:.6rem 0 0; font-size:.82rem; color:var(--err); min-height:1.2em}
+  .gate-btn{margin-top:.9rem; width:100%; justify-content:center; padding:.6rem}
+  .gate-note{
+    margin:1.5rem 0 0; padding-top:1rem; border-top:1px solid var(--line-2);
+    font-size:.76rem; color:var(--ink3); line-height:1.65;
+  }
 
   /* ---------- 이전/다음 ---------- */
   .pager{
