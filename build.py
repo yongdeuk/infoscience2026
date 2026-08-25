@@ -245,6 +245,44 @@ EXTRA_CSS = """
   .runner-out.err{color:var(--err)}
   .runner-out.wait{color:var(--ink3)}
 
+  /* ---------- 열람 잠금 화면 ---------- */
+  html:not(.unlocked) body{overflow:hidden}
+  html.unlocked #gate{display:none}
+  #gate{
+    position:fixed; inset:0; z-index:100; background:var(--paper);
+    display:flex; align-items:center; justify-content:center; padding:1.5rem;
+    background-image:radial-gradient(circle at 1px 1px, var(--dot) 1px, transparent 0);
+    background-size:22px 22px;
+  }
+  .gate-card{
+    width:100%; max-width:23rem; background:var(--surface);
+    border:1px solid var(--line); border-top:2px solid var(--accent);
+    border-radius:3px; padding:2rem 1.8rem 1.6rem; box-shadow:var(--lift);
+    display:flex; flex-direction:column;
+  }
+  .gate-card h1{
+    font-family:var(--display-solid); font-weight:500; font-size:1.9rem;
+    letter-spacing:.1em; text-indent:.1em; margin:0; color:var(--ink);
+    text-shadow:var(--title-shadow);
+  }
+  .gate-sub{margin:.7rem 0 1.6rem; font-size:.86rem; color:var(--ink3); line-height:1.6}
+  .gate-lab{
+    font-family:var(--mono); font-size:.68rem; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--accent); margin-bottom:.4rem;
+  }
+  #gate-pw{
+    width:100%; padding:.6rem .7rem; font-size:1rem;
+    border:1px solid var(--line); background:var(--surface-2); color:var(--ink);
+    border-radius:2px;
+  }
+  #gate-pw:focus{outline:2px solid var(--accent); outline-offset:-2px}
+  .gate-msg{margin:.6rem 0 0; font-size:.82rem; color:var(--err); min-height:1.2em}
+  .gate-btn{margin-top:.9rem; width:100%; justify-content:center; padding:.6rem}
+  .gate-note{
+    margin:1.5rem 0 0; padding-top:1rem; border-top:1px solid var(--line-2);
+    font-size:.76rem; color:var(--ink3); line-height:1.65;
+  }
+
   /* ---------- 이전/다음 ---------- */
   .pager{
     max-width:1120px; margin:0 auto; padding:2.5rem 1.25rem 0;
@@ -573,6 +611,38 @@ EXTRA_JS = """
   });
 })();
 
+/* ============ 열람 잠금 ============ */
+(function () {
+  'use strict';
+  var gate = document.getElementById('gate');
+  if (!gate) return;
+  var form = gate.querySelector('[data-gate-form]');
+  var pw = gate.querySelector('[data-gate-pw]');
+  var msg = gate.querySelector('[data-gate-msg]');
+  var KEY = '보문고';
+
+  function unlock() {
+    try { localStorage.setItem('unlocked', 'yes'); } catch (e) {}
+    document.documentElement.classList.add('unlocked');
+  }
+  if (document.documentElement.classList.contains('unlocked')) return;
+
+  setTimeout(function () { pw.focus(); }, 60);
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = (pw.value || '').trim();
+    if (v === KEY) {
+      msg.textContent = '';
+      unlock();
+    } else {
+      msg.textContent = '비밀번호가 맞지 않습니다. 수업 시간에 안내된 비밀번호를 확인해 주세요.';
+      pw.value = '';
+      pw.focus();
+    }
+  });
+})();
+
 /* ============ 밝게/어둡게 전환 ============ */
 (function () {
   'use strict';
@@ -741,11 +811,28 @@ def head(title, desc, css="assets/style.css"):
 <meta property="og:type" content="website">
 %s
 <script>
+(function(){try{if(localStorage.getItem('unlocked')==='yes')document.documentElement.className+=' unlocked';}catch(e){}})();
 (function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
 </script>
 <link rel="stylesheet" href="%s">
 </head>
 """ % (title, desc, title, desc, FAVICON, css)
+
+GATE = """<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <form class="gate-card" data-gate-form autocomplete="off">
+    <h1 id="gate-title">정보과학</h1>
+    <p class="gate-sub">씨마스 『정보과학』 2022 개정 교육과정 수업 자료</p>
+    <label class="gate-lab" for="gate-pw">열람 비밀번호</label>
+    <input id="gate-pw" type="password" data-gate-pw autocomplete="off"
+           inputmode="text" placeholder="수업 시간에 안내된 비밀번호">
+    <p class="gate-msg" data-gate-msg role="status" aria-live="polite"></p>
+    <button class="btn btn-p gate-btn" type="submit">들어가기</button>
+    <p class="gate-note">본 자료는 학교 수업 목적으로 제작되었으며,
+      저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+  </form>
+</div>
+"""
+
 
 THEME_BTN = """    <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false" title="어두운 화면으로">
       <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
@@ -819,7 +906,7 @@ def unit_page(n, prefix="", css="assets/style.css", js="assets/app.js"):
     r, name, wk, desc = UNIT_META[n]
     title = "%s %s · 정보과학" % (r, name)
     return (head(title, desc, css)
-            + '<body class="u%d">\n' % n
+            + '<body class="u%d">\n' % n + GATE
             + topbar(n, prefix)
             + '<div class="crumbbar" data-crumb></div>\n'
             + '<div class="wrap">\n'
@@ -847,7 +934,7 @@ for n in (1, 2, 3, 4):
 
 home = (head("정보과학",
              "씨마스 『정보과학』 2022 개정 교육과정 핵심 내용 정리 · 보문고등학교 김용득 선생님 제작.")
-        + '<body>\n'
+        + '<body>\n' + GATE
         + topbar(None, brand=False)
         + masthead + "\n\n" + home_map + "\n\n" + HOWTO + "\n" + plan + "\n\n"
         + footer + '\n<script src="assets/app.js"></script>\n</body>\n</html>\n')

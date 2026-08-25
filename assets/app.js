@@ -687,6 +687,38 @@
   });
 })();
 
+/* ============ 열람 잠금 ============ */
+(function () {
+  'use strict';
+  var gate = document.getElementById('gate');
+  if (!gate) return;
+  var form = gate.querySelector('[data-gate-form]');
+  var pw = gate.querySelector('[data-gate-pw]');
+  var msg = gate.querySelector('[data-gate-msg]');
+  var KEY = '보문고';
+
+  function unlock() {
+    try { localStorage.setItem('unlocked', 'yes'); } catch (e) {}
+    document.documentElement.classList.add('unlocked');
+  }
+  if (document.documentElement.classList.contains('unlocked')) return;
+
+  setTimeout(function () { pw.focus(); }, 60);
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = (pw.value || '').trim();
+    if (v === KEY) {
+      msg.textContent = '';
+      unlock();
+    } else {
+      msg.textContent = '비밀번호가 맞지 않습니다. 수업 시간에 안내된 비밀번호를 확인해 주세요.';
+      pw.value = '';
+      pw.focus();
+    }
+  });
+})();
+
 /* ============ 밝게/어둡게 전환 ============ */
 (function () {
   'use strict';
