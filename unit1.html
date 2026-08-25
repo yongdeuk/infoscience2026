@@ -43,6 +43,7 @@
         <li><a href="#t1-2" data-level="1"><em>1-2</em>함수의 활용</a></li>
         <li><a href="#t1-3" data-level="1"><em>2-1</em>재귀 구조의 이해</a></li>
         <li><a href="#t1-4" data-level="1"><em>2-2</em>재귀 구조의 활용</a></li>
+        <li><a href="#t1-5" data-level="1"><em>연습</em>코드 문제</a></li>
     </ol>
   </nav>
 </aside>
@@ -1190,6 +1191,206 @@ def find_item(root_path, target):
         <li>폴더·트리·그래프처럼 <b>자기 자신을 포함하는 구조</b>는 재귀가 가장 자연스럽다.</li>
         <li>계단 오르기(한 칸/두 칸)처럼 “직전 두 상태의 합”으로 정의되는 문제도 재귀 관계로 표현된다.</li>
       </ul>
+    </div>
+  </article>
+
+  <article class="topic" id="t1-5">
+    <h3><span class="idx">연습</span> 코드 문제 <span class="lesson">1~5주차</span></h3>
+    <p class="lede">교과서 밖에서 가져온 문제들입니다. 먼저 스스로 풀어 보고, 정답을 펼쳐 <b>▶ 실행</b>으로 결과를 확인하세요.</p>
+
+    <div class="quiz">
+
+      <div class="q">
+        <h4><span class="qnum">문제 1</span> 세 수 중 최댓값 <span class="lvl">기초 · 함수</span></h4>
+        <p>세 정수를 매개 변수로 받아 <b>가장 큰 값을 반환</b>하는 함수 <code>max_of_three(a, b, c)</code>를 작성하시오. 단, 내장 함수 <code>max()</code>는 쓰지 않는다.</p>
+        <pre>max_of_three(3, 9, 5)  →  9
+max_of_three(-2, -7, -4)  →  -2</pre>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>기준값을 하나 정해 두고 나머지와 차례로 비교합니다. 첫 값을 최댓값으로 가정하는 것이 정석입니다.</p>
+          <pre data-run>def max_of_three(a, b, c):
+    biggest = a                 # 일단 a가 가장 크다고 가정
+    if b &gt; biggest:
+        biggest = b
+    if c &gt; biggest:
+        biggest = c
+    return biggest
+
+print(max_of_three(3, 9, 5))       # 9
+print(max_of_three(-2, -7, -4))    # -2</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 2</span> 기본값 매개 변수로 인사하기 <span class="lvl">기초 · 매개 변수</span></h4>
+        <p>이름과 인사말을 받아 출력하는 <code>greet(name, word='안녕하세요')</code>를 작성하시오. 인사말을 주지 않으면 기본값을 쓴다.</p>
+        <pre>greet('민서')            →  민서님, 안녕하세요!
+greet('지호', '반갑습니다')  →  지호님, 반갑습니다!</pre>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>기본값 매개 변수는 <b>반드시 값을 받아야 하는 매개 변수보다 뒤에</b> 놓아야 합니다.</p>
+          <pre data-run>def greet(name, word='안녕하세요'):
+    print(f'{name}님, {word}!')
+
+greet('민서')
+greet('지호', '반갑습니다')</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 3</span> 점수가 몇 개든 평균 내기 <span class="lvl">중급 · 가변 인수</span></h4>
+        <p>점수를 <b>개수 제한 없이</b> 받아 평균을 반환하는 <code>average(*scores)</code>를 작성하시오. 점수가 하나도 없으면 <code>0</code>을 반환한다.</p>
+        <pre>average(80, 90, 100)  →  90.0
+average()             →  0</pre>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p><code>*scores</code>는 전달된 인수를 모두 <b>튜플</b>로 묶습니다. 빈 튜플일 때 <code>len()</code>이 0이 되어 0으로 나누는 오류가 나므로 먼저 걸러 줍니다.</p>
+          <pre data-run>def average(*scores):
+    if not scores:              # 빈 튜플이면
+        return 0
+    return sum(scores) / len(scores)
+
+print(average(80, 90, 100))   # 90.0
+print(average())              # 0</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 4</span> 한 번에 세 값 돌려주기 <span class="lvl">중급 · 여러 값 반환</span></h4>
+        <p>숫자 리스트를 받아 <b>최댓값·최솟값·평균</b>을 한 번에 반환하는 <code>stats(nums)</code>를 작성하시오.</p>
+        <pre>hi, lo, avg = stats([12, 7, 25, 3])
+→  25 3 11.75</pre>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>콤마로 나열해 반환하면 <b>튜플 하나</b>로 묶여 나갑니다. 받는 쪽에서 변수 세 개로 풀면 됩니다.</p>
+          <pre data-run>def stats(nums):
+    return max(nums), min(nums), sum(nums) / len(nums)
+
+hi, lo, avg = stats([12, 7, 25, 3])
+print(hi, lo, avg)            # 25 3 11.75</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 5</span> 방문자 수 세기 <span class="lvl">중급 · 전역 변수</span></h4>
+        <p>함수를 부를 때마다 방문자 수가 1씩 늘어나도록 <code>visit()</code>을 작성하시오. 방문자 수는 <b>전역 변수</b> <code>count</code>에 저장한다.</p>
+        <pre>visit(); visit(); visit()
+→  1번째 방문 / 2번째 방문 / 3번째 방문</pre>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p><code>global</code> 없이 <code>count = count + 1</code>을 쓰면 파이썬은 <code>count</code>를 지역 변수로 보고 <code>UnboundLocalError</code>를 냅니다.</p>
+          <pre data-run>count = 0                     # 전역 변수
+
+def visit():
+    global count              # 전역 변수를 바꾸겠다고 선언
+    count += 1
+    print(f'{count}번째 방문')
+
+visit()
+visit()
+visit()</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 6</span> 리스트의 합을 재귀로 <span class="lvl">중급 · 재귀</span></h4>
+        <p>반복문 없이 <b>재귀</b>만으로 리스트 원소의 합을 구하는 <code>rsum(nums)</code>를 작성하시오.</p>
+        <pre>rsum([1, 2, 3, 4, 5])  →  15</pre>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>“첫 원소 + 나머지 리스트의 합”으로 쪼갭니다. 리스트가 비면 합은 0 — 이것이 기본 단계입니다.</p>
+          <pre data-run>def rsum(nums):
+    if not nums:                  # 기본 단계: 빈 리스트의 합은 0
+        return 0
+    return nums[0] + rsum(nums[1:])   # 재귀 단계
+
+print(rsum([1, 2, 3, 4, 5]))      # 15</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 7</span> 최대공약수와 최소공배수 <span class="lvl">중급 · 재귀</span></h4>
+        <p>유클리드 알고리즘을 재귀로 구현해 <code>gcd(a, b)</code>를 만들고, 이를 이용해 <code>lcm(a, b)</code>도 작성하시오.</p>
+        <pre>gcd(48, 18)  →  6
+lcm(48, 18)  →  144</pre>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>두 수의 곱은 <b>최대공약수 × 최소공배수</b>와 같습니다. 그래서 <code>lcm</code>은 <code>gcd</code>로 바로 구할 수 있습니다.</p>
+          <pre data-run>def gcd(a, b):
+    if b == 0:                    # 기본 단계
+        return a
+    return gcd(b, a % b)          # 재귀 단계
+
+def lcm(a, b):
+    return a * b // gcd(a, b)
+
+print(gcd(48, 18))    # 6
+print(lcm(48, 18))    # 144</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 8</span> 별로 삼각형 그리기 <span class="lvl">중급 · 재귀</span></h4>
+        <p>재귀만 사용해 아래처럼 별을 출력하는 <code>stars(n)</code>을 작성하시오.</p>
+        <pre>stars(4)
+*
+**
+***
+****</pre>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p><b>n−1줄까지 먼저 그리고</b> 마지막에 n개를 찍습니다. 출력 순서가 거꾸로 되지 않으려면 재귀 호출을 <code>print</code>보다 앞에 두어야 합니다.</p>
+          <pre data-run>def stars(n):
+    if n == 0:                    # 기본 단계
+        return
+    stars(n - 1)                  # 먼저 n-1줄을 그리고
+    print('*' * n)                # 그다음 n개를 찍는다
+
+stars(4)</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 9</span> 하노이 탑 이동 횟수 <span class="lvl">심화 · 재귀 관계</span></h4>
+        <p>원반이 n개일 때 최소 이동 횟수를 재귀로 구하는 <code>moves(n)</code>을 만들고, 1~10개일 때의 값을 출력하시오.</p>
+        <pre>n=1 → 1,  n=2 → 3,  n=3 → 7,  n=10 → 1023</pre>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>관계식은 <code>T(n) = 2 × T(n−1) + 1</code>입니다. 결과는 항상 <b>2ⁿ − 1</b>이 됩니다.</p>
+          <pre data-run>def moves(n):
+    if n == 1:
+        return 1
+    return 2 * moves(n - 1) + 1
+
+for n in range(1, 11):
+    print(f'원반 {n}개 → {moves(n)}번  (2^{n}-1 = {2**n - 1})')</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 10</span> 은행 계좌 클래스 <span class="lvl">심화 · 클래스</span></h4>
+        <p>예금·출금·잔액 확인이 가능한 <code>Account</code> 클래스를 작성하시오. 잔액보다 많이 출금하려 하면 거절 메시지를 출력한다.</p>
+        <pre>계좌 개설: 민서 / 잔액 0원
+입금 10000 → 잔액 10000원
+출금 30000 → 잔액이 부족합니다.
+출금 3000  → 잔액 7000원</pre>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>속성은 <code>__init__</code>에서 초기화하고, 각 메소드의 첫 매개 변수는 <code>self</code>로 둡니다.</p>
+          <pre data-run>class Account:
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self.balance = balance
+        print(f'계좌 개설: {owner} / 잔액 {balance}원')
+
+    def deposit(self, amount):
+        self.balance += amount
+        print(f'입금 {amount} → 잔액 {self.balance}원')
+
+    def withdraw(self, amount):
+        if amount &gt; self.balance:
+            print(f'출금 {amount} → 잔액이 부족합니다.')
+            return
+        self.balance -= amount
+        print(f'출금 {amount} → 잔액 {self.balance}원')
+
+a = Account('민서')
+a.deposit(10000)
+a.withdraw(30000)
+a.withdraw(3000)</pre>
+        </div></details>
+      </div>
+
     </div>
   </article>
 </section>

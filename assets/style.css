@@ -493,6 +493,40 @@ button,input,select,textarea{font:inherit}
     .bs-cell{width:2.4rem; height:2.25rem; font-size:.78rem}
   }
 
+  /* ---------- 연습 문제 ---------- */
+  .quiz{margin-top:.6rem}
+  .q{border-top:1px solid var(--line); padding:1.4rem 0 .5rem}
+  .q:first-child{border-top:none; padding-top:.4rem}
+  .q > h4{
+    display:flex; align-items:baseline; gap:.6rem; flex-wrap:wrap;
+    margin:0 0 .55rem; font-size:1.02rem; border-bottom:none; padding-bottom:0;
+  }
+  .q > h4::after{content:none}
+  .qnum{
+    font-family:var(--mono); font-size:.76rem; color:var(--accent);
+    border:1px solid var(--accent); padding:.06rem .42rem; border-radius:2px; white-space:nowrap;
+  }
+  .lvl{
+    font-family:var(--mono); font-size:.7rem; color:var(--ink3);
+    margin-left:auto; white-space:nowrap;
+  }
+  .q p{margin:.4rem 0; max-width:66ch}
+  .q details{
+    margin-top:.9rem; border:1px solid var(--line); border-radius:3px; background:var(--surface-2);
+  }
+  .q summary{
+    padding:.6rem .85rem; cursor:pointer; font-size:.88rem; font-weight:700;
+    color:var(--accent-ink); list-style:none;
+    display:flex; justify-content:space-between; align-items:center; gap:1rem;
+  }
+  .q summary::-webkit-details-marker{display:none}
+  .q summary::after{content:'펼치기 ▾'; font-family:var(--mono); font-size:.7rem; font-weight:400; color:var(--ink3)}
+  .q details[open] summary{border-bottom:1px solid var(--line)}
+  .q details[open] summary::after{content:'접기 ▴'}
+  .q summary:hover{background:var(--surface)}
+  .q .answer{padding:.2rem .85rem .9rem}
+  .q .answer > p:first-child{margin-top:.7rem}
+
   /* ---------- 마감 디테일 ---------- */
   ::selection{background:var(--accent-soft); color:var(--accent-ink)}
   .toc, pre, .tablewrap, .trace, .unitnav, .figbody, .queuebox{

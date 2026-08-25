@@ -43,6 +43,7 @@
         <li><a href="#t4-2" data-level="1"><em>1-2</em>프로젝트 ① 급식 잔반 최소화</a></li>
         <li><a href="#t4-3" data-level="1"><em>2-1</em>프로젝트 ② 탄소 발자국 계산</a></li>
         <li><a href="#t4-4" data-level="1"><em>2-2</em>프로젝트 ③ 교실 자리 배치</a></li>
+        <li><a href="#t4-5" data-level="1"><em>연습</em>코드 문제</a></li>
     </ol>
   </nav>
 </aside>
@@ -544,6 +545,180 @@ export_classroom_seating_to_csv(classroom, 'result.csv')</pre>
         <li>데이터 구조 선택(딕셔너리·우선순위 큐·클래스)이 코드의 난이도를 결정한다.</li>
         <li>완벽한 답보다 <b>실행 가능하고 개선 가능한</b> 해결책을 만드는 것이 목표.</li>
       </ul>
+    </div>
+  </article>
+
+  <article class="topic" id="t4-5">
+    <h3><span class="idx">연습</span> 코드 문제 <span class="lesson">14~16주차</span></h3>
+    <p class="lede">프로젝트에 바로 쓸 수 있는 형태의 문제입니다. 우리 학교 데이터로 바꿔 넣으면 그대로 활용할 수 있습니다.</p>
+
+    <div class="quiz">
+
+      <div class="q">
+        <h4><span class="qnum">문제 1</span> 요일별 잔반량 분석 <span class="lvl">기초 · 데이터 처리</span></h4>
+        <p>일주일 잔반량 데이터에서 <b>평균·최대·최소 요일</b>을 찾고, 평균보다 많은 날을 출력하시오.</p>
+        <pre>월 32.5 / 화 18.2 / 수 41.0 / 목 25.7 / 금 12.3 (kg)</pre>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>딕셔너리의 <code>max(…, key=…)</code>를 쓰면 <b>값이 가장 큰 키</b>를 바로 얻을 수 있습니다.</p>
+          <pre data-run>waste = {'월': 32.5, '화': 18.2, '수': 41.0, '목': 25.7, '금': 12.3}
+
+avg = sum(waste.values()) / len(waste)
+print(f'평균 잔반량: {avg:.1f}kg')
+print('가장 많은 요일:', max(waste, key=waste.get), f'({max(waste.values())}kg)')
+print('가장 적은 요일:', min(waste, key=waste.get), f'({min(waste.values())}kg)')
+
+print('평균보다 많은 날:')
+for day, kg in waste.items():
+    if kg &gt; avg:
+        print(f'  {day}요일 {kg}kg  (평균 대비 +{kg - avg:.1f}kg)')</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 2</span> 잔반이 만든 온실가스 <span class="lvl">기초 · 계산</span></h4>
+        <p>잔반 1kg당 1.65kg CO₂가 나오고 소나무 한 그루가 연간 6.6kg CO₂를 흡수한다고 할 때, 한 해 잔반량으로 <b>소나무 몇 그루가 필요한지</b> 구하시오. (학생 300명, 1인당 하루 170g, 연간 190일)</p>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>단위를 g에서 kg으로 맞추는 것이 핵심입니다. 실제 수업에서는 학생 수만 바꿔 우리 학교 값을 구할 수 있습니다.</p>
+          <pre data-run>students = 300
+per_day_g = 170
+days = 190
+
+total_kg = students * per_day_g * days / 1000
+co2 = total_kg * 1.65
+trees = co2 / 6.6
+
+print(f'연간 잔반량: {total_kg:,.0f}kg')
+print(f'온실가스 배출: {co2:,.0f}kg CO2')
+print(f'소나무 {trees:,.0f}그루가 1년 동안 흡수하는 양')</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 3</span> 나의 하루 탄소 발자국 <span class="lvl">중급 · 딕셔너리</span></h4>
+        <p>활동별 배출 계수를 딕셔너리로 두고, 하루 활동량을 입력하면 <b>총 배출량과 활동별 비중</b>을 출력하는 프로그램을 작성하시오.</p>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>탄소 발자국 = <b>활동량 × 배출 계수</b>. 비중까지 보여 주면 무엇을 줄여야 할지 한눈에 보입니다.</p>
+          <pre data-run>factors = {'전기(kWh)': 0.474, '버스(km)': 0.1, '쌀(kg)': 2.7,
+           '소고기(kg)': 27, '채소(kg)': 0.5, '플라스틱(kg)': 2.5}
+today = {'전기(kWh)': 5, '버스(km)': 12, '쌀(kg)': 0.3,
+         '소고기(kg)': 0.15, '채소(kg)': 0.4, '플라스틱(kg)': 0.2}
+
+result = {}
+for act, amount in today.items():
+    result[act] = amount * factors[act]
+
+total = sum(result.values())
+print(f'하루 총 배출량: {total:.2f} kg CO2\n')
+for act, co2 in sorted(result.items(), key=lambda x: -x[1]):
+    bar = '#' * int(co2 / total * 40)
+    print(f'{act:&lt;12} {co2:6.2f}kg  {co2/total*100:4.1f}%  {bar}')</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 4</span> 최소 배출 경로 찾기 <span class="lvl">심화 · 다익스트라</span></h4>
+        <p>장소 사이 이동 배출량이 주어질 때, 집에서 각 장소까지의 <b>최소 배출 경로와 그 값</b>을 구하시오.</p>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>우선순위 큐에서 <b>지금까지 배출량이 가장 적은 곳</b>을 먼저 꺼내는 것이 핵심입니다. 경로까지 남기려면 이전 노드를 기록해 둡니다.</p>
+          <pre data-run>import heapq
+
+net = {'집':     {'학교': 300, '도서관': 450, '카페': 600},
+       '학교':   {'집': 300, '학원': 200, '도서관': 250},
+       '학원':   {'학교': 200, '카페': 150},
+       '도서관': {'집': 450, '학교': 250, '카페': 100},
+       '카페':   {'집': 600, '학원': 150, '도서관': 100}}
+
+def dijkstra(graph, start):
+    co2 = {n: float('inf') for n in graph}
+    prev = {n: None for n in graph}
+    co2[start] = 0
+    pq = [(0, start)]
+    while pq:
+        cur_co2, cur = heapq.heappop(pq)
+        if cur_co2 &gt; co2[cur]:
+            continue
+        for nxt, amount in graph[cur].items():
+            new = cur_co2 + amount
+            if new &lt; co2[nxt]:
+                co2[nxt] = new
+                prev[nxt] = cur
+                heapq.heappush(pq, (new, nxt))
+    return co2, prev
+
+co2, prev = dijkstra(net, '집')
+for place in net:
+    path, node = [], place
+    while node:
+        path.append(node)
+        node = prev[node]
+    print(f'{place}: {co2[place]}g  경로 ' + ' → '.join(path[::-1]))</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 5</span> 이전 자리를 피해 자리 배치 <span class="lvl">심화 · 백트래킹</span></h4>
+        <p>학생을 4×4 교실에 무작위로 배치하되 <b>아무도 이전과 같은 자리에 앉지 않도록</b> 하시오. 불가능하면 다시 시도한다.</p>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>후보 자리를 섞은 뒤 한 명씩 배정하고, 막히면 되돌아갑니다(백트래킹). 조건이 서로 충돌하면 해가 없을 수도 있으므로 종료 처리가 필요합니다.</p>
+          <pre data-run>import random
+
+students = ['민서', '지호', '서준', '하윤', '도윤', '지우']
+prev_seat = {'민서': 0, '지호': 1, '서준': 2, '하윤': 3, '도윤': 4, '지우': 5}
+seats = list(range(16))          # 4x4 교실
+result = {}
+
+def assign(i):
+    if i == len(students):
+        return True
+    name = students[i]
+    candidates = [s for s in seats if s not in result.values()
+                  and s != prev_seat[name]]     # 이전 자리 제외
+    random.shuffle(candidates)
+    for seat in candidates:
+        result[name] = seat
+        if assign(i + 1):
+            return True
+        del result[name]                        # 되돌리기
+    return False
+
+if assign(0):
+    for name, seat in result.items():
+        print(f'{name}: {seat // 4}행 {seat % 4}열  (이전 {prev_seat[name] // 4}행 {prev_seat[name] % 4}열)')
+else:
+    print('조건을 만족하는 배치를 찾지 못했습니다.')</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 6</span> 급식 메뉴 조합 최적화 <span class="lvl">심화 · 완전 탐색</span></h4>
+        <p>카테고리마다 메뉴를 하나씩 골라 <b>잔반 합이 가장 적은 조합</b>을 찾으시오. <code>itertools.product</code>로 모든 조합을 만들어 비교한다.</p>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>카테고리가 적을 때는 완전 탐색으로 충분합니다. 조합 수는 각 카테고리 메뉴 수의 곱(3×3×3×3 = 81가지)입니다.</p>
+          <pre data-run>from itertools import product
+
+waste = {'닭고기': 40, '돼지고기': 50, '소고기': 30,
+         '브로콜리': 20, '시금치': 25, '양배추': 35,
+         '미역국': 50, '된장국': 20, '김치찌개': 40,
+         '김치': 15, '멸치볶음': 35, '나물': 25}
+categories = {'고기': ['닭고기', '돼지고기', '소고기'],
+              '야채': ['브로콜리', '시금치', '양배추'],
+              '국':   ['미역국', '된장국', '김치찌개'],
+              '반찬': ['김치', '멸치볶음', '나물']}
+
+best, best_sum = None, float('inf')
+count = 0
+for combo in product(*categories.values()):
+    count += 1
+    total = sum(waste[m] for m in combo)
+    if total &lt; best_sum:
+        best_sum, best = total, combo
+
+print(f'전체 조합 수: {count}가지')
+print('최적 조합:', ' + '.join(best))
+print('예상 잔반량:', best_sum, 'g')</pre>
+        </div></details>
+      </div>
+
     </div>
   </article>
 </section>

@@ -43,6 +43,7 @@
         <li><a href="#t2-2" data-level="1"><em>1-2</em>큐 — 먼저 온 사람이 먼저 나간다</a></li>
         <li><a href="#t2-3" data-level="1"><em>2-1</em>트리 — 계층을 표현하는 구조</a></li>
         <li><a href="#t2-4" data-level="1"><em>2-2</em>그래프 — 관계와 경로를 표현하는 구조</a></li>
+        <li><a href="#t2-5" data-level="1"><em>연습</em>코드 문제</a></li>
     </ol>
   </nav>
 </aside>
@@ -797,6 +798,237 @@ print(f'{n1}도시에서 {n2}도시까지 최단 거리는 {min_dist[0]}입니�
         <li>이진 탐색 트리는 왼쪽=작은 값, 오른쪽=큰 값 → 비교할 때마다 절반을 배제한다.</li>
         <li><b>DFS는 스택(재귀), BFS는 큐</b>를 사용한다.</li>
       </ul>
+    </div>
+  </article>
+
+  <article class="topic" id="t2-5">
+    <h3><span class="idx">연습</span> 코드 문제 <span class="lesson">6~9주차</span></h3>
+    <p class="lede">스택·큐·트리·그래프를 실제로 굴려 보는 문제입니다. 정답 코드는 그대로 실행할 수 있습니다.</p>
+
+    <div class="quiz">
+
+      <div class="q">
+        <h4><span class="qnum">문제 1</span> 10진수를 2진수로 — 스택으로 <span class="lvl">기초 · 스택</span></h4>
+        <p>10진수를 2로 나눈 나머지를 스택에 쌓았다가 꺼내면 2진수가 됩니다. 리스트를 스택처럼 써서 <code>to_binary(n)</code>을 작성하시오.</p>
+        <pre>to_binary(13)  →  '1101'</pre>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>나머지는 <b>낮은 자리부터</b> 나오는데 2진수는 높은 자리부터 써야 합니다. 순서를 뒤집어야 하니 스택이 딱 맞습니다.</p>
+          <pre data-run>def to_binary(n):
+    stack = []
+    while n &gt; 0:
+        stack.append(n % 2)      # 나머지를 쌓고
+        n //= 2
+    result = ''
+    while stack:
+        result += str(stack.pop())   # 거꾸로 꺼낸다
+    return result
+
+print(to_binary(13))     # 1101
+print(to_binary(10))     # 1010</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 2</span> 괄호 검사기 <span class="lvl">중급 · 스택</span></h4>
+        <p>문자열에 들어 있는 <code>( ) { } [ ]</code>가 올바르게 짝지어졌는지 판단하는 <code>check_brackets(s)</code>를 작성하시오.</p>
+        <pre>'A[(i+1)] = 0'      →  True
+'if ((i==0) &amp;&amp; (j==0)'  →  False
+'A[(i+1] ) = 0'     →  False</pre>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>여는 괄호는 쌓고, 닫는 괄호를 만나면 <b>스택 맨 위와 짝이 맞는지</b> 확인합니다. 끝났을 때 스택이 비어 있어야 정상입니다.</p>
+          <pre data-run>def check_brackets(s):
+    pairs = {')': '(', '}': '{', ']': '['}
+    stack = []
+    for ch in s:
+        if ch in '({[':
+            stack.append(ch)
+        elif ch in pairs:
+            if not stack or stack.pop() != pairs[ch]:
+                return False          # 짝이 안 맞거나 여는 괄호가 없음
+    return len(stack) == 0            # 남은 여는 괄호가 없어야 정상
+
+for test in ['A[(i+1)] = 0', 'if ((i==0) &amp;&amp; (j==0)', 'A[(i+1] ) = 0']:
+    print(test, '→', check_brackets(test))</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 3</span> 후위 표기식 계산 <span class="lvl">심화 · 스택</span></h4>
+        <p><code>'3 4 + 2 *'</code>처럼 연산자가 뒤에 오는 후위 표기식을 계산하는 <code>calc_postfix(expr)</code>를 작성하시오.</p>
+        <pre>'3 4 + 2 *'      →  14      (3+4)*2
+'5 1 2 + 4 * +'  →  14      5+((1+2)*4)</pre>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>숫자는 쌓아 두고, 연산자를 만나면 <b>맨 위 두 개를 꺼내</b> 계산한 뒤 결과를 다시 넣습니다. 꺼내는 순서가 반대이므로 주의합니다.</p>
+          <pre data-run>def calc_postfix(expr):
+    stack = []
+    for token in expr.split():
+        if token in '+-*/':
+            b = stack.pop()          # 나중에 넣은 것이 오른쪽 피연산자
+            a = stack.pop()
+            if token == '+': stack.append(a + b)
+            elif token == '-': stack.append(a - b)
+            elif token == '*': stack.append(a * b)
+            else: stack.append(a / b)
+        else:
+            stack.append(int(token))
+    return stack.pop()
+
+print(calc_postfix('3 4 + 2 *'))        # 14
+print(calc_postfix('5 1 2 + 4 * +'))    # 14</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 4</span> 요세푸스 순서 — 큐로 <span class="lvl">중급 · 큐</span></h4>
+        <p>1번부터 n번까지 원형으로 앉아 있을 때 k번째 사람마다 빠져나가는 순서를 큐로 구하는 <code>josephus(n, k)</code>를 작성하시오.</p>
+        <pre>josephus(7, 3)  →  [3, 6, 2, 7, 5, 1, 4]</pre>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>앞에서 꺼내 뒤로 다시 넣기를 <b>k−1번</b> 반복하면, 그다음 꺼내는 사람이 빠질 차례입니다. 원형 구조를 큐 하나로 표현할 수 있습니다.</p>
+          <pre data-run>def josephus(n, k):
+    queue = list(range(1, n + 1))
+    order = []
+    while queue:
+        for _ in range(k - 1):
+            queue.append(queue.pop(0))   # 앞에서 꺼내 뒤로 보내기
+        order.append(queue.pop(0))       # k번째 사람 탈락
+    return order
+
+print(josephus(7, 3))    # [3, 6, 2, 7, 5, 1, 4]</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 5</span> 스택 두 개로 큐 만들기 <span class="lvl">심화 · 스택·큐</span></h4>
+        <p><code>append</code>와 <code>pop()</code>(맨 뒤)만 쓸 수 있다고 할 때, 스택 두 개로 <b>선입 선출</b>이 되는 큐를 만드시오.</p>
+        <pre>A, B, C를 넣고 세 번 빼면  A → B → C</pre>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>넣을 때는 <code>in</code> 스택에, 뺄 때는 <code>out</code> 스택에서 꺼냅니다. <code>out</code>이 비면 <code>in</code>을 <b>통째로 옮겨</b> 순서를 뒤집습니다.</p>
+          <pre data-run>class TwoStackQueue:
+    def __init__(self):
+        self.in_stack = []
+        self.out_stack = []
+
+    def enqueue(self, x):
+        self.in_stack.append(x)
+
+    def dequeue(self):
+        if not self.out_stack:                 # 꺼낼 것이 없으면
+            while self.in_stack:
+                self.out_stack.append(self.in_stack.pop())   # 옮기며 순서 뒤집기
+        if self.out_stack:
+            return self.out_stack.pop()
+
+q = TwoStackQueue()
+for x in ['A', 'B', 'C']:
+    q.enqueue(x)
+print(q.dequeue(), q.dequeue(), q.dequeue())   # A B C</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 6</span> 이진 트리의 높이 <span class="lvl">중급 · 트리</span></h4>
+        <p>리스트로 표현한 이진 트리(루트 인덱스 1, 빈칸은 0)에서 <b>높이</b>를 구하는 <code>height(tree, i)</code>를 재귀로 작성하시오.</p>
+        <pre>tree = [0, 'A', 'B', 'C', 'D', 0, 0, 'E']
+height(tree, 1)  →  3</pre>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>“내 높이 = 왼쪽·오른쪽 자식 중 더 깊은 쪽 + 1”입니다. 인덱스가 범위를 벗어나거나 값이 0이면 높이 0입니다.</p>
+          <pre data-run>def height(tree, i):
+    if i &gt;= len(tree) or tree[i] == 0:    # 기본 단계: 빈 노드
+        return 0
+    left = height(tree, i * 2)
+    right = height(tree, i * 2 + 1)
+    return max(left, right) + 1
+
+tree = [0, 'A', 'B', 'C', 'D', 0, 0, 'E']
+print(height(tree, 1))    # 3</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 7</span> 이진 탐색 트리에 넣고 정렬해 꺼내기 <span class="lvl">심화 · 트리</span></h4>
+        <p>값을 이진 탐색 트리에 넣은 뒤 <b>중위 순회</b>(왼쪽 → 자기 → 오른쪽)로 출력하면 저절로 오름차순이 됩니다. 이를 확인하는 코드를 작성하시오.</p>
+        <pre>넣는 순서: 8, 3, 10, 1, 6, 14, 4, 7
+중위 순회: 1 3 4 6 7 8 10 14</pre>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>왼쪽 서브 트리에는 작은 값만, 오른쪽에는 큰 값만 있으므로 왼쪽부터 훑으면 자동으로 정렬된 순서가 나옵니다.</p>
+          <pre data-run>def insert(node, value):
+    if node is None:
+        return {'val': value, 'left': None, 'right': None}
+    if value &lt; node['val']:
+        node['left'] = insert(node['left'], value)
+    else:
+        node['right'] = insert(node['right'], value)
+    return node
+
+def inorder(node, out):
+    if node is None:
+        return
+    inorder(node['left'], out)    # 왼쪽
+    out.append(node['val'])       # 자기
+    inorder(node['right'], out)   # 오른쪽
+
+root = None
+for v in [8, 3, 10, 1, 6, 14, 4, 7]:
+    root = insert(root, v)
+
+result = []
+inorder(root, result)
+print(result)      # [1, 3, 4, 6, 7, 8, 10, 14]</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 8</span> 친구 무리는 몇 개일까 <span class="lvl">심화 · 그래프 DFS</span></h4>
+        <p>친구 관계 그래프에서 서로 연결된 무리(연결 요소)가 몇 개인지 세는 코드를 작성하시오.</p>
+        <pre>A—B, B—C, D—E, F 혼자  →  3개 무리</pre>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>아직 방문하지 않은 노드에서 DFS를 시작할 때마다 <b>새로운 무리</b>를 하나 발견한 것입니다.</p>
+          <pre data-run>graph = {'A': ['B'], 'B': ['A', 'C'], 'C': ['B'],
+         'D': ['E'], 'E': ['D'], 'F': []}
+visited = set()
+
+def dfs(node):
+    visited.add(node)
+    for nxt in graph[node]:
+        if nxt not in visited:
+            dfs(nxt)
+
+groups = 0
+for node in graph:
+    if node not in visited:
+        groups += 1
+        dfs(node)
+        print(f'{groups}번째 무리 발견 — 시작 노드 {node}')
+
+print('무리 개수:', groups)    # 3</pre>
+        </div></details>
+      </div>
+
+      <div class="q">
+        <h4><span class="qnum">문제 9</span> 몇 다리 건너 아는 사이일까 <span class="lvl">심화 · 그래프 BFS</span></h4>
+        <p>출발 노드에서 각 노드까지 <b>몇 단계</b>를 거쳐야 하는지 너비 우선 탐색으로 구하시오. (케빈 베이컨 6단계 법칙과 같은 원리)</p>
+        <pre>A에서 출발  →  A:0  B:1  D:1  C:2  E:3</pre>
+        <details><summary>정답과 해설</summary><div class="answer">
+          <p>BFS는 <b>가까운 노드부터</b> 방문하므로 처음 도달했을 때의 단계 수가 곧 최단 거리입니다.</p>
+          <pre data-run>graph = {'A': ['B', 'D'], 'B': ['A', 'C', 'D'], 'C': ['B', 'E'],
+         'D': ['A', 'B'], 'E': ['C']}
+
+def bfs_distance(start):
+    dist = {start: 0}
+    queue = [start]
+    while queue:
+        cur = queue.pop(0)              # 선입 선출
+        for nxt in graph[cur]:
+            if nxt not in dist:         # 처음 도달했을 때가 최단
+                dist[nxt] = dist[cur] + 1
+                queue.append(nxt)
+    return dist
+
+for node, d in sorted(bfs_distance('A').items()):
+    print(f'{node}: {d}단계')</pre>
+        </div></details>
+      </div>
+
     </div>
   </article>
 </section>
