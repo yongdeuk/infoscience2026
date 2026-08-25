@@ -498,6 +498,28 @@
   function globalsOf(py) { if (!gvars) gvars = py.toPy({}); return gvars; }
   function resetVars() { if (gvars) { gvars.destroy(); gvars = null; } }
 
+  // Pyodide 기본 배포판에 들어 있지 않은 순수 파이썬 라이브러리는
+  // loadPackagesFromImports가 찾지 못해 ModuleNotFoundError가 난다.
+  // 코드에서 이런 라이브러리를 쓰면 micropip으로 한 번만 내려받는다.
+  var EXTRA_PKGS = ['colorama'];
+  var micropip = null, installedPkgs = {};
+  function ensureExtraPackages(py, code) {
+    var need = EXTRA_PKGS.filter(function (name) {
+      return !installedPkgs[name] && code.indexOf(name) !== -1;
+    });
+    if (!need.length) return Promise.resolve();
+    var ready = micropip ? Promise.resolve(micropip)
+      : py.loadPackage('micropip').then(function () {
+          return (micropip = py.pyimport('micropip'));
+        });
+    return ready.then(function (mp) {
+      return need.reduce(function (p, name) {
+        return p.then(function () { return mp.install(name); })
+          .then(function () { installedPkgs[name] = true; });
+      }, Promise.resolve());
+    });
+  }
+
   // execCommand('insertText', ...)는 더 이상 표준이 아니고 브라우저마다 동작이
   // 다르므로, 편집 가능한 코드 블록에서는 Selection/Range API로 직접 텍스트
   // 노드를 다뤄 Tab·Enter·붙여넣기가 항상 같은 방식으로 동작하게 한다.
@@ -540,14 +562,15 @@
     }
 
     boot().then(function (py) {
-      py.setStdin({ stdin: function () { return i < lines.length ? lines[i++] : ''; } });
-      py.setStdout({ batched: function (s) { buf.push(s); } });
-      py.setStderr({ batched: function (s) { buf.push(s); } });
-      return py.runPythonAsync(pre.textContent, { globals: globalsOf(py) })
-        .then(function () {
-          out.className = 'runner-out';
-          out.textContent = withInputSummary(buf.length ? buf.join(NL) : '(출력 없음)');
-        });
+      return ensureExtraPackages(py, pre.textContent).then(function () {
+        py.setStdin({ stdin: function () { return i < lines.length ? lines[i++] : ''; } });
+        py.setStdout({ batched: function (s) { buf.push(s); } });
+        py.setStderr({ batched: function (s) { buf.push(s); } });
+        return py.runPythonAsync(pre.textContent, { globals: globalsOf(py) });
+      }).then(function () {
+        out.className = 'runner-out';
+        out.textContent = withInputSummary(buf.length ? buf.join(NL) : '(출력 없음)');
+      });
     }).catch(function (e) {
       out.className = 'runner-out err';
       var msg = String((e && e.message) || e);
