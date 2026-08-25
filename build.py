@@ -270,12 +270,24 @@ EXTRA_CSS = """
     font-family:var(--mono); font-size:.68rem; letter-spacing:.14em;
     text-transform:uppercase; color:var(--accent); margin-bottom:.4rem;
   }
+  .gate-pwrap{position:relative}
   #gate-pw{
-    width:100%; padding:.6rem .7rem; font-size:1rem;
+    width:100%; padding:.6rem 2.6rem .6rem .7rem; font-size:1rem;
     border:1px solid var(--line); background:var(--surface-2); color:var(--ink);
     border-radius:2px;
   }
   #gate-pw:focus{outline:2px solid var(--accent); outline-offset:-2px}
+  .gate-eye{
+    position:absolute; right:.15rem; top:50%; transform:translateY(-50%);
+    width:2.2rem; height:2.2rem; display:flex; align-items:center; justify-content:center;
+    border:none; background:none; color:var(--ink2); cursor:pointer; border-radius:2px;
+  }
+  .gate-eye:hover{color:var(--accent-ink)}
+  .gate-eye:focus-visible{outline:2px solid var(--accent); outline-offset:1px}
+  .gate-eye svg{width:1.15rem; height:1.15rem; display:block}
+  .gate-eye .ico-eye-off{display:none}
+  .gate-eye[aria-pressed="true"] .ico-eye{display:none}
+  .gate-eye[aria-pressed="true"] .ico-eye-off{display:block}
   .gate-hint{margin:.45rem 0 0; font-size:.74rem; color:var(--ink3); line-height:1.55}
   .gate-msg{margin:.6rem 0 0; font-size:.82rem; color:var(--err); min-height:1.2em}
   .gate-btn{margin-top:.9rem; width:100%; justify-content:center; padding:.6rem}
@@ -620,6 +632,7 @@ EXTRA_JS = """
   var form = gate.querySelector('[data-gate-form]');
   var pw = gate.querySelector('[data-gate-pw]');
   var msg = gate.querySelector('[data-gate-msg]');
+  var eye = gate.querySelector('[data-gate-eye]');
   // 한글 IME가 꺼진 상태에서 친 영문 자판 값(qhansrh)도 함께 받아 준다.
   // 맥에서 자모가 분리되어 들어오는 경우를 위해 NFC로 정규화한다.
   var KEYS = ['보문고', 'qhansrh'];
@@ -635,6 +648,16 @@ EXTRA_JS = """
     document.documentElement.classList.add('unlocked');
   }
   if (document.documentElement.classList.contains('unlocked')) return;
+
+  if (eye) {
+    eye.addEventListener('click', function () {
+      var shown = pw.type === 'text';
+      pw.type = shown ? 'password' : 'text';
+      eye.setAttribute('aria-pressed', String(!shown));
+      eye.setAttribute('aria-label', shown ? '비밀번호 표시' : '비밀번호 숨기기');
+      pw.focus();
+    });
+  }
 
   setTimeout(function () { pw.focus(); }, 60);
 
@@ -832,8 +855,14 @@ GATE = """<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-t
     <h1 id="gate-title">정보과학</h1>
     <p class="gate-sub">씨마스 『정보과학』 2022 개정 교육과정 수업 자료</p>
     <label class="gate-lab" for="gate-pw">열람 비밀번호</label>
-    <input id="gate-pw" type="text" data-gate-pw autocomplete="off"
-           spellcheck="false" autocapitalize="off" placeholder="수업 시간에 안내된 비밀번호">
+    <div class="gate-pwrap">
+      <input id="gate-pw" type="password" data-gate-pw autocomplete="off"
+             spellcheck="false" autocapitalize="off" placeholder="수업 시간에 안내된 비밀번호">
+      <button class="gate-eye" type="button" data-gate-eye aria-pressed="false" aria-label="비밀번호 표시">
+        <svg class="ico-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg class="ico-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18M10.6 10.6a3 3 0 0 0 4.24 4.24M9.9 5.1A10.9 10.9 0 0 1 12 5c7 0 10.5 7 10.5 7a13.6 13.6 0 0 1-3.2 4.1M6.5 6.5C3.4 8.3 1.5 12 1.5 12a13.5 13.5 0 0 0 4.2 4.9"/></svg>
+      </button>
+    </div>
     <p class="gate-hint">한글로 입력하세요. 대소문자와 앞뒤 공백은 구분하지 않습니다.</p>
     <p class="gate-msg" data-gate-msg role="status" aria-live="polite"></p>
     <button class="btn btn-p gate-btn" type="submit">들어가기</button>

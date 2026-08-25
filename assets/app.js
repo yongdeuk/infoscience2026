@@ -695,6 +695,7 @@
   var form = gate.querySelector('[data-gate-form]');
   var pw = gate.querySelector('[data-gate-pw]');
   var msg = gate.querySelector('[data-gate-msg]');
+  var eye = gate.querySelector('[data-gate-eye]');
   // 한글 IME가 꺼진 상태에서 친 영문 자판 값(qhansrh)도 함께 받아 준다.
   // 맥에서 자모가 분리되어 들어오는 경우를 위해 NFC로 정규화한다.
   var KEYS = ['보문고', 'qhansrh'];
@@ -710,6 +711,16 @@
     document.documentElement.classList.add('unlocked');
   }
   if (document.documentElement.classList.contains('unlocked')) return;
+
+  if (eye) {
+    eye.addEventListener('click', function () {
+      var shown = pw.type === 'text';
+      pw.type = shown ? 'password' : 'text';
+      eye.setAttribute('aria-pressed', String(!shown));
+      eye.setAttribute('aria-label', shown ? '비밀번호 표시' : '비밀번호 숨기기');
+      pw.focus();
+    });
+  }
 
   setTimeout(function () { pw.focus(); }, 60);
 
