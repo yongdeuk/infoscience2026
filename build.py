@@ -29,12 +29,55 @@ units = {}
 for n in (1, 2, 3, 4):
     units[n] = grab(r'(<section class="unit u%d" id="unit%d">.*?</section>\s*)(?=<!-- =+ UNIT|\n</main>)' % (n, n))
 
+# ---------- 실행 가능한 코드 블록 표시 ----------
+import ast as _ast, html as _html
+
+_NO_RUN = ('turtle', 'pip install', 'import os', 'os.path', 'csv', '...', '⋮', '•')
+
+def mark_runnable(body):
+    """파이썬으로 파싱되고, 최상위에서 실제 실행되며, 출력이 있는 블록에만 data-run을 단다."""
+    out, cnt = [], 0
+    for part in re.split(r'(<pre>.*?</pre>)', body, flags=re.S):
+        m = re.match(r'<pre>(.*?)</pre>', part, re.S)
+        if not m:
+            out.append(part); continue
+        code = _html.unescape(m.group(1))
+        runnable = True
+        if any(k in code for k in _NO_RUN):
+            runnable = False
+        else:
+            try:
+                tree = _ast.parse(code)
+            except SyntaxError:
+                runnable = False
+            else:
+                skip = (_ast.FunctionDef, _ast.AsyncFunctionDef, _ast.ClassDef,
+                        _ast.Import, _ast.ImportFrom)
+                has_exec = any(not isinstance(nd, skip) for nd in tree.body)
+                if not has_exec or 'print(' not in code:
+                    runnable = False
+        if runnable:
+            cnt += 1
+            attrs = ' data-run'
+            if 'input(' in code:
+                attrs += ' data-needs-stdin'
+            out.append('<pre%s>%s</pre>' % (attrs, m.group(1)))
+        else:
+            out.append(part)
+    return ''.join(out), cnt
+
+
 UNIT_META = {
     1: ("Ⅰ", "프로그래밍", "1~5주차", "함수 · 모듈 · 재귀 구조 — 코드를 작은 단위로 나누는 법"),
     2: ("Ⅱ", "데이터 구조", "6~9주차", "스택 · 큐 · 트리 · 그래프 — 데이터를 담는 그릇의 모양"),
     3: ("Ⅲ", "알고리즘", "10~13주차", "복잡도 · 탐색 기반 · 관계 기반 — 더 빠른 해결 전략"),
     4: ("Ⅳ", "정보과학 프로젝트", "14~16주차", "문제 발견부터 검증까지, 실제로 만들어 보는 4단계"),
 }
+
+_run_total = 0
+for _n in (1, 2, 3, 4):
+    units[_n], _c = mark_runnable(units[_n])
+    _run_total += _c
 
 # ---------- 추가 CSS ----------
 EXTRA_CSS = """
@@ -134,6 +177,32 @@ EXTRA_CSS = """
     }
     .toc .sub a.is-active::before{background:var(--accent)}
   }
+
+  /* ---------- 파이썬 코드 실행기 ---------- */
+  pre[data-run]{margin-bottom:0; border-radius:3px 3px 0 0}
+  .runner{
+    margin:0 0 1.2rem; border:1px solid var(--line); border-top:none;
+    background:var(--surface); border-radius:0 0 3px 3px;
+  }
+  .runner-bar{display:flex; flex-wrap:wrap; gap:.45rem; align-items:center; padding:.5rem .7rem}
+  .runner-bar .hint{font-size:.76rem; color:var(--ink3); margin-left:auto}
+  .stdin-lab{
+    display:block; font-size:.75rem; color:var(--ink3);
+    padding:.5rem .7rem .6rem; border-top:1px solid var(--line-2);
+  }
+  .stdin-lab textarea{
+    display:block; width:100%; margin-top:.35rem;
+    border:1px solid var(--line); background:var(--code-bg); color:var(--code-ink);
+    font-family:var(--mono); font-size:.82rem; padding:.45rem .55rem;
+    resize:vertical; border-radius:2px;
+  }
+  .runner-out{
+    margin:0; border:none; border-top:1px solid var(--line-2); border-radius:0;
+    background:var(--code-bg); font-size:.84rem; max-height:22rem; overflow:auto;
+    white-space:pre-wrap; word-break:break-all; padding:.7rem;
+  }
+  .runner-out.err{color:var(--err)}
+  .runner-out.wait{color:var(--ink3)}
 
   /* ---------- 이전/다음 ---------- */
   .pager{
@@ -245,6 +314,122 @@ style += EXTRA_CSS
 
 # ---------- 추가 JS(스크롤 스파이) ----------
 EXTRA_JS = """
+/* ============ 파이썬 코드 실행기 ============ */
+(function () {
+  'use strict';
+  var pres = [].slice.call(document.querySelectorAll('pre[data-run]'));
+  if (!pres.length) return;
+
+  var BASE = 'https://cdn.jsdelivr.net/pyodide/v0.27.2/full/';
+  var booting = null, gvars = null;
+
+  function boot() {
+    if (booting) return booting;
+    booting = new Promise(function (resolve, reject) {
+      var s = document.createElement('script');
+      s.src = BASE + 'pyodide.js';
+      s.onload = function () { window.loadPyodide({ indexURL: BASE }).then(resolve, reject); };
+      s.onerror = function () { reject(new Error('실행기를 내려받지 못했습니다. 인터넷 연결을 확인해 주세요.')); };
+      document.head.appendChild(s);
+    });
+    return booting;
+  }
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function globalsOf(py) { if (!gvars) gvars = py.toPy({}); return gvars; }
+  function resetVars() { if (gvars) { gvars.destroy(); gvars = null; } }
+
+  function run(pre, out, stdinEl, btn) {
+    var label = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = '실행 중…';
+    out.hidden = false;
+    out.className = 'runner-out wait';
+    out.textContent = booting ? '실행 중…'
+      : '파이썬 실행기를 준비하고 있습니다. 처음 한 번만 몇 초 걸립니다…';
+
+    boot().then(function (py) {
+      var NL = String.fromCharCode(10), CR = String.fromCharCode(13);
+      var raw = stdinEl ? stdinEl.value.split(CR).join('') : '';
+      var lines = stdinEl ? raw.split(NL) : [];
+      var i = 0;
+      py.setStdin({ stdin: function () { return i < lines.length ? lines[i++] : ''; } });
+      var buf = [];
+      py.setStdout({ batched: function (s) { buf.push(s); } });
+      py.setStderr({ batched: function (s) { buf.push(s); } });
+      return py.runPythonAsync(pre.textContent, { globals: globalsOf(py) })
+        .then(function () {
+          out.className = 'runner-out';
+          out.textContent = buf.length ? buf.join(String.fromCharCode(10)) : '(출력 없음)';
+        });
+    }).catch(function (e) {
+      out.className = 'runner-out err';
+      var msg = String((e && e.message) || e);
+      var m = msg.match(new RegExp('([A-Za-z_]*(?:Error|Exception)[^]*)$'));
+      out.textContent = (m ? m[1] : msg).trim();
+      if (/NameError/.test(msg)) {
+        out.textContent += String.fromCharCode(10,10) + '힌트: 이 예제는 앞 코드 블록에서 만든 함수나 변수를 씁니다. 위쪽 블록을 먼저 실행해 보세요.';
+      }
+    }).then(function () {
+      btn.disabled = false;
+      btn.textContent = label;
+    });
+  }
+
+  pres.forEach(function (pre) {
+    var wrap = el('div', 'runner');
+    var bar = el('div', 'runner-bar');
+
+    var runBtn = el('button', 'btn btn-p', '▶ 실행');  runBtn.type = 'button';
+    var copyBtn = el('button', 'btn', '복사');          copyBtn.type = 'button';
+    var resetBtn = el('button', 'btn', '변수 초기화');   resetBtn.type = 'button';
+    bar.appendChild(runBtn); bar.appendChild(copyBtn); bar.appendChild(resetBtn);
+    bar.appendChild(el('span', 'hint', '브라우저 안에서 실행됩니다'));
+    wrap.appendChild(bar);
+
+    var stdinEl = null;
+    if (pre.hasAttribute('data-needs-stdin')) {
+      var lab = el('label', 'stdin-lab', 'input() 에 넣을 값 — 한 줄에 하나씩');
+      stdinEl = el('textarea');
+      stdinEl.rows = 2;
+      stdinEl.placeholder = '값을 비워 두면 빈 문자열이 입력됩니다';
+      lab.appendChild(stdinEl);
+      wrap.appendChild(lab);
+    }
+
+    var out = el('pre', 'runner-out');
+    out.hidden = true;
+    wrap.appendChild(out);
+    pre.insertAdjacentElement('afterend', wrap);
+
+    runBtn.addEventListener('click', function () { run(pre, out, stdinEl, runBtn); });
+    resetBtn.addEventListener('click', function () {
+      resetVars();
+      out.hidden = false; out.className = 'runner-out wait';
+      out.textContent = '지금까지 만들어진 변수와 함수를 모두 지웠습니다.';
+    });
+    copyBtn.addEventListener('click', function () {
+      var text = pre.textContent;
+      var done = function () {
+        copyBtn.textContent = '복사됨';
+        setTimeout(function () { copyBtn.textContent = '복사'; }, 1200);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, done);
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = text; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(ta); done();
+      }
+    });
+  });
+})();
+
 /* ============ 밝게/어둡게 전환 ============ */
 (function () {
   'use strict';
@@ -509,7 +694,8 @@ for n in (1, 2, 3, 4):
 HOWTO = """<section class="howto">
   <div><h3>단원별로 나뉘어 있습니다</h3><p>위 카드나 상단 메뉴에서 단원을 고르세요. 각 단원은 독립된 페이지라 필요한 부분만 열어 볼 수 있습니다.</p></div>
   <div><h3>왼쪽 목차가 현재 위치를 알려 줍니다</h3><p>단원 페이지에서 스크롤하면 지금 보고 있는 항목이 왼쪽 목차에 표시됩니다. 휴대폰에서는 화면 위쪽에 나타납니다.</p></div>
-  <div><h3>직접 조작해 보세요</h3><p>스택·큐·재귀 호출·하노이 탑·이진 탐색 등 7개의 실습이 본문 안에 들어 있습니다.</p></div>
+  <div><h3>코드를 바로 실행해 보세요</h3><p>예제 코드 아래 <b>▶ 실행</b>을 누르면 설치 없이 브라우저 안에서 파이썬이 돌아갑니다. <code>input()</code>이 있는 예제는 입력값을 미리 적어 두면 됩니다.</p></div>
+  <div><h3>직접 조작하는 실습</h3><p>스택·큐·재귀 호출·하노이 탑·이진 탐색 등 7개의 실습 위젯이 본문 안에 들어 있습니다.</p></div>
 </section>
 """
 home_map = unitmap
@@ -525,3 +711,4 @@ home = (head("정보과학",
 io.open(os.path.join(OUT, "index.html"), "w", encoding="utf-8", newline="\n").write(home)
 
 print("built:", ", ".join(sorted(os.listdir(OUT))))
+print("실행 가능한 코드 블록:", _run_total, "개")

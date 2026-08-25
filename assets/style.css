@@ -11,6 +11,7 @@ button,input,select,textarea{font:inherit}
     --line:#dde2e8; --line-2:#eef1f5;
     --code-bg:#f0f3f6; --code-ink:#1d2530;
     --dot:#dfe4ec; --hair:#eaeef3;
+    --err:#b3261e;
     --title-shadow:0 1px 1px rgba(20,25,34,.10), 0 6px 18px rgba(20,25,34,.14);
     --accent:#3a4bb0; --accent-soft:#e6e9fa; --accent-ink:#26307a;
     --shadow:0 1px 2px rgba(20,25,34,.05), 0 8px 24px -16px rgba(20,25,34,.28);
@@ -28,6 +29,8 @@ button,input,select,textarea{font:inherit}
       --line:#262d38; --line-2:#1e242d;
       --code-bg:#0d131b; --code-ink:#d5dce6;
       --dot:#232a35; --hair:#1c222b;
+    --err:#ff9d95;
+      --err:#ff9d95;
       --title-shadow:0 1px 2px rgba(0,0,0,.55), 0 8px 24px rgba(0,0,0,.45);
       --accent:#8f9dff; --accent-soft:#1a2040; --accent-ink:#b6c0ff;
       --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
@@ -642,6 +645,32 @@ button,input,select,textarea{font:inherit}
     }
     .toc .sub a.is-active::before{background:var(--accent)}
   }
+
+  /* ---------- 파이썬 코드 실행기 ---------- */
+  pre[data-run]{margin-bottom:0; border-radius:3px 3px 0 0}
+  .runner{
+    margin:0 0 1.2rem; border:1px solid var(--line); border-top:none;
+    background:var(--surface); border-radius:0 0 3px 3px;
+  }
+  .runner-bar{display:flex; flex-wrap:wrap; gap:.45rem; align-items:center; padding:.5rem .7rem}
+  .runner-bar .hint{font-size:.76rem; color:var(--ink3); margin-left:auto}
+  .stdin-lab{
+    display:block; font-size:.75rem; color:var(--ink3);
+    padding:.5rem .7rem .6rem; border-top:1px solid var(--line-2);
+  }
+  .stdin-lab textarea{
+    display:block; width:100%; margin-top:.35rem;
+    border:1px solid var(--line); background:var(--code-bg); color:var(--code-ink);
+    font-family:var(--mono); font-size:.82rem; padding:.45rem .55rem;
+    resize:vertical; border-radius:2px;
+  }
+  .runner-out{
+    margin:0; border:none; border-top:1px solid var(--line-2); border-radius:0;
+    background:var(--code-bg); font-size:.84rem; max-height:22rem; overflow:auto;
+    white-space:pre-wrap; word-break:break-all; padding:.7rem;
+  }
+  .runner-out.err{color:var(--err)}
+  .runner-out.wait{color:var(--ink3)}
 
   /* ---------- 이전/다음 ---------- */
   .pager{

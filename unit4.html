@@ -284,7 +284,7 @@ categories = {
     return get_min_waste(0, [])               # (4) 계산 시작</pre>
 
     <p class="codecap">③ 메인 함수 실행 및 결과 출력</p>
-    <pre>min_waste, best_menu = dp_minimize_waste(menu_data, categories)
+    <pre data-run>min_waste, best_menu = dp_minimize_waste(menu_data, categories)
 print('최적 메뉴 조합:', best_menu)
 print('최소 잔반량:', min_waste, 'g')
 # 최적 메뉴 조합: ['소고기', '브로콜리', '된장국', '김치']
@@ -388,7 +388,7 @@ def dijkstra(graph, start):
     <div class="callout"><code>float('inf')</code>로 초기화하는 이유는 <b>아직 그 장소로 가는 경로를 찾지 못했음</b>을 나타내기 위해서입니다. <code>heapq</code>는 파이썬의 우선순위 큐 모듈로, 가장 작은 값을 먼저 꺼냅니다.</div>
 
     <p class="codecap">③ 메인 함수 실행 및 결과 출력</p>
-    <pre>result = dijkstra(carbon_network, '집')
+    <pre data-run>result = dijkstra(carbon_network, '집')
 target = '학원'
 print(f'\\n집에서 {target}까지 최소 탄소 배출량: {result[target]}g CO2')</pre>
 
@@ -485,7 +485,7 @@ print(f'\\n집에서 {target}까지 최소 탄소 배출량: {result[target]}g C
         print()</pre>
 
     <p class="codecap">③ 단위 테스트로 중간 확인</p>
-    <pre>if __name__ == '__main__':
+    <pre data-run>if __name__ == '__main__':
     classroom = Classroom(4, 4, False)
     print('\\n***** 초기 자리 배치 상태 *****')
     classroom.display_seats()

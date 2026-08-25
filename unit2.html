@@ -141,7 +141,7 @@
     <div class="callout"><b>왜 리스트의 뒤쪽을 쓸까?</b> 앞쪽에서 넣고 빼면 나머지 데이터가 전부 한 칸씩 밀려야 합니다. 뒤쪽은 그런 이동이 없어 훨씬 빠릅니다.</div>
 
     <p class="codecap">전체 동작 확인</p>
-    <pre>s = Stack()
+    <pre data-run>s = Stack()
 s.push('사과')
 s.push('수박')
 print(s.peek())   # 수박  ← 확인만, 삭제 안 함
@@ -170,7 +170,7 @@ print(s.pop())    # 사과</pre>
 
     <h4>스택으로 문제 해결하기 ① 문자열 뒤집기</h4>
     <p>문자를 차례로 스택에 넣은 뒤 하나씩 꺼내면 <b>입력의 정반대 순서</b>가 나옵니다. 간단한 암호문을 만들 수 있습니다.</p>
-    <pre>def input_str(Stack):
+    <pre data-run data-needs-stdin>def input_str(Stack):
     sts = input('문자열 입력: ')
     for i in sts:
         Stack.push(i)              # 한 글자씩 스택에 삽입
@@ -186,7 +186,7 @@ reverse(s)     # 예: olleh</pre>
 
     <h4>스택으로 문제 해결하기 ② 회문 검사</h4>
     <p>문자열의 <b>앞쪽 절반</b>을 스택에 넣고, <b>뒤쪽 절반</b>을 읽으면서 하나씩 꺼내 비교합니다. 끝까지 모두 같으면 회문입니다. 길이가 홀수면 가운데 글자 하나는 건너뜁니다.</p>
-    <pre>def check(string):
+    <pre data-run>def check(string):
     s = Stack()
     length = len(string)
     mid = length // 2                 # 중간 위치
@@ -324,7 +324,7 @@ check('ABCDAB')   # 회문이 아닙니다.</pre>
 
     <h4>큐로 문제 해결하기 ① 급식 대기 프로그램</h4>
     <p>대기 줄에 선 학생 수에 한 명당 5분을 곱해 예상 대기 시간을 알려 주고, 앞에서부터 한 명씩 입장시킵니다.</p>
-    <pre>def wait(Queue):                                  # 대기 시간 계산
+    <pre data-run>def wait(Queue):                                  # 대기 시간 계산
     time = len(Queue.que) * 5
     return time
 
@@ -347,7 +347,7 @@ enter(q);           display(q)   # 채원, 5분</pre>
 
     <h4>큐로 문제 해결하기 ② 피보나치수열 계산</h4>
     <p>큐에 앞의 두 항만 남겨 두고 굴려 가며 계산합니다. 첫 값은 계산 후 버려야 하므로 <code>dequeue()</code>로 꺼내고, 두 번째 값은 다음에도 써야 하므로 <code>peek()</code>으로 <b>확인만</b> 합니다.</p>
-    <pre>def fibo(n):
+    <pre data-run>def fibo(n):
     print('F(1) = 1')
     for i in range(2, n + 1):
         first = q.dequeue()          # 이전 항 — 꺼내고 삭제
@@ -449,7 +449,7 @@ fibo(10)</pre>
     </div>
 
     <p class="codecap">인접 행렬로 트리 저장하기</p>
-    <pre>n = int(input('노드 개수: '))
+    <pre data-run data-needs-stdin>n = int(input('노드 개수: '))
 m = n - 1                                    # 트리의 링크 수는 항상 n-1
 am = [[0 for _ in range(n)] for _ in range(n)]   # n × n 2차원 리스트
 
@@ -465,7 +465,7 @@ for i in range(n):                           # 저장된 값 출력
     <div class="callout"><code>ord('A')</code>는 문자 A의 정숫값(65)을 돌려줍니다. <code>ord(문자) - ord('A')</code>로 A→0, B→1 … 처럼 <b>이름을 인덱스로</b> 바꿉니다. <code>split()</code>은 공백을 기준으로 문자열을 나눕니다.</div>
 
     <p class="codecap">인접 리스트로 트리 저장하기</p>
-    <pre>n = int(input('노드 개수: '))
+    <pre data-run data-needs-stdin>n = int(input('노드 개수: '))
 m = n - 1
 al = [[0] for _ in range(n)]                 # 각 리스트의 첫 칸은 부모 노드 자리
 
@@ -535,7 +535,7 @@ for vlist in al:
 10 입력 → 8보다 커서 오른쪽, 14보다 작으므로 14의 왼쪽</pre>
 
     <p class="codecap">리스트로 표현한 이진 탐색 트리에 저장하고 탐색하기</p>
-    <pre>def insert(idx, num):                 # idx: 저장 위치, num: 저장할 값
+    <pre data-run>def insert(idx, num):                 # idx: 저장 위치, num: 저장할 값
     if bst[idx] == 0:                 # 빈자리면 저장
         bst[idx] = num
     elif num &lt; bst[idx]:
@@ -566,7 +566,7 @@ for v in search_num:
     <div class="drill">
       <span class="lbl">역량 키우기 · 수행 활동</span>
       <p><b>토너먼트 대진표</b> — 128개 동아리가 신청 순서대로 대결하는 토너먼트에서, 두 팀의 신청 번호를 입력받아 <b>서로 만나려면 각각 몇 번 이겨야 하는지</b> 계산해 보자. 토너먼트 대진표가 곧 이진 트리이므로, 두 노드가 같은 부모를 만날 때까지 <code>i // 2</code>로 거슬러 올라가면 됩니다.</p>
-      <pre>print('신청 번호 2개를 공백으로 구분하여 입력하시오.')
+      <pre data-run data-needs-stdin>print('신청 번호 2개를 공백으로 구분하여 입력하시오.')
 num1, num2 = list(map(int, input().split()))
 num1 += 127          # 신청 번호를 단말 노드의 인덱스로 변환
 num2 += 127
@@ -714,7 +714,7 @@ def bfs(cur):                       # 큐를 직접 사용
 
     <h4>그래프를 인접 행렬로 저장하는 프로그램</h4>
     <p>방향·가중치 여부를 함께 입력받아 한 프로그램으로 세 종류를 모두 처리합니다.</p>
-    <pre>a1 = input('방향 그래프인가요?[Y/N]')
+    <pre data-run data-needs-stdin>a1 = input('방향 그래프인가요?[Y/N]')
 a2 = input('가중치 그래프인가요?[Y/N]')
 n = int(input('노드 개수: '))
 m = int(input('링크 개수: '))
@@ -739,7 +739,7 @@ for i in range(n):
 
     <h4>그래프 탐색으로 문제 해결하기</h4>
     <p class="codecap">① 두 노드가 연결되어 있는지 확인 — 섬 사이를 자동차로 갈 수 있을까?</p>
-    <pre>n = 6
+    <pre data-run data-needs-stdin>n = 6
 am = [[0,0,0,1,1,0], [0,0,0,0,0,0], [0,0,0,0,1,0],
       [1,0,0,0,0,0], [1,0,1,0,0,0], [0,0,0,0,0,0]]
 v = [0 for _ in range(n)]
@@ -758,7 +758,7 @@ dfs(ord(n1) - ord('A'), ord(n2) - ord('A'))
 print('자동차로 이동 가능' if possible[0] else '자동차로 이동 불가능')</pre>
 
     <p class="codecap">② 최단 거리 탐색 — 모든 경로를 따라가며 가장 짧은 것 찾기</p>
-    <pre>n = 6
+    <pre data-run data-needs-stdin>n = 6
 am = [[0,5,0,2,11,13], [5,0,10,0,0,0], [0,10,0,0,0,2],
       [2,0,0,0,5,0], [11,0,0,5,0,5], [13,0,2,0,5,0]]
 v = [0 for _ in range(n)]

@@ -469,6 +469,122 @@
   })();
 })();
 
+/* ============ 파이썬 코드 실행기 ============ */
+(function () {
+  'use strict';
+  var pres = [].slice.call(document.querySelectorAll('pre[data-run]'));
+  if (!pres.length) return;
+
+  var BASE = 'https://cdn.jsdelivr.net/pyodide/v0.27.2/full/';
+  var booting = null, gvars = null;
+
+  function boot() {
+    if (booting) return booting;
+    booting = new Promise(function (resolve, reject) {
+      var s = document.createElement('script');
+      s.src = BASE + 'pyodide.js';
+      s.onload = function () { window.loadPyodide({ indexURL: BASE }).then(resolve, reject); };
+      s.onerror = function () { reject(new Error('실행기를 내려받지 못했습니다. 인터넷 연결을 확인해 주세요.')); };
+      document.head.appendChild(s);
+    });
+    return booting;
+  }
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function globalsOf(py) { if (!gvars) gvars = py.toPy({}); return gvars; }
+  function resetVars() { if (gvars) { gvars.destroy(); gvars = null; } }
+
+  function run(pre, out, stdinEl, btn) {
+    var label = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = '실행 중…';
+    out.hidden = false;
+    out.className = 'runner-out wait';
+    out.textContent = booting ? '실행 중…'
+      : '파이썬 실행기를 준비하고 있습니다. 처음 한 번만 몇 초 걸립니다…';
+
+    boot().then(function (py) {
+      var NL = String.fromCharCode(10), CR = String.fromCharCode(13);
+      var raw = stdinEl ? stdinEl.value.split(CR).join('') : '';
+      var lines = stdinEl ? raw.split(NL) : [];
+      var i = 0;
+      py.setStdin({ stdin: function () { return i < lines.length ? lines[i++] : ''; } });
+      var buf = [];
+      py.setStdout({ batched: function (s) { buf.push(s); } });
+      py.setStderr({ batched: function (s) { buf.push(s); } });
+      return py.runPythonAsync(pre.textContent, { globals: globalsOf(py) })
+        .then(function () {
+          out.className = 'runner-out';
+          out.textContent = buf.length ? buf.join(String.fromCharCode(10)) : '(출력 없음)';
+        });
+    }).catch(function (e) {
+      out.className = 'runner-out err';
+      var msg = String((e && e.message) || e);
+      var m = msg.match(new RegExp('([A-Za-z_]*(?:Error|Exception)[^]*)$'));
+      out.textContent = (m ? m[1] : msg).trim();
+      if (/NameError/.test(msg)) {
+        out.textContent += String.fromCharCode(10,10) + '힌트: 이 예제는 앞 코드 블록에서 만든 함수나 변수를 씁니다. 위쪽 블록을 먼저 실행해 보세요.';
+      }
+    }).then(function () {
+      btn.disabled = false;
+      btn.textContent = label;
+    });
+  }
+
+  pres.forEach(function (pre) {
+    var wrap = el('div', 'runner');
+    var bar = el('div', 'runner-bar');
+
+    var runBtn = el('button', 'btn btn-p', '▶ 실행');  runBtn.type = 'button';
+    var copyBtn = el('button', 'btn', '복사');          copyBtn.type = 'button';
+    var resetBtn = el('button', 'btn', '변수 초기화');   resetBtn.type = 'button';
+    bar.appendChild(runBtn); bar.appendChild(copyBtn); bar.appendChild(resetBtn);
+    bar.appendChild(el('span', 'hint', '브라우저 안에서 실행됩니다'));
+    wrap.appendChild(bar);
+
+    var stdinEl = null;
+    if (pre.hasAttribute('data-needs-stdin')) {
+      var lab = el('label', 'stdin-lab', 'input() 에 넣을 값 — 한 줄에 하나씩');
+      stdinEl = el('textarea');
+      stdinEl.rows = 2;
+      stdinEl.placeholder = '값을 비워 두면 빈 문자열이 입력됩니다';
+      lab.appendChild(stdinEl);
+      wrap.appendChild(lab);
+    }
+
+    var out = el('pre', 'runner-out');
+    out.hidden = true;
+    wrap.appendChild(out);
+    pre.insertAdjacentElement('afterend', wrap);
+
+    runBtn.addEventListener('click', function () { run(pre, out, stdinEl, runBtn); });
+    resetBtn.addEventListener('click', function () {
+      resetVars();
+      out.hidden = false; out.className = 'runner-out wait';
+      out.textContent = '지금까지 만들어진 변수와 함수를 모두 지웠습니다.';
+    });
+    copyBtn.addEventListener('click', function () {
+      var text = pre.textContent;
+      var done = function () {
+        copyBtn.textContent = '복사됨';
+        setTimeout(function () { copyBtn.textContent = '복사'; }, 1200);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, done);
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = text; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(ta); done();
+      }
+    });
+  });
+})();
+
 /* ============ 밝게/어둡게 전환 ============ */
 (function () {
   'use strict';

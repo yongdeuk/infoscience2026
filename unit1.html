@@ -122,7 +122,7 @@
       <figcaption>인수는 호출자가 <em>보내는</em> 값, 매개 변수는 함수 안에서 그 값을 <em>받는</em> 변수입니다. 두 개수는 반드시 일치해야 합니다.</figcaption>
     </figure>
 
-    <pre>def find_middle_number(a, b, c):
+    <pre data-run>def find_middle_number(a, b, c):
     numbers = [a, b, c]
     numbers.sort()
     return numbers[1]
@@ -133,7 +133,7 @@ print(find_middle_number(10, 20, 30))  # 20</pre>
     <div class="callout"><b>return의 두 가지 역할</b> — ① 값을 반환한다 ② 함수를 즉시 종료한다. 값 없이 <code>return</code>만 쓰면 <code>None</code>을 반환하며, 그 아래 문장은 실행되지 않습니다.</div>
 
     <p class="codecap">예제 — 회문 검사: 조건에 걸리면 <code>return</code>으로 즉시 빠져나온다</p>
-    <pre>def reverse(s):
+    <pre data-run>def reverse(s):
     if len(s) == 0:                     # ❶ 빈 문자열이면
         print('문자열이 비어 있습니다.')
         return                          #    값 없이 종료
@@ -167,7 +167,7 @@ reverse('Believe you can, and you are halfway there')  # 길이가 너무 깁니
     </div>
 
     <p class="codecap">① 매개 변수도 반환값도 없는 함수</p>
-    <pre>def print_numbers():
+    <pre data-run data-needs-stdin>def print_numbers():
     for i in range(1, 11):
         input('Enter키를 누르세요.')
         print(i)
@@ -175,34 +175,44 @@ reverse('Believe you can, and you are halfway there')  # 길이가 너무 깁니
 print_numbers()</pre>
 
     <p class="codecap">② 매개 변수는 있고 반환값은 없는 함수 — turtle로 정사각형 그리기</p>
-    <pre>import turtle
+    <pre>!pip install ColabTurtle -q          # 코랩에서 한 번만 설치
+from ColabTurtle.Turtle import *
+
+initializeTurtle(initial_speed=8)   # 그림판 준비
 
 def draw_square(length):
-    for _ in range(4):        # 정사각형이므로 4번 반복
-        t.forward(length)     # 받은 길이만큼 이동
-        t.right(90)           # 오른쪽으로 90도 회전
+    for _ in range(4):              # 정사각형이므로 4번 반복
+        forward(length)             # 받은 길이만큼 이동
+        right(90)                   # 오른쪽으로 90도 회전
 
-t = turtle.Turtle()
-t.shape('turtle')
 draw_square(100)</pre>
-    <div class="callout"><b>turtle 모듈</b> — 파이썬에서 간단한 그래픽을 그리는 모듈입니다. <code>t.left(90)</code>·<code>t.right(90)</code>은 좌우 90도 회전, <code>t.color('blue')</code>는 색 변경, <code>t.shape('turtle')</code>은 아이콘 모양 변경(arrow, circle, square, triangle, classic 등).</div>
+    <div class="callout"><b>코랩에서 거북이 그래픽 쓰기</b> — 구글 코랩은 파이썬 기본 <code>turtle</code>을 지원하지 않습니다(창을 띄울 수 없기 때문). 대신 <code>ColabTurtle</code>을 설치해 씁니다.
+    <ul>
+      <li><code>!pip install ColabTurtle -q</code> — 노트북마다 한 번만 실행</li>
+      <li><code>initializeTurtle()</code> — 그림판을 만든다. 반드시 먼저 호출</li>
+      <li>객체(<code>t.</code>) 없이 <b>함수를 그대로</b> 부른다 → <code>forward(100)</code>, <code>right(90)</code></li>
+      <li>시작 방향이 <b>위쪽</b>이고, 속도는 <code>initial_speed</code>로 1~13 사이에서 지정한다</li>
+      <li><code>color('blue')</code> 색 변경, <code>width(3)</code> 굵기, <code>penup()</code>·<code>pendown()</code> 펜 들기/내리기</li>
+    </ul>
+    내 컴퓨터의 파이썬(IDLE·VS Code 등)에서는 <code>import turtle</code>을 그대로 쓰면 됩니다.</div>
 
     <p class="codecap">③ 매개 변수는 없고 반환값이 있는 함수 — 거북이의 현재 위치</p>
-    <pre>import turtle
+    <pre>!pip install ColabTurtle -q
+from ColabTurtle.Turtle import *
+
+initializeTurtle(initial_speed=8)
 
 def get_position():
-    return t.position()
+    return position()               # (x, y) 튜플을 반환
 
-t = turtle.Turtle()
-t.shape('turtle')
-t.forward(100)
+forward(100)
 
 x, y = get_position()
-print('거북이의 현재 위치 x:', x)   # 100.0
-print('거북이의 현재 위치 y:', y)   # 0.0</pre>
+print('거북이의 현재 위치 x:', x)
+print('거북이의 현재 위치 y:', y)</pre>
 
     <p class="codecap">④ 매개 변수와 반환값이 모두 있는 함수 — 두 점 사이의 거리</p>
-    <pre>def get_dist(point1, point2):     # 매개 변수로 튜플을 받음
+    <pre data-run>def get_dist(point1, point2):     # 매개 변수로 튜플을 받음
     x1, y1 = point1
     x2, y2 = point2
     return ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
@@ -233,7 +243,7 @@ print(get_dist((0, 0), (3, 4)))   # 5.0</pre>
       <figcaption>같은 이름이 있으면 <b>가까운 쪽(지역)이 이깁니다.</b> 함수 안에서 전역 변수 자체를 바꾸려면 <code>global</code> 키워드가 필요합니다.</figcaption>
     </figure>
 
-    <pre>drink = 'coffee'          # 전역 변수
+    <pre data-run>drink = 'coffee'          # 전역 변수
 
 def print_global_drink():
     global drink          # 전역 변수를 참조하겠다는 선언
@@ -260,7 +270,7 @@ def print_global_drink():
       <span class="lbl">스스로 해결하기</span>
       <ol>
         <li>메뉴를 입력하면 주문 완료 문구를 <b>반환</b>하는 <code>order()</code> 함수를 작성해 보자.
-          <pre>user_menu = input('주문할 메뉴를 입력하세요: ')
+          <pre data-run data-needs-stdin>user_menu = input('주문할 메뉴를 입력하세요: ')
 print(order(user_menu))
 
 # 실행 결과
@@ -268,7 +278,7 @@ print(order(user_menu))
 # 버블티 주문이 완료되었습니다.</pre>
         </li>
         <li>등교에 40분 걸리는 학생이 학교 도착 예정 시간을 입력하면 집에서 출발할 시간을 출력하는 <code>calculate_time()</code>을 완성해 보자. 단, 도착 예정 시간은 <b>7시 이후 10시 이전</b>이어야 한다.
-          <pre>def calculate_time(hour, min):
+          <pre data-run>def calculate_time(hour, min):
     if min &lt; 0 or min &gt;= 60:
         print('분은 0-59 사이여야 합니다.')
         return
@@ -326,7 +336,7 @@ def remove_song(song):
 
     <h4>기본값 매개 변수</h4>
     <p>값을 전달하지 않아도 되도록 미리 값을 준비해 둔 매개 변수입니다. 그래서 <b>선택적 매개 변수</b>라고도 합니다. 반드시 <b>일반 매개 변수보다 뒤에</b> 놓아야 합니다.</p>
-    <pre>def apply_discount(prices, discount=0):
+    <pre data-run>def apply_discount(prices, discount=0):
     for price in prices:
         sale = round(price * (1 - discount))
         print(f'정가 {price} → 판매가 {sale}원')
@@ -336,7 +346,7 @@ apply_discount([1000, 2000], 0.3)   # 30% 할인</pre>
 
     <h4>가변 인수 매개 변수</h4>
     <p>몇 개가 들어올지 모를 때 <code>*</code>를 붙입니다. 전달된 인수 전부를 하나의 <b>튜플</b>로 관리하며, 한 함수에 <b>하나만</b>, 그리고 <b>맨 뒤에</b> 놓습니다.</p>
-    <pre>def order_drinks(*drinks):
+    <pre data-run>def order_drinks(*drinks):
     if not drinks:
         print('주문한 음료가 없습니다.'); return
     print(', '.join(drinks) + ' 주문이 완료되었습니다.')
@@ -390,7 +400,7 @@ t, v = free_fall(50)</pre>
       <figcaption>메소드의 첫 매개 변수 <code>self</code>는 “지금 이 객체 자신”을 가리킵니다.</figcaption>
     </figure>
 
-    <pre>class Robot:
+    <pre data-run>class Robot:
     def __init__(self, name):     # 생성자 — 객체가 만들어질 때 실행
         self.name = name
         self.speed = 0
@@ -458,7 +468,7 @@ robot1.run()</pre>
     </div>
 
     <p class="codecap">함수도 값이다 — 함수를 매개 변수로 넘기기</p>
-    <pre>def process_list(items, func):
+    <pre data-run>def process_list(items, func):
     return func(items)
 
 items = [10, 20, 30, 40, 50, 60, 70, 80, 90]
@@ -469,7 +479,7 @@ print('최솟값:', process_list(items, funcs[2]))   # 10</pre>
     <div class="callout">함수도 <b>객체</b>이므로 다른 객체처럼 매개 변수로 전달할 수 있습니다. 이를 이용하면 코드를 훨씬 간결하게 쓸 수 있습니다.</div>
 
     <p class="codecap">예제 — 요세푸스 문제: 매번 4번째 학생을 뽑아 발표 순서 정하기</p>
-    <pre>def get_order(n, k):
+    <pre data-run>def get_order(n, k):
     students = list(range(1, n + 1))
     index = 0
     order = []
@@ -484,7 +494,7 @@ print('발표 순서:', get_order(12, 4))
     <div class="callout"><b>요세푸스 문제</b>는 사람들이 원형으로 앉아 있을 때 특정 규칙으로 한 명씩 제거해 나가며 마지막에 남는 사람을 찾는 문제입니다.</div>
 
     <p class="codecap">예제 — 학급 회장 선거 개표 (형 변환 함수 활용)</p>
-    <pre>def find_winner(votes):
+    <pre data-run>def find_winner(votes):
     votes = votes.split()                                  # 문자열 → 리스트
     unique = set(votes)                                    # ❶ 집합으로 중복 제거
     counts = [(c, votes.count(c)) for c in unique]         # ❷ (후보, 득표수)
@@ -498,7 +508,7 @@ print('당선자: 기호', winner)   # A
 print('득표수:', count)         # 7</pre>
 
     <p class="codecap">예제 — map과 enumerate로 정사각형 넓이 구하기</p>
-    <pre>def square_area(x):
+    <pre data-run data-needs-stdin>def square_area(x):
     return x ** 2
 
 values = input('입력(공백으로 구분): ')      # 예: 2 3 4
@@ -513,7 +523,7 @@ for i, val in enumerate(result_list):
     <div class="callout"><code>enumerate()</code>는 반복문에서 <b>인덱스와 값을 동시에</b> 가져옵니다. <code>for i, val in enumerate(리스트, start=0):</code> 형태로 쓰며 시작값을 바꿀 수 있습니다.</div>
 
     <p class="codecap">예제 — math 모듈로 두 수의 기하 평균 구하기</p>
-    <pre>import math
+    <pre data-run data-needs-stdin>import math
 
 a = float(input('첫 번째 숫자: '))   # float(): 형 변환 내장 함수
 b = float(input('두 번째 숫자: '))
@@ -524,7 +534,7 @@ print('두 숫자의 기하 평균:', round(gm, 2))
 # 첫 번째 숫자: 33 / 두 번째 숫자: 50 → 40.62</pre>
 
     <p class="codecap">예제 — random 모듈로 주사위 세 번 굴리기</p>
-    <pre>import random
+    <pre data-run>import random
 
 print(int(random.random() * 6) + 1)      # 0.0 이상 1.0 미만 실수 → 1~6
 print(random.randint(1, 6))              # 1 이상 6 이하 정수
@@ -558,7 +568,7 @@ pip list                      # 설치된 목록 확인</pre>
     </div>
 
     <p class="codecap">numpy — 행렬의 곱셈</p>
-    <pre>import numpy as np
+    <pre data-run>import numpy as np
 
 x = np.array([[1, 2], [3, 4]])
 y = np.array([[5, 6], [7, 8]])
@@ -567,7 +577,7 @@ print(np.dot(x, y))
 #  [43 50]]</pre>
 
     <p class="codecap">colorama — 콘솔 창에 색깔 넣기</p>
-    <pre>from colorama import init, deinit, Fore, Style
+    <pre data-run>from colorama import init, deinit, Fore, Style
 
 def print_message():
     print(Style.BRIGHT + Fore.BLUE + 'Merry Christmas!')
@@ -648,13 +658,13 @@ play_game()</pre>
     <div class="drill">
       <span class="lbl">중단원 정리 · 수행 활동</span>
       <p><code>turtle</code> 모듈로 <b>삼각형·사각형·오각형을 순서대로 그리는 프로그램</b>을 작성해 보자.</p>
-      <pre>• turtle 모듈과 random 임포트
-• move_turtle(t, distance): 펜 올리고 이동 후 내리기
-• draw_shape(t, sides, size):
+      <pre>• ColabTurtle과 random 임포트 → initializeTurtle()
+• move_turtle(distance): 펜 올리고 이동 후 내리기
+• draw_shape(sides, size):
     - 랜덤 색상, angle = 360 / sides
     - sides만큼 반복: 앞으로 size, 왼쪽 angle 회전
-    - move_turtle(t, 150) 호출
-• 거북이 t 생성, 펜 굵기 3 설정 → 도형 순서대로 그리기</pre>
+    - move_turtle(150) 호출
+• 펜 굵기 3 설정 → 삼각형·사각형·오각형 순서대로 그리기</pre>
     </div>
 
     <div class="points">
@@ -722,7 +732,7 @@ clean_house(rooms)
       <b>재귀 함수</b> — 정상에 도착하려면 ‘바로 전 이정표까지 가는 문제’를 먼저 해결하고 한 걸음 더 가면 된다. 앞부분을 재귀 호출로 맡긴다.</p>
     </div>
 
-    <pre>def reach_peak(n):
+    <pre data-run>def reach_peak(n):
     if n &lt;= 0:                 # 기본 단계(종료 조건)
         return
     else:                      # 재귀 단계(재귀 호출)
@@ -826,7 +836,7 @@ power(2, 5)   # 32</pre>
       <h5>재귀 함수가 종료되는 순간 — 종료 조건의 중요성</h5>
       <p>종료 조건이 없으면 재귀 함수는 <b>무한 루프</b>에 빠집니다. 프로그램이 끝나지 않고 메모리를 낭비하다가 비정상 종료될 수 있으므로, 재귀 함수를 설계할 때는 반드시 종료 조건을 넣어야 합니다. 방법은 두 가지가 대표적입니다.</p>
       <p><b>① 시도 횟수를 제한하여 종료</b> — 카운트다운 방식</p>
-      <pre>def countdown(n):
+      <pre data-run>def countdown(n):
     if n == 0:                    # 기본 단계(종료 조건)
         return '종료'
     else:
@@ -835,7 +845,7 @@ power(2, 5)   # 32</pre>
 
 print(countdown(5))               # 5 4 3 2 1 종료</pre>
       <p><b>② 특정 목표에 도달하면 종료</b> — 팩토리얼은 n이 1이 되면 멈춤</p>
-      <pre>def factorial(n):
+      <pre data-run>def factorial(n):
     if n == 0 or n == 1:          # 기본 단계
         return 1
     else:
@@ -852,7 +862,7 @@ print(factorial(5))               # 120</pre>
     <div class="callout"><b>피보나치수열의 정의</b> — ① 0번째 항은 0 ② 1번째 항은 1 ③ 그 외의 항은 바로 앞 두 항의 합. → 0, 1, 1, 2, 3, 5, 8, 13 …</div>
 
     <p class="codecap">반복 구조로 n번째 피보나치수 구하기</p>
-    <pre>def fib(n):
+    <pre data-run>def fib(n):
     if n &lt;= 1:
         return n
     prev, curr = 0, 1
@@ -865,7 +875,7 @@ print(factorial(5))               # 120</pre>
 print(fib(7))   # 13</pre>
 
     <p class="codecap">재귀 구조로 같은 문제 풀기</p>
-    <pre>def fib(n):
+    <pre data-run>def fib(n):
     if n &lt;= 1:                       # 기본 단계
         return n
     else:                            # 재귀 단계
@@ -928,7 +938,7 @@ print(end - start)</pre></div>
 
     <h4>어떤 구조를 선택할까</h4>
     <p class="codecap">반복 구조가 알맞은 경우 — 리스트에서 최댓값 찾기(반복 횟수가 명확)</p>
-    <pre>def find_max(data):
+    <pre data-run>def find_max(data):
     if not data:              # 데이터가 비어 있으면
         return None
     max = data[0]
@@ -940,7 +950,7 @@ print(end - start)</pre></div>
 print(find_max([3, 5, 2, 9, 1]))   # 9</pre>
 
     <p class="codecap">재귀 구조가 알맞은 경우 — 유클리드 알고리즘으로 최대공약수 구하기</p>
-    <pre>def gcd_recursive(a, b):
+    <pre data-run>def gcd_recursive(a, b):
     if b == 0:                       # 기본 단계
         return a
     else:                            # 재귀 단계
@@ -954,7 +964,7 @@ print(gcd_recursive(48, 18))   # 6</pre>
       <ol>
         <li>1~10까지의 합을 구하는 프로그램을 <b>재귀 함수</b>로 작성해 보자. (종료 조건: <code>if n &lt;= 0: return 0</code>)</li>
         <li>아래 반복 구조를 재귀 구조로 바꿔 보자.
-          <pre>def reverse_string(s):        # 변경 전 — 반복 구조
+          <pre data-run>def reverse_string(s):        # 변경 전 — 반복 구조
     result = ''
     for char in s:
         result = char + result
@@ -976,24 +986,25 @@ print(reverse_string('hello'))   # olleh</pre>
         왼쪽으로 45도 회전하여 왼쪽 가지 재귀 호출
         오른쪽으로 90도 회전하여 오른쪽 가지 재귀 호출
         왼쪽으로 45도 회전하여 원래 방향과 위치로 복귀</pre>
-      <pre>import turtle
+      <pre>!pip install ColabTurtle -q
+from ColabTurtle.Turtle import *
+
+initializeTurtle(initial_speed=13)   # 13이 가장 빠름
+color('green')
 
 def draw_tree(length, depth):
-    if depth == 0:
+    if depth == 0:                   # 기본 단계: 더 그리지 않고 종료
         return
     else:
-        turtle.forward(length)
-        turtle.left(45)
+        forward(length)
+        left(45)
         draw_tree(length * 0.7, depth - 1)     # 왼쪽 가지
-        turtle.right(90)
+        right(90)
         draw_tree(length * 0.7, depth - 1)     # 오른쪽 가지
-        turtle.left(45)
-        turtle.backward(length)
+        left(45)
+        backward(length)             # 원래 자리로 되돌아오기
 
-turtle.speed(3)
-turtle.left(90)              # 거북이를 위쪽으로
-draw_tree(100, 5)
-turtle.done()</pre>
+draw_tree(80, 5)</pre>
     </div>
 
     <div class="points">
@@ -1023,7 +1034,7 @@ digit_sum(7925)   # ((7+9)+2)+5 = 23</pre>
     <p><code>digit_sum(7925)</code>는 <code>digit_sum(792) + 5</code> → <code>(digit_sum(79) + 2) + 5</code> → <code>((digit_sum(7) + 9) + 2) + 5</code> → <code>((7 + 9) + 2) + 5 = 23</code> 순서로 계산됩니다.</p>
 
     <p class="codecap">같은 원리 — 10진수를 2진수로 변환하기</p>
-    <pre>def decimal_to_binary(n):
+    <pre data-run>def decimal_to_binary(n):
     if n == 0 or n == 1:                  # 기본 단계
         return str(n)
     return decimal_to_binary(n // 2) + str(n % 2)   # 재귀 단계
@@ -1031,7 +1042,7 @@ digit_sum(7925)   # ((7+9)+2)+5 = 23</pre>
 print(f'10의 2진수 변환: {decimal_to_binary(10)}')   # 1010</pre>
 
     <p class="codecap">거꾸로 — 2진수를 10진수로 변환하기</p>
-    <pre>def binary_to_decimal(binary_str):
+    <pre data-run>def binary_to_decimal(binary_str):
     if binary_str == '':                  # 기본 단계: 빈 문자열이면 0
         return 0
     return binary_to_decimal(binary_str[:-1]) * 2 + int(binary_str[-1])
@@ -1041,7 +1052,7 @@ print(f'1010의 10진수 변환: {binary_to_decimal("1010")}')   # 10</pre>
 
     <h4>② 문자열의 모든 조합 생성하기</h4>
     <p>문자열을 다룰 때는 <b>현재 문자를 포함할지 말지</b>를 결정하고 나머지를 재귀에 맡기면 모든 조합을 만들 수 있습니다.</p>
-    <pre>def comb(s, cur, idx):
+    <pre data-run>def comb(s, cur, idx):
     if idx == len(s):              # 기본 단계: 끝까지 결정했으면 출력
         print(cur)
         return
@@ -1129,7 +1140,7 @@ for s in ['radar', 'hello', 'level', 'world', 'madam']:
       </div>
     </div>
 
-    <pre>def hanoi_tower(n, source, target, spare):
+    <pre data-run>def hanoi_tower(n, source, target, spare):
     if n == 1:
         print('원반 1', source, '→', target); return
     hanoi_tower(n - 1, source, spare, target)   # 위 n-1개 → 보조
@@ -1146,7 +1157,7 @@ hanoi_tower(3, 'A', 'C', 'B')</pre>
     <pre>f(1) = 1        # 한 계단: (1)
 f(2) = 2        # 두 계단: (1,1) (2)
 f(n) = f(n-1) + f(n-2)</pre>
-    <pre>def count_ways(n):
+    <pre data-run>def count_ways(n):
     if n == 0:            # 모든 계단을 다 오른 상태
         return 1
     if n &lt; 0:             # 계단을 넘어선 경우는 세지 않음

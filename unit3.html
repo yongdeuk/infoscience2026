@@ -239,19 +239,19 @@ def chkPrime(k):                   def chkPrime(k):
 
     <h4>코드를 보고 시간 복잡도 읽기</h4>
     <p class="codecap">O(n) — 반복문이 n번 돈다</p>
-    <pre>sum = 0
+    <pre data-run data-needs-stdin>sum = 0
 n = int(input('자연수 입력:'))
 for num in range(n + 1):     # n이 커지면 더하는 횟수도 그만큼 늘어남
     sum += num
 print(f'1부터 {n}까지의 합은 {sum}입니다.')</pre>
 
     <p class="codecap">O(1) — 공식으로 한 번에 끝낸다</p>
-    <pre>n = int(input('자연수 입력:'))
+    <pre data-run data-needs-stdin>n = int(input('자연수 입력:'))
 sum = int(n * (n + 1) / 2)   # n과 관계없이 실행 시간이 거의 같음
 print(f'1부터 {n}까지의 합은 {sum}입니다.')</pre>
 
     <p class="codecap">O(n²) — 반복문이 이중으로 겹친다 (선택 정렬)</p>
-    <pre>nums = [8, 2, 5, 11, 26, 33, 1, 88, 52, 7, 19, 75, 26, 44, 11, 62, 9, 15, 21, 30]
+    <pre data-run data-needs-stdin>nums = [8, 2, 5, 11, 26, 33, 1, 88, 52, 7, 19, 75, 26, 44, 11, 62, 9, 15, 21, 30]
 n = int(input('20 이하의 자연수 입력:'))
 
 for i in range(n):                  # 바깥쪽 반복문 n번
@@ -350,7 +350,7 @@ print('크기순 값\\n', nums[:n])</pre>
     </ol>
 
     <p><b>순차 탐색</b>은 처음부터 끝까지 하나씩 확인합니다. 정렬되어 있지 않아도 쓸 수 있지만 시간 복잡도는 O(n)입니다.</p>
-    <pre>def linear_search(arr, target):
+    <pre data-run>def linear_search(arr, target):
     for i in range(len(arr)):
         if arr[i] == target:
             return i
@@ -361,7 +361,7 @@ print(f'Target found at index: {linear_search(arr, 8)}')   # 2</pre>
 
     <p class="codecap">선형 전체 탐색의 예 — ‘한수’의 개수 세기</p>
     <p>각 자릿수가 <b>등차수열</b>을 이루는 수를 한수라고 합니다. 123은 차이가 모두 1이라 한수이고, 124는 차이가 1과 2로 달라 한수가 아닙니다. 한 자리 수와 두 자리 수는 모두 한수입니다.</p>
-    <pre>def is_hansu(number):
+    <pre data-run data-needs-stdin>def is_hansu(number):
     if number &lt; 100:
         return True                      # 한/두 자리 수는 모두 한수
     str_num = str(number)
@@ -381,7 +381,7 @@ print(count_hansu(N))</pre>
 
     <h4>비선형 전체 탐색 — 3×3 행렬에서 최소 합 찾기</h4>
     <p>행과 열이 겹치지 않게 숫자 3개를 골라 합이 최소가 되게 하는 문제입니다. 첫 행에서 3개, 둘째 행에서 남은 2개, 셋째 행에서 1개 — 경우의 수는 <b>3! = 6</b>가지이고, n×n이면 <b>n!</b>가지입니다.</p>
-    <pre>m = [[1, 5, 3], [2, 5, 7], [9, 3, 5]]
+    <pre data-run>m = [[1, 5, 3], [2, 5, 7], [9, 3, 5]]
 visited = [False] * 3                # 열 사용 여부
 min_solution = float('inf')
 
@@ -570,7 +570,7 @@ print('최대한 많은 수업을 들을 수 있는 시간표: ', selected_class
 
     <p class="codecap">예제 — 둘레가 9인 삼각형 화단은 몇 가지나 만들 수 있을까</p>
     <p>삼각형이 되려면 <b>두 변의 길이 합이 나머지 한 변보다 커야</b> 합니다. 따라서 한 변은 둘레의 절반을 넘을 수 없습니다. 이 조건으로 탐색 범위를 미리 잘라 냅니다.</p>
-    <pre>perimeter = 9
+    <pre data-run>perimeter = 9
 count = 0
 
 a = 1
@@ -733,7 +733,7 @@ quicksort([7, 5, 9, 4, 1])   # [1, 4, 5, 7, 9]</pre>
 합병 → [4, 5] + [1, 2] → [1, 2, 4, 5]
      → [3, 8] + [6, 7] → [3, 6, 7, 8]
 최종 → [1, 2, 3, 4, 5, 6, 7, 8]</pre>
-    <pre>def merge_sort(arr):
+    <pre data-run>def merge_sort(arr):
     if len(arr) &lt;= 1:                    # 종료 조건
         return arr
     mid = len(arr) // 2
@@ -854,7 +854,7 @@ print(merge_sort([7, 5, 9, 4, 1]))   # [1, 4, 5, 7, 9]</pre>
     </div>
 
     <p class="codecap">하향식 — 메모이제이션</p>
-    <pre>dp = {1: 1, 2: 1}
+    <pre data-run>dp = {1: 1, 2: 1}
 
 def f(n):
     if n in dp:            # 이미 계산했으면 꺼내 쓰기
@@ -865,7 +865,7 @@ def f(n):
 print(f(50))   # 즉시 출력</pre>
 
     <p class="codecap">상향식 — 반복문으로 테이블 채우기</p>
-    <pre>n = 10
+    <pre data-run>n = 10
 dp = {1: 1, 2: 1}
 for i in range(3, n + 1):
     dp[i] = dp[i - 1] + dp[i - 2]
@@ -875,14 +875,14 @@ print(dp[n])   # 55</pre>
     <p>한 번에 한 계단 또는 두 계단을 오를 수 있을 때 n개의 계단을 오르는 방법의 수입니다. 3개의 계단이면 ① 1+1+1 ② 1+2 ③ 2+1 로 세 가지입니다.</p>
     <pre>관계식:  f(1) = 1,  f(2) = 2,  f(n) = f(n-1) + f(n-2)</pre>
     <p class="codecap">재귀만 쓰면 — 같은 계산을 반복해 O(2ⁿ)</p>
-    <pre>def climbstairs(n):
+    <pre data-run>def climbstairs(n):
     if n == 1: return 1
     if n == 2: return 2
     return climbstairs(n - 1) + climbstairs(n - 2)
 
 print(climbstairs(10))   # 89</pre>
     <p class="codecap">하향식 동적 계획법 — 계산한 값을 저장해 재사용</p>
-    <pre>dp = {1: 1, 2: 2}
+    <pre data-run>dp = {1: 1, 2: 2}
 
 def climbstairs(n):
     if n in dp:
@@ -925,7 +925,7 @@ wi ≤ w 일 때:   dp[i][w] = max( vi + dp[i-1][w - wi],   # 넣는 경우
         </tbody>
       </table>
     </div>
-    <pre>items = [(2, 3), (3, 4), (4, 5), (5, 6)]     # (무게, 가치)
+    <pre data-run>items = [(2, 3), (3, 4), (4, 5), (5, 6)]     # (무게, 가치)
 W = 5
 n = len(items)
 dp = [[0] * (W + 1) for _ in range(n + 1)]

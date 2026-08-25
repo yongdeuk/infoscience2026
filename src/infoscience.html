@@ -6,6 +6,7 @@
     --line:#dde2e8; --line-2:#eef1f5;
     --code-bg:#f0f3f6; --code-ink:#1d2530;
     --dot:#dfe4ec; --hair:#eaeef3;
+    --err:#b3261e;
     --title-shadow:0 1px 1px rgba(20,25,34,.10), 0 6px 18px rgba(20,25,34,.14);
     --accent:#3a4bb0; --accent-soft:#e6e9fa; --accent-ink:#26307a;
     --shadow:0 1px 2px rgba(20,25,34,.05), 0 8px 24px -16px rgba(20,25,34,.28);
@@ -23,6 +24,8 @@
       --line:#262d38; --line-2:#1e242d;
       --code-bg:#0d131b; --code-ink:#d5dce6;
       --dot:#232a35; --hair:#1c222b;
+    --err:#ff9d95;
+      --err:#ff9d95;
       --title-shadow:0 1px 2px rgba(0,0,0,.55), 0 8px 24px rgba(0,0,0,.45);
       --accent:#8f9dff; --accent-soft:#1a2040; --accent-ink:#b6c0ff;
       --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
@@ -794,31 +797,41 @@ reverse('Believe you can, and you are halfway there')  # 길이가 너무 깁니
 print_numbers()</pre>
 
     <p class="codecap">② 매개 변수는 있고 반환값은 없는 함수 — turtle로 정사각형 그리기</p>
-    <pre>import turtle
+    <pre>!pip install ColabTurtle -q          # 코랩에서 한 번만 설치
+from ColabTurtle.Turtle import *
+
+initializeTurtle(initial_speed=8)   # 그림판 준비
 
 def draw_square(length):
-    for _ in range(4):        # 정사각형이므로 4번 반복
-        t.forward(length)     # 받은 길이만큼 이동
-        t.right(90)           # 오른쪽으로 90도 회전
+    for _ in range(4):              # 정사각형이므로 4번 반복
+        forward(length)             # 받은 길이만큼 이동
+        right(90)                   # 오른쪽으로 90도 회전
 
-t = turtle.Turtle()
-t.shape('turtle')
 draw_square(100)</pre>
-    <div class="callout"><b>turtle 모듈</b> — 파이썬에서 간단한 그래픽을 그리는 모듈입니다. <code>t.left(90)</code>·<code>t.right(90)</code>은 좌우 90도 회전, <code>t.color('blue')</code>는 색 변경, <code>t.shape('turtle')</code>은 아이콘 모양 변경(arrow, circle, square, triangle, classic 등).</div>
+    <div class="callout"><b>코랩에서 거북이 그래픽 쓰기</b> — 구글 코랩은 파이썬 기본 <code>turtle</code>을 지원하지 않습니다(창을 띄울 수 없기 때문). 대신 <code>ColabTurtle</code>을 설치해 씁니다.
+    <ul>
+      <li><code>!pip install ColabTurtle -q</code> — 노트북마다 한 번만 실행</li>
+      <li><code>initializeTurtle()</code> — 그림판을 만든다. 반드시 먼저 호출</li>
+      <li>객체(<code>t.</code>) 없이 <b>함수를 그대로</b> 부른다 → <code>forward(100)</code>, <code>right(90)</code></li>
+      <li>시작 방향이 <b>위쪽</b>이고, 속도는 <code>initial_speed</code>로 1~13 사이에서 지정한다</li>
+      <li><code>color('blue')</code> 색 변경, <code>width(3)</code> 굵기, <code>penup()</code>·<code>pendown()</code> 펜 들기/내리기</li>
+    </ul>
+    내 컴퓨터의 파이썬(IDLE·VS Code 등)에서는 <code>import turtle</code>을 그대로 쓰면 됩니다.</div>
 
     <p class="codecap">③ 매개 변수는 없고 반환값이 있는 함수 — 거북이의 현재 위치</p>
-    <pre>import turtle
+    <pre>!pip install ColabTurtle -q
+from ColabTurtle.Turtle import *
+
+initializeTurtle(initial_speed=8)
 
 def get_position():
-    return t.position()
+    return position()               # (x, y) 튜플을 반환
 
-t = turtle.Turtle()
-t.shape('turtle')
-t.forward(100)
+forward(100)
 
 x, y = get_position()
-print('거북이의 현재 위치 x:', x)   # 100.0
-print('거북이의 현재 위치 y:', y)   # 0.0</pre>
+print('거북이의 현재 위치 x:', x)
+print('거북이의 현재 위치 y:', y)</pre>
 
     <p class="codecap">④ 매개 변수와 반환값이 모두 있는 함수 — 두 점 사이의 거리</p>
     <pre>def get_dist(point1, point2):     # 매개 변수로 튜플을 받음
@@ -1267,13 +1280,13 @@ play_game()</pre>
     <div class="drill">
       <span class="lbl">중단원 정리 · 수행 활동</span>
       <p><code>turtle</code> 모듈로 <b>삼각형·사각형·오각형을 순서대로 그리는 프로그램</b>을 작성해 보자.</p>
-      <pre>• turtle 모듈과 random 임포트
-• move_turtle(t, distance): 펜 올리고 이동 후 내리기
-• draw_shape(t, sides, size):
+      <pre>• ColabTurtle과 random 임포트 → initializeTurtle()
+• move_turtle(distance): 펜 올리고 이동 후 내리기
+• draw_shape(sides, size):
     - 랜덤 색상, angle = 360 / sides
     - sides만큼 반복: 앞으로 size, 왼쪽 angle 회전
-    - move_turtle(t, 150) 호출
-• 거북이 t 생성, 펜 굵기 3 설정 → 도형 순서대로 그리기</pre>
+    - move_turtle(150) 호출
+• 펜 굵기 3 설정 → 삼각형·사각형·오각형 순서대로 그리기</pre>
     </div>
 
     <div class="points">
@@ -1595,24 +1608,25 @@ print(reverse_string('hello'))   # olleh</pre>
         왼쪽으로 45도 회전하여 왼쪽 가지 재귀 호출
         오른쪽으로 90도 회전하여 오른쪽 가지 재귀 호출
         왼쪽으로 45도 회전하여 원래 방향과 위치로 복귀</pre>
-      <pre>import turtle
+      <pre>!pip install ColabTurtle -q
+from ColabTurtle.Turtle import *
+
+initializeTurtle(initial_speed=13)   # 13이 가장 빠름
+color('green')
 
 def draw_tree(length, depth):
-    if depth == 0:
+    if depth == 0:                   # 기본 단계: 더 그리지 않고 종료
         return
     else:
-        turtle.forward(length)
-        turtle.left(45)
+        forward(length)
+        left(45)
         draw_tree(length * 0.7, depth - 1)     # 왼쪽 가지
-        turtle.right(90)
+        right(90)
         draw_tree(length * 0.7, depth - 1)     # 오른쪽 가지
-        turtle.left(45)
-        turtle.backward(length)
+        left(45)
+        backward(length)             # 원래 자리로 되돌아오기
 
-turtle.speed(3)
-turtle.left(90)              # 거북이를 위쪽으로
-draw_tree(100, 5)
-turtle.done()</pre>
+draw_tree(80, 5)</pre>
     </div>
 
     <div class="points">
