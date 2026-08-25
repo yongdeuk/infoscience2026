@@ -7,7 +7,7 @@
 
 🔗 **https://infoscience2026.vercel.app/**
 
-(예비 주소: https://yongdeuk.github.io/infoscience2026/)
+(저장소는 비공개입니다. GitHub Pages는 무료 계정에서 비공개 저장소를 지원하지 않아 사용하지 않습니다.)
 
 ## 구성
 
