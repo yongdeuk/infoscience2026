@@ -54,8 +54,9 @@
   a{color:var(--accent-ink); text-decoration:none}
   a:hover{text-decoration:underline}
   :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
-  html{scroll-behavior:smooth}
-  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none !important} }
+  /* 목차 이동이 매우 긴 페이지에서 스크롤 애니메이션에 수십 초씩 걸리는
+     것을 막기 위해 부드러운 스크롤 대신 바로 이동한다. */
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important} }
 
   /* ---------- unit accents ---------- */
   .u1{--accent:#14706a; --accent-soft:#e0f0ee; --accent-ink:#0d534e}

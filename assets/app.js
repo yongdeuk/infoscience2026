@@ -588,7 +588,9 @@
 
   pres.forEach(function (pre) {
     var editable = pre.hasAttribute('data-editable');
+    var isBlank = pre.hasAttribute('data-blank');
     var original = pre.textContent;
+    var revealed = !isBlank;
 
     var wrap = el('div', 'runner');
     var bar = el('div', 'runner-bar');
@@ -604,9 +606,23 @@
       pre.spellcheck = false;
       pre.setAttribute('aria-label', '코드를 직접 고칠 수 있습니다');
 
-      var revertBtn = el('button', 'btn', '원래 코드로');  revertBtn.type = 'button';
+      // 연습 문제 정답 코드는 바로 보여 주지 않고 빈 칸으로 시작해서
+      // 먼저 스스로 풀어 보게 하고, 버튼을 눌러야 정답을 확인할 수 있다.
+      if (isBlank) {
+        pre.textContent = '';
+        pre.setAttribute('data-placeholder', '여기에 직접 코드를 작성해 보세요');
+      }
+
+      var revertBtn = el('button', 'btn', isBlank ? '정답 코드 보기' : '원래 코드로');
+      revertBtn.type = 'button';
       revertBtn.addEventListener('click', function () {
-        pre.textContent = original;
+        if (isBlank) {
+          revealed = !revealed;
+          pre.textContent = revealed ? original : '';
+          revertBtn.textContent = revealed ? '다시 비우기' : '정답 코드 보기';
+        } else {
+          pre.textContent = original;
+        }
         out.hidden = true;
       });
       bar.appendChild(revertBtn);

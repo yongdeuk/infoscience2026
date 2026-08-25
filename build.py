@@ -90,6 +90,17 @@ def mark_editable_drill(body):
     return _DRILL_RE.sub(block_sub, body), cnt
 
 
+_QUIZ_ANSWER_RE = re.compile(r'<div class="answer">.*?</div>\s*</details>', re.S)
+
+def mark_quiz_blank(body):
+    """연습 문제 정답 코드는 펼치자마자 다 보여 주지 않고 빈 칸으로 시작해서
+    먼저 스스로 풀어 보게 하고, 버튼을 눌러야 정답이 나오게 표시만 해 둔다.
+    실제 빈칸 처리와 정답 보기 버튼은 실행기 JS(EXTRA_JS)가 담당한다."""
+    def block_sub(bm):
+        return re.sub(r'<pre(?=[ >])', '<pre data-blank', bm.group(0))
+    return _QUIZ_ANSWER_RE.sub(block_sub, body)
+
+
 UNIT_META = {
     1: ("Ⅰ", "프로그래밍", "1~5주차", "함수 · 모듈 · 재귀 구조 — 코드를 작은 단위로 나누는 법"),
     2: ("Ⅱ", "데이터 구조", "6~9주차", "스택 · 큐 · 트리 · 그래프 — 데이터를 담는 그릇의 모양"),
@@ -101,6 +112,7 @@ _run_total = 0
 for _n in (1, 2, 3, 4):
     units[_n], _c0 = mark_editable_drill(units[_n])
     units[_n], _c1 = mark_runnable(units[_n])
+    units[_n] = mark_quiz_blank(units[_n])
     _run_total += _c0 + _c1
 
 # ---------- 추가 CSS ----------
@@ -208,6 +220,7 @@ EXTRA_CSS = """
     outline:2px dashed var(--accent); outline-offset:-2px; cursor:text;
   }
   pre.is-editable:focus{outline-style:solid; background:var(--accent-soft)}
+  pre.is-editable:empty::before{content:attr(data-placeholder); color:var(--ink3); pointer-events:none}
   .runner{
     margin:0 0 1.2rem; border:1px solid var(--line); border-top:none;
     background:var(--surface); border-radius:0 0 3px 3px;
@@ -461,7 +474,9 @@ EXTRA_JS = """
 
   pres.forEach(function (pre) {
     var editable = pre.hasAttribute('data-editable');
+    var isBlank = pre.hasAttribute('data-blank');
     var original = pre.textContent;
+    var revealed = !isBlank;
 
     var wrap = el('div', 'runner');
     var bar = el('div', 'runner-bar');
@@ -477,9 +492,23 @@ EXTRA_JS = """
       pre.spellcheck = false;
       pre.setAttribute('aria-label', '코드를 직접 고칠 수 있습니다');
 
-      var revertBtn = el('button', 'btn', '원래 코드로');  revertBtn.type = 'button';
+      // 연습 문제 정답 코드는 바로 보여 주지 않고 빈 칸으로 시작해서
+      // 먼저 스스로 풀어 보게 하고, 버튼을 눌러야 정답을 확인할 수 있다.
+      if (isBlank) {
+        pre.textContent = '';
+        pre.setAttribute('data-placeholder', '여기에 직접 코드를 작성해 보세요');
+      }
+
+      var revertBtn = el('button', 'btn', isBlank ? '정답 코드 보기' : '원래 코드로');
+      revertBtn.type = 'button';
       revertBtn.addEventListener('click', function () {
-        pre.textContent = original;
+        if (isBlank) {
+          revealed = !revealed;
+          pre.textContent = revealed ? original : '';
+          revertBtn.textContent = revealed ? '다시 비우기' : '정답 코드 보기';
+        } else {
+          pre.textContent = original;
+        }
         out.hidden = true;
       });
       bar.appendChild(revertBtn);

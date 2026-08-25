@@ -1206,7 +1206,7 @@ def find_item(root_path, target):
 max_of_three(-2, -7, -4)  →  -2</pre>
         <details><summary>정답과 해설</summary><div class="answer">
           <p>기준값을 하나 정해 두고 나머지와 차례로 비교합니다. 첫 값을 최댓값으로 가정하는 것이 정석입니다.</p>
-          <pre data-run data-editable>def max_of_three(a, b, c):
+          <pre data-blank data-run data-editable>def max_of_three(a, b, c):
     biggest = a                 # 일단 a가 가장 크다고 가정
     if b &gt; biggest:
         biggest = b
@@ -1226,7 +1226,7 @@ print(max_of_three(-2, -7, -4))    # -2</pre>
 greet('지호', '반갑습니다')  →  지호님, 반갑습니다!</pre>
         <details><summary>정답과 해설</summary><div class="answer">
           <p>기본값 매개 변수는 <b>반드시 값을 받아야 하는 매개 변수보다 뒤에</b> 놓아야 합니다.</p>
-          <pre data-run data-editable>def greet(name, word='안녕하세요'):
+          <pre data-blank data-run data-editable>def greet(name, word='안녕하세요'):
     print(f'{name}님, {word}!')
 
 greet('민서')
@@ -1241,7 +1241,7 @@ greet('지호', '반갑습니다')</pre>
 average()             →  0</pre>
         <details><summary>정답과 해설</summary><div class="answer">
           <p><code>*scores</code>는 전달된 인수를 모두 <b>튜플</b>로 묶습니다. 빈 튜플일 때 <code>len()</code>이 0이 되어 0으로 나누는 오류가 나므로 먼저 걸러 줍니다.</p>
-          <pre data-run data-editable>def average(*scores):
+          <pre data-blank data-run data-editable>def average(*scores):
     if not scores:              # 빈 튜플이면
         return 0
     return sum(scores) / len(scores)
@@ -1258,7 +1258,7 @@ print(average())              # 0</pre>
 →  25 3 11.75</pre>
         <details><summary>정답과 해설</summary><div class="answer">
           <p>콤마로 나열해 반환하면 <b>튜플 하나</b>로 묶여 나갑니다. 받는 쪽에서 변수 세 개로 풀면 됩니다.</p>
-          <pre data-run data-editable>def stats(nums):
+          <pre data-blank data-run data-editable>def stats(nums):
     return max(nums), min(nums), sum(nums) / len(nums)
 
 hi, lo, avg = stats([12, 7, 25, 3])
@@ -1273,7 +1273,7 @@ print(hi, lo, avg)            # 25 3 11.75</pre>
 →  1번째 방문 / 2번째 방문 / 3번째 방문</pre>
         <details><summary>정답과 해설</summary><div class="answer">
           <p><code>global</code> 없이 <code>count = count + 1</code>을 쓰면 파이썬은 <code>count</code>를 지역 변수로 보고 <code>UnboundLocalError</code>를 냅니다.</p>
-          <pre data-run data-editable>count = 0                     # 전역 변수
+          <pre data-blank data-run data-editable>count = 0                     # 전역 변수
 
 def visit():
     global count              # 전역 변수를 바꾸겠다고 선언
@@ -1292,7 +1292,7 @@ visit()</pre>
         <pre>rsum([1, 2, 3, 4, 5])  →  15</pre>
         <details><summary>정답과 해설</summary><div class="answer">
           <p>“첫 원소 + 나머지 리스트의 합”으로 쪼갭니다. 리스트가 비면 합은 0 — 이것이 기본 단계입니다.</p>
-          <pre data-run data-editable>def rsum(nums):
+          <pre data-blank data-run data-editable>def rsum(nums):
     if not nums:                  # 기본 단계: 빈 리스트의 합은 0
         return 0
     return nums[0] + rsum(nums[1:])   # 재귀 단계
@@ -1308,7 +1308,7 @@ print(rsum([1, 2, 3, 4, 5]))      # 15</pre>
 lcm(48, 18)  →  144</pre>
         <details><summary>정답과 해설</summary><div class="answer">
           <p>두 수의 곱은 <b>최대공약수 × 최소공배수</b>와 같습니다. 그래서 <code>lcm</code>은 <code>gcd</code>로 바로 구할 수 있습니다.</p>
-          <pre data-run data-editable>def gcd(a, b):
+          <pre data-blank data-run data-editable>def gcd(a, b):
     if b == 0:                    # 기본 단계
         return a
     return gcd(b, a % b)          # 재귀 단계
@@ -1331,7 +1331,7 @@ print(lcm(48, 18))    # 144</pre>
 ****</pre>
         <details><summary>정답과 해설</summary><div class="answer">
           <p><b>n−1줄까지 먼저 그리고</b> 마지막에 n개를 찍습니다. 출력 순서가 거꾸로 되지 않으려면 재귀 호출을 <code>print</code>보다 앞에 두어야 합니다.</p>
-          <pre data-run data-editable>def stars(n):
+          <pre data-blank data-run data-editable>def stars(n):
     if n == 0:                    # 기본 단계
         return
     stars(n - 1)                  # 먼저 n-1줄을 그리고
@@ -1347,7 +1347,7 @@ stars(4)</pre>
         <pre>n=1 → 1,  n=2 → 3,  n=3 → 7,  n=10 → 1023</pre>
         <details><summary>정답과 해설</summary><div class="answer">
           <p>관계식은 <code>T(n) = 2 × T(n−1) + 1</code>입니다. 결과는 항상 <b>2ⁿ − 1</b>이 됩니다.</p>
-          <pre data-run data-editable>def moves(n):
+          <pre data-blank data-run data-editable>def moves(n):
     if n == 1:
         return 1
     return 2 * moves(n - 1) + 1
@@ -1366,7 +1366,7 @@ for n in range(1, 11):
 출금 3000  → 잔액 7000원</pre>
         <details><summary>정답과 해설</summary><div class="answer">
           <p>속성은 <code>__init__</code>에서 초기화하고, 각 메소드의 첫 매개 변수는 <code>self</code>로 둡니다.</p>
-          <pre data-run data-editable>class Account:
+          <pre data-blank data-run data-editable>class Account:
     def __init__(self, owner, balance=0):
         self.owner = owner
         self.balance = balance
