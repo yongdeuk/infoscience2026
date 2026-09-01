@@ -748,7 +748,15 @@ EXTRA_JS = """
   var topics = [].slice.call(document.querySelectorAll('article.topic'));
 
   var ticking = false, lastIdx = -1;
+  var topbarEl = document.querySelector('.topbar');
   function top(el) { return el.getBoundingClientRect().top + window.pageYOffset; }
+  // scroll-margin-top(클릭 이동 기준)과 같은 만큼 여백을 두어, 방금 이동한
+  // 위치와 '현재 항목' 판정 기준이 어긋나지 않게 한다. 상단바 높이를 매번
+  // 실측하므로 글자 크기·화면 배율이 달라져도 함께 맞는다.
+  function lineOffset() {
+    var h = topbarEl ? topbarEl.getBoundingClientRect().height : 0;
+    return h + 24;
+  }
 
   // rAF가 억제되는 환경(백그라운드 탭 등)에서도 갱신되도록 타이머를 함께 건다
   function schedule() {
@@ -762,7 +770,7 @@ EXTRA_JS = """
 
   function update() {
     ticking = false;
-    var line = window.pageYOffset + 90;
+    var line = window.pageYOffset + lineOffset();
 
     document.body.classList.toggle('is-scrolled', window.pageYOffset > 8);
 
@@ -786,7 +794,7 @@ EXTRA_JS = """
         var act = items[idx].a;
         if (nav && act.offsetParent) {
           var r = act.getBoundingClientRect(), nr = nav.parentNode.getBoundingClientRect();
-          if (r.top < nr.top || r.bottom > nr.bottom) act.scrollIntoView({ block: 'nearest' });
+          if (r.top < nr.top || r.bottom > nr.bottom) act.scrollIntoView({ block: 'center' });
         }
       }
     }
@@ -806,6 +814,17 @@ EXTRA_JS = """
   window.addEventListener('scroll', schedule, { passive: true });
   window.addEventListener('resize', function () { lastIdx = -1; update(); });
   window.addEventListener('load', update);
+  window.addEventListener('hashchange', function () { lastIdx = -1; update(); });
+  // 이 사이트는 scroll-behavior:smooth를 쓰지 않고 앵커로 '즉시' 이동하는데,
+  // 이런 즉시 이동에서는 브라우저가 scroll 이벤트를 보내지 않는 경우가 있다.
+  // 그러면 위치는 정확히 옮겨가도 목차의 강조 색은 이전 자리에 남는다.
+  // 그래서 앵커(#...) 클릭을 직접 감지해, 이동이 끝난 다음 틱에 강제로 다시 계산한다.
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a) return;
+    lastIdx = -1;
+    setTimeout(update, 0);
+  });
   update();
 })();
 """
