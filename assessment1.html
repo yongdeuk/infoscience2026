@@ -1,0 +1,878 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>수행평가1 · 스택과 큐 · 정보과학</title>
+<meta name="description" content="함수로 구현하는 스택과 큐 — 정보과학 수행평가1 응답지">
+<meta property="og:title" content="수행평가1 · 스택과 큐 · 정보과학">
+<meta property="og:description" content="함수로 구현하는 스택과 큐 — 정보과학 수행평가1 응답지">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128221;</text></svg>">
+<script>
+(function(){try{if(localStorage.getItem('unlocked')==='yes')document.documentElement.className+=' unlocked';}catch(e){}})();
+(function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
+</script>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@500;700;800;900&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#faf6ef;
+    --paper-raised:#ffffff;
+    --card-bg:#efe6d4;
+    --field-bg:#ffffff;
+    --header-bg:#f4e8d6;
+    --ink:#182036;
+    --ink-muted:#6b7280;
+    --line:#ece4d3;
+    --line-soft:#f2ede2;
+    --stack:#b1570e;
+    --stack-soft:#fbead4;
+    --stack-line:#f0cd9a;
+    --queue:#13806f;
+    --queue-soft:#e2f5f0;
+    --queue-line:#bfe3da;
+    --good:#1f9e5a;
+    --good-soft:#e7f7ed;
+    --warn:#a8690a;
+    --warn-soft:#fbf0dd;
+    --danger:#c0392b;
+    --indigo:#3454d1;
+    --indigo-soft:#eaefff;
+    --indigo-line:#c3d0fb;
+    --shadow: 0 1px 2px rgba(24,32,54,.05), 0 10px 26px rgba(24,32,54,.07);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#17140f;
+      --paper-raised:#221d16;
+      --card-bg:#241f16;
+      --field-bg:#2f2818;
+      --header-bg:#241d12;
+      --ink:#f3ede2;
+      --ink-muted:#a89f8d;
+      --line:#3c3325;
+      --line-soft:#241f16;
+      --stack:#f0a860;
+      --stack-soft:#3a2712;
+      --stack-line:#5c3f1c;
+      --queue:#4fd6c0;
+      --queue-soft:#173430;
+      --queue-line:#1f4a44;
+      --good:#4ad080;
+      --good-soft:#15321f;
+      --warn:#e0a63c;
+      --warn-soft:#332507;
+      --danger:#e5675a;
+      --indigo:#8aa2ff;
+      --indigo-soft:#1c2440;
+      --indigo-line:#33407a;
+      --shadow: 0 1px 2px rgba(0,0,0,.35), 0 10px 26px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#17140f;
+    --paper-raised:#221d16;
+    --card-bg:#241f16;
+    --field-bg:#2f2818;
+    --header-bg:#241d12;
+    --ink:#f3ede2;
+    --ink-muted:#a89f8d;
+    --line:#3c3325;
+    --line-soft:#241f16;
+    --stack:#f0a860;
+    --stack-soft:#3a2712;
+    --stack-line:#5c3f1c;
+    --queue:#4fd6c0;
+    --queue-soft:#173430;
+    --queue-line:#1f4a44;
+    --good:#4ad080;
+    --good-soft:#15321f;
+    --warn:#e0a63c;
+    --warn-soft:#332507;
+    --danger:#e5675a;
+    --indigo:#8aa2ff;
+    --indigo-soft:#1c2440;
+    --indigo-line:#33407a;
+    --shadow: 0 1px 2px rgba(0,0,0,.35), 0 10px 26px rgba(0,0,0,.4);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Noto Sans KR','Pretendard',-apple-system,sans-serif;
+    font-size:18px; line-height:1.65;
+  }
+  .mono{ font-family:'IBM Plex Mono','D2Coding',monospace; }
+  h1,h2,h3{ text-wrap:balance; font-weight:800; margin:0; font-family:'Gothic A1','Noto Sans KR',sans-serif; }
+
+  .page{ max-width:960px; margin:0 auto; padding:0 20px 120px; }
+
+  /* pills */
+  .pill{
+    display:inline-flex; align-items:center; gap:6px; font-family:'Gothic A1',sans-serif;
+    font-weight:700; font-size:13px; padding:5px 13px; border-radius:100px;
+    background:var(--line-soft); color:var(--ink-muted); white-space:nowrap;
+  }
+  .pill.teal{ background:var(--queue-soft); color:var(--queue); }
+  .pill.orange{ background:var(--stack-soft); color:var(--stack); }
+  .pill.dot::before{ content:''; width:6px; height:6px; border-radius:50%; background:currentColor; flex-shrink:0; }
+
+  .card-tag{
+    display:inline-block; font-family:'Gothic A1',sans-serif; font-weight:700; font-size:12.5px;
+    padding:4px 11px; border-radius:100px; margin-bottom:12px;
+  }
+  .card-tag.stack{ background:var(--stack-soft); color:var(--stack); }
+  .card-tag.queue{ background:var(--queue-soft); color:var(--queue); }
+  .card-tag.neutral{ background:var(--line-soft); color:var(--ink-muted); }
+
+  /* top bar */
+  header.wk-topbar{
+    position:sticky; top:0; z-index:20; background:var(--header-bg);
+    border-bottom:1px solid var(--line); margin:0 0 28px; border-radius:0 0 18px 18px;
+    box-shadow:var(--shadow);
+  }
+  .topbar-inner{ max-width:960px; margin:0 auto; padding:16px 20px 12px; }
+  .topbar-row1{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  .wk-brand{ font-family:'Gothic A1',sans-serif; font-weight:900; font-size:19px; color:var(--ink); flex-shrink:0; text-decoration:none; }
+  .backlink{
+    font-family:'Gothic A1',sans-serif; font-weight:700; font-size:13px; color:var(--ink-muted);
+    text-decoration:none; white-space:nowrap;
+  }
+  .backlink:hover{ color:var(--ink); }
+  .objective-pill{
+    display:flex; align-items:center; gap:10px; background:var(--paper-raised); border:1px solid var(--line);
+    border-radius:100px; padding:6px 8px 6px 6px; flex:1; min-width:0;
+  }
+  .objective-text{
+    font-size:13.5px; color:var(--ink-muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+
+  nav.steps{
+    display:flex; align-items:center; gap:6px; padding:10px 20px 12px; margin-top:2px;
+    overflow-x:auto; white-space:nowrap; max-width:960px; margin-left:auto; margin-right:auto;
+  }
+  nav.steps a{
+    font-family:'Gothic A1',sans-serif; font-size:13.5px; font-weight:700; color:var(--ink-muted); text-decoration:none;
+    padding:6px 13px; border-radius:100px; border:1px solid transparent; flex-shrink:0;
+  }
+  nav.steps a:hover{ color:var(--ink); background:var(--paper-raised); border-color:var(--line); }
+
+  @media (max-width:640px){
+    .objective-text{ white-space:normal; }
+  }
+
+  /* hero */
+  section.hero{ padding:8px 0 10px; }
+  section.hero h1{ font-size:32px; margin:14px 0 10px; }
+  section.hero p.sub{ color:var(--ink-muted); font-size:16.5px; margin:0; max-width:68ch; }
+
+  .idrow{ display:flex; gap:12px; margin-top:22px; flex-wrap:wrap; }
+  .idfield{ flex:1; min-width:140px; }
+  .idfield label{ display:block; font-family:'Gothic A1',sans-serif; font-weight:700; font-size:13.5px; color:var(--ink-muted); margin-bottom:6px; }
+  .idfield input{ width:100%; background:var(--field-bg); border-color:var(--line); box-shadow:var(--shadow); }
+
+  /* overview 3-card row */
+  .overview-grid{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin:26px 0 36px; }
+  @media (max-width:720px){ .overview-grid{ grid-template-columns:1fr; } }
+  .ov-card{
+    background:var(--card-bg); border:1.5px solid var(--line); border-radius:16px; padding:20px;
+  }
+  .ov-card.featured{ background:var(--queue-soft); border-color:var(--queue-line); }
+  .ov-card.orange-line{ border-color:var(--stack-line); }
+  .ov-card h3{ font-size:17.5px; margin:12px 0 8px; }
+  .ov-card.featured h3{ color:var(--queue); }
+  .ov-card.orange-line h3{ color:var(--stack); }
+  .ov-card p{ color:var(--ink-muted); font-size:14.5px; line-height:1.55; margin:0; }
+
+  /* section cards */
+  section.block{ margin-bottom:46px; scroll-margin-top:150px; }
+  .block-head{ display:flex; align-items:baseline; gap:10px; margin-bottom:5px; flex-wrap:wrap; }
+  .block-head h2{ font-size:23px; }
+  .block-head .pts{
+    font-family:'Gothic A1',sans-serif; font-size:13px; font-weight:700;
+    border-radius:100px; padding:3px 11px; border:1px solid;
+  }
+  .block-desc{ color:var(--ink-muted); font-size:16px; margin:6px 0 16px; max-width:70ch; }
+
+  .card{
+    background:var(--card-bg); border:1.5px solid var(--line); border-radius:16px;
+    padding:22px 24px; box-shadow:var(--shadow);
+  }
+  .card + .card{ margin-top:14px; }
+  .card.stack{ border-color:var(--stack-line); }
+  .card.queue{ border-color:var(--queue-line); }
+  .card.tinted-queue{ background:var(--queue-soft); border-color:var(--queue-line); }
+
+  .stack .pts{ color:var(--stack); border-color:var(--stack-line); background:var(--stack-soft); }
+  .queue .pts{ color:var(--queue); border-color:var(--queue-line); background:var(--queue-soft); }
+  .neutral .pts{ color:var(--ink-muted); border-color:var(--line); background:var(--line-soft); }
+
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media (max-width:640px){ .grid2{ grid-template-columns:1fr; } }
+
+  label.field-label{ display:block; font-family:'Gothic A1',sans-serif; font-size:15.5px; font-weight:700; margin-bottom:7px; }
+  label.field-label .hint{ font-weight:400; font-family:'Noto Sans KR',sans-serif; color:var(--ink-muted); font-size:14px; }
+
+  input[type=text], input[type=number], textarea, select{
+    width:100%; font-family:'Noto Sans KR',sans-serif; font-size:16px; color:var(--ink); background:var(--field-bg);
+    border:1px solid var(--line); border-radius:10px; padding:10px 12px;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  input:focus, textarea:focus, select:focus{
+    outline:none; border-color:var(--stack); box-shadow:0 0 0 3px var(--stack-soft);
+  }
+  .queue-scope input:focus, .queue-scope textarea:focus, .queue-scope select:focus{
+    border-color:var(--queue); box-shadow:0 0 0 3px var(--queue-soft);
+  }
+  textarea{ resize:vertical; min-height:64px; }
+  textarea.code{
+    font-family:'IBM Plex Mono',monospace; font-size:15.5px; min-height:210px; line-height:1.6;
+    background:var(--field-bg); tab-size:4;
+  }
+
+  table.form-table{ width:100%; border-collapse:collapse; font-size:16px; }
+  table.form-table th{
+    text-align:left; font-family:'Gothic A1',sans-serif; font-size:13.5px; color:var(--ink-muted); font-weight:700;
+    padding:0 8px 7px; border-bottom:1px solid var(--line);
+  }
+  table.form-table td{ padding:7px 8px 7px 0; vertical-align:top; }
+  table.form-table td:first-child{ padding-left:0; }
+  .tbl-scroll{ overflow-x:auto; }
+  table.form-table input, table.form-table select{ padding:8px 10px; font-size:15.5px; }
+  .row-label{
+    font-family:'Gothic A1',sans-serif; font-weight:700; font-size:15px; padding-top:10px; white-space:nowrap;
+  }
+  table.form-table td.num{ font-family:'IBM Plex Mono',monospace; font-variant-numeric:tabular-nums; text-align:center; color:var(--ink-muted); width:30px; }
+
+  details.ref{ margin-top:4px; }
+  details.ref summary{ cursor:pointer; font-family:'Gothic A1',sans-serif; font-weight:700; font-size:15px; color:var(--ink-muted); padding:5px 0; }
+  details.ref summary:hover{ color:var(--ink); }
+  .ref-cols{ display:grid; grid-template-columns:1fr 1fr; gap:0 24px; font-size:15.5px; color:var(--ink-muted); margin-top:8px; }
+  @media (max-width:640px){ .ref-cols{ grid-template-columns:1fr; } }
+  .ref-cols ul{ margin:4px 0; padding-left:18px; }
+  .ref-cols li{ margin:4px 0; }
+
+  .notice{
+    display:flex; gap:10px; align-items:flex-start; background:var(--warn-soft); color:var(--warn);
+    border:1px solid var(--warn); border-radius:14px; padding:13px 16px; font-size:15.5px; margin-bottom:22px;
+  }
+  .notice b{ font-weight:700; }
+
+  .submit-row{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-top:4px; }
+  button.submit{
+    font-family:'Gothic A1',sans-serif; font-weight:700; font-size:17px; color:#fff; background:var(--good);
+    border:none; border-radius:100px; padding:14px 30px; cursor:pointer; transition:opacity .15s, transform .1s;
+  }
+  button.submit:hover{ opacity:.9; }
+  button.submit:active{ transform:translateY(1px); }
+  button.submit:disabled{ opacity:.45; cursor:not-allowed; }
+  #submitStatus{ font-size:15px; color:var(--ink-muted); }
+  #submitStatus.ok{ color:var(--good); font-weight:700; }
+  #submitStatus.err{ color:var(--danger); font-weight:700; }
+
+  footer.foot{ text-align:center; color:var(--ink-muted); font-size:14px; margin-top:50px; }
+</style>
+</head>
+<body>
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <form class="gate-card" data-gate-form autocomplete="off">
+    <h1 id="gate-title">정보과학</h1>
+    <p class="gate-sub">수행평가1 · 스택과 큐 응답지</p>
+    <label class="gate-lab" for="gate-pw">열람 비밀번호</label>
+    <div class="gate-pwrap">
+      <input id="gate-pw" type="password" data-gate-pw autocomplete="off"
+             spellcheck="false" autocapitalize="off" placeholder="수업 시간에 안내된 비밀번호">
+      <button class="gate-eye" type="button" data-gate-eye aria-pressed="false" aria-label="비밀번호 표시">
+        <svg class="ico-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg class="ico-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18M10.6 10.6a3 3 0 0 0 4.24 4.24M9.9 5.1A10.9 10.9 0 0 1 12 5c7 0 10.5 7 10.5 7a13.6 13.6 0 0 1-3.2 4.1M6.5 6.5C3.4 8.3 1.5 12 1.5 12a13.5 13.5 0 0 0 4.2 4.9"/></svg>
+      </button>
+    </div>
+    <p class="gate-hint">한글로 입력하세요. 대소문자와 앞뒤 공백은 구분하지 않습니다.</p>
+    <p class="gate-msg" data-gate-msg role="status" aria-live="polite"></p>
+    <button class="btn btn-p gate-btn" type="submit">들어가기</button>
+    <p class="gate-note">본 자료는 학교 수업 목적으로 제작되었으며,
+      저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+  </form>
+</div>
+
+<header class="wk-topbar">
+  <div class="topbar-inner">
+    <div class="topbar-row1">
+      <a class="backlink" href="index.html">← 정보과학</a>
+      <div class="wk-brand">스택 &amp; 큐</div>
+      <div class="objective-pill">
+        <span class="pill teal">성취기준</span>
+        <span class="objective-text">[12정과02-02] 스택과 큐를 활용하여 문제를 효율적으로 해결하는 프로그램을 작성한다</span>
+      </div>
+    </div>
+  </div>
+  <nav class="steps">
+    <a href="#intro">안내</a>
+    <a href="#stack">1회차·스택</a>
+    <a href="#queue">2회차·큐</a>
+    <a href="#compare">비교</a>
+    <a href="#reflect">소감</a>
+    <a href="#submit">제출</a>
+  </nav>
+</header>
+
+<div class="page">
+
+  <section class="hero" id="intro">
+    <span class="pill orange dot">학습지 안내</span>
+    <h1>함수로 구현하는 스택 &amp; 큐</h1>
+    <p class="sub">
+      실생활에서 스택(LIFO)과 큐(FIFO)가 활용되는 예시를 각각 하나씩 찾아 함수로 구현합니다.
+      스택 예시는 가장 최근 항목부터 처리되는 상황, 큐 예시는 접수 순서대로 처리되는 상황이어야 하며,
+      최대 저장 개수를 스스로 정해 초과·부족 상황(오버플로우·언더플로우)을 각각 처리해야 합니다.
+    </p>
+    <div class="idrow">
+      <div class="idfield">
+        <label for="studentId">학번</label>
+        <input type="text" id="studentId" name="studentId" inputmode="numeric" placeholder="예: 10203">
+      </div>
+      <div class="idfield" style="flex:2">
+        <label for="studentName">이름</label>
+        <input type="text" id="studentName" name="studentName" placeholder="예: 홍길동">
+      </div>
+    </div>
+
+    <div class="overview-grid">
+      <div class="ov-card">
+        <span class="pill">1</span>
+        <h3>실생활 예시 찾기</h3>
+        <p>스택은 &ldquo;가장 최근 것부터&rdquo;, 큐는 &ldquo;접수한 순서대로&rdquo; 처리되는 나만의 상황을 각각 하나씩 정합니다.</p>
+      </div>
+      <div class="ov-card featured">
+        <span class="pill teal">2</span>
+        <h3>함수로 설계하기</h3>
+        <p>삽입·삭제·조회 연산을 함수 단위로 나누고, 오버플로우·언더플로우 처리 계획을 세웁니다.</p>
+      </div>
+      <div class="ov-card orange-line">
+        <span class="pill orange">3</span>
+        <h3>코드 작성 · 검증</h3>
+        <p>설계한 함수를 코드로 구현하고, 정상·예외 케이스를 직접 실행해 결과를 검증합니다.</p>
+      </div>
+    </div>
+
+    <details class="ref">
+      <summary>실생활 예시 참고 목록 보기</summary>
+      <div class="ref-cols">
+        <div>
+          <b style="color:var(--stack)">스택(LIFO)</b>
+          <ul>
+            <li>웹 브라우저 뒤로 가기</li>
+            <li>되돌리기(Ctrl+Z) 기능</li>
+            <li>쌓아놓은 책·접시 더미</li>
+            <li>옷장에 쌓인 옷 꺼내 입기</li>
+            <li>주차타워 출차 순서</li>
+            <li>게임 이동·행동 취소</li>
+            <li>최근 본 목록 최근 것부터 삭제</li>
+          </ul>
+        </div>
+        <div>
+          <b style="color:var(--queue)">큐(FIFO)</b>
+          <ul>
+            <li>은행·병원 번호표 대기</li>
+            <li>놀이기구 줄서기</li>
+            <li>급식소 배식 줄</li>
+            <li>프린터 인쇄 대기열</li>
+            <li>온라인 티켓 예매 대기 순번</li>
+            <li>콜센터 상담원 연결 대기</li>
+            <li>세탁소·수선집 접수 순서</li>
+          </ul>
+        </div>
+      </div>
+    </details>
+    <div class="notice" style="margin-top:16px">
+      <span>⚠</span>
+      <span><b>AI 도구 활용 제한 —</b> 주제 관련 배경지식 검색만 허용됩니다. AI가 작성한 코드를 그대로 옮겨 제출하는 것은 금지됩니다.</span>
+    </div>
+  </section>
+
+  <!-- ===================== STACK ===================== -->
+  <section class="block stack-scope" id="stack">
+    <div class="block-head"><h2 style="color:var(--stack)">1회차 · 스택 (LIFO)</h2></div>
+    <p class="block-desc">참고 목록에서 고르거나 스스로 찾은 스택 예시를 아래에 구체적으로 작성하세요.</p>
+
+    <div class="card stack">
+      <span class="card-tag stack">기본 정보</span>
+      <table class="form-table">
+        <tr><td class="row-label" style="width:30%">상황 설명</td><td><input type="text" name="s_situation" placeholder="어떤 상황에서 스택을 사용하나요?"></td></tr>
+        <tr><td class="row-label">왜 LIFO인가</td><td><input type="text" name="s_reason" placeholder="가장 최근 항목부터 처리되어야 하는 이유"></td></tr>
+        <tr><td class="row-label">최대 저장 개수</td><td><input type="number" name="s_maxsize" min="1" style="max-width:120px" placeholder="예: 5"></td></tr>
+      </table>
+    </div>
+
+    <div class="block-head" style="margin-top:26px">
+      <h2 style="font-size:19px">활동1. 자료구조 및 함수 설계</h2>
+      <span class="pts stack">배점 20 · 스택+큐 합산 40</span>
+    </div>
+    <p class="block-desc">스택을 어떤 기능에 사용할지 정하고, 필요한 연산을 함수 단위로 설계하세요.</p>
+    <div class="card stack tbl-scroll">
+      <span class="card-tag stack">설계</span>
+      <table class="form-table">
+        <tr><th style="width:22%">연산 구분</th><th>함수명</th><th>매개변수</th><th>반환값</th></tr>
+        <tr>
+          <td class="row-label">스택 삽입(등록) · push</td>
+          <td><input type="text" class="mono" name="s_op_insert_name"></td>
+          <td><input type="text" class="mono" name="s_op_insert_param"></td>
+          <td><input type="text" class="mono" name="s_op_insert_return"></td>
+        </tr>
+        <tr>
+          <td class="row-label">스택 삭제(취소/복구) · pop</td>
+          <td><input type="text" class="mono" name="s_op_delete_name"></td>
+          <td><input type="text" class="mono" name="s_op_delete_param"></td>
+          <td><input type="text" class="mono" name="s_op_delete_return"></td>
+        </tr>
+        <tr>
+          <td class="row-label">스택 조회(최상단 확인) · peek</td>
+          <td><input type="text" class="mono" name="s_op_peek_name"></td>
+          <td><input type="text" class="mono" name="s_op_peek_param"></td>
+          <td><input type="text" class="mono" name="s_op_peek_return"></td>
+        </tr>
+        <tr>
+          <td class="row-label">상태 확인(비어있는지) · isEmpty</td>
+          <td><input type="text" class="mono" name="s_op_isempty_name"></td>
+          <td><input type="text" class="mono" name="s_op_isempty_param"></td>
+          <td><input type="text" class="mono" name="s_op_isempty_return"></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="block-head" style="margin-top:26px">
+      <h2 style="font-size:19px">활동2. 예외 상황 처리 계획</h2>
+      <span class="pts stack">배점 15 · 스택+큐 합산 30 (활동4와 함께 채점)</span>
+    </div>
+    <p class="block-desc">오버플로우·언더플로우 상황과 처리 방법을 계획하세요. (아래 활동4 테스트 케이스와 함께 채점됩니다)</p>
+    <div class="card stack tbl-scroll">
+      <span class="card-tag stack">예외처리</span>
+      <table class="form-table">
+        <tr><th style="width:18%">예외 상황</th><th>발생 조건</th><th>처리 방법</th></tr>
+        <tr>
+          <td class="row-label">오버플로우</td>
+          <td><input type="text" name="s_overflow_cond"></td>
+          <td><input type="text" name="s_overflow_handle"></td>
+        </tr>
+        <tr>
+          <td class="row-label">언더플로우</td>
+          <td><input type="text" name="s_underflow_cond"></td>
+          <td><input type="text" name="s_underflow_handle"></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="block-head" style="margin-top:26px">
+      <h2 style="font-size:19px">활동3. 프로그램 코드 작성</h2>
+      <span class="pts stack">배점 15 · 스택+큐 합산 30</span>
+    </div>
+    <p class="block-desc">설계한 함수를 실제 코드로 작성하세요.</p>
+    <div class="card stack">
+      <span class="card-tag stack">코드</span>
+      <textarea class="code" name="s_code" spellcheck="false" placeholder="def push_item(stack, item):&#10;    ..."></textarea>
+    </div>
+
+    <div class="block-head" style="margin-top:26px">
+      <h2 style="font-size:19px">활동4. 테스트 케이스 및 실행 결과 검증</h2>
+      <span class="pts stack">배점 15 · 스택+큐 합산 30 (활동2와 함께 채점)</span>
+    </div>
+    <p class="block-desc">정상 동작 사례와 예외 상황 사례를 포함해 테스트하고 결과를 검증하세요.</p>
+    <div class="card stack tbl-scroll">
+      <span class="card-tag stack">테스트</span>
+      <table class="form-table">
+        <tr><th class="num">#</th><th style="width:26%">입력값(수행 동작)</th><th>예상 출력</th><th>실제 출력</th><th style="width:110px">일치 여부</th></tr>
+        <tr>
+          <td class="num">1</td>
+          <td><input type="text" name="s_test1_input"></td><td><input type="text" name="s_test1_expected"></td><td><input type="text" name="s_test1_actual"></td>
+          <td><select name="s_test1_match"><option value="">선택</option><option>일치</option><option>불일치</option></select></td>
+        </tr>
+        <tr>
+          <td class="num">2</td>
+          <td><input type="text" name="s_test2_input"></td><td><input type="text" name="s_test2_expected"></td><td><input type="text" name="s_test2_actual"></td>
+          <td><select name="s_test2_match"><option value="">선택</option><option>일치</option><option>불일치</option></select></td>
+        </tr>
+        <tr>
+          <td class="num">3</td>
+          <td><input type="text" name="s_test3_input"></td><td><input type="text" name="s_test3_expected"></td><td><input type="text" name="s_test3_actual"></td>
+          <td><select name="s_test3_match"><option value="">선택</option><option>일치</option><option>불일치</option></select></td>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===================== QUEUE ===================== -->
+  <section class="block queue-scope" id="queue">
+    <div class="block-head"><h2 style="color:var(--queue)">2회차 · 큐 (FIFO)</h2></div>
+    <p class="block-desc">1회차와 겹치지 않는, 스스로 찾은 큐 예시를 아래에 구체적으로 작성하세요.</p>
+
+    <div class="card queue">
+      <span class="card-tag queue">기본 정보</span>
+      <table class="form-table">
+        <tr><td class="row-label" style="width:30%">상황 설명</td><td><input type="text" name="q_situation" placeholder="어떤 상황에서 큐를 사용하나요?"></td></tr>
+        <tr><td class="row-label">왜 FIFO인가</td><td><input type="text" name="q_reason" placeholder="먼저 발생한 순서대로 처리되어야 하는 이유"></td></tr>
+        <tr><td class="row-label">최대 저장 개수</td><td><input type="number" name="q_maxsize" min="1" style="max-width:120px" placeholder="예: 5"></td></tr>
+      </table>
+    </div>
+
+    <div class="block-head" style="margin-top:26px">
+      <h2 style="font-size:19px">활동1. 자료구조 및 함수 설계</h2>
+      <span class="pts queue">배점 20 · 스택+큐 합산 40</span>
+    </div>
+    <p class="block-desc">큐를 어떤 기능에 사용할지 정하고, 필요한 연산을 함수 단위로 설계하세요.</p>
+    <div class="card queue tbl-scroll">
+      <span class="card-tag queue">설계</span>
+      <table class="form-table">
+        <tr><th style="width:22%">연산 구분</th><th>함수명</th><th>매개변수</th><th>반환값</th></tr>
+        <tr>
+          <td class="row-label">큐 삽입(접수) · enqueue</td>
+          <td><input type="text" class="mono" name="q_op_insert_name"></td>
+          <td><input type="text" class="mono" name="q_op_insert_param"></td>
+          <td><input type="text" class="mono" name="q_op_insert_return"></td>
+        </tr>
+        <tr>
+          <td class="row-label">큐 삭제(처리) · dequeue</td>
+          <td><input type="text" class="mono" name="q_op_delete_name"></td>
+          <td><input type="text" class="mono" name="q_op_delete_param"></td>
+          <td><input type="text" class="mono" name="q_op_delete_return"></td>
+        </tr>
+        <tr>
+          <td class="row-label">큐 조회(맨 앞 확인) · peek</td>
+          <td><input type="text" class="mono" name="q_op_peek_name"></td>
+          <td><input type="text" class="mono" name="q_op_peek_param"></td>
+          <td><input type="text" class="mono" name="q_op_peek_return"></td>
+        </tr>
+        <tr>
+          <td class="row-label">상태 확인(비어있는지) · isEmpty</td>
+          <td><input type="text" class="mono" name="q_op_isempty_name"></td>
+          <td><input type="text" class="mono" name="q_op_isempty_param"></td>
+          <td><input type="text" class="mono" name="q_op_isempty_return"></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="block-head" style="margin-top:26px">
+      <h2 style="font-size:19px">활동2. 예외 상황 처리 계획</h2>
+      <span class="pts queue">배점 15 · 스택+큐 합산 30 (활동4와 함께 채점)</span>
+    </div>
+    <p class="block-desc">오버플로우·언더플로우 상황과 처리 방법을 계획하세요. (아래 활동4 테스트 케이스와 함께 채점됩니다)</p>
+    <div class="card queue tbl-scroll">
+      <span class="card-tag queue">예외처리</span>
+      <table class="form-table">
+        <tr><th style="width:18%">예외 상황</th><th>발생 조건</th><th>처리 방법</th></tr>
+        <tr>
+          <td class="row-label">오버플로우</td>
+          <td><input type="text" name="q_overflow_cond"></td>
+          <td><input type="text" name="q_overflow_handle"></td>
+        </tr>
+        <tr>
+          <td class="row-label">언더플로우</td>
+          <td><input type="text" name="q_underflow_cond"></td>
+          <td><input type="text" name="q_underflow_handle"></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="block-head" style="margin-top:26px">
+      <h2 style="font-size:19px">활동3. 프로그램 코드 작성</h2>
+      <span class="pts queue">배점 15 · 스택+큐 합산 30</span>
+    </div>
+    <p class="block-desc">설계한 함수를 실제 코드로 작성하세요.</p>
+    <div class="card queue">
+      <span class="card-tag queue">코드</span>
+      <textarea class="code" name="q_code" spellcheck="false" placeholder="def enqueue_item(queue, item):&#10;    ..."></textarea>
+    </div>
+
+    <div class="block-head" style="margin-top:26px">
+      <h2 style="font-size:19px">활동4. 테스트 케이스 및 실행 결과 검증</h2>
+      <span class="pts queue">배점 15 · 스택+큐 합산 30 (활동2와 함께 채점)</span>
+    </div>
+    <p class="block-desc">정상 동작 사례와 예외 상황 사례를 포함해 테스트하고 결과를 검증하세요.</p>
+    <div class="card queue tbl-scroll">
+      <span class="card-tag queue">테스트</span>
+      <table class="form-table">
+        <tr><th class="num">#</th><th style="width:26%">입력값(수행 동작)</th><th>예상 출력</th><th>실제 출력</th><th style="width:110px">일치 여부</th></tr>
+        <tr>
+          <td class="num">1</td>
+          <td><input type="text" name="q_test1_input"></td><td><input type="text" name="q_test1_expected"></td><td><input type="text" name="q_test1_actual"></td>
+          <td><select name="q_test1_match"><option value="">선택</option><option>일치</option><option>불일치</option></select></td>
+        </tr>
+        <tr>
+          <td class="num">2</td>
+          <td><input type="text" name="q_test2_input"></td><td><input type="text" name="q_test2_expected"></td><td><input type="text" name="q_test2_actual"></td>
+          <td><select name="q_test2_match"><option value="">선택</option><option>일치</option><option>불일치</option></select></td>
+        </tr>
+        <tr>
+          <td class="num">3</td>
+          <td><input type="text" name="q_test3_input"></td><td><input type="text" name="q_test3_expected"></td><td><input type="text" name="q_test3_actual"></td>
+          <td><select name="q_test3_match"><option value="">선택</option><option>일치</option><option>불일치</option></select></td>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===================== COMPARE ===================== -->
+  <section class="block" id="compare">
+    <div class="block-head"><h2>스택과 큐 비교하기</h2></div>
+    <p class="block-desc">이 프로그램에서 스택과 큐를 각각 어떤 기능에 사용했는지 정리하고 차이를 비교하세요.</p>
+    <div class="card neutral tbl-scroll">
+      <span class="card-tag neutral">비교표</span>
+      <table class="form-table">
+        <tr><th style="width:22%">구분</th><th style="color:var(--stack)">스택 (Stack)</th><th style="color:var(--queue)">큐 (Queue)</th></tr>
+        <tr>
+          <td class="row-label">처리 순서</td>
+          <td><select name="cmp_stack_order"><option value="">선택하세요</option><option>LIFO</option><option>FIFO</option></select></td>
+          <td><select name="cmp_queue_order"><option value="">선택하세요</option><option>LIFO</option><option>FIFO</option></select></td>
+        </tr>
+        <tr>
+          <td class="row-label">사용한 기능</td>
+          <td><input type="text" name="cmp_stack_usage"></td>
+          <td><input type="text" name="cmp_queue_usage"></td>
+        </tr>
+        <tr>
+          <td class="row-label">선택한 이유</td>
+          <td><input type="text" name="cmp_stack_reason"></td>
+          <td><input type="text" name="cmp_queue_reason"></td>
+        </tr>
+      </table>
+    </div>
+    <p class="block-desc" style="margin-top:18px">처리 순서 차이(LIFO/FIFO)가 실제 동작에 어떤 영향을 주었는지, 서로 바꿔 사용했다면 어떤 문제가 생겼을지 서술하세요.</p>
+    <div class="card neutral">
+      <textarea name="swap_effect" style="min-height:100px" placeholder="예: 만약 대기열에 큐 대신 스택을 사용했다면 ..."></textarea>
+    </div>
+  </section>
+
+  <!-- ===================== REFLECT ===================== -->
+  <section class="block" id="reflect">
+    <div class="block-head"><h2>문제 해결 과정 및 느낀 점</h2></div>
+    <div class="card neutral">
+      <label class="field-label">문제 해결 과정 <span class="hint">— 예상과 다르게 동작한 부분이 있었다면 원인을 어떻게 찾고 해결했는지</span></label>
+      <textarea name="process_debug" style="min-height:90px"></textarea>
+    </div>
+    <div class="card neutral">
+      <label class="field-label">배운 점 · 느낀 점 <span class="hint">— 새롭게 알게 된 점, 어려웠던 점</span></label>
+      <textarea name="reflection" style="min-height:90px"></textarea>
+    </div>
+  </section>
+
+  <!-- ===================== SUBMIT ===================== -->
+  <section class="block" id="submit">
+    <div class="card tinted-queue">
+      <span class="card-tag queue">제출</span>
+      <h3 style="font-size:19px; color:var(--queue); margin-bottom:6px">작성을 마쳤나요?</h3>
+      <p class="block-desc" style="margin-bottom:20px">스택·큐 예시, 함수 설계, 예외 처리, 코드, 테스트 케이스를 모두 작성했는지 다시 한번 확인한 뒤 제출하세요.</p>
+      <div class="submit-row">
+        <button class="submit" id="submitBtn" type="button">제출하기</button>
+        <span id="submitStatus"></span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">정보과학 · 스택과 큐 수행평가 학습지 · 작성 내용은 자동 저장되며 제출 시 응답 시트로 전송됩니다</footer>
+</div>
+
+<script>
+/* ============ 열람 잠금 (사이트 공용 비밀번호와 동일) ============ */
+(function () {
+  'use strict';
+  var gate = document.getElementById('gate');
+  if (!gate) return;
+  var form = gate.querySelector('[data-gate-form]');
+  var pw = gate.querySelector('[data-gate-pw]');
+  var msg = gate.querySelector('[data-gate-msg]');
+  var eye = gate.querySelector('[data-gate-eye]');
+  var KEYS = ['보문고', 'qhansrh'];
+
+  function norm(s) {
+    s = (s || '').trim().toLowerCase();
+    try { s = s.normalize('NFC'); } catch (e) {}
+    return s;
+  }
+  function unlock() {
+    try { localStorage.setItem('unlocked', 'yes'); } catch (e) {}
+    document.documentElement.classList.add('unlocked');
+  }
+  if (document.documentElement.classList.contains('unlocked')) return;
+
+  if (eye) {
+    eye.addEventListener('click', function () {
+      var shown = pw.type === 'text';
+      pw.type = shown ? 'password' : 'text';
+      eye.setAttribute('aria-pressed', String(!shown));
+      eye.setAttribute('aria-label', shown ? '비밀번호 표시' : '비밀번호 숨기기');
+      pw.focus();
+    });
+  }
+  setTimeout(function () { pw.focus(); }, 60);
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = norm(pw.value);
+    if (KEYS.map(norm).indexOf(v) >= 0) {
+      msg.textContent = '';
+      unlock();
+    } else {
+      msg.textContent = '비밀번호가 맞지 않습니다. 한글 입력 상태인지 확인해 주세요.';
+      pw.value = '';
+      pw.focus();
+    }
+  });
+})();
+
+/* ============ 응답지 ============ */
+(function(){
+  // ---------- config ----------
+  var GAS_ENDPOINT = "https://script.google.com/macros/s/AKfycbypjX7spvhzzL0Ysv5ewm2uzDIydNcCe6wXT2LL4h0HE6c-PR-n5d3WZ3rbifkvf6X4/exec";
+
+  // ---------- helpers ----------
+  function $(name){ return document.querySelector('[name="'+name+'"]'); }
+  function val(name){ var el = $(name); return el ? (el.value || '').trim() : ''; }
+
+  function countOps(p){
+    var c = 0;
+    if (val(p+'_op_insert_name')) c++;
+    if (val(p+'_op_delete_name')) c++;
+    if (val(p+'_op_peek_name')) c++;
+    if (val(p+'_op_isempty_name')) c++;
+    return c;
+  }
+  function countExceptions(p){
+    var c = 0;
+    if (val(p+'_overflow_cond') && val(p+'_overflow_handle')) c++;
+    if (val(p+'_underflow_cond') && val(p+'_underflow_handle')) c++;
+    return c;
+  }
+  function testStats(p){
+    var filled = 0, matched = 0;
+    for (var i=1;i<=3;i++){
+      var input = val(p+'_test'+i+'_input');
+      if (input){
+        filled++;
+        if (val(p+'_test'+i+'_match') === '일치') matched++;
+      }
+    }
+    return { filled: filled, matched: matched };
+  }
+
+  // 채점기준표 각 항목(100점 만점)은 스택·큐 수행을 절반씩 반영한다.
+  // 구조별 배점: 설계 20 / 구현 15 / 예외처리·검증 15 (반올림은 채점기준표의 40·30·30 밴드를 절반으로 근사)
+  function designScore(p){
+    var ops = countOps(p);
+    if (ops >= 3) return 20; // 삽입·삭제·조회 3가지 모두 식별
+    if (ops === 2) return 17;
+    if (ops === 1) return 15;
+    return 10;
+  }
+  function implementScore(p){
+    var code = val(p+'_code').length > 10;
+    var ops = countOps(p);
+    var t = testStats(p);
+    if (!code) return 3;
+    if (ops >= 2 && t.filled > 0 && t.matched === t.filled) return 15; // 모든 연산 구현 + 검증 일치
+    if (t.filled > 0 && t.matched >= t.filled * 0.5) return 12; // 대부분 일치
+    if (t.filled > 0) return 10; // 오류 발생
+    return 8; // 코드는 있으나 검증 기록 없음
+  }
+  function exceptionScore(p){
+    var exc = countExceptions(p);
+    var t = testStats(p);
+    if (exc >= 2 && t.filled >= 3) return 15; // 오버플로우·언더플로우 모두 + 입력값 3가지 이상
+    if (exc >= 1 && t.filled >= 2) return 12; // 1가지 예외 + 입력값 2가지 이상
+    if (exc >= 1 && t.filled >= 1) return 10; // 1가지 예외 + 입력값 1가지
+    if (t.filled >= 1) return 8; // 예외 처리 없이 정상 동작만 확인
+    return 5;
+  }
+
+  function computeScore(){
+    var sub = {
+      design: { s: designScore('s'), q: designScore('q') },
+      implement: { s: implementScore('s'), q: implementScore('q') },
+      exception: { s: exceptionScore('s'), q: exceptionScore('q') }
+    };
+    var design = sub.design.s + sub.design.q;
+    var implement = sub.implement.s + sub.implement.q;
+    var exception = sub.exception.s + sub.exception.q;
+    var total = Math.max(design + implement + exception, 40); // 기본점수 40점 보장
+
+    return { design: design, implement: implement, exception: exception, total: total, sub: sub };
+  }
+
+  // ---------- autosave draft (per-device convenience only) ----------
+  var STORAGE_KEY = 'stackqueue_draft_v1';
+  var fields = document.querySelectorAll('input[name], textarea[name], select[name]');
+
+  function saveDraft(){
+    try{
+      var data = {};
+      fields.forEach(function(el){ data[el.name] = el.value; });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }catch(e){}
+  }
+  function loadDraft(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      var data = JSON.parse(raw);
+      fields.forEach(function(el){
+        if (data[el.name] !== undefined) el.value = data[el.name];
+      });
+    }catch(e){}
+  }
+  loadDraft();
+
+  var saveTimer;
+  fields.forEach(function(el){
+    el.addEventListener('input', function(){
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(saveDraft, 250);
+    });
+    el.addEventListener('change', saveDraft);
+  });
+
+  // ---------- submit ----------
+  var btn = document.getElementById('submitBtn');
+  var status = document.getElementById('submitStatus');
+
+  btn.addEventListener('click', function(){
+    var studentId = val('studentId'), studentName = val('studentName');
+    if (!studentId || !studentName){
+      status.className = 'err';
+      status.textContent = '학번과 이름을 먼저 입력해 주세요.';
+      document.getElementById('studentId').focus();
+      return;
+    }
+    if (!GAS_ENDPOINT){
+      status.className = 'err';
+      status.textContent = '아직 응답 시트 연동이 설정되지 않았습니다. 선생님께 문의해 주세요.';
+      return;
+    }
+
+    var score = computeScore();
+    var payload = { submittedAt: new Date().toISOString(), score: score };
+    fields.forEach(function(el){ payload[el.name] = el.value; });
+
+    btn.disabled = true;
+    status.className = '';
+    status.textContent = '제출 중...';
+
+    fetch(GAS_ENDPOINT, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    }).then(function(){
+      status.className = 'ok';
+      status.textContent = '제출 완료! 다시 제출하면 이전 응답이 갱신됩니다.';
+      btn.disabled = false;
+    }).catch(function(){
+      status.className = 'err';
+      status.textContent = '제출 중 오류가 발생했습니다. 인터넷 연결을 확인하고 다시 시도해 주세요.';
+      btn.disabled = false;
+    });
+  });
+})();
+</script>
+</body>
+</html>
