@@ -228,10 +228,7 @@
     border-color:var(--queue); box-shadow:0 0 0 3px var(--queue-soft);
   }
   textarea{ resize:vertical; min-height:64px; }
-  textarea.code{
-    font-family:'IBM Plex Mono',monospace; font-size:15.5px; min-height:210px; line-height:1.6;
-    background:var(--field-bg); tab-size:4;
-  }
+  pre[data-run]{ min-height:160px; }
 
   table.form-table{ width:100%; border-collapse:collapse; font-size:16px; }
   table.form-table th{
@@ -469,10 +466,10 @@
       <h2 style="font-size:19px">활동3. 프로그램 코드 작성</h2>
       <span class="pts stack">배점 15 · 스택+큐 합산 30</span>
     </div>
-    <p class="block-desc">설계한 함수를 실제 코드로 작성하세요.</p>
+    <p class="block-desc">설계한 함수를 실제 코드로 작성하세요. 아래 ▶ 실행 버튼으로 브라우저에서 바로 테스트해 볼 수 있습니다.</p>
     <div class="card stack">
       <span class="card-tag stack">코드</span>
-      <textarea class="code" name="s_code" spellcheck="false" placeholder="def push_item(stack, item):&#10;    ..."></textarea>
+      <pre data-run data-editable data-needs-stdin id="s_code_pre" data-placeholder="여기에 push, pop, peek, isEmpty 함수를 작성하세요"></pre>
     </div>
 
     <div class="block-head" style="margin-top:26px">
@@ -579,10 +576,10 @@
       <h2 style="font-size:19px">활동3. 프로그램 코드 작성</h2>
       <span class="pts queue">배점 15 · 스택+큐 합산 30</span>
     </div>
-    <p class="block-desc">설계한 함수를 실제 코드로 작성하세요.</p>
+    <p class="block-desc">설계한 함수를 실제 코드로 작성하세요. 아래 ▶ 실행 버튼으로 브라우저에서 바로 테스트해 볼 수 있습니다.</p>
     <div class="card queue">
       <span class="card-tag queue">코드</span>
-      <textarea class="code" name="q_code" spellcheck="false" placeholder="def enqueue_item(queue, item):&#10;    ..."></textarea>
+      <pre data-run data-editable data-needs-stdin id="q_code_pre" data-placeholder="여기에 enqueue, dequeue, peek, isEmpty 함수를 작성하세요"></pre>
     </div>
 
     <div class="block-head" style="margin-top:26px">
@@ -673,62 +670,25 @@
   <footer class="foot">정보과학 · 스택과 큐 수행평가 학습지 · 작성 내용은 자동 저장되며 제출 시 응답 시트로 전송됩니다</footer>
 </div>
 
+<script src="assets/app.js"></script>
 <script>
-/* ============ 열람 잠금 (사이트 공용 비밀번호와 동일) ============ */
-(function () {
-  'use strict';
-  var gate = document.getElementById('gate');
-  if (!gate) return;
-  var form = gate.querySelector('[data-gate-form]');
-  var pw = gate.querySelector('[data-gate-pw]');
-  var msg = gate.querySelector('[data-gate-msg]');
-  var eye = gate.querySelector('[data-gate-eye]');
-  var KEYS = ['보문고', 'qhansrh'];
-
-  function norm(s) {
-    s = (s || '').trim().toLowerCase();
-    try { s = s.normalize('NFC'); } catch (e) {}
-    return s;
-  }
-  function unlock() {
-    try { localStorage.setItem('unlocked', 'yes'); } catch (e) {}
-    document.documentElement.classList.add('unlocked');
-  }
-  if (document.documentElement.classList.contains('unlocked')) return;
-
-  if (eye) {
-    eye.addEventListener('click', function () {
-      var shown = pw.type === 'text';
-      pw.type = shown ? 'password' : 'text';
-      eye.setAttribute('aria-pressed', String(!shown));
-      eye.setAttribute('aria-label', shown ? '비밀번호 표시' : '비밀번호 숨기기');
-      pw.focus();
-    });
-  }
-  setTimeout(function () { pw.focus(); }, 60);
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var v = norm(pw.value);
-    if (KEYS.map(norm).indexOf(v) >= 0) {
-      msg.textContent = '';
-      unlock();
-    } else {
-      msg.textContent = '비밀번호가 맞지 않습니다. 한글 입력 상태인지 확인해 주세요.';
-      pw.value = '';
-      pw.focus();
-    }
-  });
-})();
-
 /* ============ 응답지 ============ */
 (function(){
   // ---------- config ----------
   var GAS_ENDPOINT = "https://script.google.com/macros/s/AKfycbypjX7spvhzzL0Ysv5ewm2uzDIydNcCe6wXT2LL4h0HE6c-PR-n5d3WZ3rbifkvf6X4/exec";
 
   // ---------- helpers ----------
+  // 활동3 코드칸은 실행기(▶ 실행)가 붙는 <pre id="..._pre">라 name 속성이 없다 —
+  // 여기서만 별도로 textContent를 읽고 쓴다.
+  var CODE_PRE = { s_code: 's_code_pre', q_code: 'q_code_pre' };
   function $(name){ return document.querySelector('[name="'+name+'"]'); }
-  function val(name){ var el = $(name); return el ? (el.value || '').trim() : ''; }
+  function val(name){
+    if (CODE_PRE[name]) {
+      var pre = document.getElementById(CODE_PRE[name]);
+      return pre ? (pre.textContent || '').trim() : '';
+    }
+    var el = $(name); return el ? (el.value || '').trim() : '';
+  }
 
   function countOps(p){
     var c = 0;
@@ -802,11 +762,15 @@
   // ---------- autosave draft (per-device convenience only) ----------
   var STORAGE_KEY = 'stackqueue_draft_v1';
   var fields = document.querySelectorAll('input[name], textarea[name], select[name]');
+  var codePres = Object.keys(CODE_PRE).map(function(name){
+    return { name: name, el: document.getElementById(CODE_PRE[name]) };
+  }).filter(function(p){ return p.el; });
 
   function saveDraft(){
     try{
       var data = {};
       fields.forEach(function(el){ data[el.name] = el.value; });
+      codePres.forEach(function(p){ data[p.name] = p.el.textContent; });
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     }catch(e){}
   }
@@ -818,18 +782,23 @@
       fields.forEach(function(el){
         if (data[el.name] !== undefined) el.value = data[el.name];
       });
+      codePres.forEach(function(p){
+        if (data[p.name]) p.el.textContent = data[p.name];
+      });
     }catch(e){}
   }
   loadDraft();
 
   var saveTimer;
+  function scheduleSave(){
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveDraft, 250);
+  }
   fields.forEach(function(el){
-    el.addEventListener('input', function(){
-      clearTimeout(saveTimer);
-      saveTimer = setTimeout(saveDraft, 250);
-    });
+    el.addEventListener('input', scheduleSave);
     el.addEventListener('change', saveDraft);
   });
+  codePres.forEach(function(p){ p.el.addEventListener('input', scheduleSave); });
 
   // ---------- submit ----------
   var btn = document.getElementById('submitBtn');
@@ -852,6 +821,7 @@
     var score = computeScore();
     var payload = { submittedAt: new Date().toISOString(), score: score };
     fields.forEach(function(el){ payload[el.name] = el.value; });
+    codePres.forEach(function(p){ payload[p.name] = p.el.textContent; });
 
     btn.disabled = true;
     status.className = '';
