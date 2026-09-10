@@ -310,8 +310,6 @@
     <a href="#intro">안내</a>
     <a href="#stack">1회차·스택</a>
     <a href="#queue">2회차·큐</a>
-    <a href="#compare">비교</a>
-    <a href="#reflect">소감</a>
     <a href="#submit">제출</a>
   </nav>
 </header>
@@ -322,9 +320,10 @@
     <span class="pill orange dot">학습지 안내</span>
     <h1>함수로 구현하는 스택 &amp; 큐</h1>
     <p class="sub">
-      실생활에서 스택(LIFO)과 큐(FIFO)가 활용되는 예시를 각각 하나씩 찾아 함수로 구현합니다.
-      스택 예시는 가장 최근 항목부터 처리되는 상황, 큐 예시는 접수 순서대로 처리되는 상황이어야 하며,
-      최대 저장 개수를 스스로 정해 초과·부족 상황(오버플로우·언더플로우)을 각각 처리해야 합니다.
+      우리 주변에서 스택(LIFO)처럼 동작하는 예와 큐(FIFO)처럼 동작하는 예를 하나씩 찾아,
+      파이썬 <b>class</b>로 직접 만들어 보는 활동입니다. 스택은 <b>마지막에 넣은 것을 가장 먼저 꺼내는</b> 구조,
+      큐는 <b>먼저 넣은 것을 먼저 꺼내는</b> 구조예요. 저장할 수 있는 최대 개수도 스스로 정하고,
+      꽉 찼을 때(오버플로우)와 텅 비었을 때(언더플로우) 어떻게 할지도 만들어야 합니다.
     </p>
     <div class="idrow">
       <div class="idfield">
@@ -341,17 +340,17 @@
       <div class="ov-card">
         <span class="pill">1</span>
         <h3>실생활 예시 찾기</h3>
-        <p>스택은 &ldquo;가장 최근 것부터&rdquo;, 큐는 &ldquo;접수한 순서대로&rdquo; 처리되는 나만의 상황을 각각 하나씩 정합니다.</p>
+        <p>스택은 &ldquo;마지막에 넣은 걸 먼저 꺼내는&rdquo; 상황, 큐는 &ldquo;먼저 온 순서대로 처리하는&rdquo; 상황을 나만의 예로 하나씩 정합니다.</p>
       </div>
       <div class="ov-card featured">
         <span class="pill teal">2</span>
-        <h3>함수로 설계하기</h3>
-        <p>삽입·삭제·조회 연산을 함수 단위로 나누고, 오버플로우·언더플로우 처리 계획을 세웁니다.</p>
+        <h3>class로 설계하기</h3>
+        <p>넣기(push)·빼기(pop)·확인하기(peek)·비었는지 확인하기(isEmpty) 기능을 정하고, 꽉 찼을 때·비었을 때 어떻게 할지 계획을 세웁니다.</p>
       </div>
       <div class="ov-card orange-line">
         <span class="pill orange">3</span>
         <h3>코드 작성 · 검증</h3>
-        <p>설계한 함수를 코드로 구현하고, 정상·예외 케이스를 직접 실행해 결과를 검증합니다.</p>
+        <p>설계한 대로 class를 코드로 완성하고, ▶ 실행 버튼으로 직접 돌려보며 결과를 확인합니다.</p>
       </div>
     </div>
 
@@ -388,12 +387,16 @@
       <span>⚠</span>
       <span><b>AI 도구 활용 제한 —</b> 주제 관련 배경지식 검색만 허용됩니다. AI가 작성한 코드를 그대로 옮겨 제출하는 것은 금지됩니다.</span>
     </div>
+    <div class="notice" style="margin-top:10px">
+      <span>⚙</span>
+      <span><b>구현 방식 —</b> 교과서에서 배운 대로 <code class="mono">class Stack:</code> / <code class="mono">class Queue:</code>처럼 <b>class로 직접</b> 만드세요. <code class="mono">collections.deque</code>, <code class="mono">queue</code> 모듈처럼 파이썬에 이미 만들어진 도구를 가져다 쓰면 안 되고, 리스트를 저장 공간으로 삼아 push·pop·peek·isEmpty 동작을 내가 직접 코드로 써야 합니다.</span>
+    </div>
   </section>
 
   <!-- ===================== STACK ===================== -->
   <section class="block stack-scope" id="stack">
     <div class="block-head"><h2 style="color:var(--stack)">1회차 · 스택 (LIFO)</h2></div>
-    <p class="block-desc">참고 목록에서 고르거나 스스로 찾은 스택 예시를 아래에 구체적으로 작성하세요.</p>
+    <p class="block-desc">위 참고 목록에서 골라도 되고, 스스로 찾아도 좋아요. 어떤 상황인지 자세히 적어주세요.</p>
 
     <div class="card stack">
       <span class="card-tag stack">기본 정보</span>
@@ -408,7 +411,7 @@
       <h2 style="font-size:19px">활동1. 자료구조 및 함수 설계</h2>
       <span class="pts stack">배점 20 · 스택+큐 합산 40</span>
     </div>
-    <p class="block-desc">스택을 어떤 기능에 사용할지 정하고, 필요한 연산을 함수 단위로 설계하세요.</p>
+    <p class="block-desc">스택을 어디에 쓸지 정하고, class 안에 들어갈 push·pop·peek·isEmpty를 하나씩 계획하세요.</p>
     <div class="card stack tbl-scroll">
       <span class="card-tag stack">설계</span>
       <table class="form-table">
@@ -444,7 +447,7 @@
       <h2 style="font-size:19px">활동2. 예외 상황 처리 계획</h2>
       <span class="pts stack">배점 15 · 스택+큐 합산 30 (활동4와 함께 채점)</span>
     </div>
-    <p class="block-desc">오버플로우·언더플로우 상황과 처리 방법을 계획하세요. (아래 활동4 테스트 케이스와 함께 채점됩니다)</p>
+    <p class="block-desc">최대 개수를 넘겨서 넣으려 할 때(오버플로우)와 아무것도 없는데 꺼내려 할 때(언더플로우), 어떻게 처리할지 계획을 적으세요. (아래 활동4 테스트 케이스와 함께 채점됩니다)</p>
     <div class="card stack tbl-scroll">
       <span class="card-tag stack">예외처리</span>
       <table class="form-table">
@@ -466,17 +469,17 @@
       <h2 style="font-size:19px">활동3. 프로그램 코드 작성</h2>
       <span class="pts stack">배점 15 · 스택+큐 합산 30</span>
     </div>
-    <p class="block-desc">설계한 함수를 실제 코드로 작성하세요. 아래 ▶ 실행 버튼으로 브라우저에서 바로 테스트해 볼 수 있습니다.</p>
+    <p class="block-desc">계획한 대로 class를 실제 코드로 완성하세요. 아래 ▶ 실행 버튼을 누르면 브라우저에서 바로 돌려볼 수 있어요.</p>
     <div class="card stack">
       <span class="card-tag stack">코드</span>
-      <pre data-run data-editable data-needs-stdin id="s_code_pre" data-placeholder="여기에 push, pop, peek, isEmpty 함수를 작성하세요"></pre>
+      <pre data-run data-editable data-needs-stdin id="s_code_pre" data-placeholder="class Stack: 으로 시작해서 push, pop, peek, isEmpty를 직접 작성하세요"></pre>
     </div>
 
     <div class="block-head" style="margin-top:26px">
       <h2 style="font-size:19px">활동4. 테스트 케이스 및 실행 결과 검증</h2>
       <span class="pts stack">배점 15 · 스택+큐 합산 30 (활동2와 함께 채점)</span>
     </div>
-    <p class="block-desc">정상 동작 사례와 예외 상황 사례를 포함해 테스트하고 결과를 검증하세요.</p>
+    <p class="block-desc">잘 되는 경우뿐 아니라, 오버플로우·언더플로우가 생기는 경우도 직접 실행해 보고 결과를 적으세요.</p>
     <div class="card stack tbl-scroll">
       <span class="card-tag stack">테스트</span>
       <table class="form-table">
@@ -503,7 +506,7 @@
   <!-- ===================== QUEUE ===================== -->
   <section class="block queue-scope" id="queue">
     <div class="block-head"><h2 style="color:var(--queue)">2회차 · 큐 (FIFO)</h2></div>
-    <p class="block-desc">1회차와 겹치지 않는, 스스로 찾은 큐 예시를 아래에 구체적으로 작성하세요.</p>
+    <p class="block-desc">1회차 스택과는 다른 상황으로, 큐에 어울리는 예를 자세히 적어주세요.</p>
 
     <div class="card queue">
       <span class="card-tag queue">기본 정보</span>
@@ -518,7 +521,7 @@
       <h2 style="font-size:19px">활동1. 자료구조 및 함수 설계</h2>
       <span class="pts queue">배점 20 · 스택+큐 합산 40</span>
     </div>
-    <p class="block-desc">큐를 어떤 기능에 사용할지 정하고, 필요한 연산을 함수 단위로 설계하세요.</p>
+    <p class="block-desc">큐를 어디에 쓸지 정하고, class 안에 들어갈 enqueue·dequeue·peek·isEmpty를 하나씩 계획하세요.</p>
     <div class="card queue tbl-scroll">
       <span class="card-tag queue">설계</span>
       <table class="form-table">
@@ -554,7 +557,7 @@
       <h2 style="font-size:19px">활동2. 예외 상황 처리 계획</h2>
       <span class="pts queue">배점 15 · 스택+큐 합산 30 (활동4와 함께 채점)</span>
     </div>
-    <p class="block-desc">오버플로우·언더플로우 상황과 처리 방법을 계획하세요. (아래 활동4 테스트 케이스와 함께 채점됩니다)</p>
+    <p class="block-desc">최대 개수를 넘겨서 넣으려 할 때(오버플로우)와 아무것도 없는데 꺼내려 할 때(언더플로우), 어떻게 처리할지 계획을 적으세요. (아래 활동4 테스트 케이스와 함께 채점됩니다)</p>
     <div class="card queue tbl-scroll">
       <span class="card-tag queue">예외처리</span>
       <table class="form-table">
@@ -576,17 +579,17 @@
       <h2 style="font-size:19px">활동3. 프로그램 코드 작성</h2>
       <span class="pts queue">배점 15 · 스택+큐 합산 30</span>
     </div>
-    <p class="block-desc">설계한 함수를 실제 코드로 작성하세요. 아래 ▶ 실행 버튼으로 브라우저에서 바로 테스트해 볼 수 있습니다.</p>
+    <p class="block-desc">계획한 대로 class를 실제 코드로 완성하세요. 아래 ▶ 실행 버튼을 누르면 브라우저에서 바로 돌려볼 수 있어요.</p>
     <div class="card queue">
       <span class="card-tag queue">코드</span>
-      <pre data-run data-editable data-needs-stdin id="q_code_pre" data-placeholder="여기에 enqueue, dequeue, peek, isEmpty 함수를 작성하세요"></pre>
+      <pre data-run data-editable data-needs-stdin id="q_code_pre" data-placeholder="class Queue: 로 시작해서 enqueue, dequeue, peek, isEmpty를 직접 작성하세요"></pre>
     </div>
 
     <div class="block-head" style="margin-top:26px">
       <h2 style="font-size:19px">활동4. 테스트 케이스 및 실행 결과 검증</h2>
       <span class="pts queue">배점 15 · 스택+큐 합산 30 (활동2와 함께 채점)</span>
     </div>
-    <p class="block-desc">정상 동작 사례와 예외 상황 사례를 포함해 테스트하고 결과를 검증하세요.</p>
+    <p class="block-desc">잘 되는 경우뿐 아니라, 오버플로우·언더플로우가 생기는 경우도 직접 실행해 보고 결과를 적으세요.</p>
     <div class="card queue tbl-scroll">
       <span class="card-tag queue">테스트</span>
       <table class="form-table">
@@ -610,56 +613,12 @@
     </div>
   </section>
 
-  <!-- ===================== COMPARE ===================== -->
-  <section class="block" id="compare">
-    <div class="block-head"><h2>스택과 큐 비교하기</h2></div>
-    <p class="block-desc">이 프로그램에서 스택과 큐를 각각 어떤 기능에 사용했는지 정리하고 차이를 비교하세요.</p>
-    <div class="card neutral tbl-scroll">
-      <span class="card-tag neutral">비교표</span>
-      <table class="form-table">
-        <tr><th style="width:22%">구분</th><th style="color:var(--stack)">스택 (Stack)</th><th style="color:var(--queue)">큐 (Queue)</th></tr>
-        <tr>
-          <td class="row-label">처리 순서</td>
-          <td><select name="cmp_stack_order"><option value="">선택하세요</option><option>LIFO</option><option>FIFO</option></select></td>
-          <td><select name="cmp_queue_order"><option value="">선택하세요</option><option>LIFO</option><option>FIFO</option></select></td>
-        </tr>
-        <tr>
-          <td class="row-label">사용한 기능</td>
-          <td><input type="text" name="cmp_stack_usage"></td>
-          <td><input type="text" name="cmp_queue_usage"></td>
-        </tr>
-        <tr>
-          <td class="row-label">선택한 이유</td>
-          <td><input type="text" name="cmp_stack_reason"></td>
-          <td><input type="text" name="cmp_queue_reason"></td>
-        </tr>
-      </table>
-    </div>
-    <p class="block-desc" style="margin-top:18px">처리 순서 차이(LIFO/FIFO)가 실제 동작에 어떤 영향을 주었는지, 서로 바꿔 사용했다면 어떤 문제가 생겼을지 서술하세요.</p>
-    <div class="card neutral">
-      <textarea name="swap_effect" style="min-height:100px" placeholder="예: 만약 대기열에 큐 대신 스택을 사용했다면 ..."></textarea>
-    </div>
-  </section>
-
-  <!-- ===================== REFLECT ===================== -->
-  <section class="block" id="reflect">
-    <div class="block-head"><h2>문제 해결 과정 및 느낀 점</h2></div>
-    <div class="card neutral">
-      <label class="field-label">문제 해결 과정 <span class="hint">— 예상과 다르게 동작한 부분이 있었다면 원인을 어떻게 찾고 해결했는지</span></label>
-      <textarea name="process_debug" style="min-height:90px"></textarea>
-    </div>
-    <div class="card neutral">
-      <label class="field-label">배운 점 · 느낀 점 <span class="hint">— 새롭게 알게 된 점, 어려웠던 점</span></label>
-      <textarea name="reflection" style="min-height:90px"></textarea>
-    </div>
-  </section>
-
   <!-- ===================== SUBMIT ===================== -->
   <section class="block" id="submit">
     <div class="card tinted-queue">
       <span class="card-tag queue">제출</span>
       <h3 style="font-size:19px; color:var(--queue); margin-bottom:6px">작성을 마쳤나요?</h3>
-      <p class="block-desc" style="margin-bottom:20px">스택·큐 예시, 함수 설계, 예외 처리, 코드, 테스트 케이스를 모두 작성했는지 다시 한번 확인한 뒤 제출하세요.</p>
+      <p class="block-desc" style="margin-bottom:20px">빠뜨린 칸은 없는지 한 번 더 확인하고 제출 버튼을 누르세요.</p>
       <div class="submit-row">
         <button class="submit" id="submitBtn" type="button">제출하기</button>
         <span id="submitStatus"></span>
