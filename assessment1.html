@@ -228,7 +228,17 @@
     border-color:var(--queue); box-shadow:0 0 0 3px var(--queue-soft);
   }
   textarea{ resize:vertical; min-height:64px; }
-  pre[data-run]{ min-height:160px; }
+  textarea.code{
+    font-family:'IBM Plex Mono','D2Coding',monospace; font-size:15.5px; min-height:210px; line-height:1.6;
+    tab-size:4;
+  }
+
+  .compiler-link{
+    display:inline-flex; align-items:center; gap:7px; font-family:'Gothic A1',sans-serif;
+    font-weight:700; font-size:14px; text-decoration:none; color:#fff; background:var(--indigo);
+    border-radius:100px; padding:9px 16px; margin-bottom:14px; transition:opacity .15s;
+  }
+  .compiler-link:hover{ opacity:.88; }
 
   table.form-table{ width:100%; border-collapse:collapse; font-size:16px; }
   table.form-table th{
@@ -469,10 +479,11 @@
       <h2 style="font-size:19px">활동3. 프로그램 코드 작성</h2>
       <span class="pts stack">배점 15 · 스택+큐 합산 30</span>
     </div>
-    <p class="block-desc">계획한 대로 class를 실제 코드로 완성하세요. 아래 ▶ 실행 버튼을 누르면 브라우저에서 바로 돌려볼 수 있어요.</p>
+    <p class="block-desc">계획한 대로 class를 실제 코드로 완성하세요. 아래 링크에서 코드를 작성·실행해 출력이 맞는지 확인한 다음, 그 코드를 아래 칸에 그대로 붙여넣으세요.</p>
     <div class="card stack">
       <span class="card-tag stack">코드</span>
-      <pre data-run data-editable data-needs-stdin id="s_code_pre" data-placeholder="class Stack: 으로 시작해서 push, pop, peek, isEmpty를 직접 작성하세요"></pre>
+      <a class="compiler-link" href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener noreferrer">🔗 Programiz 온라인 컴파일러에서 실행해보기</a>
+      <textarea class="code" name="s_code" spellcheck="false" placeholder="class Stack: 으로 시작해서 push, pop, peek, isEmpty를 직접 작성하세요"></textarea>
     </div>
 
     <div class="block-head" style="margin-top:26px">
@@ -579,10 +590,11 @@
       <h2 style="font-size:19px">활동3. 프로그램 코드 작성</h2>
       <span class="pts queue">배점 15 · 스택+큐 합산 30</span>
     </div>
-    <p class="block-desc">계획한 대로 class를 실제 코드로 완성하세요. 아래 ▶ 실행 버튼을 누르면 브라우저에서 바로 돌려볼 수 있어요.</p>
+    <p class="block-desc">계획한 대로 class를 실제 코드로 완성하세요. 아래 링크에서 코드를 작성·실행해 출력이 맞는지 확인한 다음, 그 코드를 아래 칸에 그대로 붙여넣으세요.</p>
     <div class="card queue">
       <span class="card-tag queue">코드</span>
-      <pre data-run data-editable data-needs-stdin id="q_code_pre" data-placeholder="class Queue: 로 시작해서 enqueue, dequeue, peek, isEmpty를 직접 작성하세요"></pre>
+      <a class="compiler-link" href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener noreferrer">🔗 Programiz 온라인 컴파일러에서 실행해보기</a>
+      <textarea class="code" name="q_code" spellcheck="false" placeholder="class Queue: 로 시작해서 enqueue, dequeue, peek, isEmpty를 직접 작성하세요"></textarea>
     </div>
 
     <div class="block-head" style="margin-top:26px">
@@ -637,17 +649,8 @@
   var GAS_ENDPOINT = "https://script.google.com/macros/s/AKfycbzZS_xPbqzf7EX9QM3NsEBwmxpAf0d6QPAME-W_FZy3Au_eyJHgR03VVOY8J38gcGt8/exec";
 
   // ---------- helpers ----------
-  // 활동3 코드칸은 실행기(▶ 실행)가 붙는 <pre id="..._pre">라 name 속성이 없다 —
-  // 여기서만 별도로 textContent를 읽고 쓴다.
-  var CODE_PRE = { s_code: 's_code_pre', q_code: 'q_code_pre' };
   function $(name){ return document.querySelector('[name="'+name+'"]'); }
-  function val(name){
-    if (CODE_PRE[name]) {
-      var pre = document.getElementById(CODE_PRE[name]);
-      return pre ? (pre.textContent || '').trim() : '';
-    }
-    var el = $(name); return el ? (el.value || '').trim() : '';
-  }
+  function val(name){ var el = $(name); return el ? (el.value || '').trim() : ''; }
 
   function countOps(p){
     var c = 0;
@@ -721,15 +724,11 @@
   // ---------- autosave draft (per-device convenience only) ----------
   var STORAGE_KEY = 'stackqueue_draft_v1';
   var fields = document.querySelectorAll('input[name], textarea[name], select[name]');
-  var codePres = Object.keys(CODE_PRE).map(function(name){
-    return { name: name, el: document.getElementById(CODE_PRE[name]) };
-  }).filter(function(p){ return p.el; });
 
   function saveDraft(){
     try{
       var data = {};
       fields.forEach(function(el){ data[el.name] = el.value; });
-      codePres.forEach(function(p){ data[p.name] = p.el.textContent; });
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     }catch(e){}
   }
@@ -740,9 +739,6 @@
       var data = JSON.parse(raw);
       fields.forEach(function(el){
         if (data[el.name] !== undefined) el.value = data[el.name];
-      });
-      codePres.forEach(function(p){
-        if (data[p.name]) p.el.textContent = data[p.name];
       });
     }catch(e){}
   }
@@ -757,7 +753,6 @@
     el.addEventListener('input', scheduleSave);
     el.addEventListener('change', saveDraft);
   });
-  codePres.forEach(function(p){ p.el.addEventListener('input', scheduleSave); });
 
   // ---------- submit ----------
   var btn = document.getElementById('submitBtn');
@@ -780,7 +775,6 @@
     var score = computeScore();
     var payload = { submittedAt: new Date().toISOString(), score: score };
     fields.forEach(function(el){ payload[el.name] = el.value; });
-    codePres.forEach(function(p){ payload[p.name] = p.el.textContent; });
 
     btn.disabled = true;
     status.className = '';
