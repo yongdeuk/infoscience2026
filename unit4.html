@@ -352,6 +352,23 @@
       </div>
       <figcaption>교과서의 예시 메뉴 데이터예요. 숫자는 그 메뉴가 나왔을 때 한 사람이 남기는 양(g)이에요. 우리 학교 상황에 맞게 카테고리와 메뉴를 바꿀 수 있어요.</figcaption>
     </figure>
+    <div class="lab" id="lab-menu">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>식단 짜기 — 잔반이 가장 적은 조합 찾기</h5></div>
+      <div class="lab-body">
+        <div class="lx-cats" data-cats></div>
+        <div class="counter">
+          <div><span class="cnum" data-total>—</span><span class="clab">이 식단의 잔반량</span></div>
+          <div><span class="cnum" data-tried>0</span><span class="clab">시험한 식단</span></div>
+        </div>
+        <div class="lab-ctrl">
+          <button class="btn" data-act="reset">처음부터</button>
+          <button class="btn" data-act="best">컴퓨터에게 맡기기</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite"></p>
+        <p class="lab-note">여기서는 줄마다 가장 적은 메뉴를 고르면 되지만, “같은 재료를 두 번 쓰지 않기” 같은 조건이 붙으면 그렇게 풀 수 없어요. 그래서 모든 경우를 빠짐없이, 그러나 겹치는 계산 없이 살피는 알고리즘이 필요해요.</p>
+      </div>
+    </div>
+
     <div class="tablewrap">
       <table>
         <thead><tr><th>설계 항목</th><th>내용</th></tr></thead>
@@ -604,6 +621,20 @@ for activity, factor in factors.items():
 
 print(f'오늘의 탄소 발자국: {total:.2f}kg CO2')</pre>
 
+    <div class="lab" id="lab-carbon">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>나의 하루 탄소 발자국 — 슬라이더로 계산하기</h5></div>
+      <div class="lab-body">
+        <div class="lx-crows" data-rows></div>
+        <div class="counter"><div><span class="cnum" data-total>0</span><span class="clab">오늘의 탄소 발자국 (활동량 × 배출 계수의 합)</span></div></div>
+        <div class="lab-ctrl">
+          <button class="btn" data-act="base">예시 값으로</button>
+          <button class="btn" data-act="zero">모두 0으로</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite"></p>
+        <p class="lab-note">배출 계수는 위 표의 교과서 예시 값이에요. 소고기를 100g만 줄여도 다른 항목과 견주어 얼마나 달라지는지 살펴보세요.</p>
+      </div>
+    </div>
+
     <p><b>수집할 데이터</b>와 <b>분석할 내용</b>을 정리해요.</p>
     <div class="cards">
       <div class="card"><span class="tag2">모을 데이터</span><h5>어디서 탄소가 나올까</h5><ul><li>교통수단 — 무엇을 타고, 몇 km를 가는지</li><li>집 안 에너지 — 전기·가스·물 사용량</li><li>먹는 것 — 음식 종류, 수입 여부</li><li>물건 — 사용 기간, 버릴 때 나오는 양</li></ul></div>
@@ -682,6 +713,22 @@ print(f'오늘의 탄소 발자국: {total:.2f}kg CO2')</pre>
           <tr><td>5</td><td>학원 (450)</td><td>0</td><td>300</td><td>368</td><td>436</td><td>450</td><td>더 줄일 곳 없음 → 끝</td></tr>
         </tbody>
       </table>
+    </div>
+
+    <div class="lab" id="lab-dijk">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>다익스트라 — 한 단계씩 확정해 보기</h5></div>
+      <div class="lab-body">
+        <svg viewBox="0 0 600 280" role="img" aria-label="다섯 장소를 잇는 그래프. 단계마다 확정된 장소와 최소 배출량이 표시된다" data-svg></svg>
+        <div class="tablewrap"><table class="lx-dtbl" data-tbl></table></div>
+        <div class="lab-ctrl">
+          <label>출발 장소 <select data-start><option>집</option><option>학교</option><option>도서관</option><option>카페</option><option>학원</option></select></label>
+          <button class="btn btn-p" data-act="step">다음 단계</button>
+          <button class="btn" data-act="all">끝까지 실행</button>
+          <button class="btn" data-act="reset">처음부터</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite"></p>
+        <p class="lab-note">동그라미 안의 숫자가 지금까지 알아낸 최소 배출량(g)이에요. 테두리가 굵은 장소는 값이 확정된 곳, 굵은 선은 그곳까지 가는 가장 좋은 길이에요.</p>
+      </div>
     </div>
 
     <h4>3단계 · 프로그램 작성</h4>
@@ -1203,6 +1250,21 @@ classroom, students = main()</pre>
 김지훈      김영숙      백하윤      김정순
 박재호      김경희      윤하윤(뒤)   윤건우(뒤)</div>
     <p>이 사이트의 실행기에서는 파일을 읽고 쓸 수 없어서, 학생 데이터를 파일 대신 <b>코드 안의 리스트</b>(<code>student_data</code>)에 넣었어요. 나머지 알고리즘은 교과서와 같아요. 앞자리를 원한 강민재·구정식은 0행에, 뒷자리를 원한 윤하윤·윤건우는 3행에 앉았고, 두 사람씩 서로 이전 자리를 바꿔 앉은 것을 확인해 보세요.</p>
+
+    <div class="lab" id="lab-seat">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>자리 바꾸기 — 조건을 바꿔 가며 돌려 보기</h5></div>
+      <div class="lab-body">
+        <div class="lx-desk">교탁 (앞)</div>
+        <div class="lx-seats" data-grid></div>
+        <div class="counter"><div><span class="cnum" data-round>0</span><span class="clab">자리 바꾼 횟수</span></div></div>
+        <div class="lab-ctrl">
+          <button class="btn btn-p" data-act="go">자리 바꾸기</button>
+          <label><input type="checkbox" data-noprev checked> 이전 자리에 앉지 않기</label>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite"></p>
+        <p class="lab-note">학생을 누를 때마다 선호가 없음 → 앞 → 뒤 순서로 바뀌어요. 앞자리 선호를 여러 명으로 늘리거나, ‘이전 자리에 앉지 않기’를 꺼 보고 결과가 어떻게 달라지는지 살펴보세요.</p>
+      </div>
+    </div>
 
     <div class="deep">
       <span class="lbl">교과서 방식 · 파일로 저장하고 불러오기</span>

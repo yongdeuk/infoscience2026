@@ -467,6 +467,507 @@
     });
     update();
   })();
+
+  /* ============ Ⅲ·Ⅳ단원 체험 (u34 labs) ============ */
+  function labRoot(id) { return document.getElementById(id); }
+  function labAct(root, fn) {
+    root.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-act]'); if (b && root.contains(b)) fn(b.dataset.act, b);
+    });
+  }
+  function shuffled(a) {
+    a = a.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+
+  /* ---- 8-퍼즐 ---- */
+  (function () {
+    var root = labRoot('lab-puzzle'); if (!root) return;
+    var grid = root.querySelector('[data-grid]'), cnt = root.querySelector('[data-cnt]'), status = root.querySelector('[data-status]');
+    var GOAL = [1, 2, 3, 4, 5, 6, 7, 8, 0], START = [1, 2, 3, 4, 0, 5, 7, 8, 6];
+    var cells, moves, best;
+    function say(h) { status.innerHTML = h; }
+    function neighbors(i) {
+      var r = Math.floor(i / 3), c = i % 3, out = [];
+      if (r > 0) out.push(i - 3); if (r < 2) out.push(i + 3); if (c > 0) out.push(i - 1); if (c < 2) out.push(i + 1);
+      return out;
+    }
+    function solved() { return cells.join() === GOAL.join(); }
+    function render() {
+      var blank = cells.indexOf(0), can = neighbors(blank);
+      grid.innerHTML = '';
+      cells.forEach(function (v, i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'lx-tile' + (v === 0 ? ' blank' : '') + (can.indexOf(i) >= 0 ? ' can' : '') + (v && v === GOAL[i] ? ' ok' : '');
+        b.textContent = v || '';
+        b.dataset.i = i;
+        if (v) b.setAttribute('aria-label', v + '번 타일' + (can.indexOf(i) >= 0 ? ' (옮길 수 있음)' : ''));
+        else { b.disabled = true; b.setAttribute('aria-label', '빈칸'); }
+        grid.appendChild(b);
+      });
+      cnt.textContent = moves;
+    }
+    function set(state, min, msg) { cells = state.slice(); moves = 0; best = min; render(); say(msg); }
+    function scramble(n) {
+      var s = GOAL.slice(), prev = -1;
+      for (var k = 0; k < n; k++) {
+        var blank = s.indexOf(0), opts = neighbors(blank).filter(function (x) { return x !== prev; });
+        var pick = opts[Math.floor(Math.random() * opts.length)];
+        s[blank] = s[pick]; s[pick] = 0; prev = blank;
+      }
+      if (s.join() === GOAL.join()) return scramble(n);
+      return s;
+    }
+    grid.addEventListener('click', function (e) {
+      var b = e.target.closest('.lx-tile'); if (!b || solved()) return;
+      var i = +b.dataset.i, blank = cells.indexOf(0);
+      if (neighbors(blank).indexOf(i) < 0) { say('빈칸과 <b>맞닿은 타일</b>만 옮길 수 있어요. 지금 고를 수 있는 행동은 ' + neighbors(blank).length + '가지예요.'); return; }
+      cells[blank] = cells[i]; cells[i] = 0; moves++; render();
+      if (solved()) say('<b>목표 상태 도착!</b> ' + moves + '번 옮겼어요.' + (best ? ' 이 문제는 ' + best + '번 이하로도 풀 수 있어요.' + (moves <= best ? ' 가장 짧은 길을 찾았네요!' : ' 더 짧은 길에 도전해 보세요.') : ''));
+      else say('상태가 바뀌었어요. 지금 빈칸을 옮길 수 있는 방향은 <b>' + neighbors(cells.indexOf(0)).length + '가지</b>예요.');
+    });
+    labAct(root, function (act) {
+      if (act === 'start') set(START, 2, '교과서의 초기 상태예요. 빈칸 옆의 타일을 눌러 옮겨 보세요. <b>2번</b>이면 풀려요.');
+      else if (act === 'easy') set(scramble(6), 6, '쉬운 문제예요. 6번 이하로 풀 수 있어요.');
+      else if (act === 'hard') set(scramble(18), 18, '어려운 문제예요. 18번 이하로 풀 수 있어요. 탐색할 상태가 얼마나 많은지 느껴 보세요.');
+    });
+    set(START, 2, '빈칸 옆의 타일을 눌러 옮겨 보세요. 타일을 한 번 옮길 때마다 <b>새로운 상태</b>가 돼요.');
+  })();
+
+  /* ---- N-퀸 ---- */
+  (function () {
+    var root = labRoot('lab-queens'); if (!root) return;
+    var board = root.querySelector('[data-board]'), sel = root.querySelector('[data-n]'), status = root.querySelector('[data-status]');
+    var N, queens;
+    function attacks(a, b) { return a[0] === b[0] || a[1] === b[1] || Math.abs(a[0] - b[0]) === Math.abs(a[1] - b[1]); }
+    function render() {
+      board.innerHTML = '';
+      board.style.gridTemplateColumns = 'repeat(' + N + ', 1fr)';
+      board.style.maxWidth = (N * 3.1) + 'rem';
+      var bad = {};
+      queens.forEach(function (q, i) { queens.forEach(function (p, j) { if (i !== j && attacks(q, p)) bad[q.join()] = 1; }); });
+      for (var r = 0; r < N; r++) for (var c = 0; c < N; c++) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        var has = queens.some(function (q) { return q[0] === r && q[1] === c; });
+        var hit = !has && queens.some(function (q) { return attacks(q, [r, c]); });
+        b.className = 'lx-sq' + ((r + c) % 2 ? ' dark' : '') + (has ? ' q' : '') + (hit ? ' hit' : '') + (bad[r + ',' + c] ? ' bad' : '');
+        b.textContent = has ? '♛' : '';
+        b.dataset.r = r; b.dataset.c = c;
+        b.setAttribute('aria-label', (r + 1) + '행 ' + (c + 1) + '열' + (has ? ' 퀸' + (bad[r + ',' + c] ? ' (공격받음)' : '') : hit ? ' (공격받는 칸)' : ' (안전한 칸)'));
+        board.appendChild(b);
+      }
+      var nb = Object.keys(bad).length;
+      if (!queens.length) status.innerHTML = '칸을 눌러 퀸을 놓아 보세요. 색이 칠해진 칸은 이미 놓인 퀸이 <b>공격할 수 있는 칸</b>이에요.';
+      else if (nb) status.innerHTML = '퀸 ' + queens.length + '개 중 <b>' + nb + '개가 서로 공격</b>하고 있어요. 붉은 퀸을 다시 눌러 치우고(되돌아가기) 다른 칸을 시도해 보세요.';
+      else if (queens.length === N) status.innerHTML = '<b>성공!</b> 퀸 ' + N + '개가 서로 공격하지 못해요. 프로그램에서는 이 답을 <b>[' + queens.slice().sort(function (a, b) { return a[0] - b[0]; }).map(function (q) { return q[1]; }).join(', ') + ']</b>로 나타내요.';
+      else status.innerHTML = '퀸 <b>' + queens.length + '개</b>를 안전하게 놓았어요. 남은 안전한 칸(색이 없는 칸)에 ' + (N - queens.length) + '개를 더 놓아 보세요. 놓을 칸이 없으면 되돌아가야 해요.';
+    }
+    function reset() { N = +sel.value; queens = []; render(); }
+    board.addEventListener('click', function (e) {
+      var b = e.target.closest('.lx-sq'); if (!b) return;
+      var r = +b.dataset.r, c = +b.dataset.c;
+      var k = -1; queens.forEach(function (q, i) { if (q[0] === r && q[1] === c) k = i; });
+      if (k >= 0) queens.splice(k, 1);
+      else if (queens.length < N) queens.push([r, c]);
+      else { status.innerHTML = '퀸은 ' + N + '개까지만 놓을 수 있어요. 놓인 퀸을 눌러 먼저 치워 주세요.'; return; }
+      render();
+    });
+    function solve() {
+      var cols = [];
+      function ok(r, c) { for (var i = 0; i < r; i++) if (cols[i] === c || Math.abs(cols[i] - c) === r - i) return false; return true; }
+      function go(r) {
+        if (r === N) return true;
+        for (var c = 0; c < N; c++) if (ok(r, c)) { cols[r] = c; if (go(r + 1)) return true; }
+        return false;
+      }
+      go(0);
+      queens = cols.map(function (c, r) { return [r, c]; });
+      render();
+    }
+    labAct(root, function (act) { if (act === 'reset') reset(); else if (act === 'solve') solve(); });
+    sel.addEventListener('change', reset);
+    reset();
+  })();
+
+  /* ---- 거스름돈: 탐욕 vs 최적 ---- */
+  (function () {
+    var root = labRoot('lab-coin'); if (!root) return;
+    var sel = root.querySelector('[data-set]'), amt = root.querySelector('[data-amt]'),
+        g = root.querySelector('[data-greedy]'), o = root.querySelector('[data-opt]'), status = root.querySelector('[data-status]');
+    function chips(list) {
+      return list.length ? list.map(function (c) { return '<span class="lx-chip">' + c + '</span>'; }).join('') + '<span class="lx-sum">' + list.length + '개</span>' : '<span class="lx-sum">만들 수 없음</span>';
+    }
+    function update() {
+      var coins = sel.value.split(',').map(Number).sort(function (a, b) { return b - a; });
+      var unit = coins[coins.length - 1];
+      var n = Math.max(unit, Math.min(parseInt(amt.value, 10) || unit, unit === 10 ? 2000 : 60));
+      n = Math.round(n / unit) * unit; amt.value = n; amt.step = unit; amt.min = unit; amt.max = unit === 10 ? 2000 : 60;
+      var rest = n, gr = [];
+      coins.forEach(function (c) { while (rest >= c) { gr.push(c); rest -= c; } });
+      var m = n / unit, dp = [0], from = [0];
+      for (var i = 1; i <= m; i++) {
+        dp[i] = Infinity;
+        coins.forEach(function (c) { var k = c / unit; if (k <= i && dp[i - k] + 1 < dp[i]) { dp[i] = dp[i - k] + 1; from[i] = k; } });
+      }
+      var op = []; for (var j = m; j > 0; j -= from[j]) op.push(from[j] * unit);
+      op.sort(function (a, b) { return b - a; });
+      g.innerHTML = chips(gr); o.innerHTML = chips(op);
+      if (gr.length === op.length) status.innerHTML = '<b>' + n + '원</b> — 탐욕법도 가장 적은 <b>' + op.length + '개</b>를 찾았어요.' + (unit === 10 ? ' 우리나라 동전은 큰 동전이 작은 동전의 배수라서 탐욕법이 늘 통해요.' : ' 다른 금액도 넣어 보세요. 탐욕법이 틀리는 금액이 있어요.');
+      else status.innerHTML = '<b>' + n + '원</b> — 탐욕법은 <b>' + gr.length + '개</b>, 실제 최소는 <b>' + op.length + '개</b>! 큰 동전부터 집었더니 손해를 봤어요. <b>탐욕법이 항상 가장 좋은 답을 주지는 않아요.</b>';
+    }
+    sel.addEventListener('change', function () { amt.value = sel.value === '500,100,50,10' ? 780 : 6; update(); });
+    amt.addEventListener('input', update);
+    labAct(root, function (act) { var u = +amt.step || 1; amt.value = (parseInt(amt.value, 10) || 0) + (act === 'up' ? u : -u); update(); });
+    update();
+  })();
+
+  /* ---- 퀵 정렬 ---- */
+  (function () {
+    var root = labRoot('lab-qsort'); if (!root) return;
+    var stage = root.querySelector('[data-stage]'), cnt = root.querySelector('[data-cnt]'), status = root.querySelector('[data-status]');
+    var segs, comps, base;
+    function load(a, msg) { base = a.slice(); segs = [{ v: a.slice(), done: a.length <= 1 }]; comps = 0; render(); status.innerHTML = msg; }
+    function render() {
+      stage.innerHTML = '';
+      segs.forEach(function (s, si) {
+        var grp = document.createElement('div');
+        grp.className = 'lx-seg' + (s.done ? ' done' : '');
+        s.v.forEach(function (v, i) {
+          var bar = document.createElement('div');
+          bar.className = 'lx-bar' + (s.done ? ' fixed' : '') + (!s.done && i === 0 && si === next() ? ' pivot' : '');
+          bar.style.height = (1 + v * 0.62) + 'rem';
+          bar.innerHTML = '<span>' + v + '</span>';
+          grp.appendChild(bar);
+        });
+        stage.appendChild(grp);
+      });
+      cnt.textContent = comps;
+    }
+    function next() { for (var i = 0; i < segs.length; i++) if (!segs[i].done) return i; return -1; }
+    function step() {
+      var k = next();
+      if (k < 0) return false;
+      var s = segs[k].v, p = s[0], L = [], R = [];
+      for (var i = 1; i < s.length; i++) { comps++; (s[i] <= p ? L : R).push(s[i]); }
+      var rep = [];
+      if (L.length) rep.push({ v: L, done: L.length === 1 });
+      rep.push({ v: [p], done: true });
+      if (R.length) rep.push({ v: R, done: R.length === 1 });
+      Array.prototype.splice.apply(segs, [k, 1].concat(rep));
+      render();
+      var n = base.length;
+      if (next() < 0) status.innerHTML = '<b>정렬 끝!</b> 비교 <b>' + comps + '번</b>. 선택 정렬이라면 언제나 ' + (n * (n - 1) / 2) + '번이에요.' + (comps === n * (n - 1) / 2 ? ' 이번에는 퀵 정렬도 똑같이 걸렸어요. 피벗이 늘 한쪽 끝 값이라 한쪽으로만 치우쳐 나뉘었기 때문이에요(최악의 경우).' : '');
+      else status.innerHTML = '기준 <b>' + p + '</b>: 작거나 같은 값 ' + L.length + '개는 왼쪽, 큰 값 ' + R.length + '개는 오른쪽으로. <b>' + p + '</b>의 자리가 정해졌어요(색칠).';
+      return true;
+    }
+    labAct(root, function (act) {
+      if (act === 'step') { if (!step()) status.innerHTML = '이미 정렬이 끝났어요. <b>섞기</b>를 눌러 다시 해 보세요.'; }
+      else if (act === 'all') { var g = 0; while (step() && g++ < 50) {} }
+      else if (act === 'shuffle') load(shuffled([1, 2, 3, 4, 5, 6, 7, 8]), '새로 섞었어요. 굵은 테두리의 막대가 이번 <b>기준(피벗)</b>이에요.');
+      else if (act === 'sorted') load([1, 2, 3, 4, 5, 6, 7, 8], '이미 정렬된 줄이에요. 퀵 정렬에게는 오히려 <b>가장 나쁜 경우</b>예요. 왜 그런지 한 단계씩 눌러 보세요.');
+      else if (act === 'reset') load(base, '처음 상태로 돌아왔어요.');
+    });
+    load([5, 3, 8, 1, 7, 2, 6, 4], '<b>다음 단계</b>를 누르면 굵은 테두리의 막대(기준)를 중심으로 작은 값은 왼쪽, 큰 값은 오른쪽으로 갈라져요.');
+  })();
+
+  /* ---- 배낭 채우기 ---- */
+  (function () {
+    var root = labRoot('lab-knap'); if (!root) return;
+    var itemsEl = root.querySelector('[data-items]'), capSel = root.querySelector('[data-cap]'), fill = root.querySelector('[data-fill]'),
+        wv = root.querySelector('[data-w]'), vv = root.querySelector('[data-v]'), tried = root.querySelector('[data-tried]'), status = root.querySelector('[data-status]');
+    var items = [[2, 3], [3, 4], [4, 5], [5, 6]], on, seen;
+    function best(W) {
+      var b = 0;
+      for (var m = 0; m < 16; m++) { var w = 0, v = 0; for (var i = 0; i < 4; i++) if (m >> i & 1) { w += items[i][0]; v += items[i][1]; } if (w <= W && v > b) b = v; }
+      return b;
+    }
+    function render() {
+      var W = +capSel.value, w = 0, v = 0, mask = 0;
+      itemsEl.innerHTML = '';
+      items.forEach(function (it, i) {
+        if (on[i]) { w += it[0]; v += it[1]; mask |= 1 << i; }
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'lx-item' + (on[i] ? ' on' : ''); b.dataset.i = i;
+        b.setAttribute('aria-pressed', on[i] ? 'true' : 'false');
+        b.innerHTML = '<b>' + (i + 1) + '번</b><span>' + it[0] + 'kg</span><span>가치 ' + it[1] + '</span>';
+        itemsEl.appendChild(b);
+      });
+      seen[mask] = 1;
+      fill.style.width = Math.min(100, w / W * 100) + '%';
+      fill.className = 'lx-fill' + (w > W ? ' over' : '');
+      wv.textContent = w + ' / ' + W + 'kg'; vv.textContent = w > W ? '—' : v;
+      tried.textContent = Object.keys(seen).length + ' / 16';
+      var B = best(W);
+      if (!mask) status.innerHTML = '물건을 눌러 배낭에 담아 보세요. 다시 누르면 꺼내요. 무게 한도 안에서 <b>가치의 합</b>을 가장 크게 만들어 보세요.';
+      else if (w > W) status.innerHTML = '<b>' + (w - W) + 'kg 초과!</b> 배낭이 찢어져요. 무언가를 꺼내야 해요.';
+      else if (v === B) status.innerHTML = '<b>가치 ' + v + ' — 이보다 좋은 방법은 없어요!</b> 16가지를 모두 따져 본 것과 같은 답이에요.';
+      else status.innerHTML = '가치 <b>' + v + '</b>. 담을 수는 있지만, 더 좋은 조합이 있어요. (' + (on[3] && W === 5 ? '가치가 가장 큰 4번부터 담는 탐욕법은 여기서 막혀요.' : '다른 조합도 시도해 보세요.') + ')';
+    }
+    function reset() { on = [false, false, false, false]; seen = {}; render(); }
+    itemsEl.addEventListener('click', function (e) { var b = e.target.closest('.lx-item'); if (!b) return; on[+b.dataset.i] = !on[+b.dataset.i]; render(); });
+    capSel.addEventListener('change', reset);
+    labAct(root, function () { reset(); });
+    reset();
+  })();
+
+  /* ---- 주식 최대 수익 ---- */
+  (function () {
+    var root = labRoot('lab-stock'); if (!root) return;
+    var row = root.querySelector('[data-days]'), status = root.querySelector('[data-status]'), tries = root.querySelector('[data-tries]');
+    var prices = [10300, 9600, 9800, 8200, 7800, 8300, 9500, 9800, 10200, 9500];
+    var days = ['6/1', '6/2', '6/3', '6/4', '6/5', '6/8', '6/9', '6/10', '6/11', '6/12'];
+    var buy, sell, n;
+    function render() {
+      row.innerHTML = '';
+      prices.forEach(function (p, i) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.dataset.i = i;
+        b.className = 'lx-day' + (i === buy ? ' buy' : '') + (i === sell ? ' sell' : '') + (buy !== null && sell === null && i <= buy ? ' off' : '');
+        b.innerHTML = '<span class="d">' + days[i] + '</span><span class="col"><i style="height:' + ((p - 7000) / 3500 * 100) + '%"></i></span><b>' + fmt(p) + '</b><span class="t">' + (i === buy ? '삼' : i === sell ? '팖' : '&nbsp;') + '</span>';
+        row.appendChild(b);
+      });
+      tries.textContent = n;
+    }
+    function reset() { buy = sell = null; render(); }
+    row.addEventListener('click', function (e) {
+      var b = e.target.closest('.lx-day'); if (!b) return;
+      var i = +b.dataset.i;
+      if (buy === null || sell !== null) { buy = i; sell = null; render(); status.innerHTML = '<b>' + days[i] + '</b>에 ' + fmt(prices[i]) + '원에 샀어요. 이제 <b>그 뒤의 날</b> 가운데 파는 날을 골라 보세요.'; return; }
+      if (i <= buy) { status.innerHTML = '사기 전에는 팔 수 없어요. <b>' + days[buy] + ' 뒤의 날</b>을 골라 주세요.'; return; }
+      sell = i; n++; render();
+      var pf = prices[sell] - prices[buy];
+      status.innerHTML = days[buy] + '에 사서 ' + days[sell] + '에 팔면 <b>' + (pf >= 0 ? '+' : '') + fmt(pf) + '원</b>. ' +
+        (pf === 2400 ? '<b>최대 수익이에요!</b> ' + n + '번 만에 찾았어요. 전체 탐색은 45쌍을 모두 비교해요.' : pf < 0 ? '손해를 봤어요. 다른 날을 눌러 다시 사 보세요.' : '더 큰 수익이 있어요. 다른 날을 눌러 다시 사 보세요.');
+    });
+    labAct(root, function () { n = 0; reset(); status.innerHTML = '먼저 <b>사는 날</b>을 누르고, 그다음 <b>파는 날</b>을 눌러 보세요.'; });
+    n = 0; reset();
+    status.innerHTML = '먼저 <b>사는 날</b>을 누르고, 그다음 <b>파는 날</b>을 눌러 보세요.';
+  })();
+
+  /* ---- 급식 메뉴 고르기 ---- */
+  (function () {
+    var root = labRoot('lab-menu'); if (!root) return;
+    var wrap = root.querySelector('[data-cats]'), total = root.querySelector('[data-total]'), tried = root.querySelector('[data-tried]'), status = root.querySelector('[data-status]');
+    var cats = [['고기', [['닭고기', 40], ['돼지고기', 50], ['소고기', 30]]], ['야채', [['브로콜리', 20], ['시금치', 25], ['양배추', 35]]],
+                ['국', [['미역국', 50], ['된장국', 20], ['김치찌개', 40]]], ['반찬', [['김치', 15], ['멸치볶음', 35], ['나물', 25]]]];
+    var pick, seen, shown;
+    function render() {
+      wrap.innerHTML = '';
+      cats.forEach(function (c, ci) {
+        var col = document.createElement('div'); col.className = 'lx-cat';
+        col.innerHTML = '<h6>' + c[0] + '</h6>';
+        c[1].forEach(function (m, mi) {
+          var b = document.createElement('button');
+          b.type = 'button'; b.className = 'lx-opt' + (pick[ci] === mi ? ' on' : ''); b.dataset.c = ci; b.dataset.m = mi;
+          b.setAttribute('aria-pressed', pick[ci] === mi ? 'true' : 'false');
+          b.innerHTML = m[0] + ' <span>' + (shown ? m[1] + 'g' : '?') + '</span>';
+          col.appendChild(b);
+        });
+        wrap.appendChild(col);
+      });
+      var full = pick.every(function (p) { return p !== null; });
+      var sum = 0; if (full) pick.forEach(function (p, ci) { sum += cats[ci][1][p][1]; });
+      total.textContent = full ? sum + 'g' : '—';
+      if (full) seen[pick.join('')] = 1;
+      var k = Object.keys(seen).length;
+      tried.textContent = k + ' / 81';
+      if (!full) status.innerHTML = '줄마다 메뉴를 <b>하나씩</b> 골라 식단을 짜 보세요. 네 가지를 모두 고르면 잔반량의 합이 나와요.';
+      else if (sum === 85) status.innerHTML = '<b>잔반 85g — 81가지 가운데 가장 적어요!</b> ' + k + '가지를 시험해 보고 찾았네요. 프로그램은 이 답을 눈 깜짝할 사이에 찾아요.';
+      else {
+        var rank = 1;
+        for (var a = 0; a < 3; a++) for (var b2 = 0; b2 < 3; b2++) for (var c2 = 0; c2 < 3; c2++) for (var d2 = 0; d2 < 3; d2++)
+          if (cats[0][1][a][1] + cats[1][1][b2][1] + cats[2][1][c2][1] + cats[3][1][d2][1] < sum) rank++;
+        status.innerHTML = '이 식단의 잔반은 <b>' + sum + 'g</b>. 81가지 가운데 <b>' + rank + '번째</b>로 적어요. 지금까지 <b>' + k + '가지</b>를 시험했어요. 더 줄여 보세요.';
+      }
+    }
+    function reset() { pick = [null, null, null, null]; seen = {}; shown = true; render(); }
+    wrap.addEventListener('click', function (e) { var b = e.target.closest('.lx-opt'); if (!b) return; pick[+b.dataset.c] = +b.dataset.m; render(); });
+    labAct(root, function (act) {
+      if (act === 'reset') reset();
+      else if (act === 'best') { shown = true; pick = cats.map(function (c) { var bi = 0; c[1].forEach(function (m, i) { if (m[1] < c[1][bi][1]) bi = i; }); return bi; }); render(); }
+    });
+    reset();
+  })();
+
+  /* ---- 탄소 발자국 계산기 ---- */
+  (function () {
+    var root = labRoot('lab-carbon'); if (!root) return;
+    var rows = root.querySelector('[data-rows]'), total = root.querySelector('[data-total]'), status = root.querySelector('[data-status]');
+    var acts = [['전기', 'kWh', 0.474, 20, 0.5, 6], ['버스', 'km', 0.1, 40, 1, 8], ['플라스틱', 'kg', 2.5, 1, 0.05, 0.2],
+                ['쌀', 'kg', 2.7, 1, 0.05, 0.3], ['소고기', 'kg', 27, 0.5, 0.05, 0.1], ['채소', 'kg', 0.5, 1, 0.05, 0.3]];
+    acts.forEach(function (a, i) {
+      var d = document.createElement('div'); d.className = 'lx-crow';
+      d.innerHTML = '<label for="lx-c' + i + '">' + a[0] + ' <small>1' + a[1] + '당 ' + a[2] + '</small></label>' +
+        '<input id="lx-c' + i + '" type="range" min="0" max="' + a[3] + '" step="' + a[4] + '" value="' + a[5] + '" data-i="' + i + '">' +
+        '<span class="amt" data-amt></span><span class="bar"><i data-bar></i></span><span class="val" data-val></span>';
+      rows.appendChild(d);
+    });
+    function update() {
+      var sum = 0, vals = [], maxI = 0;
+      [].forEach.call(rows.querySelectorAll('input'), function (inp, i) { var v = parseFloat(inp.value) * acts[i][2]; vals.push(v); sum += v; if (v > vals[maxI]) maxI = i; });
+      var top = Math.max.apply(null, vals.concat([0.01]));
+      [].forEach.call(rows.children, function (d, i) {
+        d.querySelector('[data-amt]').textContent = parseFloat(d.querySelector('input').value) + acts[i][1];
+        d.querySelector('[data-bar]').style.width = (vals[i] / top * 100) + '%';
+        d.querySelector('[data-val]').textContent = vals[i].toFixed(2) + 'kg';
+      });
+      total.textContent = sum.toFixed(2) + 'kg CO₂';
+      status.innerHTML = sum === 0 ? '모두 0이에요. 슬라이더를 움직여 오늘 하루를 입력해 보세요.' :
+        '오늘의 탄소 발자국은 <b>' + sum.toFixed(2) + 'kg</b>. 가장 큰 몫은 <b>' + acts[maxI][0] + '</b>(' + Math.round(vals[maxI] / sum * 100) + '%)예요. 이 값을 줄이면 효과가 가장 커요.';
+    }
+    rows.addEventListener('input', update);
+    labAct(root, function (act) {
+      [].forEach.call(rows.querySelectorAll('input'), function (inp, i) { inp.value = act === 'zero' ? 0 : acts[i][5]; });
+      update();
+    });
+    update();
+  })();
+
+  /* ---- 다익스트라 ---- */
+  (function () {
+    var root = labRoot('lab-dijk'); if (!root) return;
+    var svg = root.querySelector('[data-svg]'), tbl = root.querySelector('[data-tbl]'), sel = root.querySelector('[data-start]'), status = root.querySelector('[data-status]');
+    var pos = { '집': [80, 130], '학교': [250, 50], '도서관': [300, 165], '카페': [520, 220], '학원': [520, 50] };
+    var names = ['집', '학교', '도서관', '카페', '학원'];
+    var edges = [['집', '학교', 300], ['집', '도서관', 450], ['집', '카페', 600], ['학교', '학원', 150], ['학교', '도서관', 68], ['도서관', '카페', 68], ['학원', '카페', 600]];
+    var dist, done, from, cur, step;
+    function reset() {
+      dist = {}; done = {}; from = {}; cur = null; step = 0;
+      names.forEach(function (n) { dist[n] = Infinity; });
+      dist[sel.value] = 0;
+      render();
+      status.innerHTML = '출발점 <b>' + sel.value + '</b>만 0, 나머지는 아직 모름(∞)이에요. <b>다음 단계</b>를 눌러 보세요.';
+    }
+    function d(n) { return dist[n] === Infinity ? '∞' : dist[n]; }
+    function render() {
+      var h = '';
+      edges.forEach(function (e) {
+        var a = pos[e[0]], b = pos[e[1]], tree = from[e[0]] === e[1] || from[e[1]] === e[0], hot = cur && (e[0] === cur || e[1] === cur);
+        var path = e[0] === '집' && e[1] === '카페' ? 'M80 130 Q 280 290 520 220' : 'M' + a[0] + ' ' + a[1] + ' L' + b[0] + ' ' + b[1];
+        var mx = e[0] === '집' && e[1] === '카페' ? 280 : (a[0] + b[0]) / 2, my = e[0] === '집' && e[1] === '카페' ? 246 : (a[1] + b[1]) / 2;
+        h += '<path d="' + path + '" class="' + (tree ? 'sv-a' : hot ? 'sv-line' : 'sv-mute') + '"' + (tree ? ' stroke-width="3"' : '') + '/>';
+        h += '<text x="' + (mx + 8) + '" y="' + (my - 6) + '" class="' + (tree ? 'sv-t-a' : 'sv-t-s') + '">' + e[2] + '</text>';
+      });
+      names.forEach(function (n) {
+        var p = pos[n];
+        h += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="28" class="' + (n === cur ? 'sv-box-a' : 'sv-box') + '"' + (done[n] ? ' stroke-width="3"' : '') + '/>';
+        h += '<text x="' + p[0] + '" y="' + (p[1] - 1) + '" class="sv-t-b" text-anchor="middle">' + n + '</text>';
+        h += '<text x="' + p[0] + '" y="' + (p[1] + 15) + '" class="' + (done[n] ? 'sv-t-a' : 'sv-t-s') + '" text-anchor="middle">' + d(n) + '</text>';
+      });
+      svg.innerHTML = h;
+      tbl.innerHTML = '<tr>' + names.map(function (n) { return '<th>' + n + '</th>'; }).join('') + '</tr><tr>' +
+        names.map(function (n) { return '<td class="' + (done[n] ? 'done' : '') + '">' + d(n) + (done[n] ? ' ✓' : '') + '</td>'; }).join('') + '</tr>';
+    }
+    function next() {
+      var best = null;
+      names.forEach(function (n) { if (!done[n] && dist[n] < Infinity && (best === null || dist[n] < dist[best])) best = n; });
+      if (best === null) { cur = null; render(); status.innerHTML = '<b>끝!</b> 모든 장소의 최소 배출량이 정해졌어요. 굵은 선이 ' + sel.value + '에서 각 장소로 가는 가장 좋은 길이에요. 출발 장소를 바꿔 보세요.'; return false; }
+      cur = best; done[best] = true; step++;
+      var msg = [];
+      edges.forEach(function (e) {
+        var nb = e[0] === best ? e[1] : e[1] === best ? e[0] : null;
+        if (!nb || done[nb]) return;
+        var nd = dist[best] + e[2];
+        if (nd < dist[nb]) { msg.push(nb + ' ' + d(nb) + ' → <b>' + nd + '</b>'); dist[nb] = nd; from[nb] = best; }
+        else msg.push(nb + ': ' + nd + '이라 그대로');
+      });
+      render();
+      status.innerHTML = '단계 ' + step + ' — 아직 확정되지 않은 곳 중 값이 가장 적은 곳은 <b>' + best + ' (' + dist[best] + ')</b>. 이 값을 확정(✓)해요. ' + (msg.length ? '이웃 확인: ' + msg.join(', ') + '.' : '고칠 이웃이 없어요.');
+      return true;
+    }
+    labAct(root, function (act) {
+      if (act === 'step') next();
+      else if (act === 'all') { var g = 0; while (next() && g++ < 10) {} }
+      else reset();
+    });
+    sel.addEventListener('change', reset);
+    reset();
+  })();
+
+  /* ---- 교실 자리 배치 ---- */
+  (function () {
+    var root = labRoot('lab-seat'); if (!root) return;
+    var grid = root.querySelector('[data-grid]'), chk = root.querySelector('[data-noprev]'), round = root.querySelector('[data-round]'), status = root.querySelector('[data-status]');
+    var R = 4, C = 4, n = 0;
+    var names = ['구민지', '최지영', '구정식', '강민재', '안지우', '김지훈', '김정순', '박재호', '백하윤', '이영호', '장명숙', '김경희', '이영환', '김영숙', '윤건우', '윤하윤'];
+    var st = names.map(function (nm, i) {
+      return { name: nm, fixed: i < 2 ? [0, i] : null, pref: i === 2 || i === 3 ? 'front' : i >= 14 ? 'back' : '', prev: null, seat: [Math.floor(i / C), i % C] };
+    });
+    function render(moved) {
+      grid.innerHTML = '';
+      for (var r = 0; r < R; r++) for (var c = 0; c < C; c++) {
+        var s = st.filter(function (x) { return x.seat[0] === r && x.seat[1] === c; })[0];
+        var b = document.createElement('button');
+        b.type = 'button'; b.dataset.name = s.name;
+        b.className = 'lx-seat' + (s.fixed ? ' fixed' : s.pref ? ' ' + s.pref : '') + (moved && s.prev && s.prev[0] === r && s.prev[1] === c && !s.fixed ? ' same' : '');
+        b.innerHTML = '<b>' + s.name + '</b><span>' + (s.fixed ? '고정' : s.pref === 'front' ? '앞 선호' : s.pref === 'back' ? '뒤 선호' : '&nbsp;') + '</span>';
+        b.setAttribute('aria-label', s.name + (s.fixed ? ', 고정 자리' : s.pref === 'front' ? ', 앞자리 선호' : s.pref === 'back' ? ', 뒷자리 선호' : ', 선호 없음') + '. 누르면 선호를 바꿔요');
+        grid.appendChild(b);
+      }
+      round.textContent = n;
+    }
+    function assign() {
+      var seats = [], r, c;
+      for (r = 0; r < R; r++) { seats.push([]); for (c = 0; c < C; c++) seats[r].push(null); }
+      st.forEach(function (s) { s.prev = s.seat; });
+      st.forEach(function (s) { if (s.fixed) seats[s.fixed[0]][s.fixed[1]] = s; });
+      var noPrev = chk.checked, fails = 0;
+      function positions(cnt, rev) {
+        var out = [];
+        for (var i = 0; i < R; i++) for (var j = 0; j < C; j++) {
+          var rr = rev ? R - 1 - i : i, cc = rev ? C - 1 - j : j;
+          if (out.length < cnt && !seats[rr][cc]) out.push([rr, cc]);
+        }
+        return out;
+      }
+      function safe(s, p) { return !(noPrev && s.prev[0] === p[0] && s.prev[1] === p[1]); }
+      function bt(group, pos) {
+        function go(i) {
+          if (i >= group.length) return true;
+          for (var k = 0; k < pos.length; k++) {
+            var p = pos[k];
+            if (!seats[p[0]][p[1]] && safe(group[i], p)) {
+              seats[p[0]][p[1]] = group[i];
+              if (go(i + 1)) return true;
+              seats[p[0]][p[1]] = null;
+            }
+          }
+          return false;
+        }
+        return go(0);
+      }
+      function place(group, rev) {
+        var cnt = group.length;
+        while (!bt(group, positions(cnt, rev))) { fails++; cnt++; if (cnt > R * C) return false; }
+        return true;
+      }
+      var free = st.filter(function (s) { return !s.fixed; });
+      var ok = place(shuffled(free.filter(function (s) { return s.pref === 'front'; })), false) &&
+               place(shuffled(free.filter(function (s) { return s.pref === 'back'; })), true) &&
+               place(shuffled(free.filter(function (s) { return !s.pref; })), false);
+      if (!ok) { st.forEach(function (s) { s.prev = null; }); status.innerHTML = '조건을 모두 지키는 배치를 찾지 못했어요. 조건을 조금 풀어 보세요.'; return; }
+      for (r = 0; r < R; r++) for (c = 0; c < C; c++) seats[r][c].seat = [r, c];
+      n++; render(true);
+      var same = st.filter(function (s) { return !s.fixed && s.prev[0] === s.seat[0] && s.prev[1] === s.seat[1]; }).length;
+      status.innerHTML = n + '번째 자리 바꾸기 완료. ' + (noPrev ? '이전 자리에 다시 앉은 학생 <b>0명</b>.' : '이전 자리에 다시 앉은 학생 <b>' + same + '명</b>' + (same ? '(점선 표시)' : '') + '.') +
+        (fails ? ' 선호 자리가 모자라 후보 자리를 <b>' + fails + '번</b> 늘려 다시 시도했어요.' : '') + ' 학생을 눌러 선호를 바꾼 뒤 다시 해 보세요.';
+    }
+    grid.addEventListener('click', function (e) {
+      var b = e.target.closest('.lx-seat'); if (!b) return;
+      var s = st.filter(function (x) { return x.name === b.dataset.name; })[0];
+      if (s.fixed) { status.innerHTML = '<b>' + s.name + '</b>은(는) 고정 자리예요. 가장 먼저 배정되고 움직이지 않아요.'; return; }
+      s.pref = s.pref === '' ? 'front' : s.pref === 'front' ? 'back' : '';
+      render();
+      var f = st.filter(function (x) { return x.pref === 'front'; }).length;
+      status.innerHTML = '<b>' + s.name + '</b>: ' + (s.pref === 'front' ? '앞자리 선호' : s.pref === 'back' ? '뒷자리 선호' : '선호 없음') + '(으)로 바꿨어요.' + (f > 2 ? ' 앞자리 선호가 ' + f + '명인데 앞줄 빈자리는 2칸뿐이에요. 어떻게 될까요?' : '') + ' <b>자리 바꾸기</b>를 눌러 보세요.';
+    });
+    labAct(root, function (act) { if (act === 'go') assign(); });
+    render();
+    status.innerHTML = '지금이 현재 자리예요. <b>자리 바꾸기</b>를 누르면 고정 → 앞 선호 → 뒤 선호 → 나머지 순서로 다시 배정해요. 학생을 누르면 선호(앞/뒤/없음)를 바꿀 수 있어요.';
+  })();
 })();
 
 /* ============ 파이썬 코드 실행기 ============ */
