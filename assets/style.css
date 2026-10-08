@@ -587,6 +587,127 @@ button,input,select,textarea{font:inherit}
     margin-top:1.1rem !important; padding-top:.9rem;
     border-top:1px solid var(--line); color:var(--ink2); font-weight:700;
   }
+  /* ===== u34 additions (Ⅲ·Ⅳ단원 보강: 사진·이야기·낱말 풀이) ===== */
+  figure.photo{padding:.7rem .7rem .75rem}
+  figure.photo img{
+    display:block; width:100%; height:auto; max-height:26rem; object-fit:cover;
+    border-radius:2px; background:var(--surface-2);
+  }
+  figure.photo.tall img{max-height:30rem; object-fit:contain}
+  figure.photo figcaption{margin-top:.6rem; padding-top:.5rem}
+  .credit{display:block; margin-top:.25rem; font-family:var(--mono); font-size:.68rem; color:var(--ink3); opacity:.9}
+  .credit a{color:inherit; text-decoration:underline; text-underline-offset:2px}
+  .photo-row{
+    display:grid; gap:.9rem; margin:1.4rem 0;
+    grid-template-columns:repeat(auto-fit,minmax(min(210px,100%),1fr));
+  }
+  .photo-row figure.photo{margin:0}
+  .photo-row figure.photo img{height:11.5rem; max-height:none}
+  .photo-row figcaption b{color:var(--ink); display:block; margin-bottom:.15rem; font-size:.9rem}
+
+  .goalbox{
+    border:1px solid var(--line); border-left:4px solid var(--accent); background:var(--surface);
+    padding:.95rem 1.15rem 1rem; margin:1rem 0 1.3rem; box-shadow:var(--shadow);
+  }
+  .goalbox .lbl{
+    display:block; font-family:var(--mono); font-size:.68rem; letter-spacing:.16em;
+    color:var(--accent); margin-bottom:.35rem;
+  }
+  .goalbox .q{font-family:var(--serif); font-size:1.12rem; font-weight:700; margin:0 0 .45rem; color:var(--ink)}
+  .goalbox ul{margin:0; padding-left:1.15rem; color:var(--ink2); font-size:.92rem}
+  .goalbox li{margin:.2rem 0}
+
+  .story{
+    background:var(--surface); border:1px solid var(--line); border-radius:3px;
+    padding:1rem 1.15rem; margin:1.2rem 0; font-size:.97rem;
+  }
+  .story .lbl{
+    display:block; font-family:var(--mono); font-size:.68rem; letter-spacing:.16em;
+    color:var(--ink3); margin-bottom:.4rem;
+  }
+  .story p{margin:.4rem 0; max-width:66ch}
+  .story .ask{font-weight:700; color:var(--accent-ink)}
+
+  .steps{list-style:none; counter-reset:st; margin:1rem 0; padding:0}
+  .steps > li{
+    counter-increment:st; position:relative; padding:.1rem 0 .1rem 2.5rem; margin:.7rem 0; max-width:68ch;
+  }
+  .steps > li::before{
+    content:counter(st); position:absolute; left:0; top:.05rem; width:1.7rem; height:1.7rem;
+    border-radius:50%; background:var(--accent); color:var(--surface);
+    font-family:var(--mono); font-size:.8rem; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .steps > li b:first-child{color:var(--ink)}
+
+  .words{
+    border:1px solid var(--line); background:var(--surface-2); border-radius:3px;
+    padding:.9rem 1.15rem; margin:1.3rem 0; font-size:.9rem;
+  }
+  .words .lbl{
+    display:block; font-family:var(--mono); font-size:.68rem; letter-spacing:.16em;
+    color:var(--ink3); margin-bottom:.5rem;
+  }
+  .words dl{margin:0; display:grid; grid-template-columns:minmax(6.5rem,max-content) 1fr; gap:.4rem 1rem}
+  .words dt{font-weight:700; color:var(--accent-ink)}
+  .words dd{margin:0; color:var(--ink2)}
+  @media (max-width:560px){ .words dl{grid-template-columns:1fr; gap:.1rem} .words dd{margin-bottom:.45rem} }
+
+  .cards{
+    display:grid; gap:.9rem; margin:1.2rem 0;
+    grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));
+  }
+  .card{
+    border:1px solid var(--line); background:var(--surface); border-radius:3px;
+    padding:.9rem 1rem 1rem; font-size:.9rem;
+  }
+  .card h5{margin:0 0 .35rem; font-size:.98rem; font-weight:700; color:var(--ink)}
+  .card .tag2{
+    display:inline-block; font-family:var(--mono); font-size:.66rem; letter-spacing:.08em;
+    color:var(--accent-ink); background:var(--accent-soft); padding:.08rem .4rem; border-radius:2px; margin-bottom:.4rem;
+  }
+  .card p{margin:.3rem 0; color:var(--ink2)}
+  .card .say{color:var(--ink); font-weight:700}
+  .card ul{margin:.3rem 0 0; padding-left:1.1rem; color:var(--ink2)}
+
+  .bignum{
+    display:grid; gap:.8rem; margin:1.2rem 0;
+    grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));
+  }
+  .bignum div{border:1px solid var(--line); background:var(--surface); padding:.8rem .9rem; border-radius:3px}
+  .bignum b{display:block; font-family:var(--serif); font-size:1.5rem; color:var(--accent-ink); line-height:1.2}
+  .bignum span{display:block; font-size:.8rem; color:var(--ink3); margin-top:.25rem}
+
+  details.check{
+    border:1px solid var(--line); background:var(--surface); border-radius:3px;
+    margin:.6rem 0; font-size:.92rem;
+  }
+  details.check summary{cursor:pointer; padding:.6rem .9rem; font-weight:700; list-style:none}
+  details.check summary::-webkit-details-marker{display:none}
+  details.check summary::before{content:'Q. '; color:var(--accent); font-family:var(--mono)}
+  details.check summary::after{content:'  답 보기 ▾'; font-family:var(--mono); font-size:.7rem; color:var(--ink3); font-weight:400}
+  details.check[open] summary::after{content:'  접기 ▴'}
+  details.check .ans{padding:.1rem .9rem .8rem; color:var(--ink2); border-top:1px solid var(--line-2)}
+  details.check .ans p{margin:.5rem 0 0}
+
+  .sv-t-b{fill:currentColor; font-family:var(--sans); font-size:13px; font-weight:700}
+  .sv-mute{stroke:var(--ink3); stroke-width:1.2; fill:none; stroke-dasharray:4 3; opacity:.75}
+  .sv-x{stroke:var(--ink3); stroke-width:1.6; fill:none}
+  .sv-tile{stroke:currentColor; stroke-width:1.2; fill:var(--surface)}
+  .sv-tile-e{stroke:currentColor; stroke-width:1.2; fill:var(--surface-2); stroke-dasharray:3 3}
+  .sv-big{fill:currentColor; font-family:var(--sans); font-size:15px; font-weight:700}
+  .walk{
+    font-family:var(--mono); font-size:.84rem; line-height:1.75; background:var(--surface);
+    border:1px solid var(--line); border-left:3px solid var(--accent); padding:.8rem 1rem; margin:1rem 0;
+    overflow-x:auto; white-space:pre;
+  }
+  details.check.credits summary::before{content:''}
+  details.check.credits summary::after{content:'  펼치기 ▾'}
+  details.check.credits[open] summary::after{content:'  접기 ▴'}
+  .credit-list{margin:.6rem 0 .4rem; padding-left:1.1rem; font-size:.8rem; line-height:1.7}
+  .credit-list a{color:inherit; text-decoration:underline; text-underline-offset:2px}
+  .walk + p, .walk + .walk{margin-top:.8rem}
+  /* ===== /u34 additions ===== */
 
   /* ---------- 상단 바 ---------- */
   .topbar{

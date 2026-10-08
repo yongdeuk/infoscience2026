@@ -833,7 +833,8 @@ script = script.rstrip() + "\n" + EXTRA_JS
 # ---------- 파일 쓰기 ----------
 if os.path.isdir(OUT):
     for f in os.listdir(OUT):
-        if f.endswith(".html"):
+        # 빌드가 만드는 페이지만 지운다(손으로 쓴 다른 .html은 건드리지 않음)
+        if f == "index.html" or re.fullmatch(r"unit\d+\.html", f):
             os.remove(os.path.join(OUT, f))
 os.makedirs(os.path.join(OUT, "assets"), exist_ok=True)
 
