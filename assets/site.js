@@ -1509,10 +1509,25 @@
   }
   if ($('[data-grade]') || $('[data-now]')) loadSettings(applySettings);
 
+  /* ---------- 교사 모드: 바닥글 '정보과학'을 5번 연속 누르면 교사 설정으로 ----------
+     링크를 숨기는 장치일 뿐 보안은 아니다. 실제 저장은 저장소 주인의 GitHub 로그인이 있어야 된다. */
+  (function () {
+    var tap = $('[data-teacher-tap]'), n = 0, t = null;
+    if (!tap) return;
+    tap.addEventListener('click', function () {
+      n++;
+      clearTimeout(t);
+      t = setTimeout(function () { n = 0; }, 1500);   // 1.5초 안에 다음을 눌러야 이어서 센다
+      if (n >= 5) { set('teacher', '1'); location.href = 'settings.html'; }
+    });
+  })();
+
   /* ---------- 교사 설정 페이지 ---------- */
   (function () {
     var form = $('[data-set-form]');
     if (!form) return;
+    if (get('teacher') !== '1') { location.replace('index.html'); return; }
+    $('[data-teacher-off]').addEventListener('click', function () { del('teacher'); location.replace('index.html'); });
     var rowsEl = $('[data-set-rows]'), totalEl = $('[data-set-total]'), msg = $('[data-set-msg]'), F = form.elements;
     function rowHtml(g) {
       return '<tr><td><select data-k="type" aria-label="구분"><option' + (g.type === '지필' ? ' selected' : '') + '>지필</option><option' + (g.type === '수행' ? ' selected' : '') + '>수행</option></select></td>' +

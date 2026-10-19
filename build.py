@@ -279,11 +279,11 @@ def header(current):
 def footer():
     links = ['<a href="index.html">수업 홈</a>'] + ['<a href="unit%d.html">%s %s</a>' % (n, UNITS[n]["roman"], uname(UNITS[n])) for n in UNIT_NS] \
         + ['<a href="%s.html">%s</a>' % (k, n) for k, n, i, d in TOOLS] \
-        + ['<a href="%s" target="_blank" rel="noopener">Programiz</a>' % PZ, '<a href="settings.html">교사 설정</a>']
+        + ['<a href="%s" target="_blank" rel="noopener">Programiz</a>' % PZ]
     return """<footer>
   <div class="foot-in">
     <div>
-      <p><b>%s</b> — %s 수업 자료 · %s</p>
+      <p><b data-teacher-tap>%s</b> — %s 수업 자료 · %s</p>
       <p>%s <b>%s</b> 선생님 제작.</p>
       <p>개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
       <p class="copyright">본 자료는 학교 수업 목적으로 제작되었으며, 저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
