@@ -14,6 +14,7 @@
 (function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
 </script>
 <link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/extra.css">
 </head>
 <body class="u4">
 <div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
@@ -39,11 +40,18 @@
 <header class="topbar">
   <div class="topbar-in">
     <a class="brand" href="index.html">정보과학</a>
-    <nav class="unitnav" aria-label="단원">
+    <nav class="unitnav" aria-label="단원과 수업 도구">
       <a href="unit1.html">Ⅰ 프로그래밍</a>
       <a href="unit2.html">Ⅱ 데이터 구조</a>
       <a href="unit3.html">Ⅲ 알고리즘</a>
-      <a href="unit4.html" class="is-current">Ⅳ 정보과학 프로젝트</a>
+      <a href="unit4.html" class="is-current">Ⅳ 프로젝트</a>
+      <span class="navsep" aria-hidden="true"></span>
+      <a href="course.html">안내</a>
+      <a href="labs.html">실습실</a>
+      <a href="colab.html">코랩</a>
+      <a href="glossary.html">용어</a>
+      <a href="quiz.html">퀴즈</a>
+      <a href="my.html">내 학습</a>
     </nav>
     <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false" title="어두운 화면으로">
       <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
@@ -1708,5 +1716,6 @@ print('예상 잔반량:', best_sum, 'g')</pre>
   </div>
 </footer>
 <script src="assets/app.js"></script>
+<script src="assets/extra.js"></script>
 </body>
 </html>

@@ -1,0 +1,143 @@
+<header class="xp-hero">
+  <p class="kicker">SIMULATION LAB</p>
+  <h1>실습실</h1>
+  <p>손으로 조작하며 과정을 눈으로 확인하는 시뮬레이터를 모았습니다. 이 페이지에는 <b>그래프 탐색(DFS·BFS)</b>, <b>이진 탐색 트리</b>, <b>정렬 알고리즘 경주</b>가 있고, 단원 본문 속 실습 17개도 아래 목록에서 바로 열 수 있습니다.</p>
+  <nav class="xp-jump" aria-label="이 페이지 목차">
+    <a href="#graph">그래프 탐색</a><a href="#bst">이진 탐색 트리</a><a href="#sort">정렬 경주</a><a href="#all">전체 실습 목록</a>
+  </nav>
+</header>
+
+<section class="xp-sec u2" id="graph">
+  <h2>DFS와 BFS — 같은 그래프, 다른 방문 순서</h2>
+  <p class="lede">깊이 우선 탐색은 <b>스택</b>으로 끝까지 파고들고, 너비 우선 탐색은 <b>큐</b>로 가까운 곳부터 넓혀 갑니다. 한 단계씩 눌러 보며 스택·큐에 무엇이 들어가고 나오는지 지켜보세요. 노드를 누르면 시작 노드가 바뀝니다.</p>
+  <div class="lab" data-gsim>
+    <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>그래프 탐색 시뮬레이터</h5></div>
+    <div class="lab-body">
+      <div class="gsim">
+        <svg viewBox="0 0 440 300" role="img" aria-label="노드 8개로 이루어진 무방향 그래프" data-g-svg></svg>
+        <div class="gside">
+          <div class="gbox"><span class="k" data-g-dslabel>스택 (위 → 아래로 꺼냄: 오른쪽 끝)</span><span data-g-ds></span></div>
+          <div class="gbox"><span class="k">방문 순서</span><span data-g-order></span></div>
+          <div class="legend">
+            <span><i style="border-color:var(--accent);background:var(--accent)"></i>지금 방문</span>
+            <span><i style="border-color:var(--accent);background:var(--accent-soft)"></i>방문 끝</span>
+            <span><i style="border-color:var(--warn);background:var(--warn-soft)"></i>대기 중(스택·큐 안)</span>
+          </div>
+        </div>
+      </div>
+      <div class="lab-ctrl">
+        <label>방법 <select data-g-algo><option value="dfs">DFS (스택)</option><option value="bfs">BFS (큐)</option></select></label>
+        <label>시작 <select data-g-start></select></label>
+        <button class="btn btn-p" type="button" data-act="step">다음 단계</button>
+        <button class="btn" type="button" data-act="play">자동 실행</button>
+        <button class="btn" type="button" data-act="reset">초기화</button>
+      </div>
+      <p class="lab-status" data-status role="status" aria-live="polite"></p>
+      <p class="lab-note">이웃 노드는 알파벳 순서로 살펴봅니다. DFS는 스택에 이웃을 <b>역순으로</b> 넣어 알파벳이 빠른 이웃부터 꺼내지도록 했습니다. 같은 그래프라도 방법과 시작 노드에 따라 방문 순서가 달라집니다.</p>
+    </div>
+  </div>
+  <p class="codecap">BFS 구현 (큐)</p>
+  <pre data-run data-editable>from collections import deque
+
+graph = {
+    'A': ['B', 'C'], 'B': ['A', 'D', 'E'], 'C': ['A', 'F'],
+    'D': ['B', 'G'], 'E': ['B', 'G', 'H'], 'F': ['C', 'H'],
+    'G': ['D', 'E'], 'H': ['E', 'F'],
+}
+
+def bfs(start):
+    visited = [start]
+    queue = deque([start])
+    while queue:
+        node = queue.popleft()          # 먼저 들어온 노드부터
+        for nxt in graph[node]:
+            if nxt not in visited:
+                visited.append(nxt)
+                queue.append(nxt)
+    return visited
+
+print('BFS:', bfs('A'))</pre>
+</section>
+
+<section class="xp-sec u2" id="bst">
+  <h2>이진 탐색 트리 — 넣고, 찾고, 순회하기</h2>
+  <p class="lede">값을 넣으면 루트부터 <b>작으면 왼쪽, 크면 오른쪽</b>으로 내려가 자리를 찾습니다. 찾을 때도 같은 길을 따라가므로 한 번 비교할 때마다 한쪽 서브 트리를 통째로 버립니다.</p>
+  <div class="lab" data-bst>
+    <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>이진 탐색 트리 시뮬레이터</h5></div>
+    <div class="lab-body">
+      <div class="bstwrap"><svg data-bst-svg viewBox="0 0 640 260" role="img" aria-label="이진 탐색 트리"></svg></div>
+      <div class="lab-ctrl">
+        <label>값 <input type="number" data-bst-v min="1" max="99" value="45"></label>
+        <button class="btn btn-p" type="button" data-act="ins">넣기</button>
+        <button class="btn" type="button" data-act="find">찾기</button>
+        <span class="lab-sep"></span>
+        <button class="btn" type="button" data-act="in">중위 순회</button>
+        <button class="btn" type="button" data-act="pre">전위 순회</button>
+        <button class="btn" type="button" data-act="post">후위 순회</button>
+        <span class="lab-sep"></span>
+        <button class="btn" type="button" data-act="rand">무작위 트리</button>
+        <button class="btn" type="button" data-act="sorted">정렬된 순서로 넣기</button>
+        <button class="btn" type="button" data-act="clear">비우기</button>
+      </div>
+      <p class="lab-status" data-status role="status" aria-live="polite"></p>
+      <p class="lab-note"><b>정렬된 순서로 넣기</b>를 눌러 보세요. 1, 2, 3, …처럼 이미 정렬된 값을 넣으면 트리가 한쪽으로만 길어져 순차 탐색과 다를 바 없어집니다. 그래서 실제로는 균형을 맞추는 트리(AVL, 레드-블랙 트리)를 씁니다.</p>
+    </div>
+  </div>
+</section>
+
+<section class="xp-sec u3" id="sort">
+  <h2>정렬 알고리즘 경주</h2>
+  <p class="lede">같은 배열을 네 가지 방법으로 동시에 정렬합니다. <b>비교 횟수</b>가 곧 걸리는 시간입니다. 배열 모양을 바꿔 가며 어떤 방법이 언제 유리한지 비교해 보세요.</p>
+  <div class="lab" data-sortrace>
+    <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>버블 · 선택 · 삽입 · 퀵 정렬 동시 실행</h5></div>
+    <div class="lab-body">
+      <div class="sortgrid" data-sr-grid></div>
+      <div class="lab-ctrl">
+        <label>배열 <select data-sr-kind><option value="rand">무작위</option><option value="near">거의 정렬됨</option><option value="rev">거꾸로 정렬됨</option></select></label>
+        <label>크기 <select data-sr-n><option>16</option><option selected>32</option><option>64</option></select></label>
+        <label>속도 <input type="range" data-sr-speed min="1" max="20" value="6"></label>
+        <button class="btn btn-p" type="button" data-act="go">시작</button>
+        <button class="btn" type="button" data-act="new">새 배열</button>
+      </div>
+      <p class="lab-status" data-status role="status" aria-live="polite"></p>
+      <p class="lab-note">버블·선택·삽입 정렬은 O(n²), 퀵 정렬은 평균 O(n log n)입니다. 단, <b>삽입 정렬은 거의 정렬된 배열에서 매우 빠르고</b>, 첫 원소를 피벗으로 쓰는 퀵 정렬은 <b>이미 정렬된 배열에서 O(n²)로 느려집니다.</b> 색: <span style="color:var(--ink)">■</span> 비교 중, <span style="color:var(--accent)">■</span> 자리 확정.</p>
+    </div>
+  </div>
+</section>
+
+<section class="xp-sec" id="all">
+  <h2>전체 실습 목록</h2>
+  <p class="lede">단원 본문 안에 들어 있는 실습입니다. 누르면 해당 위치로 바로 이동합니다.</p>
+  <h3>Ⅰ 프로그래밍</h3>
+  <div class="labindex u1">
+    <a href="unit1.html#lab-recur">재귀 호출 따라가기<span>함수 스택이 쌓이고 풀리는 과정</span></a>
+    <a href="unit1.html#lab-hanoi">하노이 탑<span>최소 횟수로 옮기기 · 자동 풀이</span></a>
+  </div>
+  <h3>Ⅱ 데이터 구조</h3>
+  <div class="labindex u2">
+    <a href="unit2.html#lab-stack">스택 시뮬레이터<span>push · pop · peek</span></a>
+    <a href="unit2.html#lab-queue">스택 vs 큐<span>같은 데이터를 동시에 넣고 빼기</span></a>
+    <a class="new" href="#graph">그래프 탐색<span>DFS · BFS 한 단계씩</span></a>
+    <a class="new" href="#bst">이진 탐색 트리<span>넣기 · 찾기 · 순회</span></a>
+  </div>
+  <h3>Ⅲ 알고리즘</h3>
+  <div class="labindex u3">
+    <a href="unit3.html#lab-bigo">빅오 증가율 비교<span>입력 크기에 따른 연산 수</span></a>
+    <a href="unit3.html#lab-puzzle">8-퍼즐<span>상태를 직접 바꿔 보기</span></a>
+    <a href="unit3.html#lab-queens">퀸 놓기<span>막히면 되돌아가는 백트래킹</span></a>
+    <a href="unit3.html#lab-bsearch">이진 탐색<span>한 번에 절반씩 지우기</span></a>
+    <a href="unit3.html#lab-coin">거스름돈<span>탐욕법이 통할 때와 안 통할 때</span></a>
+    <a href="unit3.html#lab-qsort">퀵 정렬<span>한 단계씩 갈라 보기</span></a>
+    <a class="new" href="#sort">정렬 경주<span>네 가지 정렬 비교 횟수 대결</span></a>
+    <a href="unit3.html#lab-dp">피보나치<span>재귀 vs 동적 계획법 계산량</span></a>
+    <a href="unit3.html#lab-knap">배낭 채우기<span>먼저 직접 담아 보기</span></a>
+    <a href="unit3.html#lab-stock">주식 사고팔기<span>사는 날과 파는 날 고르기</span></a>
+  </div>
+  <h3>Ⅳ 정보과학 프로젝트</h3>
+  <div class="labindex u4">
+    <a href="unit4.html#lab-menu">식단 짜기<span>잔반이 가장 적은 조합</span></a>
+    <a href="unit4.html#lab-carbon">나의 하루 탄소 발자국<span>슬라이더로 계산하기</span></a>
+    <a href="unit4.html#lab-dijk">다익스트라<span>한 단계씩 확정하기</span></a>
+    <a href="unit4.html#lab-seat">자리 바꾸기<span>조건을 바꿔 가며 배치</span></a>
+  </div>
+</section>

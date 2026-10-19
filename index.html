@@ -14,6 +14,7 @@
 (function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
 </script>
 <link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/extra.css">
 </head>
 <body>
 <div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
@@ -39,11 +40,18 @@
 <header class="topbar">
   <div class="topbar-in">
 
-    <nav class="unitnav" aria-label="단원">
+    <nav class="unitnav" aria-label="단원과 수업 도구">
       <a href="unit1.html">Ⅰ 프로그래밍</a>
       <a href="unit2.html">Ⅱ 데이터 구조</a>
       <a href="unit3.html">Ⅲ 알고리즘</a>
-      <a href="unit4.html">Ⅳ 정보과학 프로젝트</a>
+      <a href="unit4.html">Ⅳ 프로젝트</a>
+      <span class="navsep" aria-hidden="true"></span>
+      <a href="course.html">안내</a>
+      <a href="labs.html">실습실</a>
+      <a href="colab.html">코랩</a>
+      <a href="glossary.html">용어</a>
+      <a href="quiz.html">퀴즈</a>
+      <a href="my.html">내 학습</a>
     </nav>
     <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false" title="어두운 화면으로">
       <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
@@ -61,7 +69,8 @@
       <span class="tag">1학기 16주 · 주 3시간</span>
       <span class="tag">4개 대단원</span>
       <span class="tag">Python</span>
-      <span class="tag">직접 해 보는 실습 7개</span>
+      <span class="tag">직접 해 보는 실습 20개</span>
+      <span class="tag">용어 98개 · 퀴즈 40문제</span>
     </div>
   </div>
 </header>
@@ -73,11 +82,25 @@
   <a class="mapcard u4" href="unit4.html"><span class="num">Ⅳ</span><h3>정보과학 프로젝트</h3><p>문제 발견부터 검증까지, 실제로 만들어 보는 4단계</p><span class="lesson">14~16주차</span></a>
 </nav>
 
+<section class="toolmap" aria-label="수업 도구">
+  <h2>수업 도구</h2>
+  <div class="toolgrid">
+  <a class="toolcard" href="course.html"><h3>수업 안내</h3><p>평가 · 수업 규칙 · AI 사용 신호등 · 준비물</p></a>
+  <a class="toolcard" href="labs.html"><h3>실습실</h3><p>그래프 탐색 · 이진 탐색 트리 · 정렬 경주 등 직접 조작하는 시뮬레이터 모음</p></a>
+  <a class="toolcard" href="colab.html"><h3>코랩 실습</h3><p>단원별 실습 노트북 7권과 자주 나는 오류 해결표</p></a>
+  <a class="toolcard" href="glossary.html"><h3>용어 사전</h3><p>4개 단원 핵심 용어 98개를 검색하고 단원별로 모아 보기</p></a>
+  <a class="toolcard" href="quiz.html"><h3>퀴즈</h3><p>단원별 개념 확인 퀴즈 40문제 — 바로 채점하고 해설 보기</p></a>
+  <a class="toolcard" href="my.html"><h3>내 학습</h3><p>해 봤어요 체크 · 퀴즈 점수 · 정리 노트를 한눈에</p></a>
+  </div>
+  <div class="homeprog" data-home-progress></div>
+</section>
+
 <section class="howto">
   <div><h3>단원별로 나뉘어 있습니다</h3><p>위 카드나 상단 메뉴에서 단원을 고르세요. 각 단원은 독립된 페이지라 필요한 부분만 열어 볼 수 있습니다.</p></div>
   <div><h3>왼쪽 목차가 현재 위치를 알려 줍니다</h3><p>단원 페이지에서 스크롤하면 지금 보고 있는 항목이 왼쪽 목차에 표시됩니다. 휴대폰에서는 화면 위쪽에 나타납니다.</p></div>
   <div><h3>코드를 바로 실행해 보세요</h3><p>예제 코드 아래 <b>▶ 실행</b>을 누르면 설치 없이 브라우저 안에서 파이썬이 돌아갑니다. <code>input()</code>이 있는 예제는 입력값을 미리 적어 두면 됩니다.</p></div>
-  <div><h3>직접 조작하는 실습</h3><p>스택·큐·재귀 호출·하노이 탑·이진 탐색 등 7개의 실습 위젯이 본문 안에 들어 있습니다.</p></div>
+  <div><h3>직접 조작하는 실습</h3><p>스택·큐·재귀 호출·하노이 탑·이진 탐색 등 17개의 실습이 본문 안에, 그래프 탐색·이진 탐색 트리·정렬 경주가 <a href="labs.html">실습실</a>에 있습니다.</p></div>
+  <div><h3>해 봤어요로 진도 체크</h3><p>소단원 끝의 <b>해 봤어요</b>를 누르면 목차에 ✓가 붙고, <a href="my.html">내 학습</a>에서 퀴즈 점수·정리 노트와 함께 볼 수 있습니다.</p></div>
 </section>
 
 <section class="plan" id="plan">
@@ -133,5 +156,6 @@
   </div>
 </footer>
 <script src="assets/app.js"></script>
+<script src="assets/extra.js"></script>
 </body>
 </html>

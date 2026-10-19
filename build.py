@@ -867,6 +867,7 @@ def head(title, desc, css="assets/style.css"):
 (function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
 </script>
 <link rel="stylesheet" href="%s">
+<link rel="stylesheet" href="assets/extra.css">
 </head>
 """ % (title, desc, title, desc, FAVICON, css)
 
@@ -900,16 +901,32 @@ THEME_BTN = """    <button class="themetoggle" type="button" data-theme-toggle a
     </button>"""
 
 
+# 단원 외 도구 페이지: (파일 이름, 메뉴 이름, 설명). 본문은 src/pages/<파일 이름>.html
+TOOL_PAGES = [
+    ("course",   "수업 안내", "평가 · 수업 규칙 · AI 사용 신호등 · 준비물"),
+    ("labs",     "실습실",    "그래프 탐색 · 이진 탐색 트리 · 정렬 경주 등 직접 조작하는 시뮬레이터 모음"),
+    ("colab",    "코랩 실습", "단원별 실습 노트북 7권과 자주 나는 오류 해결표"),
+    ("glossary", "용어 사전", "4개 단원 핵심 용어 98개를 검색하고 단원별로 모아 보기"),
+    ("quiz",     "퀴즈",      "단원별 개념 확인 퀴즈 40문제 — 바로 채점하고 해설 보기"),
+    ("my",       "내 학습",   "해 봤어요 체크 · 퀴즈 점수 · 정리 노트를 한눈에"),
+]
+
+NAV_SHORT = {"course": "안내", "colab": "코랩", "glossary": "용어"}
+
 def topbar(current, prefix="", brand=True):
     links = []
     for n in (1, 2, 3, 4):
         r, name, wk, _ = UNIT_META[n]
         cls = ' class="is-current"' if n == current else ''
-        links.append('      <a href="%sunit%d.html"%s>%s %s</a>' % (prefix, n, cls, r, name))
+        links.append('      <a href="%sunit%d.html"%s>%s %s</a>' % (prefix, n, cls, r, name.replace("정보과학 ", "")))
+    links.append('      <span class="navsep" aria-hidden="true"></span>')
+    for key, name, _ in TOOL_PAGES:
+        cls = ' class="is-current"' if key == current else ''
+        links.append('      <a href="%s%s.html"%s>%s</a>' % (prefix, key, cls, NAV_SHORT.get(key, name)))
     return """<header class="topbar">
   <div class="topbar-in">
 %s
-    <nav class="unitnav" aria-label="단원">
+    <nav class="unitnav" aria-label="단원과 수업 도구">
 %s
     </nav>
 %s
@@ -974,6 +991,7 @@ def unit_page(n, prefix="", css="assets/style.css", js="assets/app.js"):
             + pager(n, prefix)
             + footer + '\n'
             + '<script src="%s"></script>\n' % js
+            + '<script src="assets/extra.js"></script>\n'
             + '</body>\n</html>\n')
 
 for n in (1, 2, 3, 4):
@@ -984,10 +1002,21 @@ HOWTO = """<section class="howto">
   <div><h3>단원별로 나뉘어 있습니다</h3><p>위 카드나 상단 메뉴에서 단원을 고르세요. 각 단원은 독립된 페이지라 필요한 부분만 열어 볼 수 있습니다.</p></div>
   <div><h3>왼쪽 목차가 현재 위치를 알려 줍니다</h3><p>단원 페이지에서 스크롤하면 지금 보고 있는 항목이 왼쪽 목차에 표시됩니다. 휴대폰에서는 화면 위쪽에 나타납니다.</p></div>
   <div><h3>코드를 바로 실행해 보세요</h3><p>예제 코드 아래 <b>▶ 실행</b>을 누르면 설치 없이 브라우저 안에서 파이썬이 돌아갑니다. <code>input()</code>이 있는 예제는 입력값을 미리 적어 두면 됩니다.</p></div>
-  <div><h3>직접 조작하는 실습</h3><p>스택·큐·재귀 호출·하노이 탑·이진 탐색 등 7개의 실습 위젯이 본문 안에 들어 있습니다.</p></div>
+  <div><h3>직접 조작하는 실습</h3><p>스택·큐·재귀 호출·하노이 탑·이진 탐색 등 17개의 실습이 본문 안에, 그래프 탐색·이진 탐색 트리·정렬 경주가 <a href="labs.html">실습실</a>에 있습니다.</p></div>
+  <div><h3>해 봤어요로 진도 체크</h3><p>소단원 끝의 <b>해 봤어요</b>를 누르면 목차에 ✓가 붙고, <a href="my.html">내 학습</a>에서 퀴즈 점수·정리 노트와 함께 볼 수 있습니다.</p></div>
 </section>
 """
 home_map = unitmap
+
+def tool_map():
+    cards = []
+    for key, name, desc in TOOL_PAGES:
+        cards.append('  <a class="toolcard" href="%s.html"><h3>%s</h3><p>%s</p></a>' % (key, name, desc))
+    return ('<section class="toolmap" aria-label="수업 도구">\n'
+            '  <h2>수업 도구</h2>\n'
+            '  <div class="toolgrid">\n' + "\n".join(cards) + '\n  </div>\n'
+            '  <div class="homeprog" data-home-progress></div>\n'
+            '</section>\n')
 for n in (1, 2, 3, 4):
     home_map = home_map.replace('href="#unit%d"' % n, 'href="unit%d.html"' % n)
 
@@ -995,9 +1024,24 @@ home = (head("정보과학",
              "씨마스 『정보과학』 2022 개정 교육과정 핵심 내용 정리 · 보문고등학교 김용득 선생님 제작.")
         + '<body>\n' + GATE
         + topbar(None, brand=False)
-        + masthead + "\n\n" + home_map + "\n\n" + HOWTO + "\n" + plan + "\n\n"
-        + footer + '\n<script src="assets/app.js"></script>\n</body>\n</html>\n')
+        + masthead + "\n\n" + home_map + "\n\n" + tool_map() + "\n" + HOWTO + "\n" + plan + "\n\n"
+        + footer + '\n<script src="assets/app.js"></script>\n<script src="assets/extra.js"></script>\n</body>\n</html>\n')
 io.open(os.path.join(OUT, "index.html"), "w", encoding="utf-8", newline="\n").write(home)
+
+# ---------- 수업 도구 페이지 ----------
+def tool_page(key, name, desc):
+    body = io.open(os.path.join("src", "pages", key + ".html"), encoding="utf-8").read()
+    return (head("%s · 정보과학" % name, desc)
+            + '<body class="tool tool-%s">\n' % key + GATE
+            + topbar(key)
+            + '<main class="xp">\n' + body.strip() + '\n</main>\n\n'
+            + footer + '\n'
+            + '<script src="assets/app.js"></script>\n'
+            + '<script src="assets/extra.js"></script>\n'
+            + '</body>\n</html>\n')
+
+for key, name, desc in TOOL_PAGES:
+    io.open(os.path.join(OUT, key + ".html"), "w", encoding="utf-8", newline="\n").write(tool_page(key, name, desc))
 
 print("built:", ", ".join(sorted(os.listdir(OUT))))
 print("실행 가능한 코드 블록:", _run_total, "개")
