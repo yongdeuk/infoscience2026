@@ -37,11 +37,12 @@
 
 ```
 build.py                 src/ 를 읽어 아래 페이지를 모두 만든다
-src/data/course.json     과목 정보, 단원(이름·주차·목표·할 수 있는 것), 16주 계획, 학기 시작일
+settings.json            해마다 바뀌는 값: 학년도·학기, 학기 시작일, 평가 비율 (교사 설정 페이지에서 고침)
+src/data/course.json     과목 정보, 단원(이름·주차·목표·할 수 있는 것), 16주 계획
 src/data/glossary.json   용어 사전 (단원 마무리 '핵심 용어'와 glossary.html에 함께 쓰임)
 src/data/quiz.json       단원 퀴즈 (단원별 10문제)
 src/units/unit0~4.html   단원 본문 (소단원 <article class="topic">)
-src/pages/*.html         수업 안내·실습실·파이썬 실습·내 학습 본문
+src/pages/*.html         수업 안내·실습실·파이썬 실습·내 학습·교사 설정 본문
 src/css/*.css            base(디자인) · content(본문 요소) · tools(도구·시뮬레이터)
 src/js/*.js              widgets(실습 위젯·실행기) · tools(진도·퀴즈·용어·Programiz·시뮬레이터)
 
@@ -57,8 +58,7 @@ assets/site.css, assets/site.js        ← 빌드 결과물 (직접 고치지 �
 python build.py
 ```
 
-- 학기 시작일을 `src/data/course.json` 의 `semester_start` 에 `"2027-03-02"` 처럼 넣으면 홈에 **이번 주 수업**이 나오고 16주 계획에서 이번 주가 강조됩니다.
-- 평가 비율은 `src/pages/course.html` 의 노란 칸(`fillme`)을 채우면 됩니다.
+- **학기 시작일과 평가 비율은 `settings.html`(교사 설정, 바닥글 링크)에서 고칩니다.** 값을 고치고 **복사하고 GitHub 편집 창 열기**를 누른 뒤, 열린 `settings.json` 편집 창에 붙여 넣고 커밋하면 배포 후 모든 화면에 반영됩니다. 사이트가 `settings.json`을 실행 중에 읽기 때문에 다시 빌드할 필요가 없습니다. 저장 전에 **이 기기에서만 미리 보기**로 확인할 수 있습니다.
 - 용어·퀴즈는 JSON에 항목을 더하면 단원 페이지와 용어 사전에 함께 반영됩니다.
 
 ## 참고

@@ -1229,3 +1229,25 @@ mark{background:var(--warn-soft); color:inherit; padding:0 .05rem; border-radius
   .topbar, .crumbbar, #gate, .qz-score, .gl-tools, .nb-tools, footer{display:none !important}
   .nb{break-inside:avoid}
 }
+
+/* ---------- 교사 설정 ---------- */
+.set-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(12rem,100%),1fr)); gap:.8rem; margin:.4rem 0 .8rem}
+.set-grid label{display:flex; flex-direction:column; gap:.3rem; font-size:.88rem; font-weight:700; color:var(--ink2)}
+.set-grid small{font-weight:400; color:var(--ink3)}
+.set-grid input, .set-grid select, .set-tbl input, .set-tbl select{
+  font:inherit; font-size:.92rem; padding:.45rem .55rem; border:1px solid var(--line); border-radius:var(--r-sm);
+  background:var(--surface); color:var(--ink); min-width:0; width:100%;
+}
+.set-tbl{min-width:760px}
+.set-tbl td{vertical-align:middle; padding:.35rem .4rem}
+.set-tbl td:nth-child(1){width:6rem}
+.set-tbl td:nth-child(5){width:6rem}
+.set-tbl td:nth-child(6){width:3rem; text-align:center}
+.set-tbl tfoot td{border:0; padding-top:.7rem}
+.gradetbl tfoot td{font-weight:700; background:var(--surface-2)}
+.bad{color:var(--no) !important}
+.set-ways{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(18rem,100%),1fr)); gap:1rem}
+.set-ways .mybox p, .set-steps{font-size:.92rem}
+.set-steps{padding-left:1.2rem; margin:.4rem 0 .8rem}
+.set-banner{margin:1rem auto 0; max-width:1160px; padding:.6rem 1rem; border-radius:var(--r-sm);
+  background:var(--warn-soft); color:var(--warn); font-size:.9rem}

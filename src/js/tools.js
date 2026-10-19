@@ -58,11 +58,51 @@
       var l = $('[data-uprog-l="' + u + '"]');
       if (l) l.textContent = d + ' / ' + n + (quizBest(u) !== null ? ' · 퀴즈 ' + quizBest(u) + '점' : '');
     });
-    var now = $('[data-now]');
-    if (!now || !SITE.start) return;
-    var t0 = new Date(SITE.start + 'T00:00:00');
-    if (isNaN(t0)) return;
-    var wk = Math.floor((Date.now() - t0.getTime()) / (7 * 864e5)) + 1;
+  })();
+
+  /* ---------- 교사 설정(settings.json): 학기 시작일 · 평가 비율 ----------
+     배포된 settings.json을 매번 새로 읽는다(빌드 없이 GitHub에서 고치면 바로 반영).
+     읽지 못하면 빌드할 때 넣어 둔 값(SITE.settings)을 쓴다. 교사가 '미리 보기'를 켜면 이 기기에서만 그 값을 쓴다. */
+  function esc(t) { return String(t == null ? '' : t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function previewSettings() { try { var v = get('settings.preview', ''); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
+  function loadSettings(cb) {
+    var pv = previewSettings();
+    if (pv) { cb(pv, true); return; }
+    var fallback = SITE.settings || {};
+    if (!window.fetch) { cb(fallback, false); return; }
+    fetch('settings.json', { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+      .then(function (j) { cb(j, false); }, function () { cb(fallback, false); });
+  }
+  function weekOf(st) {
+    if (!st || !st.semester_start) return null;
+    var t0 = new Date(st.semester_start + 'T00:00:00');
+    if (isNaN(t0)) return null;
+    return Math.floor((Date.now() - t0.getTime()) / (7 * 864e5)) + 1;
+  }
+  function gradeTable(st) {
+    var total = 0;
+    var body = (st.grading || []).map(function (g) {
+      total += +g.ratio || 0;
+      var what = esc(g.what) + (/프로젝트/.test(g.name) ? ' (<a href="course.html#rubric">채점 기준</a>)' : '');
+      return '<tr><td>' + esc(g.type) + '</td><td>' + esc(g.name) + '</td><td>' + what + '</td><td>' + esc(g.when) + '</td><td class="num">' + esc(g.ratio) + '%</td></tr>';
+    }).join('');
+    return '<div class="tablewrap"><table class="gradetbl"><thead><tr><th>구분</th><th>평가</th><th>무엇을 보나요</th><th>시기</th><th>반영 비율</th></tr></thead><tbody>' +
+      body + '</tbody><tfoot><tr><td colspan="4">합계</td><td class="num"><b>' + total + '%</b></td></tr></tfoot></table></div>';
+  }
+  function applySettings(st, isPreview) {
+    var g = $('[data-grade]');
+    if (g && st.grading) g.innerHTML = gradeTable(st);
+    $$('[data-grade-year]').forEach(function (e) { e.textContent = (st.year ? st.year + '학년도 ' : '') + (st.term || ''); });
+    var main = $('#main');
+    if (isPreview && main) {
+      var n = document.createElement('p');
+      n.className = 'set-banner';
+      n.innerHTML = '교사 설정 <b>미리 보기</b>가 켜져 있어요. 이 기기에서만 보입니다. <a href="settings.html#s-save">설정으로 →</a>';
+      main.insertBefore(n, main.firstChild);
+    }
+    var now = $('[data-now]'), wk = weekOf(st);
+    if (!now || wk === null) return;
     var w = SITE.weeks.filter(function (x) { return x.week === wk; })[0];
     if (!w) return;
     var unit = null;
@@ -72,6 +112,111 @@
       (unit ? '<a class="go" href="unit' + unit + '.html">단원 펼치기 →</a>' : '');
     var row = $('#plan .wk[data-week="' + wk + '"]');
     if (row) row.classList.add('now');
+  }
+  if ($('[data-grade]') || $('[data-now]')) loadSettings(applySettings);
+
+  /* ---------- 교사 설정 페이지 ---------- */
+  (function () {
+    var form = $('[data-set-form]');
+    if (!form) return;
+    var rowsEl = $('[data-set-rows]'), totalEl = $('[data-set-total]'), msg = $('[data-set-msg]'), F = form.elements;
+    function rowHtml(g) {
+      return '<tr><td><select data-k="type" aria-label="구분"><option' + (g.type === '지필' ? ' selected' : '') + '>지필</option><option' + (g.type === '수행' ? ' selected' : '') + '>수행</option></select></td>' +
+        '<td><input data-k="name" aria-label="평가 이름" value="' + esc(g.name) + '"></td><td><input data-k="what" aria-label="무엇을 보나요" value="' + esc(g.what) + '"></td>' +
+        '<td><input data-k="when" aria-label="시기" value="' + esc(g.when) + '"></td><td><input data-k="ratio" aria-label="비율" type="number" min="0" max="100" value="' + esc(g.ratio) + '"></td>' +
+        '<td><button class="btn" type="button" data-set-del aria-label="이 항목 지우기">✕</button></td></tr>';
+    }
+    function read() {
+      return {
+        year: +F.year.value || null,
+        term: F.term.value,
+        semester_start: F.semester_start.value || null,
+        grading: $$('tr', rowsEl).map(function (tr) {
+          var o = {};
+          $$('[data-k]', tr).forEach(function (i) { var k = i.getAttribute('data-k'); o[k] = k === 'ratio' ? (+i.value || 0) : i.value.trim(); });
+          return o;
+        })
+      };
+    }
+    function total(st) { return st.grading.reduce(function (a, g) { return a + g.ratio; }, 0); }
+    function refresh() {
+      var st = read(), t = total(st), wk = weekOf(st);
+      totalEl.innerHTML = '합계 <b>' + t + '%</b>';
+      totalEl.classList.toggle('bad', t !== 100);
+      $('[data-set-preview]').innerHTML = gradeTable(st);
+      $('[data-set-week]').textContent = !st.semester_start ? '학기 시작일을 넣으면 홈에 이번 주 수업이 나옵니다.'
+        : wk < 1 ? '학기 시작 전이에요. 시작일이 든 주를 1주차로 셉니다.'
+        : wk > 16 ? '16주가 지났어요(' + wk + '주차). 홈에는 이번 주 카드 대신 시작 안내가 보입니다.'
+        : '오늘은 ' + wk + '주차입니다.';
+      $('[data-set-preview-state]').textContent = previewSettings() ? '이 기기에서 미리 보기 중' : '';
+    }
+    function fill(st) {
+      F.year.value = st.year || new Date().getFullYear();
+      F.term.value = st.term || '1학기';
+      F.semester_start.value = st.semester_start || '';
+      rowsEl.innerHTML = (st.grading || []).map(rowHtml).join('');
+      refresh();
+    }
+    function say(t, bad) { msg.textContent = t; msg.classList.toggle('bad', !!bad); }
+    function valid(st) {
+      if (total(st) !== 100) { say('비율 합계가 100%가 아니에요(지금 ' + total(st) + '%).', true); return false; }
+      if (st.grading.some(function (g) { return !g.name; })) { say('이름이 빈 평가 항목이 있어요.', true); return false; }
+      return true;
+    }
+    function json(st) { return JSON.stringify(st, null, 2) + '\n'; }
+    function copy(text) {
+      function legacy() {
+        var ta = document.createElement('textarea');
+        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        var ok = false;
+        try { ok = document.execCommand('copy'); } catch (e) {}
+        ta.remove();
+        return ok;
+      }
+      if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text).then(function () { return true; }, legacy);
+      }
+      return Promise.resolve(legacy());
+    }
+    form.addEventListener('input', refresh);
+    form.addEventListener('change', refresh);
+    form.addEventListener('submit', function (e) { e.preventDefault(); });
+    $('[data-set-add]').addEventListener('click', function () {
+      rowsEl.insertAdjacentHTML('beforeend', rowHtml({ type: '수행', name: '', what: '', when: '', ratio: 0 }));
+      refresh();
+    });
+    rowsEl.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-set-del]');
+      if (b) { b.closest('tr').remove(); refresh(); }
+    });
+    $('[data-set-github]').addEventListener('click', function () {
+      var st = read();
+      if (!valid(st)) return;
+      window.open(SITE.settings_edit, '_blank', 'noopener');   // 클릭한 순간에 열어야 팝업 차단에 걸리지 않는다
+      copy(json(st)).then(function (ok) {
+        say(ok ? '복사했어요 ✓ 열린 편집 창에서 Ctrl+A → Ctrl+V 후 Commit changes를 누르세요.'
+               : '복사하지 못했어요. ② 파일로 저장을 써 주세요.', !ok);
+      });
+    });
+    $('[data-set-download]').addEventListener('click', function () {
+      var st = read();
+      if (!valid(st)) return;
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([json(st)], { type: 'application/json' }));
+      a.download = 'settings.json';
+      document.body.appendChild(a); a.click(); a.remove();
+      say('내려받았어요. 저장소의 settings.json을 이 파일로 바꿔 올리세요.');
+    });
+    $('[data-set-preview-on]').addEventListener('click', function () {
+      var st = read();
+      if (!valid(st)) return;
+      set('settings.preview', JSON.stringify(st)); refresh();
+      say('이 기기에서 미리 보기를 켰어요. 홈과 수업 안내에서 확인해 보세요.');
+    });
+    $('[data-set-preview-off]').addEventListener('click', function () { del('settings.preview'); refresh(); say('미리 보기를 껐어요.'); });
+    // 미리 보기 중이라도 편집 칸은 배포된 값이 아니라 미리 보기 값에서 시작한다(작업 이어 가기)
+    loadSettings(function (st) { fill(st); });
   })();
 
   /* ---------- 용어 사전 ---------- */

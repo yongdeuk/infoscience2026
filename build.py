@@ -26,6 +26,9 @@ QUIZ = json.loads(rd("src/data/quiz.json"))
 UNITS = {u["n"]: u for u in COURSE["units"]}
 UNIT_NS = sorted(UNITS)
 PZ = COURSE["programiz"]
+# 해마다 바뀌는 값(학기 시작일·평가 비율). 사이트가 실행 중에 다시 읽으므로 빌드 없이 고쳐도 반영된다.
+SETTINGS = json.loads(rd("settings.json"))
+SETTINGS_EDIT = "https://github.com/%s/edit/%s/settings.json" % (COURSE["repo"], COURSE["branch"])
 
 # 도구 페이지: (파일 이름, 이름, 아이콘, 설명)
 TOOLS = [
@@ -36,6 +39,8 @@ TOOLS = [
     ("my",       "내 학습",     "✅", "해 봤어요 진도 · 퀴즈 점수 · 정리 노트 · txt 내보내기"),
 ]
 TOOL = {k: (n, i, d) for k, n, i, d in TOOLS}
+# 메뉴에는 없고 바닥글에서만 들어가는 교사용 페이지
+TOOL["settings"] = ("교사 설정", "⚙️", "학기 시작일과 평가 비율을 고치는 교사용 설정")
 
 # 실습실 페이지에만 있는 시뮬레이터(단원 페이지 '실습 모음'에 함께 보인다)
 LAB_EXTRA = {
@@ -274,7 +279,7 @@ def header(current):
 def footer():
     links = ['<a href="index.html">수업 홈</a>'] + ['<a href="unit%d.html">%s %s</a>' % (n, UNITS[n]["roman"], uname(UNITS[n])) for n in UNIT_NS] \
         + ['<a href="%s.html">%s</a>' % (k, n) for k, n, i, d in TOOLS] \
-        + ['<a href="%s" target="_blank" rel="noopener">Programiz</a>' % PZ]
+        + ['<a href="%s" target="_blank" rel="noopener">Programiz</a>' % PZ, '<a href="settings.html">교사 설정</a>']
     return """<footer>
   <div class="foot-in">
     <div>
@@ -293,7 +298,8 @@ SITE_DATA = {
     "units": {str(n): {"roman": UNITS[n]["roman"], "name": UNITS[n]["name"], "weeks": UNITS[n]["weeks"] if n else None} for n in UNIT_NS},
     "quiz": {str(n): sum(1 for q in QUIZ if q["unit"] == n) for n in UNIT_NS},
     "weeks": COURSE["weeks"],
-    "start": COURSE.get("semester_start"),
+    "settings": SETTINGS,
+    "settings_edit": SETTINGS_EDIT,
     "programiz": PZ,
 }
 
@@ -465,12 +471,24 @@ def pagehead(key, inner):
     return ('<header class="pagehead"><div class="pagehead-in"><p class="crumbs"><a href="index.html">수업 홈</a> / %s</p>%s</div></header>\n'
             % (name, inner))
 
+def grade_table(st):
+    # src/js/tools.js 의 gradeTable()과 같은 표. JS가 최신 settings.json으로 다시 그린다.
+    rows = []
+    for g in st["grading"]:
+        what = esc(g["what"]) + (' (<a href="course.html#rubric">채점 기준</a>)' if "프로젝트" in g["name"] else "")
+        rows.append('<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td class="num">%s%%</td></tr>'
+                    % (esc(g["type"]), esc(g["name"]), what, esc(g["when"]), g["ratio"]))
+    return ('<div class="tablewrap"><table class="gradetbl"><thead><tr><th>구분</th><th>평가</th><th>무엇을 보나요</th><th>시기</th><th>반영 비율</th></tr></thead><tbody>'
+            + "".join(rows) + '</tbody><tfoot><tr><td colspan="4">합계</td><td class="num"><b>%d%%</b></td></tr></tfoot></table></div>'
+            % sum(g["ratio"] for g in st["grading"]))
+
 def tool_page(key):
     name, ic, desc = TOOL[key]
     body = rd("src/pages/%s.html" % key)
     m = re.search(r'<header class="xp-hero">(.*?)</header>\s*', body, re.S)
     assert m, key
-    rest = body[m.end():]
+    rest = body[m.end():].replace("<!--GRADE-->", grade_table(SETTINGS)) \
+        .replace("<span data-grade-year>학년도</span>", "<span data-grade-year>%s학년도 %s</span>" % (SETTINGS["year"], SETTINGS["term"]))
     return page("%s · 정보과학" % name, desc, "tool tool-%s" % key, key,
                 pagehead(key, m.group(1)) + '<main class="xp" id="main">\n' + rest.strip() + "\n</main>\n")
 
@@ -500,6 +518,7 @@ for k, n, i, d in TOOLS:
         wr("glossary.html", glossary_page())
     else:
         wr("%s.html" % k, tool_page(k))
+wr("settings.html", tool_page("settings"))
 
 print("built: index.html, %s, %s" % (", ".join("unit%d.html" % n for n in UNIT_NS), ", ".join(k + ".html" for k, *_ in TOOLS)))
 print("실행 가능한 코드 블록(단원 본문):", _run_total, "개 · 용어", len(GLOSS), "개 · 퀴즈", len(QUIZ), "문제")

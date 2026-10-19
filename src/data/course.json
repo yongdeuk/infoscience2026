@@ -4,8 +4,6 @@
   "teacher": "김용득",
   "term": "1학기 · 주 3시간 · 16주",
   "textbook": "씨마스 『정보과학』 (2022 개정 교육과정)",
-  "semester_start": null,
-  "_semester_start_help": "첫 주 월요일 날짜(예: \"2027-03-02\")를 넣으면 홈에 '이번 주 수업'이 표시됩니다.",
   "units": [
     {
       "n": 0,
@@ -226,5 +224,7 @@
       ]
     }
   ],
-  "programiz": "https://www.programiz.com/python-programming/online-compiler/"
+  "programiz": "https://www.programiz.com/python-programming/online-compiler/",
+  "repo": "yongdeuk/infoscience2026",
+  "branch": "main"
 }
