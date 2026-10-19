@@ -1,22 +1,22 @@
 <header class="xp-hero">
-  <p class="kicker">COLAB LAB</p>
-  <h1>코랩 실습실</h1>
-  <p>단원별 실습 노트북 7권과 자주 나는 오류 해결표입니다. 셀 아래 <b>▶ 실행</b>으로 이 페이지에서 바로 돌려 볼 수 있고, <b>.ipynb 받기</b>를 누르면 코랩에 그대로 올릴 수 있는 노트북 파일이 만들어집니다.</p>
+  <p class="kicker">PYTHON PRACTICE</p>
+  <h1>파이썬 실습</h1>
+  <p>단원별 실습 7세트와 자주 나는 오류 해결표입니다. 코드는 이 페이지에서 <b>▶ 실행</b>으로 바로 돌려 보거나, <b>Programiz에서 실행</b>을 눌러 <a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz 온라인 컴파일러</a>에서 실행합니다. 로그인·설치·저장 단계가 없어 실수할 곳이 적습니다.</p>
   <nav class="xp-jump" aria-label="이 페이지 목차">
-    <a href="#start">코랩 시작하기</a><a href="#nb1">Ⅰ 노트북</a><a href="#nb2">Ⅱ 노트북</a><a href="#nb3">Ⅲ 노트북</a><a href="#nb4">Ⅳ 노트북</a><a href="#errors">오류 해결표</a>
+    <a href="#start">Programiz 사용법</a><a href="#nb1">Ⅰ 실습</a><a href="#nb2">Ⅱ 실습</a><a href="#nb3">Ⅲ 실습</a><a href="#nb4">Ⅳ 실습</a><a href="#errors">오류 해결표</a>
   </nav>
 </header>
 
 <section class="xp-sec" id="start">
-  <h2>코랩 시작하기</h2>
-  <ol class="colab-steps">
-    <li><b>노트북 받기</b>아래 노트북에서 <b>.ipynb 받기</b>를 눌러 파일을 내려받습니다.</li>
-    <li><b>코랩 열기</b><a href="https://colab.research.google.com/" target="_blank" rel="noopener">colab.research.google.com</a>에 학교 구글 계정으로 로그인합니다.</li>
-    <li><b>업로드</b>처음 창에서 <b>업로드</b> 탭을 고르거나, <b>파일 → 노트북 업로드</b>로 받은 파일을 올립니다.</li>
-    <li><b>실행</b>셀을 누르고 <kbd>Shift</kbd>+<kbd>Enter</kbd>. 위에서부터 차례로 실행해야 앞 셀의 함수·변수를 쓸 수 있습니다.</li>
-    <li><b>저장</b><b>파일 → Drive에 사본 저장</b>을 눌러야 내 드라이브에 남습니다.</li>
+  <h2>Programiz 사용법</h2>
+  <ol class="run-steps">
+    <li><b>버튼 누르기</b>실습 코드 아래 <b>Programiz에서 실행</b>을 누르면 그 칸<b>까지의 코드가 모두 복사</b>되고 Programiz가 새 탭으로 열립니다.</li>
+    <li><b>예시 코드 지우기</b>왼쪽 편집 창(main.py)을 한 번 누르고 <kbd>Ctrl</kbd>+<kbd>A</kbd>로 전체 선택합니다.</li>
+    <li><b>붙여넣기</b><kbd>Ctrl</kbd>+<kbd>V</kbd>로 복사한 코드를 붙여넣습니다.</li>
+    <li><b>Run</b>파란 <b>Run</b> 버튼을 누르면 오른쪽 Output 창에 결과가 나옵니다.</li>
+    <li><b>input()은 Output 창에서</b><code>input()</code>이 있으면 Output 창에 값을 입력하고 <kbd>Enter</kbd>를 누릅니다.</li>
   </ol>
-  <div class="callout"><b>코랩이 안 될 때</b> — 이 페이지의 ▶ 실행은 브라우저 안에서 파이썬을 돌리므로 설치·로그인 없이도 연습할 수 있습니다. 한 노트북 안의 셀들은 변수를 함께 쓰니 <b>위에서부터 차례로</b> 실행하세요.</div>
+  <div class="callout"><b>꼭 기억할 것</b> — 앞 칸에서 만든 함수·변수를 뒤 칸에서 쓰기 때문에, 버튼은 앞 칸 코드까지 <b>한꺼번에</b> 복사합니다. Programiz는 코드를 <b>저장하지 않으니</b>, 직접 짠 코드는 <b>전체 코드 복사</b>로 옮겨 두거나 <a href="my.html">내 학습</a> 노트에 붙여 두세요. Programiz에서는 표준 라이브러리(<code>random</code>, <code>math</code>, <code>collections</code>, <code>heapq</code> 등)만 쓸 수 있고 파일 업로드는 되지 않습니다.</div>
 </section>
 
 <!-- ========== Ⅰ ========== -->
@@ -26,7 +26,7 @@
   <details class="nb" data-nb="정보과학_1-1_함수">
     <summary><span class="pill">Ⅰ-1</span><b>함수 만들고 불러 쓰기</b><span class="muted">정의와 호출 · 기본값 매개 변수 · 가변 인수 · 지역/전역 변수 · <a href="unit1.html#t1-1">본문</a></span></summary>
     <div class="nb-body">
-      <div class="nb-tools"><button class="btn btn-p" type="button" data-nb-dl>.ipynb 받기</button><button class="btn" type="button" data-nb-copy>전체 코드 복사</button></div>
+      <div class="nb-tools"><button class="btn btn-p" type="button" data-nb-copy data-pz>전체 코드 복사 + Programiz 열기</button><a class="btn" href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz만 열기</a></div>
       <p class="nbmd"><b>1. 함수 정의와 호출</b> — <code>def</code>로 정의하고, 이름(인수)로 호출합니다.</p>
 <pre data-run data-editable data-cell>def square(x):
     return x * x
@@ -68,7 +68,7 @@ for s in [95, 83, 71, 40]:
   <details class="nb" data-nb="정보과학_1-2_클래스와_재귀">
     <summary><span class="pill">Ⅰ-2</span><b>클래스와 재귀</b><span class="muted">클래스·객체 · 팩토리얼 · 하노이 탑 · 자릿수 합 · <a href="unit1.html#t1-3">본문</a></span></summary>
     <div class="nb-body">
-      <div class="nb-tools"><button class="btn btn-p" type="button" data-nb-dl>.ipynb 받기</button><button class="btn" type="button" data-nb-copy>전체 코드 복사</button></div>
+      <div class="nb-tools"><button class="btn btn-p" type="button" data-nb-copy data-pz>전체 코드 복사 + Programiz 열기</button><a class="btn" href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz만 열기</a></div>
       <p class="nbmd"><b>1. 클래스와 객체</b> — 설계도(클래스) 하나로 여러 객체를 만듭니다.</p>
 <pre data-run data-editable data-cell>class Playlist:
     def __init__(self, name):
@@ -122,7 +122,7 @@ print(digit_sum(1234))</pre>
   <details class="nb" data-nb="정보과학_2-1_스택과_큐">
     <summary><span class="pill">Ⅱ-1</span><b>스택과 큐</b><span class="muted">리스트 스택 · 괄호 검사 · deque 큐 · 매점 줄 시뮬레이션 · <a href="unit2.html#t2-1">본문</a></span></summary>
     <div class="nb-body">
-      <div class="nb-tools"><button class="btn btn-p" type="button" data-nb-dl>.ipynb 받기</button><button class="btn" type="button" data-nb-copy>전체 코드 복사</button></div>
+      <div class="nb-tools"><button class="btn btn-p" type="button" data-nb-copy data-pz>전체 코드 복사 + Programiz 열기</button><a class="btn" href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz만 열기</a></div>
       <p class="nbmd"><b>1. 리스트로 스택</b> — <code>append</code>가 push, <code>pop</code>이 pop, <code>[-1]</code>이 peek.</p>
 <pre data-run data-editable data-cell>stack = []
 stack.append('A')
@@ -181,7 +181,7 @@ print(reverse('정보과학'))</pre>
   <details class="nb" data-nb="정보과학_2-2_트리와_그래프">
     <summary><span class="pill">Ⅱ-2</span><b>트리와 그래프</b><span class="muted">이진 탐색 트리 · 중위 순회 · 인접 리스트 · DFS · BFS 최단 경로 · <a href="unit2.html#t2-3">본문</a></span></summary>
     <div class="nb-body">
-      <div class="nb-tools"><button class="btn btn-p" type="button" data-nb-dl>.ipynb 받기</button><button class="btn" type="button" data-nb-copy>전체 코드 복사</button></div>
+      <div class="nb-tools"><button class="btn btn-p" type="button" data-nb-copy data-pz>전체 코드 복사 + Programiz 열기</button><a class="btn" href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz만 열기</a></div>
       <p class="nbmd"><b>1. 이진 탐색 트리</b> — 작으면 왼쪽, 크면 오른쪽. 중위 순회하면 정렬된 순서가 나옵니다.</p>
 <pre data-run data-editable data-cell>class Node:
     def __init__(self, v):
@@ -257,7 +257,7 @@ print('A → H:', ' → '.join(shortest('A', 'H')))</pre>
   <details class="nb" data-nb="정보과학_3-1_복잡도와_탐색">
     <summary><span class="pill">Ⅲ-1</span><b>복잡도와 탐색</b><span class="muted">실행 시간 재기 · 순차 vs 이진 탐색 · 탐욕 거스름돈 · <a href="unit3.html#t3-2">본문</a></span></summary>
     <div class="nb-body">
-      <div class="nb-tools"><button class="btn btn-p" type="button" data-nb-dl>.ipynb 받기</button><button class="btn" type="button" data-nb-copy>전체 코드 복사</button></div>
+      <div class="nb-tools"><button class="btn btn-p" type="button" data-nb-copy data-pz>전체 코드 복사 + Programiz 열기</button><a class="btn" href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz만 열기</a></div>
       <p class="nbmd"><b>1. 연산 횟수 세기</b> — n이 2배가 될 때 O(n)과 O(n²)은 각각 몇 배가 될까요?</p>
 <pre data-run data-editable data-cell>def ops_linear(n):
     c = 0
@@ -318,7 +318,7 @@ target = 14
   <details class="nb" data-nb="정보과학_3-2_분할정복과_동적계획법">
     <summary><span class="pill">Ⅲ-2</span><b>분할 정복과 동적 계획법</b><span class="muted">퀵 정렬 · 합병 정렬 · 피보나치 메모이제이션 · 배낭 문제 · <a href="unit3.html#t3-5">본문</a></span></summary>
     <div class="nb-body">
-      <div class="nb-tools"><button class="btn btn-p" type="button" data-nb-dl>.ipynb 받기</button><button class="btn" type="button" data-nb-copy>전체 코드 복사</button></div>
+      <div class="nb-tools"><button class="btn btn-p" type="button" data-nb-copy data-pz>전체 코드 복사 + Programiz 열기</button><a class="btn" href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz만 열기</a></div>
       <p class="nbmd"><b>1. 퀵 정렬</b> — 피벗보다 작은 것, 같은 것, 큰 것으로 나누어 재귀.</p>
 <pre data-run data-editable data-cell>def quick(arr):
     if len(arr) &lt;= 1:
@@ -390,7 +390,7 @@ print(stairs(5))</pre>
   <details class="nb" data-nb="정보과학_4_프로젝트_도구상자">
     <summary><span class="pill">Ⅳ</span><b>프로젝트 도구상자</b><span class="muted">다익스트라(heapq) · 백트래킹 자리 배치 · assert로 테스트하기 · <a href="unit4.html#t4-3">본문</a></span></summary>
     <div class="nb-body">
-      <div class="nb-tools"><button class="btn btn-p" type="button" data-nb-dl>.ipynb 받기</button><button class="btn" type="button" data-nb-copy>전체 코드 복사</button></div>
+      <div class="nb-tools"><button class="btn btn-p" type="button" data-nb-copy data-pz>전체 코드 복사 + Programiz 열기</button><a class="btn" href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz만 열기</a></div>
       <p class="nbmd"><b>1. 다익스트라 — 탄소 배출이 가장 적은 경로</b> — 가중치는 구간별 배출량(g)입니다.</p>
 <pre data-run data-editable data-cell>import heapq
 
@@ -464,14 +464,14 @@ solve()</pre>
 
 <section class="xp-sec" id="errors">
   <h2>자주 나는 오류 해결표</h2>
-  <p class="lede">오류가 나면 빨간 글씨의 <b>마지막 줄</b>을 보세요. 오류 이름과 줄 번호가 거기 있습니다. 아래 칸에 오류 이름이나 낱말을 넣으면 해당 줄만 보입니다.</p>
+  <p class="lede">오류가 나면 Output 창 빨간 글씨의 <b>마지막 줄</b>을 보세요. 오류 이름과 줄 번호가 거기 있습니다. 아래 칸에 오류 이름이나 낱말을 넣으면 해당 줄만 보입니다.</p>
   <div class="errfilter"><input type="search" data-err-q placeholder="예: NameError, 들여쓰기, 한글" aria-label="오류 검색"><span class="muted" data-err-count></span></div>
   <div class="tablewrap"><table class="errtbl" data-err-table>
     <thead><tr><th>오류</th><th>이런 뜻이에요</th><th>이렇게 고쳐요</th></tr></thead>
     <tbody>
       <tr><td>SyntaxError</td><td>문법이 틀렸어요. <code>if</code>·<code>for</code>·<code>def</code> 끝의 콜론(<code>:</code>)이 빠졌거나 괄호·따옴표 짝이 안 맞는 경우가 많아요.</td><td>표시된 줄과 <b>바로 윗줄</b>의 콜론·괄호·따옴표를 확인합니다.</td></tr>
       <tr><td>IndentationError</td><td>들여쓰기가 맞지 않아요. 블록 안의 줄은 같은 칸만큼 들여써야 해요.</td><td>스페이스 4칸으로 통일하고, 탭과 스페이스를 섞지 않습니다.</td></tr>
-      <tr><td>NameError</td><td>정의되지 않은 이름을 썼어요. 오타이거나, 정의한 셀을 아직 실행하지 않았어요.</td><td>철자·대소문자를 확인하고, 코랩이면 <b>위 셀부터 다시 실행</b>합니다.</td></tr>
+      <tr><td>NameError</td><td>정의되지 않은 이름을 썼어요. 오타이거나, 그 이름을 만든 코드를 아직 실행하지 않았어요.</td><td>철자·대소문자를 확인하고, 이 사이트에서는 <b>위 칸부터 다시 실행</b>합니다.</td></tr>
       <tr><td>TypeError: can only concatenate str</td><td>문자열과 숫자를 <code>+</code>로 붙이려 했어요.</td><td><code>str(n)</code>으로 바꾸거나 f-string <code>f'{n}점'</code>을 씁니다.</td></tr>
       <tr><td>TypeError: missing 1 required positional argument</td><td>함수에 필요한 인수를 덜 넣었어요. 메서드라면 <code>self</code>를 빠뜨린 경우도 있어요.</td><td>함수 정의의 매개 변수 개수와 호출할 때의 인수 개수를 맞춥니다.</td></tr>
       <tr><td>ValueError: invalid literal for int()</td><td>숫자가 아닌 글자를 <code>int()</code>로 바꾸려 했어요.</td><td><code>input()</code>에 숫자만 넣었는지, 앞뒤 공백이 없는지 확인합니다.</td></tr>
@@ -482,12 +482,11 @@ solve()</pre>
       <tr><td>AttributeError</td><td>그 객체에 없는 속성·메서드를 썼어요. 예: 리스트에 <code>.push()</code>.</td><td>철자를 확인하고, 리스트는 <code>append</code>, deque는 <code>popleft</code>처럼 맞는 이름을 씁니다.</td></tr>
       <tr><td>RecursionError: maximum recursion depth</td><td>재귀 호출이 너무 깊어졌어요. 대부분 <b>종료 조건이 없거나</b> 종료 조건에 닿지 않아요.</td><td>종료 조건을 확인하고, 재귀 호출 때 n이 줄어드는지 봅니다.</td></tr>
       <tr><td>UnboundLocalError</td><td>함수 안에서 전역 변수 값을 바꾸려 했어요.</td><td>함수 첫 줄에 <code>global 변수이름</code>을 쓰거나, 값을 매개 변수·반환값으로 주고받습니다.</td></tr>
-      <tr><td>ModuleNotFoundError</td><td>설치되지 않은 라이브러리를 <code>import</code>했어요.</td><td>코랩에서 <code>!pip install 이름</code>을 먼저 실행합니다. 모듈 파일 이름 오타도 확인합니다.</td></tr>
-      <tr><td>FileNotFoundError</td><td>파일을 찾을 수 없어요. 코랩은 런타임이 끝나면 올린 파일이 사라져요.</td><td>왼쪽 📁 파일 탭에서 다시 업로드하고, 경로(<code>/content/파일이름</code>)를 확인합니다.</td></tr>
-      <tr><td>무한 반복(셀이 끝나지 않음)</td><td><code>while</code> 조건이 계속 참이에요.</td><td>코랩은 셀 왼쪽 ■ 중지, 이 사이트는 새로 고침. 반복 안에서 조건 변수가 바뀌는지 확인합니다.</td></tr>
-      <tr><td>입력 칸이 안 보임(<code>input</code>)</td><td>코랩 셀이 입력을 기다리는 중이에요.</td><td>셀 아래 입력 칸에 값을 넣고 Enter. 이 사이트에서는 실행 전에 입력값을 미리 적습니다.</td></tr>
-      <tr><td>런타임 연결 끊김</td><td>코랩을 오래 놔두면 런타임이 초기화되고 변수가 모두 사라져요.</td><td><b>런타임 → 모두 실행</b>으로 처음부터 다시 실행합니다.</td></tr>
-      <tr><td>그래프 한글이 □로 깨짐</td><td>코랩 기본 글꼴에 한글이 없어요.</td><td><code>!pip install koreanize-matplotlib</code> 후 <code>import koreanize_matplotlib</code>를 실행합니다.</td></tr>
+      <tr><td>ModuleNotFoundError</td><td>설치되지 않은 라이브러리를 <code>import</code>했어요. Programiz에서는 <code>numpy</code>·<code>matplotlib</code> 같은 외부 라이브러리를 쓸 수 없어요.</td><td>표준 라이브러리(<code>random</code>, <code>math</code>, <code>collections</code>, <code>heapq</code> 등)로 바꾸거나, 모듈 이름 오타를 확인합니다.</td></tr>
+      <tr><td>무한 반복(끝나지 않음)</td><td><code>while</code> 조건이 계속 참이에요.</td><td>Programiz는 <b>Stop</b>(Run 자리) 버튼, 이 사이트는 새로 고침. 반복 안에서 조건 변수가 바뀌는지 확인합니다.</td></tr>
+      <tr><td>입력을 기다리며 멈춤(<code>input</code>)</td><td>프로그램이 <code>input()</code>에서 값을 기다리는 중이에요.</td><td>Programiz는 오른쪽 <b>Output 창을 눌러</b> 값을 넣고 Enter. 이 사이트에서는 실행 전에 입력값을 미리 적습니다.</td></tr>
+      <tr><td>NameError (Programiz)</td><td>앞 칸에서 만든 함수·변수를 빼고 일부 코드만 붙여넣었어요.</td><td>실습 칸 아래 <b>Programiz에서 실행</b> 버튼으로 다시 복사하면 앞 칸 코드까지 함께 들어갑니다.</td></tr>
+      <tr><td>예시 코드가 같이 실행됨</td><td>Programiz 편집 창의 기본 예시 코드를 지우지 않고 붙여넣었어요.</td><td>편집 창에서 <kbd>Ctrl</kbd>+<kbd>A</kbd>로 모두 선택한 뒤 붙여넣습니다.</td></tr>
     </tbody>
   </table></div>
   <div class="callout"><b>AI에게 물을 때는</b> “고쳐 줘” 대신 “<code>오류 메시지</code>가 무슨 뜻이야? 어디를 보면 돼?”라고 물으세요. 자세한 규칙은 <a href="course.html#ai">AI 사용 신호등</a>에 있습니다.</div>

@@ -905,13 +905,13 @@ THEME_BTN = """    <button class="themetoggle" type="button" data-theme-toggle a
 TOOL_PAGES = [
     ("course",   "수업 안내", "평가 · 수업 규칙 · AI 사용 신호등 · 준비물"),
     ("labs",     "실습실",    "그래프 탐색 · 이진 탐색 트리 · 정렬 경주 등 직접 조작하는 시뮬레이터 모음"),
-    ("colab",    "코랩 실습", "단원별 실습 노트북 7권과 자주 나는 오류 해결표"),
+    ("practice", "파이썬 실습", "단원별 실습 7세트를 Programiz 온라인 컴파일러로 실행 · 자주 나는 오류 해결표"),
     ("glossary", "용어 사전", "4개 단원 핵심 용어 98개를 검색하고 단원별로 모아 보기"),
     ("quiz",     "퀴즈",      "단원별 개념 확인 퀴즈 40문제 — 바로 채점하고 해설 보기"),
     ("my",       "내 학습",   "해 봤어요 체크 · 퀴즈 점수 · 정리 노트를 한눈에"),
 ]
 
-NAV_SHORT = {"course": "안내", "colab": "코랩", "glossary": "용어"}
+NAV_SHORT = {"course": "안내", "practice": "파이썬", "glossary": "용어"}
 
 def topbar(current, prefix="", brand=True):
     links = []

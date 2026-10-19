@@ -24,7 +24,7 @@
 |---|---|
 | `course.html` 수업 안내 | 과목 소개, 단원별 목표, 평가 계획(비율은 학교 평가 계획 확정 후 기입), 프로젝트 채점 기준, 수업 약속, **AI 사용 신호등**, 준비물, 질문하는 법 |
 | `labs.html` 실습실 | 새 시뮬레이터 3종(**그래프 DFS·BFS 단계 실행**, **이진 탐색 트리 넣기·찾기·순회**, **정렬 4종 경주**) + 본문 속 실습 17개 바로 가기 |
-| `colab.html` 코랩 실습 | 단원별 실습 노트북 7권(브라우저에서 ▶ 실행, `.ipynb` 내려받기, 전체 코드 복사), 검색되는 **오류 해결표** 19종 |
+| `practice.html` 파이썬 실습 | 단원별 실습 7세트(브라우저에서 ▶ 실행, 칸마다 **Programiz에서 실행** 버튼으로 앞 칸까지 코드 복사 후 Programiz 열기), 검색되는 **오류 해결표** |
 | `glossary.html` 용어 사전 | 핵심 용어 98개, 검색·단원 필터, 본문 위치로 바로 가기 |
 | `quiz.html` 퀴즈 | 단원별 10문제(총 40문제), 바로 채점·해설, 최고 점수 기록 |
 | `my.html` 내 학습 | 소단원별 **해 봤어요** 체크 진도, 퀴즈 점수, 단원별 정리 노트(자동 저장), txt 내보내기·인쇄 |
@@ -52,7 +52,7 @@
 ```
 index.html          홈 — 단원 카드, 수업 도구, 16주차 운영 계획
 unit1.html ~ unit4.html   단원별 본문
-course.html labs.html colab.html glossary.html quiz.html my.html   수업 도구 페이지
+course.html labs.html practice.html glossary.html quiz.html my.html   수업 도구 페이지
 assets/style.css    전체 공용 스타일 (빌드 결과)
 assets/app.js       실습 위젯 + 스크롤 위치 표시 + 코드 실행기 (빌드 결과)
 assets/extra.css    수업 도구 페이지 스타일 (직접 수정)

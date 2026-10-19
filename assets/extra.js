@@ -1,4 +1,4 @@
-/* ===== 수업 도구: 해 봤어요 체크 · 용어 사전 · 퀴즈 · 내 학습 · 코랩 노트북 · 실습실 시뮬레이터 =====
+/* ===== 수업 도구: 해 봤어요 체크 · 용어 사전 · 퀴즈 · 내 학습 · 파이썬 실습(Programiz) · 실습실 시뮬레이터 =====
    기록은 모두 이 기기의 localStorage에만 저장된다(키 앞머리 'is.'). 이 파일은 build.py가 만들지 않으므로 직접 고친다. */
 (function () {
   'use strict';
@@ -218,36 +218,49 @@
     });
   })();
 
-  /* ---------- 코랩: 노트북 내려받기 · 코드 복사 · 오류 검색 ---------- */
+  /* ---------- 파이썬 실습: 코드 복사 + Programiz 열기 · 오류 검색 ---------- */
   (function () {
-    $$('[data-nb]').forEach(function (nb) {
-      var name = nb.getAttribute('data-nb');
-      function cells() {
-        var out = [{ cell_type: 'markdown', metadata: {}, source: ['# ' + name.replace(/_/g, ' ') + '\n', '\n', '정보과학 수업 실습 노트북입니다. 위에서부터 차례로 실행하세요(Shift+Enter).'] }];
-        $$('.nbmd, pre[data-cell]', nb).forEach(function (el) {
-          var text = el.matches('pre') ? el.textContent : el.textContent.trim();
-          var lines = text.replace(/\s+$/, '').split('\n').map(function (l, i, a) { return i < a.length - 1 ? l + '\n' : l; });
-          if (el.matches('pre')) out.push({ cell_type: 'code', metadata: {}, execution_count: null, outputs: [], source: lines });
-          else out.push({ cell_type: 'markdown', metadata: {}, source: lines });
-        });
-        return out;
+    var PZ = 'https://www.programiz.com/python-programming/online-compiler/';
+    function copy(text) {
+      // 클립보드 API가 막힌 환경(http, 일부 학교 브라우저)에서는 textarea로 복사한다.
+      function legacy() {
+        var ta = document.createElement('textarea');
+        ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        var ok = false;
+        try { ok = document.execCommand('copy'); } catch (e) {}
+        ta.remove();
+        return ok;
       }
-      $('[data-nb-dl]', nb).addEventListener('click', function () {
-        var doc = { nbformat: 4, nbformat_minor: 5, metadata: { kernelspec: { name: 'python3', display_name: 'Python 3' }, language_info: { name: 'python' }, colab: { provenance: [] } }, cells: cells() };
-        var blob = new Blob([JSON.stringify(doc, null, 1)], { type: 'application/x-ipynb+json' });
-        var a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = name + '.ipynb';
-        document.body.appendChild(a); a.click(); a.remove();
-        setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
-      });
-      var cp = $('[data-nb-copy]', nb);
-      cp.addEventListener('click', function () {
-        var text = $$('pre[data-cell]', nb).map(function (p) { return p.textContent.replace(/\s+$/, ''); }).join('\n\n');
-        var label = cp.textContent;
-        function done(ok) { cp.textContent = ok ? '복사했어요 ✓' : '복사하지 못했어요'; setTimeout(function () { cp.textContent = label; }, 1500); }
-        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
-        else done(false);
+      if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+        return navigator.clipboard.writeText(text).then(function () { return true; }, function () { return legacy(); });
+      }
+      return Promise.resolve(legacy());
+    }
+    function codeOf(pres) { return pres.map(function (p) { return p.textContent.replace(/\s+$/, ''); }).join('\n\n') + '\n'; }
+    function flash(btn, ok, okText) {
+      var label = btn.getAttribute('data-label') || btn.textContent;
+      btn.setAttribute('data-label', label);
+      btn.textContent = ok ? okText : '복사하지 못했어요 — 코드를 직접 선택해 복사하세요';
+      setTimeout(function () { btn.textContent = label; }, 2600);
+    }
+    function sendToPz(btn, text) {
+      window.open(PZ, '_blank', 'noopener');   // 클릭한 순간에 열어야 팝업 차단에 걸리지 않는다
+      copy(text).then(function (ok) { flash(btn, ok, '복사했어요 ✓ Programiz 편집 창에서 Ctrl+A → Ctrl+V'); });
+    }
+    $$('[data-nb]').forEach(function (nb) {
+      var cells = $$('pre[data-cell]', nb);
+      var all = $('[data-nb-copy]', nb);
+      if (all) all.addEventListener('click', function () { sendToPz(all, codeOf(cells)); });
+      cells.forEach(function (pre, i) {
+        var runner = pre.nextElementSibling, bar = runner && runner.querySelector('.runner-bar');
+        if (!bar) return;
+        var btn = document.createElement('button');
+        btn.type = 'button'; btn.className = 'btn';
+        btn.textContent = i ? 'Programiz에서 실행 (앞 칸 포함)' : 'Programiz에서 실행';
+        btn.title = '이 칸까지의 코드를 복사하고 Programiz를 엽니다';
+        btn.addEventListener('click', function () { sendToPz(btn, codeOf(cells.slice(0, i + 1))); });
+        bar.insertBefore(btn, bar.querySelector('.hint'));
       });
     });
 

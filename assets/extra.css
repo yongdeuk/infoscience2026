@@ -1,4 +1,4 @@
-/* ===== 수업 도구 페이지 (수업 안내 · 실습실 · 코랩 · 용어 사전 · 퀴즈 · 내 학습) =====
+/* ===== 수업 도구 페이지 (수업 안내 · 실습실 · 파이썬 실습 · 용어 사전 · 퀴즈 · 내 학습) =====
    assets/style.css 의 색 변수(--accent, --line …)를 그대로 쓴다. 이 파일은 build.py가 만들지 않으므로 직접 고친다. */
 :root{
   --ok:#1f7a45; --ok-soft:#e2f3e8;
@@ -172,7 +172,7 @@
 .sortcard.done{border-color:var(--accent)}
 .sortcard .rank{color:var(--accent-ink); font-weight:700}
 
-/* ---------- 코랩 ---------- */
+/* ---------- 파이썬 실습 ---------- */
 .nb{border:1px solid var(--line); border-radius:3px; background:var(--surface); margin:.8rem 0}
 .nb > summary{
   cursor:pointer; list-style:none; padding:.75rem 1rem; display:flex; gap:.7rem; align-items:baseline; flex-wrap:wrap;
@@ -187,10 +187,10 @@
 .nb-tools{display:flex; flex-wrap:wrap; gap:.45rem; margin:.6rem 0 .2rem}
 .nbmd{font-size:.92rem; color:var(--ink2); margin:.9rem 0 .3rem; max-width:70ch}
 .nbmd b{color:var(--ink)}
-.colab-steps{counter-reset:cs; list-style:none; padding:0; margin:1rem 0; display:grid; gap:.6rem; grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr))}
-.colab-steps li{counter-increment:cs; border:1px solid var(--line); background:var(--surface); border-radius:3px; padding:.75rem .9rem .8rem 2.8rem; position:relative; font-size:.88rem; margin:0}
-.colab-steps li::before{content:counter(cs); position:absolute; left:.8rem; top:.75rem; width:1.5rem; height:1.5rem; border-radius:50%; background:var(--accent); color:var(--surface); font-family:var(--mono); font-size:.78rem; font-weight:700; display:flex; align-items:center; justify-content:center}
-.colab-steps b{display:block; color:var(--ink)}
+.run-steps{counter-reset:cs; list-style:none; padding:0; margin:1rem 0; display:grid; gap:.6rem; grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr))}
+.run-steps li{counter-increment:cs; border:1px solid var(--line); background:var(--surface); border-radius:3px; padding:.75rem .9rem .8rem 2.8rem; position:relative; font-size:.88rem; margin:0}
+.run-steps li::before{content:counter(cs); position:absolute; left:.8rem; top:.75rem; width:1.5rem; height:1.5rem; border-radius:50%; background:var(--accent); color:var(--surface); font-family:var(--mono); font-size:.78rem; font-weight:700; display:flex; align-items:center; justify-content:center}
+.run-steps b{display:block; color:var(--ink)}
 .errtbl td:first-child{white-space:nowrap; font-family:var(--mono); font-size:.82rem; color:var(--no)}
 .errfilter{margin:.6rem 0; display:flex; gap:.5rem; flex-wrap:wrap; align-items:center}
 .errfilter input, .gl-tools input{
