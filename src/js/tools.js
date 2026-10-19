@@ -3,14 +3,11 @@
 (function () {
   'use strict';
 
-  var TOPICS = {
-    1: ['t1-1', 't1-2', 't1-3', 't1-4', 't1-5'],
-    2: ['t2-1', 't2-2', 't2-3', 't2-4', 't2-5'],
-    3: ['t3-1', 't3-2', 't3-3', 't3-4', 't3-5', 't3-6', 't3-8', 't3-7'],
-    4: ['t4-1', 't4-2', 't4-3', 't4-4', 't4-6', 't4-5']
-  };
-  var UNIT_NAME = { 1: 'Ⅰ 프로그래밍', 2: 'Ⅱ 데이터 구조', 3: 'Ⅲ 알고리즘', 4: 'Ⅳ 정보과학 프로젝트' };
-  var QUIZ_N = 10;
+  var SITE = window.SITE || { topics: {}, units: {}, quiz: {}, weeks: [] };
+  var TOPICS = SITE.topics;
+  var UNITS = Object.keys(TOPICS);
+  var UNIT_NAME = {};
+  UNITS.forEach(function (u) { var x = SITE.units[u]; UNIT_NAME[u] = u === '0' ? x.name : x.roman + ' ' + x.name; });
 
   function get(k, d) { try { var v = localStorage.getItem('is.' + k); return v === null ? d : v; } catch (e) { return d; } }
   function set(k, v) { try { localStorage.setItem('is.' + k, v); } catch (e) {} }
@@ -53,19 +50,28 @@
     });
   })();
 
-  /* ---------- 홈: 내 진도 한 줄 ---------- */
+  /* ---------- 홈: 단원 카드 진도 · 이번 주 ---------- */
   (function () {
-    var box = $('[data-home-progress]');
-    if (!box) return;
-    var any = false, parts = [];
-    [1, 2, 3, 4].forEach(function (u) {
-      var d = doneCount(u), q = quizBest(u);
-      if (d || q !== null) any = true;
-      parts.push('<span>' + UNIT_NAME[u].split(' ')[0] + ' <b>' + d + '/' + TOPICS[u].length + '</b>' +
-        (q !== null ? ' · 퀴즈 ' + q + '점' : '') + '</span>');
+    $$('[data-uprog]').forEach(function (i) {
+      var u = i.getAttribute('data-uprog'), n = (TOPICS[u] || []).length, d = n ? doneCount(u) : 0;
+      i.style.width = (n ? Math.round(d / n * 100) : 0) + '%';
+      var l = $('[data-uprog-l="' + u + '"]');
+      if (l) l.textContent = d + ' / ' + n + (quizBest(u) !== null ? ' · 퀴즈 ' + quizBest(u) + '점' : '');
     });
-    if (!any) return;
-    box.innerHTML = '<span>내 진도</span>' + parts.join('') + '<a href="my.html">자세히 →</a>';
+    var now = $('[data-now]');
+    if (!now || !SITE.start) return;
+    var t0 = new Date(SITE.start + 'T00:00:00');
+    if (isNaN(t0)) return;
+    var wk = Math.floor((Date.now() - t0.getTime()) / (7 * 864e5)) + 1;
+    var w = SITE.weeks.filter(function (x) { return x.week === wk; })[0];
+    if (!w) return;
+    var unit = null;
+    UNITS.forEach(function (u) { var r = SITE.units[u].weeks; if (r && wk >= r[0] && wk <= r[1]) unit = u; });
+    now.innerHTML = '<p class="kicker">이번 주 · ' + wk + '주차</p><h2>' + (unit ? UNIT_NAME[unit] : '이번 주 수업') + '</h2><ol>' +
+      w.lessons.map(function (l) { return '<li>' + l + '</li>'; }).join('') + '</ol>' +
+      (unit ? '<a class="go" href="unit' + unit + '.html">단원 펼치기 →</a>' : '');
+    var row = $('#plan .wk[data-week="' + wk + '"]');
+    if (row) row.classList.add('now');
   })();
 
   /* ---------- 용어 사전 ---------- */
@@ -73,11 +79,11 @@
     var list = $('[data-gl-list]');
     if (!list) return;
     var items = $$('.gl', list), q = $('[data-gl-q]'), count = $('[data-gl-count]'), empty = $('[data-gl-empty]');
-    var unit = '0';
+    var unit = 'all';
     function apply() {
       var s = q.value.trim().toLowerCase(), n = 0;
       items.forEach(function (it) {
-        var ok = (unit === '0' || it.getAttribute('data-unit') === unit) &&
+        var ok = (unit === 'all' || it.getAttribute('data-unit') === unit) &&
                  (!s || it.textContent.toLowerCase().indexOf(s) !== -1);
         it.hidden = !ok;
         if (ok) n++;
@@ -153,8 +159,10 @@
       });
       score();
     });
-    var m = location.hash.match(/^#u([1-4])$/);
-    show(m ? m[1] : get('quiz.tab', '1'));
+    if (sets.length > 1) {   // 여러 단원 세트를 한 페이지에 둘 때만 탭으로 전환
+      var m = location.hash.match(/^#u([0-4])$/);
+      show(m ? m[1] : get('quiz.tab', sets[0].getAttribute('data-qz-set')));
+    }
   })();
 
   /* ---------- 내 학습 ---------- */
@@ -166,11 +174,11 @@
       return '<div class="pbar"><span class="nm">' + name + '</span><span class="tr"><span class="fl" style="width:' + pct + '%"></span></span><span class="vl">' + label + '</span></div>';
     }
     function render() {
-      doneBox.innerHTML = [1, 2, 3, 4].map(function (u) {
+      doneBox.innerHTML = UNITS.map(function (u) {
         var d = doneCount(u);
         return '<div class="u' + u + '">' + bar(UNIT_NAME[u], d, TOPICS[u].length, d + ' / ' + TOPICS[u].length) + '</div>';
       }).join('');
-      $('[data-my-quiz]').innerHTML = [1, 2, 3, 4].map(function (u) {
+      $('[data-my-quiz]').innerHTML = UNITS.map(function (u) {
         var q = quizBest(u);
         return '<div class="u' + u + '">' + bar(UNIT_NAME[u], q || 0, 100, q === null ? '안 풂' : q + '점') + '</div>';
       }).join('');
@@ -191,7 +199,7 @@
     nameIn.addEventListener('input', function () { set('name', nameIn.value); });
     $('[data-my-export]').addEventListener('click', function () {
       var NL = '\r\n', out = ['정보과학 학습 기록', '이름: ' + (nameIn.value || '-'), '내보낸 날: ' + new Date().toLocaleString('ko-KR'), ''];
-      [1, 2, 3, 4].forEach(function (u) {
+      UNITS.forEach(function (u) {
         var q = quizBest(u);
         out.push('■ ' + UNIT_NAME[u]);
         out.push('  해 봤어요: ' + doneCount(u) + ' / ' + TOPICS[u].length + '   퀴즈 최고: ' + (q === null ? '안 풂' : q + '점'));
@@ -220,7 +228,7 @@
 
   /* ---------- 파이썬 실습: 코드 복사 + Programiz 열기 · 오류 검색 ---------- */
   (function () {
-    var PZ = 'https://www.programiz.com/python-programming/online-compiler/';
+    var PZ = SITE.programiz || 'https://www.programiz.com/python-programming/online-compiler/';
     function copy(text) {
       // 클립보드 API가 막힌 환경(http, 일부 학교 브라우저)에서는 textarea로 복사한다.
       function legacy() {
@@ -262,6 +270,18 @@
         btn.addEventListener('click', function () { sendToPz(btn, codeOf(cells.slice(0, i + 1))); });
         bar.insertBefore(btn, bar.querySelector('.hint'));
       });
+    });
+    // 단원 본문의 실행 블록에도 같은 버튼을 단다(그 블록 코드만 복사).
+    $$('main pre[data-run]').forEach(function (pre) {
+      if (pre.closest('[data-nb]')) return;
+      var runner = pre.nextElementSibling, bar = runner && runner.querySelector('.runner-bar');
+      if (!bar) return;
+      var btn = document.createElement('button');
+      btn.type = 'button'; btn.className = 'btn';
+      btn.textContent = 'Programiz에서 실행';
+      btn.title = '이 코드를 복사하고 Programiz를 엽니다';
+      btn.addEventListener('click', function () { sendToPz(btn, codeOf([pre])); });
+      bar.insertBefore(btn, bar.querySelector('.hint'));
     });
 
     var tbl = $('[data-err-table]');
@@ -358,8 +378,8 @@
         c.toggle('inq', f.visited.indexOf(n) === -1 && f.ds.indexOf(n) !== -1);
       });
       for (var k in edges) edges[k].classList.toggle('used', f.used.indexOf(k) !== -1);
-      dsEl.innerHTML = f.ds.length ? f.ds.map(function (x) { return '<span class="chip w">' + x + '</span>'; }).join('') : '<span class="muted">(비어 있음)</span>';
-      ordEl.innerHTML = f.visited.map(function (x) { return '<span class="chip">' + x + '</span>'; }).join('') || '<span class="muted">(아직 없음)</span>';
+      dsEl.innerHTML = f.ds.length ? f.ds.map(function (x) { return '<span class="gchip w">' + x + '</span>'; }).join('') : '<span class="muted">(비어 있음)</span>';
+      ordEl.innerHTML = f.visited.map(function (x) { return '<span class="gchip">' + x + '</span>'; }).join('') || '<span class="muted">(아직 없음)</span>';
       status.innerHTML = f.msg;
       $('[data-act="step"]', root).disabled = step >= frames.length - 1;
     }

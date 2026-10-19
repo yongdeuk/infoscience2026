@@ -1,45 +1,12 @@
-/* ===== 수업 도구 페이지 (수업 안내 · 실습실 · 파이썬 실습 · 용어 사전 · 퀴즈 · 내 학습) =====
-   assets/style.css 의 색 변수(--accent, --line …)를 그대로 쓴다. 이 파일은 build.py가 만들지 않으므로 직접 고친다. */
-:root{
-  --ok:#1f7a45; --ok-soft:#e2f3e8;
-  --warn:#9a6a00; --warn-soft:#fbf1d6;
-  --no:#b3261e; --no-soft:#fbe4e2;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --ok:#6fd39a; --ok-soft:#13291c;
-    --warn:#f0c55a; --warn-soft:#2e250f;
-    --no:#ff9d95; --no-soft:#331816;
-  }
-}
-:root[data-theme="dark"]{
-  --ok:#6fd39a; --ok-soft:#13291c;
-  --warn:#f0c55a; --warn-soft:#2e250f;
-  --no:#ff9d95; --no-soft:#331816;
-}
-
-/* 상단 메뉴: 단원과 도구 사이 구분선 */
-.unitnav .navsep{flex:0 0 1px; width:1px; background:var(--line); margin:.45rem .3rem}
-@media (min-width:1080px){ .unitnav{gap:0} .unitnav a{padding:.3rem .45rem; font-size:.8rem} }
-
-/* ---------- 공통 페이지 틀 ---------- */
-.xp{max-width:1120px; margin:0 auto; padding:0 1.25rem 4rem; min-width:0}
-.xp-hero{padding:2.6rem 0 1.4rem; border-bottom:1px solid var(--line); margin-bottom:.5rem}
-.xp-hero .kicker{
-  font-family:var(--mono); font-size:.7rem; letter-spacing:.16em; color:var(--accent); margin:0 0 .4rem;
-}
-.xp-hero h1{
-  font-family:var(--serif); font-weight:700; font-size:clamp(1.7rem,3.6vw,2.3rem);
-  margin:0 0 .55rem; line-height:1.25;
-}
-.xp-hero p{margin:.3rem 0; color:var(--ink2); max-width:68ch}
+/* ===== 도구 페이지·단원 마무리 구성 요소: 수업 안내 · 실습실 · 파이썬 실습 · 용어 · 퀴즈 · 내 학습 ===== */
+/* ---------- 도구 페이지 공통 ---------- */
 .xp-jump{display:flex; flex-wrap:wrap; gap:.4rem; margin-top:1rem}
 .xp-jump a{
   font-size:.8rem; border:1px solid var(--line); background:var(--surface);
-  padding:.25rem .6rem; border-radius:2px; color:var(--ink2);
+  padding:.25rem .6rem; border-radius:var(--r-sm); color:var(--ink2);
 }
 .xp-jump a:hover{border-color:var(--accent); color:var(--accent-ink); text-decoration:none}
-.xp-sec{padding-top:2.2rem; scroll-margin-top:4.6rem}
+.xp-sec{padding-top:2.2rem; scroll-margin-top:7rem}
 .xp-sec > h2{
   font-size:1.3rem; font-weight:700; margin:0 0 .4rem;
   display:flex; align-items:baseline; gap:.6rem;
@@ -52,47 +19,26 @@
 .muted{color:var(--ink3); font-size:.85rem}
 .pill{
   display:inline-block; font-family:var(--mono); font-size:.68rem; letter-spacing:.04em;
-  padding:.05rem .45rem; border-radius:2px; border:1px solid var(--line); color:var(--ink2);
+  padding:.05rem .45rem; border-radius:var(--r-sm); border:1px solid var(--line); color:var(--ink2);
   background:var(--surface-2); white-space:nowrap; vertical-align:.1em;
 }
 .pill.u1{border-color:var(--accent); color:var(--accent-ink); background:var(--accent-soft)}
 .pill.u2{border-color:var(--accent); color:var(--accent-ink); background:var(--accent-soft)}
 .pill.u3{border-color:var(--accent); color:var(--accent-ink); background:var(--accent-soft)}
 .pill.u4{border-color:var(--accent); color:var(--accent-ink); background:var(--accent-soft)}
-.fillme{background:var(--warn-soft); color:var(--warn); padding:0 .3rem; border-radius:2px; font-weight:700}
-
-/* ---------- 홈: 수업 도구 카드 ---------- */
-.toolmap{max-width:1120px; margin:0 auto; padding:2.2rem 1.25rem 0}
-.toolmap h2{font-family:var(--serif); font-size:1.35rem; margin:0 0 .8rem; font-weight:700}
-.toolgrid{display:grid; gap:.8rem; grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr))}
-.toolcard{
-  display:block; border:1px solid var(--line); background:var(--surface); border-radius:3px;
-  padding:.95rem 1.05rem; color:var(--ink);
-  transition:border-color .18s ease, transform .18s ease, box-shadow .18s ease;
-}
-.toolcard:hover{border-color:var(--accent); text-decoration:none; transform:translateY(-2px); box-shadow:var(--lift)}
-.toolcard h3{margin:0 0 .25rem; font-size:1rem; font-weight:700}
-.toolcard p{margin:0; font-size:.82rem; color:var(--ink3); line-height:1.6}
-@media (prefers-reduced-motion: reduce){ .toolcard{transition:none} .toolcard:hover{transform:none} }
-.homeprog:empty{display:none}
-.homeprog{
-  margin-top:1rem; border:1px solid var(--line); background:var(--surface-2); border-radius:3px;
-  padding:.8rem 1rem; font-size:.86rem; color:var(--ink2);
-  display:flex; flex-wrap:wrap; gap:.4rem 1.4rem; align-items:center;
-}
-.homeprog b{color:var(--ink)}
+.fillme{background:var(--warn-soft); color:var(--warn); padding:0 .3rem; border-radius:var(--r-sm); font-weight:700}
 
 /* ---------- 진도 막대 ---------- */
 .pbar{display:grid; grid-template-columns:7.5rem minmax(0,1fr) 4.5rem; gap:.6rem; align-items:center; margin:.5rem 0}
 .pbar .nm{font-size:.86rem; color:var(--ink2)}
-.pbar .tr{height:.8rem; background:var(--code-bg); border:1px solid var(--line); border-radius:2px; overflow:hidden}
+.pbar .tr{height:.8rem; background:var(--code-bg); border:1px solid var(--line); border-radius:var(--r-sm); overflow:hidden}
 .pbar .fl{height:100%; background:var(--accent); width:0; transition:width .3s ease}
 .pbar .vl{font-family:var(--mono); font-size:.8rem; color:var(--accent-ink); text-align:right; white-space:nowrap}
 @media (prefers-reduced-motion: reduce){ .pbar .fl{transition:none} }
 
 /* ---------- 단원 페이지: 해 봤어요 ---------- */
 .donebar{
-  margin:2rem 0 0; padding:.8rem 1rem; border:1px dashed var(--line); border-radius:3px;
+  margin:2rem 0 0; padding:.8rem 1rem; border:1px dashed var(--line); border-radius:var(--r);
   display:flex; flex-wrap:wrap; gap:.6rem 1rem; align-items:center; font-size:.86rem; color:var(--ink3);
 }
 .donebtn[aria-pressed="true"]{background:var(--ok-soft); border-color:var(--ok); color:var(--ok); font-weight:700}
@@ -100,7 +46,7 @@
 
 /* ---------- AI 사용 신호등 ---------- */
 .lights{display:grid; gap:.9rem; grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr)); margin:1rem 0}
-.light{border:1px solid var(--line); border-top:4px solid; border-radius:3px; background:var(--surface); padding:.9rem 1rem 1rem}
+.light{border:1px solid var(--line); border-top:4px solid; border-radius:var(--r); background:var(--surface); padding:.9rem 1rem 1rem}
 .light h3{margin:0 0 .4rem; font-size:1rem; display:flex; align-items:center; gap:.5rem}
 .light h3 i{width:.9rem; height:.9rem; border-radius:50%; display:inline-block; flex:0 0 auto}
 .light p{margin:.3rem 0; font-size:.88rem; color:var(--ink2)}
@@ -111,7 +57,7 @@
 .dot{display:inline-block; width:.7rem; height:.7rem; border-radius:50%; vertical-align:-.05em; margin-right:.25rem}
 .dot.g{background:var(--ok)} .dot.y{background:var(--warn)} .dot.r{background:var(--no)}
 .saybox{display:grid; gap:.8rem; grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr)); margin:1rem 0}
-.saybox div{border:1px solid var(--line); border-radius:3px; padding:.8rem 1rem; background:var(--surface); font-size:.9rem}
+.saybox div{border:1px solid var(--line); border-radius:var(--r); padding:.8rem 1rem; background:var(--surface); font-size:.9rem}
 .saybox .bad{border-left:4px solid var(--no)} .saybox .good{border-left:4px solid var(--ok)}
 .saybox b{display:block; font-size:.78rem; font-family:var(--mono); letter-spacing:.06em; margin-bottom:.3rem}
 .saybox .bad b{color:var(--no)} .saybox .good b{color:var(--ok)}
@@ -121,11 +67,11 @@
 .labindex{display:grid; gap:.7rem; grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr)); margin:1rem 0}
 .labindex a{
   display:block; border:1px solid var(--line); border-left:3px solid var(--accent); background:var(--surface);
-  padding:.65rem .85rem; border-radius:3px; color:var(--ink); font-size:.9rem;
+  padding:.65rem .85rem; border-radius:var(--r); color:var(--ink); font-size:.9rem;
 }
 .labindex a:hover{border-color:var(--accent); text-decoration:none; box-shadow:var(--shadow)}
 .labindex a span{display:block; font-size:.76rem; color:var(--ink3); margin-top:.15rem}
-.labindex a.new::after{content:'이 페이지'; float:right; font-family:var(--mono); font-size:.64rem; color:var(--accent-ink); background:var(--accent-soft); padding:0 .35rem; border-radius:2px}
+.labindex a.new::after{content:'이 페이지'; float:right; font-family:var(--mono); font-size:.64rem; color:var(--accent-ink); background:var(--accent-soft); padding:0 .35rem; border-radius:var(--r-sm)}
 
 /* 그래프 탐색 */
 .gsim{display:grid; gap:1rem; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); align-items:start}
@@ -142,10 +88,10 @@
 .gedge{stroke:var(--line); stroke-width:2.2}
 .gedge.used{stroke:var(--accent); stroke-width:3.2}
 .gside{display:flex; flex-direction:column; gap:.7rem; min-width:0}
-.gbox{border:1px solid var(--line); background:var(--code-bg); border-radius:3px; padding:.5rem .7rem; font-family:var(--mono); font-size:.86rem; min-height:2.6rem; overflow-x:auto; white-space:nowrap}
+.gbox{border:1px solid var(--line); background:var(--code-bg); border-radius:var(--r); padding:.5rem .7rem; font-family:var(--mono); font-size:.86rem; min-height:2.6rem; overflow-x:auto; white-space:nowrap}
 .gbox .k{display:block; font-family:var(--sans); font-size:.72rem; color:var(--ink3); margin-bottom:.15rem}
-.gbox .chip{display:inline-block; min-width:1.7rem; text-align:center; padding:.05rem .35rem; margin:.1rem .15rem .1rem 0; border:1px solid var(--accent); color:var(--accent-ink); background:var(--accent-soft); border-radius:2px; font-weight:700}
-.gbox .chip.w{border-color:var(--warn); color:var(--warn); background:var(--warn-soft)}
+.gbox .gchip{display:inline-block; min-width:1.7rem; text-align:center; padding:.05rem .35rem; margin:.1rem .15rem .1rem 0; border:1px solid var(--accent); color:var(--accent-ink); background:var(--accent-soft); border-radius:var(--r-sm); font-weight:700}
+.gbox .gchip.w{border-color:var(--warn); color:var(--warn); background:var(--warn-soft)}
 .legend{display:flex; flex-wrap:wrap; gap:.3rem 1rem; font-size:.76rem; color:var(--ink3); margin-top:.5rem}
 .legend i{display:inline-block; width:.75rem; height:.75rem; border-radius:50%; border:1.5px solid; vertical-align:-.08em; margin-right:.25rem}
 
@@ -161,7 +107,7 @@
 
 /* 정렬 비교 */
 .sortgrid{display:grid; gap:.9rem; grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
-.sortcard{border:1px solid var(--line); border-radius:3px; background:var(--surface-2); padding:.6rem .7rem}
+.sortcard{border:1px solid var(--line); border-radius:var(--r); background:var(--surface-2); padding:.6rem .7rem}
 .sortcard h6{margin:0 0 .4rem; font-size:.88rem; display:flex; justify-content:space-between; gap:.5rem}
 .sortcard h6 span{font-family:var(--mono); font-weight:400; color:var(--ink3); font-size:.74rem}
 .sbars{display:flex; align-items:flex-end; gap:2px; height:7.5rem}
@@ -173,7 +119,7 @@
 .sortcard .rank{color:var(--accent-ink); font-weight:700}
 
 /* ---------- 파이썬 실습 ---------- */
-.nb{border:1px solid var(--line); border-radius:3px; background:var(--surface); margin:.8rem 0}
+.nb{border:1px solid var(--line); border-radius:var(--r); background:var(--surface); margin:.8rem 0}
 .nb > summary{
   cursor:pointer; list-style:none; padding:.75rem 1rem; display:flex; gap:.7rem; align-items:baseline; flex-wrap:wrap;
 }
@@ -188,14 +134,14 @@
 .nbmd{font-size:.92rem; color:var(--ink2); margin:.9rem 0 .3rem; max-width:70ch}
 .nbmd b{color:var(--ink)}
 .run-steps{counter-reset:cs; list-style:none; padding:0; margin:1rem 0; display:grid; gap:.6rem; grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr))}
-.run-steps li{counter-increment:cs; border:1px solid var(--line); background:var(--surface); border-radius:3px; padding:.75rem .9rem .8rem 2.8rem; position:relative; font-size:.88rem; margin:0}
+.run-steps li{counter-increment:cs; border:1px solid var(--line); background:var(--surface); border-radius:var(--r); padding:.75rem .9rem .8rem 2.8rem; position:relative; font-size:.88rem; margin:0}
 .run-steps li::before{content:counter(cs); position:absolute; left:.8rem; top:.75rem; width:1.5rem; height:1.5rem; border-radius:50%; background:var(--accent); color:var(--surface); font-family:var(--mono); font-size:.78rem; font-weight:700; display:flex; align-items:center; justify-content:center}
 .run-steps b{display:block; color:var(--ink)}
 .errtbl td:first-child{white-space:nowrap; font-family:var(--mono); font-size:.82rem; color:var(--no)}
 .errfilter{margin:.6rem 0; display:flex; gap:.5rem; flex-wrap:wrap; align-items:center}
 .errfilter input, .gl-tools input{
   font:inherit; font-size:.9rem; padding:.45rem .65rem; border:1px solid var(--line);
-  background:var(--surface); color:var(--ink); border-radius:2px; width:min(100%,22rem);
+  background:var(--surface); color:var(--ink); border-radius:var(--r-sm); width:min(100%,22rem);
 }
 .errfilter input:focus, .gl-tools input:focus{outline:2px solid var(--accent); outline-offset:-2px}
 
@@ -204,27 +150,27 @@
 .gl-tools .btn[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--surface); font-weight:700}
 .gl-count{font-size:.8rem; color:var(--ink3); margin-left:auto}
 .gl-list{display:grid; gap:.6rem; grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr)); margin:1rem 0}
-.gl{border:1px solid var(--line); border-radius:3px; background:var(--surface); padding:.7rem .9rem; font-size:.9rem}
+.gl{border:1px solid var(--line); border-radius:var(--r); background:var(--surface); padding:.7rem .9rem; font-size:.9rem}
 .gl dt{font-weight:700; color:var(--ink); display:flex; flex-wrap:wrap; gap:.4rem; align-items:baseline}
 .gl dt small{font-family:var(--mono); font-weight:400; font-size:.74rem; color:var(--ink3)}
 .gl dt .pill{margin-left:auto}
 .gl dd{margin:.3rem 0 0; color:var(--ink2); line-height:1.65}
 .gl dd a{font-size:.8rem}
 .gl[hidden]{display:none}
-mark{background:var(--warn-soft); color:inherit; padding:0 .05rem; border-radius:2px}
+mark{background:var(--warn-soft); color:inherit; padding:0 .05rem; border-radius:var(--r-sm)}
 
 /* ---------- 퀴즈 ---------- */
 .qz-head{display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; margin:1rem 0}
 .qz-head .btn[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--surface); font-weight:700}
 .qz-set[hidden]{display:none}
-.qz{border:1px solid var(--line); background:var(--surface); border-radius:3px; padding:1rem 1.1rem; margin:.8rem 0}
+.qz{border:1px solid var(--line); background:var(--surface); border-radius:var(--r); padding:1rem 1.1rem; margin:.8rem 0}
 .qz h4{margin:0 0 .6rem; font-size:1rem; line-height:1.6; display:flex; gap:.6rem; align-items:baseline}
 .qz h4 .qnum{flex:0 0 auto}
 .qz pre{margin:.5rem 0 .7rem; font-size:.82rem}
 .opts{display:grid; gap:.4rem; margin:0; padding:0; list-style:none}
 .opts button{
   width:100%; text-align:left; font:inherit; font-size:.92rem; line-height:1.5; padding:.5rem .75rem;
-  border:1px solid var(--line); background:var(--surface-2); color:var(--ink); border-radius:2px; cursor:pointer;
+  border:1px solid var(--line); background:var(--surface-2); color:var(--ink); border-radius:var(--r-sm); cursor:pointer;
   display:flex; gap:.6rem;
 }
 .opts button::before{content:attr(data-n); font-family:var(--mono); color:var(--ink3); flex:0 0 auto}
@@ -237,19 +183,19 @@ mark{background:var(--warn-soft); color:inherit; padding:0 .05rem; border-radius
 .qz .why b{color:var(--ink)}
 .qz-score{
   position:sticky; bottom:0; z-index:5; margin-top:1rem; background:var(--surface); border:1px solid var(--accent);
-  border-radius:3px; padding:.7rem 1rem; display:flex; flex-wrap:wrap; gap:.6rem 1.2rem; align-items:center; box-shadow:var(--lift); font-size:.9rem;
+  border-radius:var(--r); padding:.7rem 1rem; display:flex; flex-wrap:wrap; gap:.6rem 1.2rem; align-items:center; box-shadow:var(--lift); font-size:.9rem;
 }
 .qz-score b{font-family:var(--serif); font-size:1.3rem; color:var(--accent-ink)}
 
 /* ---------- 내 학습 ---------- */
 .mygrid{display:grid; gap:1rem; grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
-.mybox{border:1px solid var(--line); border-radius:3px; background:var(--surface); padding:1rem 1.1rem}
+.mybox{border:1px solid var(--line); border-radius:var(--r); background:var(--surface); padding:1rem 1.1rem}
 .mybox h3{margin:0 0 .6rem; font-size:1rem}
 .note{margin:1rem 0}
 .note label{display:block; font-weight:700; font-size:.92rem; margin-bottom:.3rem}
 .note textarea{
   width:100%; min-height:8rem; font:inherit; font-size:.92rem; line-height:1.6; padding:.6rem .7rem;
-  border:1px solid var(--line); background:var(--surface); color:var(--ink); border-radius:3px; resize:vertical;
+  border:1px solid var(--line); background:var(--surface); color:var(--ink); border-radius:var(--r); resize:vertical;
 }
 .note textarea:focus{outline:2px solid var(--accent); outline-offset:-2px}
 .note .saved{font-size:.74rem; color:var(--ink3); min-height:1.2em; margin-top:.2rem}

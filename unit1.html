@@ -13,10 +13,9 @@
 (function(){try{if(localStorage.getItem('unlocked')==='yes')document.documentElement.className+=' unlocked';}catch(e){}})();
 (function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
 </script>
-<link rel="stylesheet" href="assets/style.css">
-<link rel="stylesheet" href="assets/extra.css">
+<link rel="stylesheet" href="assets/site.css">
 </head>
-<body class="u1">
+<body class="unitpage u1">
 <div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
   <form class="gate-card" data-gate-form autocomplete="off">
     <h1 id="gate-title">정보과학</h1>
@@ -37,20 +36,16 @@
       저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
   </form>
 </div>
+<a class="skip" href="#main">본문 바로가기</a>
 <header class="topbar">
-  <div class="topbar-in">
-    <a class="brand" href="index.html">정보과학</a>
-    <nav class="unitnav" aria-label="단원과 수업 도구">
-      <a href="unit1.html" class="is-current">Ⅰ 프로그래밍</a>
-      <a href="unit2.html">Ⅱ 데이터 구조</a>
-      <a href="unit3.html">Ⅲ 알고리즘</a>
-      <a href="unit4.html">Ⅳ 프로젝트</a>
-      <span class="navsep" aria-hidden="true"></span>
-      <a href="course.html">안내</a>
+  <div class="bar-top">
+    <a class="brand" href="index.html"><span class="brand-mark">IS</span><span class="brand-name">정보과학</span></a>
+    <nav class="toolnav" aria-label="수업 도구">
+      <a href="index.html">수업 홈</a>
+      <a href="course.html">수업 안내</a>
       <a href="labs.html">실습실</a>
-      <a href="practice.html">파이썬</a>
-      <a href="glossary.html">용어</a>
-      <a href="quiz.html">퀴즈</a>
+      <a href="practice.html">파이썬 실습</a>
+      <a href="glossary.html">용어 사전</a>
       <a href="my.html">내 학습</a>
     </nav>
     <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false" title="어두운 화면으로">
@@ -59,34 +54,57 @@
       <span class="ico-label">어둡게</span>
     </button>
   </div>
+  <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
+    <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
+    <a class="unittab u1 is-current" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+  </div></nav>
   <div class="progress" data-progress></div>
 </header>
+<section class="unithero">
+  <div class="unithero-in">
+    <p class="crumbs"><a href="index.html">수업 홈</a> / Ⅰ 프로그래밍</p>
+    <div class="bigr" aria-hidden="true">Ⅰ</div>
+    <div>
+      <p class="kicker">UNIT Ⅰ</p>
+      <h1>프로그래밍</h1>
+      <p class="goal">효율적인 프로그래밍을 위한 <b>함수</b>와 <b>재귀 구조</b>의 활용법을 익혀 다양한 분야의 문제를 해결한다.</p>
+      <div class="chips"><span class="chip"><b>1~5주차</b></span><span class="chip">소단원 <b>5</b></span><span class="chip">실습 <b>2</b></span><span class="chip">용어 <b>29</b></span><span class="chip">퀴즈 <b>10</b></span></div>
+    </div>
+  </div>
+</section>
+<section class="overview">
+  <div class="ovbox"><h2>이 단원을 마치면</h2><ul class="cando"><li>함수를 정의·호출하고 매개 변수와 반환값을 설계한다</li><li>지역 변수와 전역 변수를 구분한다</li><li>클래스로 객체를 만들고 모듈을 나누어 쓴다</li><li>재귀 함수의 호출·반환 과정을 설명하고 하노이 탑을 재귀로 푼다</li></ul></div>
+  <div class="ovbox"><h2>차시 계획</h2><div class="wk" data-week="1"><span class="n">1주</span><ol><li>오리엔테이션 — 정보과학은 무엇을 배우는 과목인가</li><li>함수의 개념 — 내장 함수와 사용자 정의 함수</li><li>함수의 정의(<code>def</code>)와 네 가지 구성 요소</li></ol></div><div class="wk" data-week="2"><span class="n">2주</span><ol><li>함수 호출 — 인수와 매개 변수의 관계</li><li><code>return</code>의 두 역할 / 매개 변수·반환값 4가지 형태</li><li>지역 변수와 전역 변수, <code>global</code></li></ol></div><div class="wk" data-week="3"><span class="n">3주</span><ol><li>[역량] 음악 플레이 리스트 관리 프로그램</li><li>기본값 매개 변수와 가변 인수 매개 변수</li><li>여러 값 반환 / 클래스와 객체</li></ol></div><div class="wk" data-week="4"><span class="n">4주</span><ol><li>모듈 만들기와 <code>import</code></li><li>패키지·라이브러리 / 내장 함수와 표준 라이브러리</li><li>[역량] 가위바위보 게임 만들기</li></ol></div><div class="wk" data-week="5"><span class="n">5주</span><ol><li>재귀 구조의 이해 — 수학적 귀납법과 재귀 관계</li><li>재귀 함수의 동작 원리 — 호출과 반환</li><li>반복 vs 재귀 / 재귀 활용 — 자릿수 합·하노이 탑</li></ol></div></div>
+  <div class="ovbox"><h2>바로 가기</h2><div class="qlinks"><a href="#t1-1">처음부터 읽기<span>1-1</span></a><a href="#u-labs">실습 모음<span>2개</span></a><a href="#u-terms">핵심 용어<span>29개</span></a><a href="#u-quiz">단원 퀴즈<span>10문제</span></a><a href="#u-practice">Programiz 실습<span>→</span></a></div></div>
+</section>
 <div class="crumbbar" data-crumb></div>
 <div class="wrap">
 <aside class="toc" aria-label="이 단원 목차">
-  <a class="toc-home" href="index.html">← 전체 목차</a>
-  <div class="toc-title">Ⅰ 프로그래밍<span>1~5주차</span></div>
+  <div class="toc-title">Ⅰ 프로그래밍</div>
   <nav id="toc-nav">
+    <p class="toc-group">본문</p>
     <ol>
-        <li><a href="#t1-1" data-level="1"><em>1-1</em>함수의 이해</a></li>
-        <li><a href="#t1-2" data-level="1"><em>1-2</em>함수의 활용</a></li>
-        <li><a href="#t1-3" data-level="1"><em>2-1</em>재귀 구조의 이해</a></li>
-        <li><a href="#t1-4" data-level="1"><em>2-2</em>재귀 구조의 활용</a></li>
-        <li><a href="#t1-5" data-level="1"><em>연습</em>코드 문제</a></li>
+      <li><a href="#t1-1" data-level="1"><em>1-1</em>함수의 이해</a></li>
+      <li><a href="#t1-2" data-level="1"><em>1-2</em>함수의 활용</a></li>
+      <li><a href="#t1-3" data-level="1"><em>2-1</em>재귀 구조의 이해</a></li>
+      <li><a href="#t1-4" data-level="1"><em>2-2</em>재귀 구조의 활용</a></li>
+      <li><a href="#t1-5" data-level="1"><em>연습</em>코드 문제</a></li>
+    </ol>
+    <p class="toc-group">단원 마무리</p>
+    <ol>
+      <li><a href="#u-labs" data-level="1">실습 모음</a></li>
+      <li><a href="#u-terms" data-level="1">핵심 용어</a></li>
+      <li><a href="#u-quiz" data-level="1">단원 퀴즈</a></li>
+      <li><a href="#u-practice" data-level="1">Programiz 실습</a></li>
     </ol>
   </nav>
 </aside>
-<main>
+<main id="main">
 
-<section class="unit u1" id="unit1">
-  <div class="unit-head">
-    <span class="roman">Ⅰ</span>
-    <span class="lesson">1~5주차</span>
-    <h2>프로그래밍</h2>
-    <p class="goal">효율적인 프로그래밍을 위한 <b>함수</b>와 <b>재귀 구조</b>의 활용법을 익혀 다양한 분야의 문제를 해결한다.</p>
-  </div>
-
-  <!-- 1-1 -->
+<!-- 1-1 -->
   <article class="topic" id="t1-1">
     <h3><span class="idx">1-1</span> 함수의 이해 <span class="lesson">1~2주차</span></h3>
     <p class="lede">여러 줄짜리 작업을 이름 하나로 묶어 두고, 필요할 때마다 불러 쓰는 장치가 함수입니다.</p>
@@ -1421,24 +1439,132 @@ a.withdraw(3000)</pre>
 
     </div>
   </article>
-</section>
 
+<section class="wrapup" id="u-labs"><h3><span class="idx">마무리</span> 실습 모음</h3><p class="lede">이 단원에서 직접 조작해 보는 실습입니다. 다시 해 보고 싶은 것을 눌러 보세요.</p><div class="labindex"><a href="#lab-recur">재귀 호출 따라가기</a><a href="#lab-hanoi">하노이 탑</a></div></section>
+<section class="wrapup" id="u-terms"><h3><span class="idx">마무리</span> 핵심 용어</h3><p class="lede">이 단원에서 꼭 알아야 할 용어 29개입니다. 전 단원 용어는 <a href="glossary.html">용어 사전</a>에서 검색할 수 있어요.</p><dl class="gl-list">
+  <div class="gl u1" data-unit="1"><dt>함수 <small>function</small></dt><dd>특정 작업을 수행하는 코드를 하나로 묶고 이름을 붙인 것. 한 번 정의해 두면 이름으로 여러 번 불러 쓸 수 있다. <a href="unit1.html#t1-1">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>내장 함수 <small>built-in function</small></dt><dd>파이썬에 처음부터 들어 있어 따로 정의하지 않고 쓰는 함수. <code>print()</code>, <code>len()</code>, <code>max()</code> 등. <a href="unit1.html#t1-1">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>사용자 정의 함수 <small>user-defined function</small></dt><dd>프로그래머가 <code>def</code>로 직접 만든 함수. <a href="unit1.html#t1-1">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>함수 정의 <small>definition</small></dt><dd><code>def 함수이름(매개 변수):</code> 형식으로 함수가 할 일을 적어 두는 것. 정의만으로는 실행되지 않는다. <a href="unit1.html#t1-1">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>함수 호출 <small>call</small></dt><dd>정의된 함수 이름 뒤에 괄호를 붙여 실제로 실행시키는 것. 호출하면 실행 흐름이 함수 안으로 들어갔다가 끝나면 돌아온다. <a href="unit1.html#t1-1">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>매개 변수 <small>parameter</small></dt><dd>함수를 정의할 때 괄호 안에 적어, 전달받은 값을 담는 변수. <a href="unit1.html#t1-1">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>인수 <small>argument</small></dt><dd>함수를 호출할 때 괄호 안에 넣어 실제로 전달하는 값. 인수가 매개 변수에 차례로 담긴다. <a href="unit1.html#t1-1">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>반환값 <small>return value</small></dt><dd>함수가 일을 마치고 <code>return</code>으로 호출한 곳에 돌려주는 결과. <a href="unit1.html#t1-1">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>return <small>return</small></dt><dd>값을 돌려주는 역할과 함수를 즉시 끝내는 역할을 함께 한다. 값 없이 끝나면 <code>None</code>을 돌려준다. <a href="unit1.html#t1-1">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>지역 변수 <small>local variable</small></dt><dd>함수 안에서 만들어져 그 함수 안에서만 쓸 수 있는 변수. 함수가 끝나면 사라진다. <a href="unit1.html#t1-1">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>전역 변수 <small>global variable</small></dt><dd>함수 밖에서 만들어져 프로그램 전체에서 읽을 수 있는 변수. 함수 안에서 값을 바꾸려면 <code>global</code> 선언이 필요하다. <a href="unit1.html#t1-1">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>변수의 범위 <small>scope</small></dt><dd>변수를 사용할 수 있는 영역. 지역 범위와 전역 범위로 나뉜다. <a href="unit1.html#t1-1">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>기본값 매개 변수 <small>default parameter</small></dt><dd>인수를 생략하면 미리 정해 둔 값이 쓰이는 매개 변수. 예: <code>def greet(name='친구')</code>. <a href="unit1.html#t1-2">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>가변 인수 매개 변수 <small>*args</small></dt><dd>개수가 정해지지 않은 인수를 튜플로 한꺼번에 받는 매개 변수. 이름 앞에 <code>*</code>를 붙인다. <a href="unit1.html#t1-2">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>클래스 <small>class</small></dt><dd>같은 종류의 객체가 가질 속성(데이터)과 메서드(기능)를 정의한 설계도. <a href="unit1.html#t1-2">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>객체 <small>object</small></dt><dd>클래스로부터 만들어진 실체. 같은 클래스로 여러 객체(인스턴스)를 만들 수 있다. <a href="unit1.html#t1-2">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>메서드 <small>method</small></dt><dd>클래스 안에 정의된 함수. 객체 이름 뒤에 점을 찍어 <code>obj.method()</code>처럼 호출한다. <a href="unit1.html#t1-2">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>생성자 <small>__init__</small></dt><dd>객체가 만들어질 때 자동으로 실행되어 속성의 처음 값을 정하는 특별한 메서드. <a href="unit1.html#t1-2">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>self <small>self</small></dt><dd>메서드 안에서 ‘지금 이 객체 자신’을 가리키는 첫 번째 매개 변수. <a href="unit1.html#t1-2">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>모듈 <small>module</small></dt><dd>함수·클래스·변수를 모아 둔 파이썬 파일(.py). <code>import</code>로 가져와 쓴다. <a href="unit1.html#t1-2">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>패키지 <small>package</small></dt><dd>관련된 모듈 여러 개를 폴더로 묶은 것. <a href="unit1.html#t1-2">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>라이브러리 <small>library</small></dt><dd>자주 쓰는 기능을 모아 둔 모듈·패키지의 묶음. <code>random</code>, <code>math</code> 같은 표준 라이브러리와 따로 설치하는 외부 라이브러리가 있다. <a href="unit1.html#t1-2">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>재귀 <small>recursion</small></dt><dd>함수가 자기 자신을 다시 호출하는 구조. 큰 문제를 같은 모양의 더 작은 문제로 바꾸어 푼다. <a href="unit1.html#t1-3">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>재귀 함수 <small>recursive function</small></dt><dd>실행 중에 자기 자신을 호출하는 함수. 반드시 종료 조건이 있어야 한다. <a href="unit1.html#t1-3">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>종료 조건 <small>base case</small></dt><dd>더 이상 자기 자신을 호출하지 않고 바로 답을 내는 경우. 없으면 호출이 끝없이 이어져 RecursionError가 난다. <a href="unit1.html#t1-3">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>재귀 관계 <small>recurrence relation</small></dt><dd>앞의 항으로 다음 항을 나타내는 식. 예: n! = n × (n−1)!. <a href="unit1.html#t1-3">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>수학적 귀납법 <small>mathematical induction</small></dt><dd>첫 번째 경우가 참이고, k번째가 참이면 k+1번째도 참임을 보여 모든 경우가 참임을 증명하는 방법. 재귀의 사고방식과 같다. <a href="unit1.html#t1-3">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>호출 스택 <small>call stack</small></dt><dd>호출된 함수들이 차례로 쌓이는 메모리 공간. 나중에 호출된 함수가 먼저 끝나므로 스택 구조다. <a href="unit1.html#t1-3">본문 →</a></dd></div>
+  <div class="gl u1" data-unit="1"><dt>하노이 탑 <small>Tower of Hanoi</small></dt><dd>원판 n개를 규칙대로 옮기는 퍼즐. n−1개를 옮기는 문제로 나누어 재귀로 풀며 최소 2ⁿ−1번 이동한다. <a href="unit1.html#t1-4">본문 →</a></dd></div>
+</dl></section>
+<section class="wrapup" id="u-quiz"><h3><span class="idx">마무리</span> 단원 퀴즈</h3><p class="lede">보기를 누르면 바로 채점되고 해설이 나옵니다. 가장 좋은 점수는 <a href="my.html">내 학습</a>에 기록돼요.</p>
+<section class="qz-set" data-qz-set="1">
+  <div class="qz" data-ans="1">
+    <h4><span class="qnum">Q1</span><span>함수를 호출할 때 괄호 안에 넣어 실제로 전달하는 값을 무엇이라고 하나요?</span></h4>
+    <ol class="opts"><li><button type="button" data-n="①">매개 변수</button></li><li><button type="button" data-n="②">인수</button></li><li><button type="button" data-n="③">반환값</button></li><li><button type="button" data-n="④">지역 변수</button></li></ol>
+    <p class="why"><b>해설</b> — 호출할 때 넣는 값이 <b>인수</b>, 정의할 때 괄호 안에 적어 그 값을 받는 변수가 <b>매개 변수</b>입니다.</p>
+  </div>
+  <div class="qz" data-ans="2">
+    <h4><span class="qnum">Q2</span><span>다음 코드의 실행 결과는?</span></h4>
+    <pre>def add(a, b=10):
+    return a + b
+
+print(add(5))</pre>
+    <ol class="opts"><li><button type="button" data-n="①">5</button></li><li><button type="button" data-n="②">10</button></li><li><button type="button" data-n="③">15</button></li><li><button type="button" data-n="④">오류가 난다</button></li></ol>
+    <p class="why"><b>해설</b> — b를 생략했으므로 기본값 10이 쓰여 5 + 10 = <b>15</b>입니다.</p>
+  </div>
+  <div class="qz" data-ans="0">
+    <h4><span class="qnum">Q3</span><span>다음 코드의 실행 결과는?</span></h4>
+    <pre>x = 1
+def f():
+    x = 5
+    return x
+
+f()
+print(x)</pre>
+    <ol class="opts"><li><button type="button" data-n="①">1</button></li><li><button type="button" data-n="②">5</button></li><li><button type="button" data-n="③">None</button></li><li><button type="button" data-n="④">오류가 난다</button></li></ol>
+    <p class="why"><b>해설</b> — 함수 안의 <code>x = 5</code>는 새 <b>지역 변수</b>를 만들 뿐 전역 변수 x는 바뀌지 않습니다. 전역 x를 바꾸려면 <code>global x</code>가 필요합니다.</p>
+  </div>
+  <div class="qz" data-ans="2">
+    <h4><span class="qnum">Q4</span><span><code>return</code>이 없는 함수를 호출해 그 결과를 출력하면 무엇이 나오나요?</span></h4>
+    <ol class="opts"><li><button type="button" data-n="①">0</button></li><li><button type="button" data-n="②">빈 문자열</button></li><li><button type="button" data-n="③">None</button></li><li><button type="button" data-n="④">오류가 난다</button></li></ol>
+    <p class="why"><b>해설</b> — 반환값이 없는 함수는 자동으로 <b>None</b>을 돌려줍니다.</p>
+  </div>
+  <div class="qz" data-ans="2">
+    <h4><span class="qnum">Q5</span><span>다음 코드의 실행 결과는?</span></h4>
+    <pre>def total(*nums):
+    return sum(nums)
+
+print(total(1, 2, 3, 4))</pre>
+    <ol class="opts"><li><button type="button" data-n="①">1</button></li><li><button type="button" data-n="②">4</button></li><li><button type="button" data-n="③">10</button></li><li><button type="button" data-n="④">(1, 2, 3, 4)</button></li></ol>
+    <p class="why"><b>해설</b> — <code>*nums</code>는 가변 인수로, 넘긴 값들을 튜플 (1, 2, 3, 4)로 받습니다. 합은 <b>10</b>입니다.</p>
+  </div>
+  <div class="qz" data-ans="2">
+    <h4><span class="qnum">Q6</span><span>클래스와 객체에 대한 설명으로 옳은 것은?</span></h4>
+    <ol class="opts"><li><button type="button" data-n="①">객체는 클래스를 만드는 설계도이다</button></li><li><button type="button" data-n="②">하나의 클래스로는 객체를 하나만 만들 수 있다</button></li><li><button type="button" data-n="③">__init__은 객체가 만들어질 때 자동으로 실행된다</button></li><li><button type="button" data-n="④">메서드의 첫 번째 매개 변수 self는 생략해서 정의한다</button></li></ol>
+    <p class="why"><b>해설</b> — 클래스가 설계도이고 객체는 그 실체이며, 한 클래스로 여러 객체를 만들 수 있습니다. 생성자 <b>__init__</b>은 객체 생성 시 자동 실행되고, 메서드를 정의할 때는 self를 첫 매개 변수로 적어야 합니다.</p>
+  </div>
+  <div class="qz" data-ans="1">
+    <h4><span class="qnum">Q7</span><span><code>import random</code> 후 1부터 6 사이 정수 하나를 무작위로 뽑는 코드는?</span></h4>
+    <ol class="opts"><li><button type="button" data-n="①">random.choice(1, 6)</button></li><li><button type="button" data-n="②">random.randint(1, 6)</button></li><li><button type="button" data-n="③">random.random(6)</button></li><li><button type="button" data-n="④">random.range(1, 6)</button></li></ol>
+    <p class="why"><b>해설</b> — <code>random.randint(a, b)</code>는 a 이상 b 이하의 정수를 돌려줍니다. 양 끝을 모두 포함합니다.</p>
+  </div>
+  <div class="qz" data-ans="2">
+    <h4><span class="qnum">Q8</span><span>재귀 함수에 반드시 있어야 하는 것은?</span></h4>
+    <ol class="opts"><li><button type="button" data-n="①">전역 변수</button></li><li><button type="button" data-n="②">반복문</button></li><li><button type="button" data-n="③">종료 조건</button></li><li><button type="button" data-n="④">print 문</button></li></ol>
+    <p class="why"><b>해설</b> — 더 이상 자기 자신을 부르지 않는 <b>종료 조건</b>이 없으면 호출이 끝없이 쌓여 RecursionError가 납니다.</p>
+  </div>
+  <div class="qz" data-ans="2">
+    <h4><span class="qnum">Q9</span><span>다음 코드의 실행 결과는?</span></h4>
+    <pre>def f(n):
+    if n == 0:
+        return 0
+    return n + f(n - 1)
+
+print(f(4))</pre>
+    <ol class="opts"><li><button type="button" data-n="①">4</button></li><li><button type="button" data-n="②">6</button></li><li><button type="button" data-n="③">10</button></li><li><button type="button" data-n="④">24</button></li></ol>
+    <p class="why"><b>해설</b> — f(4) = 4 + f(3) = 4 + 3 + 2 + 1 + 0 = <b>10</b>. 1부터 n까지의 합을 재귀로 구합니다.</p>
+  </div>
+  <div class="qz" data-ans="1">
+    <h4><span class="qnum">Q10</span><span>원판 4개짜리 하노이 탑을 옮기는 최소 이동 횟수는?</span></h4>
+    <ol class="opts"><li><button type="button" data-n="①">8번</button></li><li><button type="button" data-n="②">15번</button></li><li><button type="button" data-n="③">16번</button></li><li><button type="button" data-n="④">31번</button></li></ol>
+    <p class="why"><b>해설</b> — 최소 이동 횟수는 2ⁿ − 1입니다. 2⁴ − 1 = <b>15번</b>.</p>
+  </div>
+  <div class="qz-score" data-qz-score><span>맞힌 문제 <b data-qz-right>0</b> / 10</span><span class="muted" data-qz-left>남은 문제 10개</span><span class="muted" data-qz-best></span><button class="btn" type="button" data-qz-reset>다시 풀기</button></div>
+</section>
+</section>
+<section class="wrapup" id="u-practice"><h3><span class="idx">마무리</span> Programiz 실습</h3><p class="lede">코드는 <a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz 온라인 컴파일러</a>에서 실행합니다. 사용법과 오류 해결표는 <a href="practice.html">파이썬 실습</a>에 있어요.</p><div class="tiles"><a class="tile" href="practice.html#nb1"><span class="ic">🐍</span><h3>Ⅰ 프로그래밍 실습 세트</h3><p>이 단원 내용을 묶은 실습 코드입니다. 칸마다 <b>Programiz에서 실행</b>을 눌러 돌려 보세요.</p></a><a class="tile" href="practice.html#errors"><span class="ic">🩹</span><h3>오류 해결표</h3><p>빨간 글씨가 나오면 마지막 줄의 오류 이름으로 찾아보세요.</p></a></div></section>
 </main>
 </div>
+<nav class="pager" aria-label="단원 이동"><a class="prev u0" href="unit0.html"><span class="dir">← 이전</span><span class="ttl">0 파이썬 기초</span></a><a class="next u2" href="unit2.html"><span class="dir">다음 →</span><span class="ttl">Ⅱ 데이터 구조</span></a></nav>
 
-<nav class="pager" aria-label="단원 이동">
-  <a class="prev" href="index.html"><span class="dir">← 처음으로</span><span class="ttl">전체 목차와 주차 계획</span></a>
-  <a class="next" href="unit2.html"><span class="dir">다음 단원 →</span><span class="ttl">Ⅱ 데이터 구조</span></a>
-</nav>
 <footer>
   <div class="foot-in">
-    <p><b>정보과학</b> — 씨마스 『정보과학』 2022 개정 교육과정 핵심 내용 정리.</p>
-    <p>보문고등학교 <b>김용득</b> 선생님 제작.</p>
-    <p>모든 개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
-    <p class="copyright">본 자료는 학교 수업 목적으로 제작되었으며, 저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+    <div>
+      <p><b>정보과학</b> — 씨마스 『정보과학』 (2022 개정 교육과정) 수업 자료 · 1학기 · 주 3시간 · 16주</p>
+      <p>보문고등학교 <b>김용득</b> 선생님 제작.</p>
+      <p>개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
+      <p class="copyright">본 자료는 학교 수업 목적으로 제작되었으며, 저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+    </div>
+    <nav class="foot-links" aria-label="사이트 전체"><a href="index.html">수업 홈</a><a href="unit0.html">0 파이썬 기초</a><a href="unit1.html">Ⅰ 프로그래밍</a><a href="unit2.html">Ⅱ 데이터 구조</a><a href="unit3.html">Ⅲ 알고리즘</a><a href="unit4.html">Ⅳ 프로젝트</a><a href="course.html">수업 안내</a><a href="labs.html">실습실</a><a href="practice.html">파이썬 실습</a><a href="glossary.html">용어 사전</a><a href="my.html">내 학습</a><a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz</a></nav>
   </div>
 </footer>
-<script src="assets/app.js"></script>
-<script src="assets/extra.js"></script>
+<script>window.SITE={"topics":{"0":["t0-0","t0-1","t0-2","t0-3","t0-4","t0-5","t0-6","t0-7","t0-8","t0-9","t0-10"],"1":["t1-1","t1-2","t1-3","t1-4","t1-5"],"2":["t2-1","t2-2","t2-3","t2-4","t2-5"],"3":["t3-1","t3-2","t3-3","t3-4","t3-5","t3-6","t3-8","t3-7"],"4":["t4-1","t4-2","t4-3","t4-4","t4-6","t4-5"]},"units":{"0":{"roman":"0","name":"파이썬 기초","weeks":null},"1":{"roman":"Ⅰ","name":"프로그래밍","weeks":[1,5]},"2":{"roman":"Ⅱ","name":"데이터 구조","weeks":[6,9]},"3":{"roman":"Ⅲ","name":"알고리즘","weeks":[10,13]},"4":{"roman":"Ⅳ","name":"정보과학 프로젝트","weeks":[14,16]}},"quiz":{"0":10,"1":10,"2":10,"3":10,"4":10},"weeks":[{"week":1,"lessons":["오리엔테이션 — 정보과학은 무엇을 배우는 과목인가","함수의 개념 — 내장 함수와 사용자 정의 함수","함수의 정의(<code>def</code>)와 네 가지 구성 요소"]},{"week":2,"lessons":["함수 호출 — 인수와 매개 변수의 관계","<code>return</code>의 두 역할 / 매개 변수·반환값 4가지 형태","지역 변수와 전역 변수, <code>global</code>"]},{"week":3,"lessons":["[역량] 음악 플레이 리스트 관리 프로그램","기본값 매개 변수와 가변 인수 매개 변수","여러 값 반환 / 클래스와 객체"]},{"week":4,"lessons":["모듈 만들기와 <code>import</code>","패키지·라이브러리 / 내장 함수와 표준 라이브러리","[역량] 가위바위보 게임 만들기"]},{"week":5,"lessons":["재귀 구조의 이해 — 수학적 귀납법과 재귀 관계","재귀 함수의 동작 원리 — 호출과 반환","반복 vs 재귀 / 재귀 활용 — 자릿수 합·하노이 탑"]},{"week":6,"lessons":["데이터 구조의 분류 / 스택의 개념(LIFO)","스택의 연산 — push, pop, peek, isEmpty","리스트로 스택 구현하기 · 활용 사례"]},{"week":7,"lessons":["큐의 개념(FIFO)과 연산","리스트로 큐 구현하기 / 덱·우선순위 큐","[역량] 스택·큐를 활용한 프로그램"]},{"week":8,"lessons":["트리의 개념과 구성 요소","트리의 표현 — 인접 행렬과 인접 리스트","이진 트리와 순차 데이터 구조 표현"]},{"week":9,"lessons":["이진 탐색 트리의 규칙과 활용","그래프의 개념·종류와 표현","그래프 탐색 — 깊이 우선·너비 우선 탐색"]},{"week":10,"lessons":["알고리즘의 이해와 문제 해결 전략 네 가지","알고리즘 성능 평가 — 시간·공간 복잡도","빅오 표기법과 알고리즘 성능 비교"]},{"week":11,"lessons":["문제의 세 요소와 상태 공간","탐색 공간의 구조·범위 / 전체 탐색과 순차 탐색","비선형 전체 탐색 — DFS·BFS 적용"]},{"week":12,"lessons":["탐색 공간 배제와 이진 탐색","탐욕 알고리즘 — 거스름돈·시간표 문제","분기 한정 알고리즘과 백트래킹"]},{"week":13,"lessons":["문제 분해와 전체·부분 문제의 관계식","분할 정복법 — 퀵 정렬과 합병 정렬","동적 계획법 — 메모이제이션과 상향식"]},{"week":14,"lessons":["정보과학으로 문제 해결하기 · 문제 해결 5단계","학문 분야별 문제 탐색 / 모둠 구성·주제 선정","[프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화"]},{"week":15,"lessons":["[프로젝트 ①] 알고리즘 설계와 프로그램 작성","[프로젝트 ②] 탄소 발자국 — 데이터 수집과 구조화","[프로젝트 ②] 다익스트라 알고리즘으로 구현하기"]},{"week":16,"lessons":["[프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계","[프로젝트 ③] 백트래킹 구현과 디버깅","산출물 정리 / 프로젝트 발표와 상호 평가"]}],"start":null,"programiz":"https://www.programiz.com/python-programming/online-compiler/"};</script>
+<script src="assets/site.js"></script>
 </body>
 </html>

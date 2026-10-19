@@ -3,20 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>정보과학</title>
-<meta name="description" content="씨마스 『정보과학』 2022 개정 교육과정 핵심 내용 정리 · 보문고등학교 김용득 선생님 제작.">
-<meta property="og:title" content="정보과학">
-<meta property="og:description" content="씨마스 『정보과학』 2022 개정 교육과정 핵심 내용 정리 · 보문고등학교 김용득 선생님 제작.">
+<title>정보과학 · 보문고등학교</title>
+<meta name="description" content="씨마스 『정보과학』 (2022 개정 교육과정) 수업 사이트 — 단원별 본문, 실습, 용어, 퀴즈.">
+<meta property="og:title" content="정보과학 · 보문고등학교">
+<meta property="og:description" content="씨마스 『정보과학』 (2022 개정 교육과정) 수업 사이트 — 단원별 본문, 실습, 용어, 퀴즈.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#129513;</text></svg>">
 <script>
 (function(){try{if(localStorage.getItem('unlocked')==='yes')document.documentElement.className+=' unlocked';}catch(e){}})();
 (function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
 </script>
-<link rel="stylesheet" href="assets/style.css">
-<link rel="stylesheet" href="assets/extra.css">
+<link rel="stylesheet" href="assets/site.css">
 </head>
-<body>
+<body class="home">
 <div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
   <form class="gate-card" data-gate-form autocomplete="off">
     <h1 id="gate-title">정보과학</h1>
@@ -37,20 +36,16 @@
       저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
   </form>
 </div>
+<a class="skip" href="#main">본문 바로가기</a>
 <header class="topbar">
-  <div class="topbar-in">
-
-    <nav class="unitnav" aria-label="단원과 수업 도구">
-      <a href="unit1.html">Ⅰ 프로그래밍</a>
-      <a href="unit2.html">Ⅱ 데이터 구조</a>
-      <a href="unit3.html">Ⅲ 알고리즘</a>
-      <a href="unit4.html">Ⅳ 프로젝트</a>
-      <span class="navsep" aria-hidden="true"></span>
-      <a href="course.html">안내</a>
+  <div class="bar-top">
+    <a class="brand" href="index.html"><span class="brand-mark">IS</span><span class="brand-name">정보과학</span></a>
+    <nav class="toolnav" aria-label="수업 도구">
+      <a href="index.html" class="is-current">수업 홈</a>
+      <a href="course.html">수업 안내</a>
       <a href="labs.html">실습실</a>
-      <a href="practice.html">파이썬</a>
-      <a href="glossary.html">용어</a>
-      <a href="quiz.html">퀴즈</a>
+      <a href="practice.html">파이썬 실습</a>
+      <a href="glossary.html">용어 사전</a>
       <a href="my.html">내 학습</a>
     </nav>
     <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false" title="어두운 화면으로">
@@ -59,103 +54,126 @@
       <span class="ico-label">어둡게</span>
     </button>
   </div>
+  <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
+    <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
+    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+  </div></nav>
   <div class="progress" data-progress></div>
 </header>
-<header class="masthead">
-  <div class="masthead-in">
-    <h1>정보과학</h1>
-    <p class="sub">씨마스 『정보과학』 2022 개정 교육과정의 핵심 내용을 정리했습니다.</p>
-    <div class="meta-row">
-      <span class="tag">1학기 16주 · 주 3시간</span>
-      <span class="tag">4개 대단원</span>
-      <span class="tag">Python</span>
-      <span class="tag">직접 해 보는 실습 20개</span>
-      <span class="tag">용어 98개 · 퀴즈 40문제</span>
+<section class="hero">
+  <div class="hero-in">
+    <div>
+      <p class="kicker">보문고등학교 · 1학기 · 주 3시간 · 16주</p>
+      <h1>정보과학</h1>
+      <p>씨마스 『정보과학』 (2022 개정 교육과정)를 바탕으로 함수와 재귀, 데이터 구조, 알고리즘을 배우고 생활 속 문제를 프로그램으로 해결합니다.</p>
+      <div class="chips"><span class="chip">1학기 · 주 3시간 · 16주</span><span class="chip">단원 <b>5</b></span><span class="chip">실습 <b>20</b></span><span class="chip">퀴즈 <b>50</b></span><span class="chip">Python · Programiz</span></div>
+    </div>
+    <div class="nowcard" data-now>
+      <p class="kicker">처음 오셨나요?</p>
+      <h2>이렇게 시작하세요</h2>
+      <ol>
+        <li><a href="course.html">수업 안내</a>에서 평가와 AI 사용 규칙을 읽어요.</li>
+        <li><a href="unit0.html">파이썬 기초</a>로 정보 시간에 배운 문법을 복습해요.</li>
+        <li><a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz</a>를 열어 코드를 실행해 봐요.</li>
+      </ol>
+      <a class="go" href="unit1.html">Ⅰ 프로그래밍 시작하기 →</a>
     </div>
   </div>
-</header>
-
-<nav class="unitmap" aria-label="단원 바로가기">
-  <a class="mapcard u1" href="unit1.html"><span class="num">Ⅰ</span><h3>프로그래밍</h3><p>함수 · 모듈 · 재귀 구조 — 코드를 작은 단위로 나누는 법</p><span class="lesson">1~5주차</span></a>
-  <a class="mapcard u2" href="unit2.html"><span class="num">Ⅱ</span><h3>데이터 구조</h3><p>스택 · 큐 · 트리 · 그래프 — 데이터를 담는 그릇의 모양</p><span class="lesson">6~9주차</span></a>
-  <a class="mapcard u3" href="unit3.html"><span class="num">Ⅲ</span><h3>알고리즘</h3><p>복잡도 · 탐색 기반 · 관계 기반 — 더 빠른 해결 전략</p><span class="lesson">10~13주차</span></a>
-  <a class="mapcard u4" href="unit4.html"><span class="num">Ⅳ</span><h3>정보과학 프로젝트</h3><p>문제 발견부터 검증까지, 실제로 만들어 보는 4단계</p><span class="lesson">14~16주차</span></a>
-</nav>
-
-<section class="toolmap" aria-label="수업 도구">
-  <h2>수업 도구</h2>
-  <div class="toolgrid">
-  <a class="toolcard" href="course.html"><h3>수업 안내</h3><p>평가 · 수업 규칙 · AI 사용 신호등 · 준비물</p></a>
-  <a class="toolcard" href="labs.html"><h3>실습실</h3><p>그래프 탐색 · 이진 탐색 트리 · 정렬 경주 등 직접 조작하는 시뮬레이터 모음</p></a>
-  <a class="toolcard" href="practice.html"><h3>파이썬 실습</h3><p>단원별 실습 7세트를 Programiz 온라인 컴파일러로 실행 · 자주 나는 오류 해결표</p></a>
-  <a class="toolcard" href="glossary.html"><h3>용어 사전</h3><p>4개 단원 핵심 용어 98개를 검색하고 단원별로 모아 보기</p></a>
-  <a class="toolcard" href="quiz.html"><h3>퀴즈</h3><p>단원별 개념 확인 퀴즈 40문제 — 바로 채점하고 해설 보기</p></a>
-  <a class="toolcard" href="my.html"><h3>내 학습</h3><p>해 봤어요 체크 · 퀴즈 점수 · 정리 노트를 한눈에</p></a>
-  </div>
-  <div class="homeprog" data-home-progress></div>
 </section>
 
-<section class="howto">
-  <div><h3>단원별로 나뉘어 있습니다</h3><p>위 카드나 상단 메뉴에서 단원을 고르세요. 각 단원은 독립된 페이지라 필요한 부분만 열어 볼 수 있습니다.</p></div>
-  <div><h3>왼쪽 목차가 현재 위치를 알려 줍니다</h3><p>단원 페이지에서 스크롤하면 지금 보고 있는 항목이 왼쪽 목차에 표시됩니다. 휴대폰에서는 화면 위쪽에 나타납니다.</p></div>
-  <div><h3>코드를 바로 실행해 보세요</h3><p>예제 코드 아래 <b>▶ 실행</b>을 누르면 설치 없이 브라우저 안에서 파이썬이 돌아갑니다. <code>input()</code>이 있는 예제는 입력값을 미리 적어 두면 됩니다.</p></div>
-  <div><h3>직접 조작하는 실습</h3><p>스택·큐·재귀 호출·하노이 탑·이진 탐색 등 17개의 실습이 본문 안에, 그래프 탐색·이진 탐색 트리·정렬 경주가 <a href="labs.html">실습실</a>에 있습니다.</p></div>
-  <div><h3>해 봤어요로 진도 체크</h3><p>소단원 끝의 <b>해 봤어요</b>를 누르면 목차에 ✓가 붙고, <a href="my.html">내 학습</a>에서 퀴즈 점수·정리 노트와 함께 볼 수 있습니다.</p></div>
-</section>
-
-<section class="plan" id="plan">
-  <details>
-    <summary>1학기 16주차 운영 계획 <span>주 3시간 · 총 48시간</span></summary>
-    <div class="plan-grid">
-      <div class="u1">
-        <h4>Ⅰ. 프로그래밍 · 1~5주차</h4>
-        <div class="tablewrap"><table><tbody>
-            <tr><td>1주차</td><td><ol><li>오리엔테이션 — 정보과학은 무엇을 배우는 과목인가</li><li>함수의 개념 — 내장 함수와 사용자 정의 함수</li><li>함수의 정의(<code>def</code>)와 네 가지 구성 요소</li></ol></td></tr>
-            <tr><td>2주차</td><td><ol><li>함수 호출 — 인수와 매개 변수의 관계</li><li><code>return</code>의 두 역할 / 매개 변수·반환값 4가지 형태</li><li>지역 변수와 전역 변수, <code>global</code></li></ol></td></tr>
-            <tr><td>3주차</td><td><ol><li>[역량] 음악 플레이 리스트 관리 프로그램</li><li>기본값 매개 변수와 가변 인수 매개 변수</li><li>여러 값 반환 / 클래스와 객체</li></ol></td></tr>
-            <tr><td>4주차</td><td><ol><li>모듈 만들기와 <code>import</code></li><li>패키지·라이브러리 / 내장 함수와 표준 라이브러리</li><li>[역량] 가위바위보 게임 만들기</li></ol></td></tr>
-            <tr><td>5주차</td><td><ol><li>재귀 구조의 이해 — 수학적 귀납법과 재귀 관계</li><li>재귀 함수의 동작 원리 — 호출과 반환</li><li>반복 vs 재귀 / 재귀 활용 — 자릿수 합·하노이 탑</li></ol></td></tr>
-        </tbody></table></div>
-      </div>
-      <div class="u2">
-        <h4>Ⅱ. 데이터 구조 · 6~9주차</h4>
-        <div class="tablewrap"><table><tbody>
-            <tr><td>6주차</td><td><ol><li>데이터 구조의 분류 / 스택의 개념(LIFO)</li><li>스택의 연산 — push, pop, peek, isEmpty</li><li>리스트로 스택 구현하기 · 활용 사례</li></ol></td></tr>
-            <tr><td>7주차</td><td><ol><li>큐의 개념(FIFO)과 연산</li><li>리스트로 큐 구현하기 / 덱·우선순위 큐</li><li>[역량] 스택·큐를 활용한 프로그램</li></ol></td></tr>
-            <tr><td>8주차</td><td><ol><li>트리의 개념과 구성 요소</li><li>트리의 표현 — 인접 행렬과 인접 리스트</li><li>이진 트리와 순차 데이터 구조 표현</li></ol></td></tr>
-            <tr><td>9주차</td><td><ol><li>이진 탐색 트리의 규칙과 활용</li><li>그래프의 개념·종류와 표현</li><li>그래프 탐색 — 깊이 우선·너비 우선 탐색</li></ol></td></tr>
-        </tbody></table></div>
-      </div>
-      <div class="u3">
-        <h4>Ⅲ. 알고리즘 · 10~13주차</h4>
-        <div class="tablewrap"><table><tbody>
-            <tr><td>10주차</td><td><ol><li>알고리즘의 이해와 문제 해결 전략 네 가지</li><li>알고리즘 성능 평가 — 시간·공간 복잡도</li><li>빅오 표기법과 알고리즘 성능 비교</li></ol></td></tr>
-            <tr><td>11주차</td><td><ol><li>문제의 세 요소와 상태 공간</li><li>탐색 공간의 구조·범위 / 전체 탐색과 순차 탐색</li><li>비선형 전체 탐색 — DFS·BFS 적용</li></ol></td></tr>
-            <tr><td>12주차</td><td><ol><li>탐색 공간 배제와 이진 탐색</li><li>탐욕 알고리즘 — 거스름돈·시간표 문제</li><li>분기 한정 알고리즘과 백트래킹</li></ol></td></tr>
-            <tr><td>13주차</td><td><ol><li>문제 분해와 전체·부분 문제의 관계식</li><li>분할 정복법 — 퀵 정렬과 합병 정렬</li><li>동적 계획법 — 메모이제이션과 상향식</li></ol></td></tr>
-        </tbody></table></div>
-      </div>
-      <div class="u4">
-        <h4>Ⅳ. 정보과학 프로젝트 · 14~16주차</h4>
-        <div class="tablewrap"><table><tbody>
-            <tr><td>14주차</td><td><ol><li>정보과학으로 문제 해결하기 · 문제 해결 5단계</li><li>학문 분야별 문제 탐색 / 모둠 구성·주제 선정</li><li>[프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화</li></ol></td></tr>
-            <tr><td>15주차</td><td><ol><li>[프로젝트 ①] 알고리즘 설계와 프로그램 작성</li><li>[프로젝트 ②] 탄소 발자국 — 데이터 수집과 구조화</li><li>[프로젝트 ②] 다익스트라 알고리즘으로 구현하기</li></ol></td></tr>
-            <tr><td>16주차</td><td><ol><li>[프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계</li><li>[프로젝트 ③] 백트래킹 구현과 디버깅</li><li>산출물 정리 / 프로젝트 발표와 상호 평가</li></ol></td></tr>
-        </tbody></table></div>
-      </div>
+<main id="main">
+<section class="sec" id="units">
+  <div class="sec-h"><h2>단원</h2><p>소단원 끝의 <b>해 봤어요</b>를 누르면 진도 막대가 채워져요.</p></div>
+  <div class="unitcards">
+  <a class="unitcard u0" href="unit0.html">
+    <div class="band"><span class="r">0</span><span class="wk">준비</span></div>
+    <div class="body">
+      <h3>파이썬 기초</h3><p>변수 · 자료형 · 입력 · 연산자 · 조건문 · 반복문 · 리스트 · 튜플 · 집합 · 사전</p>
+      <div class="stats"><span>소단원 <b>11</b></span><span>실습 <b>0</b></span><span>용어 <b>16</b></span><span>퀴즈 <b>10</b></span></div>
+      <div class="ubar"><i data-uprog="0"></i></div>
+      <div class="ubar-l"><span>해 봤어요</span><span data-uprog-l="0">0 / 11</span></div>
     </div>
-  </details>
+  </a>
+  <a class="unitcard u1" href="unit1.html">
+    <div class="band"><span class="r">Ⅰ</span><span class="wk">1~5주차</span></div>
+    <div class="body">
+      <h3>프로그래밍</h3><p>함수 · 모듈 · 재귀 구조 — 코드를 작은 단위로 나누는 법</p>
+      <div class="stats"><span>소단원 <b>5</b></span><span>실습 <b>2</b></span><span>용어 <b>29</b></span><span>퀴즈 <b>10</b></span></div>
+      <div class="ubar"><i data-uprog="1"></i></div>
+      <div class="ubar-l"><span>해 봤어요</span><span data-uprog-l="1">0 / 5</span></div>
+    </div>
+  </a>
+  <a class="unitcard u2" href="unit2.html">
+    <div class="band"><span class="r">Ⅱ</span><span class="wk">6~9주차</span></div>
+    <div class="body">
+      <h3>데이터 구조</h3><p>스택 · 큐 · 트리 · 그래프 — 데이터를 담는 그릇의 모양</p>
+      <div class="stats"><span>소단원 <b>5</b></span><span>실습 <b>4</b></span><span>용어 <b>33</b></span><span>퀴즈 <b>10</b></span></div>
+      <div class="ubar"><i data-uprog="2"></i></div>
+      <div class="ubar-l"><span>해 봤어요</span><span data-uprog-l="2">0 / 5</span></div>
+    </div>
+  </a>
+  <a class="unitcard u3" href="unit3.html">
+    <div class="band"><span class="r">Ⅲ</span><span class="wk">10~13주차</span></div>
+    <div class="body">
+      <h3>알고리즘</h3><p>복잡도 · 탐색 기반 · 관계 기반 — 더 빠른 해결 전략</p>
+      <div class="stats"><span>소단원 <b>8</b></span><span>실습 <b>10</b></span><span>용어 <b>25</b></span><span>퀴즈 <b>10</b></span></div>
+      <div class="ubar"><i data-uprog="3"></i></div>
+      <div class="ubar-l"><span>해 봤어요</span><span data-uprog-l="3">0 / 8</span></div>
+    </div>
+  </a>
+  <a class="unitcard u4" href="unit4.html">
+    <div class="band"><span class="r">Ⅳ</span><span class="wk">14~16주차</span></div>
+    <div class="body">
+      <h3>정보과학 프로젝트</h3><p>문제 발견부터 검증까지, 실제로 만들어 보는 4단계</p>
+      <div class="stats"><span>소단원 <b>6</b></span><span>실습 <b>4</b></span><span>용어 <b>11</b></span><span>퀴즈 <b>10</b></span></div>
+      <div class="ubar"><i data-uprog="4"></i></div>
+      <div class="ubar-l"><span>해 봤어요</span><span data-uprog-l="4">0 / 6</span></div>
+    </div>
+  </a>
+  </div>
 </section>
+
+<section class="sec" id="plan">
+  <div class="sec-h"><h2>16주 수업 계획</h2><p>1학기 · 주 3시간 · 16주 · 총 48시간</p></div>
+  <div class="weeks"><div class="wkcol u1"><h3><a href="unit1.html">Ⅰ 프로그래밍</a><span>1~5주차</span></h3><div class="wk" data-week="1"><span class="n">1주</span><ol><li>오리엔테이션 — 정보과학은 무엇을 배우는 과목인가</li><li>함수의 개념 — 내장 함수와 사용자 정의 함수</li><li>함수의 정의(<code>def</code>)와 네 가지 구성 요소</li></ol></div><div class="wk" data-week="2"><span class="n">2주</span><ol><li>함수 호출 — 인수와 매개 변수의 관계</li><li><code>return</code>의 두 역할 / 매개 변수·반환값 4가지 형태</li><li>지역 변수와 전역 변수, <code>global</code></li></ol></div><div class="wk" data-week="3"><span class="n">3주</span><ol><li>[역량] 음악 플레이 리스트 관리 프로그램</li><li>기본값 매개 변수와 가변 인수 매개 변수</li><li>여러 값 반환 / 클래스와 객체</li></ol></div><div class="wk" data-week="4"><span class="n">4주</span><ol><li>모듈 만들기와 <code>import</code></li><li>패키지·라이브러리 / 내장 함수와 표준 라이브러리</li><li>[역량] 가위바위보 게임 만들기</li></ol></div><div class="wk" data-week="5"><span class="n">5주</span><ol><li>재귀 구조의 이해 — 수학적 귀납법과 재귀 관계</li><li>재귀 함수의 동작 원리 — 호출과 반환</li><li>반복 vs 재귀 / 재귀 활용 — 자릿수 합·하노이 탑</li></ol></div></div><div class="wkcol u2"><h3><a href="unit2.html">Ⅱ 데이터 구조</a><span>6~9주차</span></h3><div class="wk" data-week="6"><span class="n">6주</span><ol><li>데이터 구조의 분류 / 스택의 개념(LIFO)</li><li>스택의 연산 — push, pop, peek, isEmpty</li><li>리스트로 스택 구현하기 · 활용 사례</li></ol></div><div class="wk" data-week="7"><span class="n">7주</span><ol><li>큐의 개념(FIFO)과 연산</li><li>리스트로 큐 구현하기 / 덱·우선순위 큐</li><li>[역량] 스택·큐를 활용한 프로그램</li></ol></div><div class="wk" data-week="8"><span class="n">8주</span><ol><li>트리의 개념과 구성 요소</li><li>트리의 표현 — 인접 행렬과 인접 리스트</li><li>이진 트리와 순차 데이터 구조 표현</li></ol></div><div class="wk" data-week="9"><span class="n">9주</span><ol><li>이진 탐색 트리의 규칙과 활용</li><li>그래프의 개념·종류와 표현</li><li>그래프 탐색 — 깊이 우선·너비 우선 탐색</li></ol></div></div><div class="wkcol u3"><h3><a href="unit3.html">Ⅲ 알고리즘</a><span>10~13주차</span></h3><div class="wk" data-week="10"><span class="n">10주</span><ol><li>알고리즘의 이해와 문제 해결 전략 네 가지</li><li>알고리즘 성능 평가 — 시간·공간 복잡도</li><li>빅오 표기법과 알고리즘 성능 비교</li></ol></div><div class="wk" data-week="11"><span class="n">11주</span><ol><li>문제의 세 요소와 상태 공간</li><li>탐색 공간의 구조·범위 / 전체 탐색과 순차 탐색</li><li>비선형 전체 탐색 — DFS·BFS 적용</li></ol></div><div class="wk" data-week="12"><span class="n">12주</span><ol><li>탐색 공간 배제와 이진 탐색</li><li>탐욕 알고리즘 — 거스름돈·시간표 문제</li><li>분기 한정 알고리즘과 백트래킹</li></ol></div><div class="wk" data-week="13"><span class="n">13주</span><ol><li>문제 분해와 전체·부분 문제의 관계식</li><li>분할 정복법 — 퀵 정렬과 합병 정렬</li><li>동적 계획법 — 메모이제이션과 상향식</li></ol></div></div><div class="wkcol u4"><h3><a href="unit4.html">Ⅳ 정보과학 프로젝트</a><span>14~16주차</span></h3><div class="wk" data-week="14"><span class="n">14주</span><ol><li>정보과학으로 문제 해결하기 · 문제 해결 5단계</li><li>학문 분야별 문제 탐색 / 모둠 구성·주제 선정</li><li>[프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화</li></ol></div><div class="wk" data-week="15"><span class="n">15주</span><ol><li>[프로젝트 ①] 알고리즘 설계와 프로그램 작성</li><li>[프로젝트 ②] 탄소 발자국 — 데이터 수집과 구조화</li><li>[프로젝트 ②] 다익스트라 알고리즘으로 구현하기</li></ol></div><div class="wk" data-week="16"><span class="n">16주</span><ol><li>[프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계</li><li>[프로젝트 ③] 백트래킹 구현과 디버깅</li><li>산출물 정리 / 프로젝트 발표와 상호 평가</li></ol></div></div></div>
+</section>
+
+<section class="sec" id="guide">
+  <div class="sec-h"><h2>수업 안내</h2><p>첫 시간에 함께 읽어요.</p></div>
+  <div class="tiles">
+    <a class="tile" href="course.html#grade"><span class="ic">📝</span><h3>평가</h3><p>지필·수행평가 영역과 반영 비율, 시기</p></a>
+    <a class="tile" href="course.html#rubric"><span class="ic">🧩</span><h3>프로젝트 채점 기준</h3><p>문제 해결 5단계로 보는 루브릭</p></a>
+    <a class="tile" href="course.html#ai"><span class="ic">🚦</span><h3>AI 사용 신호등</h3><p>초록·노랑·빨강 — 활동마다 AI를 써도 되는 범위</p></a>
+    <a class="tile" href="course.html#rules"><span class="ic">🤝</span><h3>수업 약속</h3><p>손으로 먼저, 오류는 힌트, 기록은 내 말로</p></a>
+  </div>
+</section>
+
+<section class="sec" id="tools">
+  <div class="sec-h"><h2>수업 도구</h2></div>
+  <div class="tiles">
+    <a class="tile" href="labs.html"><span class="ic">🧪</span><h3>실습실</h3><p>그래프 탐색 · 이진 탐색 트리 · 정렬 경주 등 직접 조작하는 시뮬레이터</p></a>
+    <a class="tile" href="practice.html"><span class="ic">🐍</span><h3>파이썬 실습</h3><p>단원별 실습 세트를 Programiz로 실행 · 자주 나는 오류 해결표</p></a>
+    <a class="tile" href="glossary.html"><span class="ic">📖</span><h3>용어 사전</h3><p>전 단원 핵심 용어를 검색하고 본문으로 바로 가기</p></a>
+    <a class="tile" href="my.html"><span class="ic">✅</span><h3>내 학습</h3><p>해 봤어요 진도 · 퀴즈 점수 · 정리 노트 · txt 내보내기</p></a>
+  </div>
+</section>
+</main>
 
 <footer>
   <div class="foot-in">
-    <p><b>정보과학</b> — 씨마스 『정보과학』 2022 개정 교육과정 핵심 내용 정리.</p>
-    <p>보문고등학교 <b>김용득</b> 선생님 제작.</p>
-    <p>모든 개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
-    <p class="copyright">본 자료는 학교 수업 목적으로 제작되었으며, 저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+    <div>
+      <p><b>정보과학</b> — 씨마스 『정보과학』 (2022 개정 교육과정) 수업 자료 · 1학기 · 주 3시간 · 16주</p>
+      <p>보문고등학교 <b>김용득</b> 선생님 제작.</p>
+      <p>개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
+      <p class="copyright">본 자료는 학교 수업 목적으로 제작되었으며, 저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+    </div>
+    <nav class="foot-links" aria-label="사이트 전체"><a href="index.html">수업 홈</a><a href="unit0.html">0 파이썬 기초</a><a href="unit1.html">Ⅰ 프로그래밍</a><a href="unit2.html">Ⅱ 데이터 구조</a><a href="unit3.html">Ⅲ 알고리즘</a><a href="unit4.html">Ⅳ 프로젝트</a><a href="course.html">수업 안내</a><a href="labs.html">실습실</a><a href="practice.html">파이썬 실습</a><a href="glossary.html">용어 사전</a><a href="my.html">내 학습</a><a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz</a></nav>
   </div>
 </footer>
-<script src="assets/app.js"></script>
-<script src="assets/extra.js"></script>
+<script>window.SITE={"topics":{"0":["t0-0","t0-1","t0-2","t0-3","t0-4","t0-5","t0-6","t0-7","t0-8","t0-9","t0-10"],"1":["t1-1","t1-2","t1-3","t1-4","t1-5"],"2":["t2-1","t2-2","t2-3","t2-4","t2-5"],"3":["t3-1","t3-2","t3-3","t3-4","t3-5","t3-6","t3-8","t3-7"],"4":["t4-1","t4-2","t4-3","t4-4","t4-6","t4-5"]},"units":{"0":{"roman":"0","name":"파이썬 기초","weeks":null},"1":{"roman":"Ⅰ","name":"프로그래밍","weeks":[1,5]},"2":{"roman":"Ⅱ","name":"데이터 구조","weeks":[6,9]},"3":{"roman":"Ⅲ","name":"알고리즘","weeks":[10,13]},"4":{"roman":"Ⅳ","name":"정보과학 프로젝트","weeks":[14,16]}},"quiz":{"0":10,"1":10,"2":10,"3":10,"4":10},"weeks":[{"week":1,"lessons":["오리엔테이션 — 정보과학은 무엇을 배우는 과목인가","함수의 개념 — 내장 함수와 사용자 정의 함수","함수의 정의(<code>def</code>)와 네 가지 구성 요소"]},{"week":2,"lessons":["함수 호출 — 인수와 매개 변수의 관계","<code>return</code>의 두 역할 / 매개 변수·반환값 4가지 형태","지역 변수와 전역 변수, <code>global</code>"]},{"week":3,"lessons":["[역량] 음악 플레이 리스트 관리 프로그램","기본값 매개 변수와 가변 인수 매개 변수","여러 값 반환 / 클래스와 객체"]},{"week":4,"lessons":["모듈 만들기와 <code>import</code>","패키지·라이브러리 / 내장 함수와 표준 라이브러리","[역량] 가위바위보 게임 만들기"]},{"week":5,"lessons":["재귀 구조의 이해 — 수학적 귀납법과 재귀 관계","재귀 함수의 동작 원리 — 호출과 반환","반복 vs 재귀 / 재귀 활용 — 자릿수 합·하노이 탑"]},{"week":6,"lessons":["데이터 구조의 분류 / 스택의 개념(LIFO)","스택의 연산 — push, pop, peek, isEmpty","리스트로 스택 구현하기 · 활용 사례"]},{"week":7,"lessons":["큐의 개념(FIFO)과 연산","리스트로 큐 구현하기 / 덱·우선순위 큐","[역량] 스택·큐를 활용한 프로그램"]},{"week":8,"lessons":["트리의 개념과 구성 요소","트리의 표현 — 인접 행렬과 인접 리스트","이진 트리와 순차 데이터 구조 표현"]},{"week":9,"lessons":["이진 탐색 트리의 규칙과 활용","그래프의 개념·종류와 표현","그래프 탐색 — 깊이 우선·너비 우선 탐색"]},{"week":10,"lessons":["알고리즘의 이해와 문제 해결 전략 네 가지","알고리즘 성능 평가 — 시간·공간 복잡도","빅오 표기법과 알고리즘 성능 비교"]},{"week":11,"lessons":["문제의 세 요소와 상태 공간","탐색 공간의 구조·범위 / 전체 탐색과 순차 탐색","비선형 전체 탐색 — DFS·BFS 적용"]},{"week":12,"lessons":["탐색 공간 배제와 이진 탐색","탐욕 알고리즘 — 거스름돈·시간표 문제","분기 한정 알고리즘과 백트래킹"]},{"week":13,"lessons":["문제 분해와 전체·부분 문제의 관계식","분할 정복법 — 퀵 정렬과 합병 정렬","동적 계획법 — 메모이제이션과 상향식"]},{"week":14,"lessons":["정보과학으로 문제 해결하기 · 문제 해결 5단계","학문 분야별 문제 탐색 / 모둠 구성·주제 선정","[프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화"]},{"week":15,"lessons":["[프로젝트 ①] 알고리즘 설계와 프로그램 작성","[프로젝트 ②] 탄소 발자국 — 데이터 수집과 구조화","[프로젝트 ②] 다익스트라 알고리즘으로 구현하기"]},{"week":16,"lessons":["[프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계","[프로젝트 ③] 백트래킹 구현과 디버깅","산출물 정리 / 프로젝트 발표와 상호 평가"]}],"start":null,"programiz":"https://www.programiz.com/python-programming/online-compiler/"};</script>
+<script src="assets/site.js"></script>
 </body>
 </html>

@@ -13,10 +13,9 @@
 (function(){try{if(localStorage.getItem('unlocked')==='yes')document.documentElement.className+=' unlocked';}catch(e){}})();
 (function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
 </script>
-<link rel="stylesheet" href="assets/style.css">
-<link rel="stylesheet" href="assets/extra.css">
+<link rel="stylesheet" href="assets/site.css">
 </head>
-<body class="u2">
+<body class="unitpage u2">
 <div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
   <form class="gate-card" data-gate-form autocomplete="off">
     <h1 id="gate-title">정보과학</h1>
@@ -37,20 +36,16 @@
       저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
   </form>
 </div>
+<a class="skip" href="#main">본문 바로가기</a>
 <header class="topbar">
-  <div class="topbar-in">
-    <a class="brand" href="index.html">정보과학</a>
-    <nav class="unitnav" aria-label="단원과 수업 도구">
-      <a href="unit1.html">Ⅰ 프로그래밍</a>
-      <a href="unit2.html" class="is-current">Ⅱ 데이터 구조</a>
-      <a href="unit3.html">Ⅲ 알고리즘</a>
-      <a href="unit4.html">Ⅳ 프로젝트</a>
-      <span class="navsep" aria-hidden="true"></span>
-      <a href="course.html">안내</a>
+  <div class="bar-top">
+    <a class="brand" href="index.html"><span class="brand-mark">IS</span><span class="brand-name">정보과학</span></a>
+    <nav class="toolnav" aria-label="수업 도구">
+      <a href="index.html">수업 홈</a>
+      <a href="course.html">수업 안내</a>
       <a href="labs.html">실습실</a>
-      <a href="practice.html">파이썬</a>
-      <a href="glossary.html">용어</a>
-      <a href="quiz.html">퀴즈</a>
+      <a href="practice.html">파이썬 실습</a>
+      <a href="glossary.html">용어 사전</a>
       <a href="my.html">내 학습</a>
     </nav>
     <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false" title="어두운 화면으로">
@@ -59,34 +54,57 @@
       <span class="ico-label">어둡게</span>
     </button>
   </div>
+  <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
+    <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
+    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2 is-current" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+  </div></nav>
   <div class="progress" data-progress></div>
 </header>
+<section class="unithero">
+  <div class="unithero-in">
+    <p class="crumbs"><a href="index.html">수업 홈</a> / Ⅱ 데이터 구조</p>
+    <div class="bigr" aria-hidden="true">Ⅱ</div>
+    <div>
+      <p class="kicker">UNIT Ⅱ</p>
+      <h1>데이터 구조</h1>
+      <p class="goal">데이터를 어떤 <b>모양의 그릇</b>에 담느냐에 따라 문제 해결의 효율이 달라진다. 선형 구조(스택·큐)와 비선형 구조(트리·그래프)를 익힌다.</p>
+      <div class="chips"><span class="chip"><b>6~9주차</b></span><span class="chip">소단원 <b>5</b></span><span class="chip">실습 <b>4</b></span><span class="chip">용어 <b>33</b></span><span class="chip">퀴즈 <b>10</b></span></div>
+    </div>
+  </div>
+</section>
+<section class="overview">
+  <div class="ovbox"><h2>이 단원을 마치면</h2><ul class="cando"><li>스택(LIFO)과 큐(FIFO)를 리스트로 구현하고 쓰임새를 고른다</li><li>트리와 이진 탐색 트리의 규칙을 설명한다</li><li>그래프를 인접 행렬·인접 리스트로 표현한다</li><li>DFS·BFS로 그래프를 탐색한다</li></ul></div>
+  <div class="ovbox"><h2>차시 계획</h2><div class="wk" data-week="6"><span class="n">6주</span><ol><li>데이터 구조의 분류 / 스택의 개념(LIFO)</li><li>스택의 연산 — push, pop, peek, isEmpty</li><li>리스트로 스택 구현하기 · 활용 사례</li></ol></div><div class="wk" data-week="7"><span class="n">7주</span><ol><li>큐의 개념(FIFO)과 연산</li><li>리스트로 큐 구현하기 / 덱·우선순위 큐</li><li>[역량] 스택·큐를 활용한 프로그램</li></ol></div><div class="wk" data-week="8"><span class="n">8주</span><ol><li>트리의 개념과 구성 요소</li><li>트리의 표현 — 인접 행렬과 인접 리스트</li><li>이진 트리와 순차 데이터 구조 표현</li></ol></div><div class="wk" data-week="9"><span class="n">9주</span><ol><li>이진 탐색 트리의 규칙과 활용</li><li>그래프의 개념·종류와 표현</li><li>그래프 탐색 — 깊이 우선·너비 우선 탐색</li></ol></div></div>
+  <div class="ovbox"><h2>바로 가기</h2><div class="qlinks"><a href="#t2-1">처음부터 읽기<span>1-1</span></a><a href="#u-labs">실습 모음<span>4개</span></a><a href="#u-terms">핵심 용어<span>33개</span></a><a href="#u-quiz">단원 퀴즈<span>10문제</span></a><a href="#u-practice">Programiz 실습<span>→</span></a></div></div>
+</section>
 <div class="crumbbar" data-crumb></div>
 <div class="wrap">
 <aside class="toc" aria-label="이 단원 목차">
-  <a class="toc-home" href="index.html">← 전체 목차</a>
-  <div class="toc-title">Ⅱ 데이터 구조<span>6~9주차</span></div>
+  <div class="toc-title">Ⅱ 데이터 구조</div>
   <nav id="toc-nav">
+    <p class="toc-group">본문</p>
     <ol>
-        <li><a href="#t2-1" data-level="1"><em>1-1</em>스택 — 나중에 넣은 것이 먼저 나온다</a></li>
-        <li><a href="#t2-2" data-level="1"><em>1-2</em>큐 — 먼저 온 사람이 먼저 나간다</a></li>
-        <li><a href="#t2-3" data-level="1"><em>2-1</em>트리 — 계층을 표현하는 구조</a></li>
-        <li><a href="#t2-4" data-level="1"><em>2-2</em>그래프 — 관계와 경로를 표현하는 구조</a></li>
-        <li><a href="#t2-5" data-level="1"><em>연습</em>코드 문제</a></li>
+      <li><a href="#t2-1" data-level="1"><em>1-1</em>스택 — 나중에 넣은 것이 먼저 나온다</a></li>
+      <li><a href="#t2-2" data-level="1"><em>1-2</em>큐 — 먼저 온 사람이 먼저 나간다</a></li>
+      <li><a href="#t2-3" data-level="1"><em>2-1</em>트리 — 계층을 표현하는 구조</a></li>
+      <li><a href="#t2-4" data-level="1"><em>2-2</em>그래프 — 관계와 경로를 표현하는 구조</a></li>
+      <li><a href="#t2-5" data-level="1"><em>연습</em>코드 문제</a></li>
+    </ol>
+    <p class="toc-group">단원 마무리</p>
+    <ol>
+      <li><a href="#u-labs" data-level="1">실습 모음</a></li>
+      <li><a href="#u-terms" data-level="1">핵심 용어</a></li>
+      <li><a href="#u-quiz" data-level="1">단원 퀴즈</a></li>
+      <li><a href="#u-practice" data-level="1">Programiz 실습</a></li>
     </ol>
   </nav>
 </aside>
-<main>
+<main id="main">
 
-<section class="unit u2" id="unit2">
-  <div class="unit-head">
-    <span class="roman">Ⅱ</span>
-    <span class="lesson">6~9주차</span>
-    <h2>데이터 구조</h2>
-    <p class="goal">데이터를 어떤 <b>모양의 그릇</b>에 담느냐에 따라 문제 해결의 효율이 달라진다. 선형 구조(스택·큐)와 비선형 구조(트리·그래프)를 익힌다.</p>
-  </div>
-
-  <!-- 1-1 스택 -->
+<!-- 1-1 스택 -->
   <article class="topic" id="t2-1">
     <h3><span class="idx">1-1</span> 스택 — 나중에 넣은 것이 먼저 나온다 <span class="lesson">6주차</span></h3>
     <p class="lede">한쪽 끝만 열려 있어서, 넣고 빼는 일이 모두 그 한 곳(top)에서만 일어납니다.</p>
@@ -1060,24 +1078,115 @@ for node, d in sorted(bfs_distance('A').items()):
 
     </div>
   </article>
-</section>
 
+<section class="wrapup" id="u-labs"><h3><span class="idx">마무리</span> 실습 모음</h3><p class="lede">이 단원에서 직접 조작해 보는 실습입니다. 다시 해 보고 싶은 것을 눌러 보세요.</p><div class="labindex"><a href="#lab-stack">스택 시뮬레이터</a><a href="#lab-queue">스택 vs 큐</a><a href="labs.html#graph">그래프 탐색 DFS · BFS</a><a href="labs.html#bst">이진 탐색 트리</a></div></section>
+<section class="wrapup" id="u-terms"><h3><span class="idx">마무리</span> 핵심 용어</h3><p class="lede">이 단원에서 꼭 알아야 할 용어 33개입니다. 전 단원 용어는 <a href="glossary.html">용어 사전</a>에서 검색할 수 있어요.</p><dl class="gl-list">
+  <div class="gl u2" data-unit="2"><dt>데이터 구조 <small>data structure</small></dt><dd>데이터를 효율적으로 저장·관리하기 위한 형태. 선형 구조(리스트·스택·큐)와 비선형 구조(트리·그래프)로 나뉜다. <a href="unit2.html#t2-1">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>선형 구조 <small>linear structure</small></dt><dd>데이터가 한 줄로 앞뒤 관계를 이루는 구조. 리스트, 스택, 큐, 덱. <a href="unit2.html#t2-1">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>비선형 구조 <small>non-linear structure</small></dt><dd>하나의 데이터 뒤에 여러 데이터가 이어질 수 있는 구조. 트리, 그래프. <a href="unit2.html#t2-3">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>스택 <small>stack</small></dt><dd>한쪽 끝(top)으로만 넣고 빼는 구조. 나중에 넣은 것이 먼저 나온다. <a href="unit2.html#t2-1">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>LIFO <small>Last In First Out</small></dt><dd>후입선출. 마지막에 들어온 데이터가 가장 먼저 나가는 방식. 스택의 특징. <a href="unit2.html#t2-1">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>push <small>push</small></dt><dd>스택의 top에 데이터를 넣는 연산. 파이썬 리스트에서는 <code>append()</code>. <a href="unit2.html#t2-1">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>pop <small>pop</small></dt><dd>스택의 top에서 데이터를 꺼내는 연산. 파이썬 리스트에서는 <code>pop()</code>. <a href="unit2.html#t2-1">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>peek <small>peek / top</small></dt><dd>데이터를 꺼내지 않고 top에 있는 값만 확인하는 연산. <code>stack[-1]</code>. <a href="unit2.html#t2-1">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>오버플로·언더플로 <small>overflow / underflow</small></dt><dd>가득 찬 곳에 넣으려 할 때(오버플로), 비어 있는데 꺼내려 할 때(언더플로) 생기는 오류 상황. <a href="unit2.html#t2-1">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>큐 <small>queue</small></dt><dd>한쪽(rear)으로 넣고 반대쪽(front)으로 빼는 구조. 먼저 넣은 것이 먼저 나온다. <a href="unit2.html#t2-2">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>FIFO <small>First In First Out</small></dt><dd>선입선출. 먼저 들어온 데이터가 먼저 나가는 방식. 큐의 특징. <a href="unit2.html#t2-2">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>enqueue / dequeue <small>enqueue / dequeue</small></dt><dd>큐의 rear에 넣는 연산(enqueue)과 front에서 꺼내는 연산(dequeue). <a href="unit2.html#t2-2">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>덱 <small>deque</small></dt><dd>양쪽 끝에서 모두 넣고 뺄 수 있는 구조. <code>collections.deque</code>. <a href="unit2.html#t2-2">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>우선순위 큐 <small>priority queue</small></dt><dd>들어온 순서가 아니라 우선순위가 높은 데이터부터 꺼내는 큐. <code>heapq</code>로 구현. <a href="unit2.html#t2-2">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>트리 <small>tree</small></dt><dd>노드들이 간선으로 연결되어 계층을 이루고 사이클이 없는 구조. 가족 관계도, 폴더 구조. <a href="unit2.html#t2-3">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>노드 <small>node</small></dt><dd>트리·그래프에서 데이터를 담는 하나하나의 점. <a href="unit2.html#t2-3">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>간선 <small>edge</small></dt><dd>노드와 노드를 잇는 선. 노드가 n개인 트리의 간선은 n−1개. <a href="unit2.html#t2-3">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>루트 노드 <small>root</small></dt><dd>트리의 맨 위, 부모가 없는 노드. <a href="unit2.html#t2-3">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>단말 노드 <small>leaf</small></dt><dd>자식이 없는 노드. 잎 노드라고도 한다. <a href="unit2.html#t2-3">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>부모·자식·형제 <small>parent / child / sibling</small></dt><dd>간선으로 연결된 위아래 노드 관계. 같은 부모를 가진 노드끼리 형제. <a href="unit2.html#t2-3">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>차수 <small>degree</small></dt><dd>한 노드가 가진 자식의 수(트리) 또는 연결된 간선의 수(그래프). <a href="unit2.html#t2-3">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>깊이·높이 <small>depth / height</small></dt><dd>루트에서 그 노드까지의 거리가 깊이, 트리에서 가장 깊은 노드의 깊이가 높이. <a href="unit2.html#t2-3">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>서브 트리 <small>subtree</small></dt><dd>한 노드와 그 아래 자손들로 이루어진 작은 트리. <a href="unit2.html#t2-3">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>이진 트리 <small>binary tree</small></dt><dd>모든 노드의 자식이 최대 두 개(왼쪽·오른쪽)인 트리. <a href="unit2.html#t2-3">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>이진 탐색 트리 <small>binary search tree</small></dt><dd>왼쪽 서브 트리에는 작은 값, 오른쪽에는 큰 값이 오도록 정리한 이진 트리. 값을 찾을 때 한 번에 한쪽을 버린다. <a href="unit2.html#t2-3">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>트리 순회 <small>traversal</small></dt><dd>트리의 모든 노드를 한 번씩 방문하는 방법. 전위(루트→왼→오), 중위(왼→루트→오), 후위(왼→오→루트). <a href="unit2.html#t2-3">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>그래프 <small>graph</small></dt><dd>노드(정점)와 간선으로 대상 사이의 관계를 나타낸 구조. 지하철 노선도, SNS 친구 관계. <a href="unit2.html#t2-4">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>방향·무방향 그래프 <small>directed / undirected</small></dt><dd>간선에 방향이 있으면 방향 그래프, 양쪽으로 오갈 수 있으면 무방향 그래프. <a href="unit2.html#t2-4">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>가중치 그래프 <small>weighted graph</small></dt><dd>간선마다 거리·시간·비용 같은 값(가중치)이 붙은 그래프. <a href="unit2.html#t2-4">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>인접 행렬 <small>adjacency matrix</small></dt><dd>노드 i와 j가 연결되면 [i][j]를 1(또는 가중치)로 적는 2차원 표. 연결 여부 확인이 빠르다. <a href="unit2.html#t2-4">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>인접 리스트 <small>adjacency list</small></dt><dd>각 노드마다 연결된 노드 목록을 저장하는 방식. 간선이 적을 때 메모리를 아낀다. <a href="unit2.html#t2-4">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>깊이 우선 탐색 <small>DFS</small></dt><dd>갈 수 있는 데까지 깊이 들어갔다가 막히면 되돌아오는 탐색. 스택(또는 재귀)을 쓴다. <a href="unit2.html#t2-4">본문 →</a></dd></div>
+  <div class="gl u2" data-unit="2"><dt>너비 우선 탐색 <small>BFS</small></dt><dd>시작점에서 가까운 노드부터 한 겹씩 넓혀 가는 탐색. 큐를 쓰며, 간선 수 기준 최단 경로를 찾는다. <a href="unit2.html#t2-4">본문 →</a></dd></div>
+</dl></section>
+<section class="wrapup" id="u-quiz"><h3><span class="idx">마무리</span> 단원 퀴즈</h3><p class="lede">보기를 누르면 바로 채점되고 해설이 나옵니다. 가장 좋은 점수는 <a href="my.html">내 학습</a>에 기록돼요.</p>
+<section class="qz-set" data-qz-set="2">
+  <div class="qz" data-ans="1">
+    <h4><span class="qnum">Q1</span><span>나중에 넣은 데이터가 가장 먼저 나오는(LIFO) 데이터 구조는?</span></h4>
+    <ol class="opts"><li><button type="button" data-n="①">큐</button></li><li><button type="button" data-n="②">스택</button></li><li><button type="button" data-n="③">트리</button></li><li><button type="button" data-n="④">그래프</button></li></ol>
+    <p class="why"><b>해설</b> — <b>스택</b>은 top 한쪽으로만 넣고 빼므로 마지막에 넣은 것이 먼저 나옵니다.</p>
+  </div>
+  <div class="qz" data-ans="0">
+    <h4><span class="qnum">Q2</span><span>빈 스택에 push(1), push(2), pop(), push(3), push(4), pop() 을 차례로 하면 남는 것은? (아래 → 위)</span></h4>
+    <ol class="opts"><li><button type="button" data-n="①">1, 3</button></li><li><button type="button" data-n="②">1, 4</button></li><li><button type="button" data-n="③">3, 4</button></li><li><button type="button" data-n="④">1, 2</button></li></ol>
+    <p class="why"><b>해설</b> — [1] → [1,2] → pop하면 [1] → [1,3] → [1,3,4] → pop하면 <b>[1, 3]</b>.</p>
+  </div>
+  <div class="qz" data-ans="1">
+    <h4><span class="qnum">Q3</span><span>빈 큐에 A, B, C를 차례로 넣고 한 번 꺼낸 뒤 D를 넣었습니다. 다음에 꺼내지는 것은?</span></h4>
+    <ol class="opts"><li><button type="button" data-n="①">A</button></li><li><button type="button" data-n="②">B</button></li><li><button type="button" data-n="③">C</button></li><li><button type="button" data-n="④">D</button></li></ol>
+    <p class="why"><b>해설</b> — 큐는 먼저 들어온 것이 먼저 나옵니다. A가 이미 나갔으므로 다음은 <b>B</b>입니다.</p>
+  </div>
+  <div class="qz" data-ans="2">
+    <h4><span class="qnum">Q4</span><span>다음 중 큐가 어울리는 상황은?</span></h4>
+    <ol class="opts"><li><button type="button" data-n="①">웹 브라우저 뒤로 가기</button></li><li><button type="button" data-n="②">실행 취소(Ctrl+Z)</button></li><li><button type="button" data-n="③">프린터 인쇄 대기열</button></li><li><button type="button" data-n="④">괄호 짝 검사</button></li></ol>
+    <p class="why"><b>해설</b> — 먼저 요청한 인쇄물이 먼저 나와야 하므로 <b>큐</b>입니다. 나머지는 가장 최근 것을 먼저 꺼내는 스택의 예입니다.</p>
+  </div>
+  <div class="qz" data-ans="2">
+    <h4><span class="qnum">Q5</span><span>파이썬 리스트 <code>s</code>를 스택으로 쓸 때, 꺼내지 않고 top의 값만 보는 코드는?</span></h4>
+    <ol class="opts"><li><button type="button" data-n="①">s.pop()</button></li><li><button type="button" data-n="②">s[0]</button></li><li><button type="button" data-n="③">s[-1]</button></li><li><button type="button" data-n="④">s.append()</button></li></ol>
+    <p class="why"><b>해설</b> — top은 리스트의 마지막 원소이므로 <code>s[-1]</code>로 봅니다. <code>s.pop()</code>은 꺼내 버립니다.</p>
+  </div>
+  <div class="qz" data-ans="0">
+    <h4><span class="qnum">Q6</span><span>노드가 10개인 트리의 간선 수는?</span></h4>
+    <ol class="opts"><li><button type="button" data-n="①">9개</button></li><li><button type="button" data-n="②">10개</button></li><li><button type="button" data-n="③">11개</button></li><li><button type="button" data-n="④">알 수 없다</button></li></ol>
+    <p class="why"><b>해설</b> — 루트를 뺀 모든 노드는 부모와 이어지는 간선을 하나씩 가지므로 n − 1 = <b>9개</b>입니다.</p>
+  </div>
+  <div class="qz" data-ans="2">
+    <h4><span class="qnum">Q7</span><span>이진 탐색 트리에 50, 30, 70, 20, 40 을 차례로 넣었습니다. 40은 어디에 놓이나요?</span></h4>
+    <ol class="opts"><li><button type="button" data-n="①">50의 왼쪽 자식</button></li><li><button type="button" data-n="②">30의 왼쪽 자식</button></li><li><button type="button" data-n="③">30의 오른쪽 자식</button></li><li><button type="button" data-n="④">70의 왼쪽 자식</button></li></ol>
+    <p class="why"><b>해설</b> — 40 &lt; 50이므로 왼쪽(30)으로, 40 &gt; 30이므로 <b>30의 오른쪽 자식</b>이 됩니다. <a href="labs.html#bst">실습실 이진 탐색 트리</a>에서 직접 넣어 보세요.</p>
+  </div>
+  <div class="qz" data-ans="1">
+    <h4><span class="qnum">Q8</span><span>이진 탐색 트리를 <b>중위 순회</b>(왼쪽 → 루트 → 오른쪽)하면 값이 어떤 순서로 나오나요?</span></h4>
+    <ol class="opts"><li><button type="button" data-n="①">넣은 순서</button></li><li><button type="button" data-n="②">오름차순</button></li><li><button type="button" data-n="③">내림차순</button></li><li><button type="button" data-n="④">무작위</button></li></ol>
+    <p class="why"><b>해설</b> — 왼쪽에는 작은 값, 오른쪽에는 큰 값이 있으므로 중위 순회하면 <b>오름차순</b>으로 정렬된 결과가 나옵니다.</p>
+  </div>
+  <div class="qz" data-ans="1">
+    <h4><span class="qnum">Q9</span><span>너비 우선 탐색(BFS)에 쓰는 데이터 구조는?</span></h4>
+    <ol class="opts"><li><button type="button" data-n="①">스택</button></li><li><button type="button" data-n="②">큐</button></li><li><button type="button" data-n="③">트리</button></li><li><button type="button" data-n="④">해시</button></li></ol>
+    <p class="why"><b>해설</b> — BFS는 가까운 노드부터 차례로 방문하므로 먼저 발견한 노드를 먼저 꺼내는 <b>큐</b>를 씁니다. DFS는 스택(또는 재귀)을 씁니다.</p>
+  </div>
+  <div class="qz" data-ans="1">
+    <h4><span class="qnum">Q10</span><span>노드는 많지만 간선이 아주 적은 그래프를 저장할 때 메모리를 아끼는 방법은?</span></h4>
+    <ol class="opts"><li><button type="button" data-n="①">인접 행렬</button></li><li><button type="button" data-n="②">인접 리스트</button></li><li><button type="button" data-n="③">2차원 배열</button></li><li><button type="button" data-n="④">스택</button></li></ol>
+    <p class="why"><b>해설</b> — 인접 행렬은 노드 수의 제곱만큼 칸이 필요하지만 <b>인접 리스트</b>는 실제 연결된 간선만 저장합니다.</p>
+  </div>
+  <div class="qz-score" data-qz-score><span>맞힌 문제 <b data-qz-right>0</b> / 10</span><span class="muted" data-qz-left>남은 문제 10개</span><span class="muted" data-qz-best></span><button class="btn" type="button" data-qz-reset>다시 풀기</button></div>
+</section>
+</section>
+<section class="wrapup" id="u-practice"><h3><span class="idx">마무리</span> Programiz 실습</h3><p class="lede">코드는 <a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz 온라인 컴파일러</a>에서 실행합니다. 사용법과 오류 해결표는 <a href="practice.html">파이썬 실습</a>에 있어요.</p><div class="tiles"><a class="tile" href="practice.html#nb2"><span class="ic">🐍</span><h3>Ⅱ 데이터 구조 실습 세트</h3><p>이 단원 내용을 묶은 실습 코드입니다. 칸마다 <b>Programiz에서 실행</b>을 눌러 돌려 보세요.</p></a><a class="tile" href="practice.html#errors"><span class="ic">🩹</span><h3>오류 해결표</h3><p>빨간 글씨가 나오면 마지막 줄의 오류 이름으로 찾아보세요.</p></a></div></section>
 </main>
 </div>
+<nav class="pager" aria-label="단원 이동"><a class="prev u1" href="unit1.html"><span class="dir">← 이전</span><span class="ttl">Ⅰ 프로그래밍</span></a><a class="next u3" href="unit3.html"><span class="dir">다음 →</span><span class="ttl">Ⅲ 알고리즘</span></a></nav>
 
-<nav class="pager" aria-label="단원 이동">
-  <a class="prev" href="unit1.html"><span class="dir">← 이전 단원</span><span class="ttl">Ⅰ 프로그래밍</span></a>
-  <a class="next" href="unit3.html"><span class="dir">다음 단원 →</span><span class="ttl">Ⅲ 알고리즘</span></a>
-</nav>
 <footer>
   <div class="foot-in">
-    <p><b>정보과학</b> — 씨마스 『정보과학』 2022 개정 교육과정 핵심 내용 정리.</p>
-    <p>보문고등학교 <b>김용득</b> 선생님 제작.</p>
-    <p>모든 개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
-    <p class="copyright">본 자료는 학교 수업 목적으로 제작되었으며, 저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+    <div>
+      <p><b>정보과학</b> — 씨마스 『정보과학』 (2022 개정 교육과정) 수업 자료 · 1학기 · 주 3시간 · 16주</p>
+      <p>보문고등학교 <b>김용득</b> 선생님 제작.</p>
+      <p>개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
+      <p class="copyright">본 자료는 학교 수업 목적으로 제작되었으며, 저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+    </div>
+    <nav class="foot-links" aria-label="사이트 전체"><a href="index.html">수업 홈</a><a href="unit0.html">0 파이썬 기초</a><a href="unit1.html">Ⅰ 프로그래밍</a><a href="unit2.html">Ⅱ 데이터 구조</a><a href="unit3.html">Ⅲ 알고리즘</a><a href="unit4.html">Ⅳ 프로젝트</a><a href="course.html">수업 안내</a><a href="labs.html">실습실</a><a href="practice.html">파이썬 실습</a><a href="glossary.html">용어 사전</a><a href="my.html">내 학습</a><a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz</a></nav>
   </div>
 </footer>
-<script src="assets/app.js"></script>
-<script src="assets/extra.js"></script>
+<script>window.SITE={"topics":{"0":["t0-0","t0-1","t0-2","t0-3","t0-4","t0-5","t0-6","t0-7","t0-8","t0-9","t0-10"],"1":["t1-1","t1-2","t1-3","t1-4","t1-5"],"2":["t2-1","t2-2","t2-3","t2-4","t2-5"],"3":["t3-1","t3-2","t3-3","t3-4","t3-5","t3-6","t3-8","t3-7"],"4":["t4-1","t4-2","t4-3","t4-4","t4-6","t4-5"]},"units":{"0":{"roman":"0","name":"파이썬 기초","weeks":null},"1":{"roman":"Ⅰ","name":"프로그래밍","weeks":[1,5]},"2":{"roman":"Ⅱ","name":"데이터 구조","weeks":[6,9]},"3":{"roman":"Ⅲ","name":"알고리즘","weeks":[10,13]},"4":{"roman":"Ⅳ","name":"정보과학 프로젝트","weeks":[14,16]}},"quiz":{"0":10,"1":10,"2":10,"3":10,"4":10},"weeks":[{"week":1,"lessons":["오리엔테이션 — 정보과학은 무엇을 배우는 과목인가","함수의 개념 — 내장 함수와 사용자 정의 함수","함수의 정의(<code>def</code>)와 네 가지 구성 요소"]},{"week":2,"lessons":["함수 호출 — 인수와 매개 변수의 관계","<code>return</code>의 두 역할 / 매개 변수·반환값 4가지 형태","지역 변수와 전역 변수, <code>global</code>"]},{"week":3,"lessons":["[역량] 음악 플레이 리스트 관리 프로그램","기본값 매개 변수와 가변 인수 매개 변수","여러 값 반환 / 클래스와 객체"]},{"week":4,"lessons":["모듈 만들기와 <code>import</code>","패키지·라이브러리 / 내장 함수와 표준 라이브러리","[역량] 가위바위보 게임 만들기"]},{"week":5,"lessons":["재귀 구조의 이해 — 수학적 귀납법과 재귀 관계","재귀 함수의 동작 원리 — 호출과 반환","반복 vs 재귀 / 재귀 활용 — 자릿수 합·하노이 탑"]},{"week":6,"lessons":["데이터 구조의 분류 / 스택의 개념(LIFO)","스택의 연산 — push, pop, peek, isEmpty","리스트로 스택 구현하기 · 활용 사례"]},{"week":7,"lessons":["큐의 개념(FIFO)과 연산","리스트로 큐 구현하기 / 덱·우선순위 큐","[역량] 스택·큐를 활용한 프로그램"]},{"week":8,"lessons":["트리의 개념과 구성 요소","트리의 표현 — 인접 행렬과 인접 리스트","이진 트리와 순차 데이터 구조 표현"]},{"week":9,"lessons":["이진 탐색 트리의 규칙과 활용","그래프의 개념·종류와 표현","그래프 탐색 — 깊이 우선·너비 우선 탐색"]},{"week":10,"lessons":["알고리즘의 이해와 문제 해결 전략 네 가지","알고리즘 성능 평가 — 시간·공간 복잡도","빅오 표기법과 알고리즘 성능 비교"]},{"week":11,"lessons":["문제의 세 요소와 상태 공간","탐색 공간의 구조·범위 / 전체 탐색과 순차 탐색","비선형 전체 탐색 — DFS·BFS 적용"]},{"week":12,"lessons":["탐색 공간 배제와 이진 탐색","탐욕 알고리즘 — 거스름돈·시간표 문제","분기 한정 알고리즘과 백트래킹"]},{"week":13,"lessons":["문제 분해와 전체·부분 문제의 관계식","분할 정복법 — 퀵 정렬과 합병 정렬","동적 계획법 — 메모이제이션과 상향식"]},{"week":14,"lessons":["정보과학으로 문제 해결하기 · 문제 해결 5단계","학문 분야별 문제 탐색 / 모둠 구성·주제 선정","[프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화"]},{"week":15,"lessons":["[프로젝트 ①] 알고리즘 설계와 프로그램 작성","[프로젝트 ②] 탄소 발자국 — 데이터 수집과 구조화","[프로젝트 ②] 다익스트라 알고리즘으로 구현하기"]},{"week":16,"lessons":["[프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계","[프로젝트 ③] 백트래킹 구현과 디버깅","산출물 정리 / 프로젝트 발표와 상호 평가"]}],"start":null,"programiz":"https://www.programiz.com/python-programming/online-compiler/"};</script>
+<script src="assets/site.js"></script>
 </body>
 </html>
