@@ -1,9 +1,9 @@
 <header class="xp-hero">
   <p class="kicker">TEACHER SETTINGS</p>
   <h1>교사 설정</h1>
-  <p>해마다 바뀌는 <b>학기 시작일</b>과 <b>평가 비율</b>을 여기서 고칩니다. 저장하면 사이트의 <a href="course.html#grade">평가</a> 표와 홈의 <b>이번 주 수업</b>에 바로 반영됩니다. </p>
+  <p>해마다 바뀌는 <b>학기</b>, <b>평가 비율</b>, <b>수행평가 채점 기준표</b>를 여기서 고칩니다. 저장하면 홈의 학기·<b>이번 주 수업</b>과 <a href="course.html#grade">수업 안내</a>의 평가 표·채점 기준에 바로 반영됩니다.</p>
   <p class="muted">이 페이지는 메뉴에 없고, 페이지 맨 아래 <b>정보과학</b> 글자를 5번 연속 누르면 들어옵니다. 학생과 함께 쓰는 컴퓨터라면 다 쓴 뒤 <button class="btn" type="button" data-teacher-off>교사 모드 끄기</button>를 눌러 주세요.</p>
-  <nav class="xp-jump"><a href="#s-term">학기</a><a href="#s-grade">평가 비율</a><a href="#s-save">저장하기</a></nav>
+  <nav class="xp-jump"><a href="#s-term">학기</a><a href="#s-grade">평가 비율</a><a href="#s-rubric">채점 기준표</a><a href="#s-save">저장하기</a></nav>
 </header>
 
 <form data-set-form autocomplete="off">
@@ -27,6 +27,12 @@
   </table></div>
   <h3>미리 보기</h3>
   <div data-set-preview></div>
+</section>
+
+<section class="xp-sec" id="s-rubric">
+  <h2>수행평가 채점 기준표</h2>
+  <p class="lede">구분이 <b>수행</b>인 평가마다 채점 기준표를 넣을 수 있어요. <b>엑셀(xlsx)·CSV 파일</b>을 올리거나, 한글·엑셀·구글 시트에서 <b>표를 통째로 복사해 붙여 넣으면</b> 됩니다. 첫 줄은 제목 줄로 읽고, 첫 열의 병합된 칸은 위 칸 값으로 채웁니다. 넣은 뒤 아래 <b>저장하기</b>까지 해야 학생 화면에 나와요.</p>
+  <div class="set-ways" data-set-rubrics></div>
 </section>
 
 <section class="xp-sec" id="s-save">

@@ -1476,15 +1476,41 @@
   }
   function gradeTable(st) {
     var total = 0;
-    var body = (st.grading || []).map(function (g) {
+    var body = (st.grading || []).map(function (g, i) {
       total += +g.ratio || 0;
-      var what = esc(g.what) + (/프로젝트/.test(g.name) ? ' (<a href="course.html#rubric">채점 기준</a>)' : '');
+      var what = esc(g.what) + (g.rubric ? ' (<a href="course.html#rubric-' + (i + 1) + '">채점 기준</a>)' : '');
       return '<tr><td>' + esc(g.type) + '</td><td>' + esc(g.name) + '</td><td>' + what + '</td><td>' + esc(g.when) + '</td><td class="num">' + esc(g.ratio) + '%</td></tr>';
     }).join('');
     return '<div class="tablewrap"><table class="gradetbl"><thead><tr><th>구분</th><th>평가</th><th>무엇을 보나요</th><th>시기</th><th>반영 비율</th></tr></thead><tbody>' +
       body + '</tbody><tfoot><tr><td colspan="4">합계</td><td class="num"><b>' + total + '%</b></td></tr></tfoot></table></div>';
   }
+  // 채점 기준표: 첫 열에서 위와 같은 칸은 합쳐 보인다(build.py 의 rubric_table과 같은 표)
+  function rubricTable(rb) {
+    function cell(t) { return esc(t).replace(/\n/g, '<br>'); }
+    var out = [], rows = rb.rows, i = 0;
+    while (i < rows.length) {
+      var span = 1;
+      while (i + span < rows.length && rows[i + span][0] === rows[i][0]) span++;
+      out.push('<tr>' + (span > 1 ? '<td rowspan="' + span + '">' : '<td>') + cell(rows[i][0]) + '</td>' +
+        rows[i].slice(1).map(function (x) { return '<td>' + cell(x) + '</td>'; }).join('') + '</tr>');
+      rows.slice(i + 1, i + span).forEach(function (r) {
+        out.push('<tr class="rb-cont">' + r.slice(1).map(function (x) { return '<td>' + cell(x) + '</td>'; }).join('') + '</tr>');
+      });
+      i += span;
+    }
+    return '<div class="tablewrap"><table class="rubric"><thead><tr>' + rb.head.map(function (h) { return '<th>' + cell(h) + '</th>'; }).join('') +
+      '</tr></thead><tbody>' + out.join('') + '</tbody></table></div>';
+  }
+  function rubricsHtml(st) {
+    var out = (st.grading || []).map(function (g, i) {
+      return g.rubric ? '<h3 id="rubric-' + (i + 1) + '">' + esc(g.name) + '</h3>' + rubricTable(g.rubric) : '';
+    }).join('');
+    return out || '<p class="muted">채점 기준표가 아직 없어요.</p>';
+  }
   function applySettings(st, isPreview) {
+    $$('[data-term]').forEach(function (e) { if (st.term) e.textContent = st.term; });
+    var rb = $('[data-rubrics]');
+    if (rb && st.grading) rb.innerHTML = rubricsHtml(st);
     var g = $('[data-grade]');
     if (g && st.grading) g.innerHTML = gradeTable(st);
     $$('[data-grade-year]').forEach(function (e) { e.textContent = (st.year ? st.year + '학년도 ' : '') + (st.term || ''); });
@@ -1507,7 +1533,7 @@
     var row = $('#plan .wk[data-week="' + wk + '"]');
     if (row) row.classList.add('now');
   }
-  if ($('[data-grade]') || $('[data-now]')) loadSettings(applySettings);
+  loadSettings(applySettings);
 
   /* ---------- 교사 모드: 바닥글 '정보과학'을 5번 연속 누르면 교사 설정으로 ----------
      링크를 숨기는 장치일 뿐 보안은 아니다. 실제 저장은 저장소 주인의 GitHub 로그인이 있어야 된다. */
@@ -1543,6 +1569,7 @@
         grading: $$('tr', rowsEl).map(function (tr) {
           var o = {};
           $$('[data-k]', tr).forEach(function (i) { var k = i.getAttribute('data-k'); o[k] = k === 'ratio' ? (+i.value || 0) : i.value.trim(); });
+          if (tr._rubric) o.rubric = tr._rubric;
           return o;
         })
       };
@@ -1553,6 +1580,7 @@
       totalEl.innerHTML = '합계 <b>' + t + '%</b>';
       totalEl.classList.toggle('bad', t !== 100);
       $('[data-set-preview]').innerHTML = gradeTable(st);
+      drawRubrics(st);
       $('[data-set-week]').textContent = !st.semester_start ? '학기 시작일을 넣으면 홈에 이번 주 수업이 나옵니다.'
         : wk < 1 ? '학기 시작 전이에요. 시작일이 든 주를 1주차로 셉니다.'
         : wk > 16 ? '16주가 지났어요(' + wk + '주차). 홈에는 이번 주 카드 대신 시작 안내가 보입니다.'
@@ -1564,9 +1592,113 @@
       F.term.value = st.term || '1학기';
       F.semester_start.value = st.semester_start || '';
       rowsEl.innerHTML = (st.grading || []).map(rowHtml).join('');
+      $$('tr', rowsEl).forEach(function (tr, i) { if (st.grading[i].rubric) tr._rubric = st.grading[i].rubric; });
       refresh();
     }
     function say(t, bad) { msg.textContent = t; msg.classList.toggle('bad', !!bad); }
+
+    /* 수행평가 채점 기준표: 엑셀·CSV 파일을 올리거나 표를 붙여 넣으면 settings.json에 함께 들어간다 */
+    var rbBox = $('[data-set-rubrics]'), rbSig = '';
+    function drawRubrics(st) {
+      var sig = JSON.stringify(st.grading.map(function (g) { return [g.type, g.name, g.rubric || null]; }));
+      if (sig === rbSig) return;   // 붙여 넣는 중인 칸이 지워지지 않도록 바뀐 게 있을 때만 다시 그린다
+      rbSig = sig;
+      var cards = st.grading.map(function (g, i) {
+        if (g.type !== '수행') return '';
+        return '<div class="mybox rb-card" data-i="' + i + '"><h3>' + (esc(g.name) || '(이름 없음)') + '</h3>' +
+          (g.rubric ? rubricTable(g.rubric) : '<p class="muted">채점 기준표가 아직 없어요.</p>') +
+          '<p class="rb-btns"><label class="btn btn-p">파일 올리기 (엑셀·CSV)<input type="file" accept=".xlsx,.xls,.csv,.ods" hidden data-rb-file></label> ' +
+          '<button class="btn" type="button" data-rb-paste-toggle>표 붙여 넣기</button> ' +
+          (g.rubric ? '<button class="btn" type="button" data-rb-clear>기준표 지우기</button>' : '') +
+          ' <span class="rb-msg" data-rb-msg role="status"></span></p>' +
+          '<div class="rb-paste" data-rb-paste hidden><textarea rows="6" placeholder="엑셀·한글·구글 시트에서 표를 통째로 복사해 붙여 넣으세요. 첫 줄은 제목 줄(예: 항목 · 잘함 · 보통 · 노력 필요)입니다."></textarea>' +
+          '<p><button class="btn btn-p" type="button" data-rb-apply>적용</button></p></div></div>';
+      }).join('');
+      rbBox.innerHTML = cards || '<p class="muted">구분이 <b>수행</b>인 평가 항목이 없어요.</p>';
+    }
+    // 2차원 표 → {head, rows}. 빈 줄·빈 열을 빼고, 첫 열이 비면(병합 칸) 위 칸 값으로 채운다.
+    function toRubric(m) {
+      m = m.map(function (r) { return r.map(function (c) { return String(c == null ? '' : c).replace(/\r/g, '').trim(); }); })
+        .filter(function (r) { return r.some(function (c) { return c; }); });
+      if (m.length < 2) return null;
+      var w = Math.max.apply(null, m.map(function (r) { return r.length; }));
+      m = m.map(function (r) { while (r.length < w) r.push(''); return r; });
+      var keep = [];
+      for (var c = 0; c < w; c++) if (m.some(function (r) { return r[c]; })) keep.push(c);
+      if (keep.length < 2) return null;
+      m = m.map(function (r) { return keep.map(function (c) { return r[c]; }); });
+      for (var r = 2; r < m.length; r++) if (!m[r][0]) m[r][0] = m[r - 1][0];
+      return { head: m[0], rows: m.slice(1) };
+    }
+    function parseTsv(t) {
+      // 엑셀·구글 시트 복사본: 칸 안 줄바꿈은 "…"로 감싸 온다
+      var rows = [[]], cur = '', q = false;
+      for (var i = 0; i < t.length; i++) {
+        var ch = t[i];
+        if (q) { if (ch === '"' && t[i + 1] === '"') { cur += '"'; i++; } else if (ch === '"') q = false; else cur += ch; }
+        else if (ch === '"' && cur === '') q = true;
+        else if (ch === '\t') { rows[rows.length - 1].push(cur); cur = ''; }
+        else if (ch === '\n') { rows[rows.length - 1].push(cur); cur = ''; rows.push([]); }
+        else cur += ch;
+      }
+      rows[rows.length - 1].push(cur);
+      return rows;
+    }
+    var xlsxReady = null;
+    function loadXlsx() {
+      // SheetJS(Apache-2.0)를 이 사이트에 함께 두고, 파일을 고를 때만 불러온다
+      if (!xlsxReady) xlsxReady = new Promise(function (ok, no) {
+        var sc = document.createElement('script');
+        sc.src = 'assets/vendor/xlsx.full.min.js';
+        sc.onload = function () { ok(window.XLSX); };
+        sc.onerror = no;
+        document.head.appendChild(sc);
+      });
+      return xlsxReady;
+    }
+    function sheetMatrix(X, ws) {
+      (ws['!merges'] || []).forEach(function (mg) {
+        var v = ws[X.utils.encode_cell(mg.s)];
+        for (var r = mg.s.r; r <= mg.e.r; r++) for (var c = mg.s.c; c <= mg.e.c; c++) {
+          if (r === mg.s.r && c === mg.s.c) continue;
+          ws[X.utils.encode_cell({ r: r, c: c })] = v ? { t: 's', v: v.v } : undefined;
+        }
+      });
+      return X.utils.sheet_to_json(ws, { header: 1, defval: '', raw: false });
+    }
+    function setRubric(card, rb, note) {
+      var tr = $$('tr', rowsEl)[+card.getAttribute('data-i')];
+      if (!tr) return;
+      if (rb) tr._rubric = rb; else delete tr._rubric;
+      refresh();
+      var m = $('.rb-card[data-i="' + card.getAttribute('data-i') + '"] [data-rb-msg]');
+      if (m) m.textContent = note;
+    }
+    function rbFail(card, t) { var m = $('[data-rb-msg]', card); m.textContent = t; m.classList.add('bad'); }
+    rbBox.addEventListener('click', function (e) {
+      var card = e.target.closest('.rb-card');
+      if (!card) return;
+      if (e.target.closest('[data-rb-paste-toggle]')) { var p = $('[data-rb-paste]', card); p.hidden = !p.hidden; if (!p.hidden) $('textarea', p).focus(); }
+      if (e.target.closest('[data-rb-clear]')) setRubric(card, null, '지웠어요.');
+      if (e.target.closest('[data-rb-apply]')) {
+        var rb = toRubric(parseTsv($('textarea', card).value));
+        if (!rb) return rbFail(card, '표를 읽지 못했어요. 제목 줄과 내용 줄이 있는 표를 통째로 복사해 주세요.');
+        setRubric(card, rb, '적용했어요 ✓ ' + rb.rows.length + '줄');
+      }
+    });
+    rbBox.addEventListener('change', function (e) {
+      var inp = e.target.closest('[data-rb-file]');
+      if (!inp || !inp.files[0]) return;
+      var card = inp.closest('.rb-card'), f = inp.files[0];
+      if (/\.(hwp|hwpx|pdf|docx?)$/i.test(f.name)) return rbFail(card, '한글·PDF·워드 파일은 바로 읽지 못해요. 표를 복사해 「표 붙여 넣기」로 넣거나 엑셀로 저장해 올려 주세요.');
+      $('[data-rb-msg]', card).textContent = '읽는 중…';
+      Promise.all([loadXlsx(), f.arrayBuffer()]).then(function (r) {
+        var X = r[0], wb = X.read(r[1], { type: 'array' });
+        var rb = toRubric(sheetMatrix(X, wb.Sheets[wb.SheetNames[0]]));
+        if (!rb) return rbFail(card, '첫 번째 시트에서 표를 찾지 못했어요.');
+        setRubric(card, rb, '적용했어요 ✓ ' + f.name + ' · ' + rb.rows.length + '줄');
+      }).catch(function () { rbFail(card, '파일을 읽지 못했어요. 엑셀(xlsx)이나 CSV로 저장해 다시 올려 주세요.'); });
+    });
     function valid(st) {
       if (total(st) !== 100) { say('비율 합계가 100%가 아니에요(지금 ' + total(st) + '%).', true); return false; }
       if (st.grading.some(function (g) { return !g.name; })) { say('이름이 빈 평가 항목이 있어요.', true); return false; }

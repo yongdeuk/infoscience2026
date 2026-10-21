@@ -2,7 +2,6 @@
   "title": "정보과학",
   "school": "보문고등학교",
   "teacher": "김용득",
-  "term": "1학기 · 주 3시간 · 16주",
   "textbook": "씨마스 『정보과학』 (2022 개정 교육과정)",
   "units": [
     {
@@ -226,5 +225,6 @@
   ],
   "programiz": "https://www.programiz.com/python-programming/online-compiler/",
   "repo": "yongdeuk/infoscience2026",
-  "branch": "main"
+  "branch": "main",
+  "hours": "주 3시간 · 16주"
 }

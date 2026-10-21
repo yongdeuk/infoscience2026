@@ -1224,6 +1224,7 @@ mark{background:var(--warn-soft); color:inherit; padding:0 .05rem; border-radius
 /* 강의 계획 표 */
 .gradetbl td.num{width:6rem}
 .rubric td:first-child{font-weight:700; white-space:nowrap}
+.rubric tr.rb-cont td:first-child{font-weight:inherit; white-space:normal}
 
 @media print{
   .topbar, .crumbbar, #gate, .qz-score, .gl-tools, .nb-tools, footer{display:none !important}
@@ -1251,3 +1252,10 @@ mark{background:var(--warn-soft); color:inherit; padding:0 .05rem; border-radius
 .set-steps{padding-left:1.2rem; margin:.4rem 0 .8rem}
 .set-banner{margin:1rem auto 0; max-width:1160px; padding:.6rem 1rem; border-radius:var(--r-sm);
   background:var(--warn-soft); color:var(--warn); font-size:.9rem}
+.rb-card h3{margin:0 0 .6rem}
+.rb-card .tablewrap{margin:.4rem 0}
+.rb-btns{display:flex; flex-wrap:wrap; gap:.4rem; align-items:center; margin:.6rem 0 0}
+.rb-btns label.btn{cursor:pointer}
+.rb-msg{font-size:.85rem; color:var(--ok)}
+.rb-paste textarea{width:100%; font:inherit; font-size:.88rem; padding:.5rem; border:1px solid var(--line); border-radius:var(--r-sm); background:var(--surface); color:var(--ink); margin-top:.5rem}
+#rubric h3{margin:1.4rem 0 .4rem; font-size:1.05rem}
