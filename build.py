@@ -1,33 +1,62 @@
 # -*- coding: utf-8 -*-
-"""src/infoscience.html(단일 파일 원본)을 홈 + 4개 단원 페이지로 분리해 빌드한다.
+"""정보과학 수업 사이트 빌드 스크립트.
 
 사용법: 저장소 루트에서  python build.py
-원본을 고친 뒤 이 스크립트를 돌리면 index.html, unit1~4.html, assets/ 가 다시 만들어진다.
+
+원본(src/)을 읽어 정적 페이지와 assets/site.css · assets/site.js 를 만든다.
+  src/data/course.json    과목 정보, 단원(0~Ⅳ) 메타·학습 목표, 16주 차시 계획, 학기 시작일
+  src/data/glossary.json  용어(단원별) → 단원 페이지 '핵심 용어' + 용어 사전 페이지
+  src/data/quiz.json      퀴즈(단원별) → 단원 페이지 '단원 퀴즈'
+  src/units/unitN.html    단원 본문(교과서 내용). 소단원은 <article class="topic" id="tN-M">
+  src/pages/*.html        도구 페이지 본문(수업 안내·실습실·파이썬 실습·내 학습)
+  src/css/*.css, src/js/*.js  스타일과 스크립트(이어 붙여 하나로 만든다)
 """
-import io, os, re, shutil
+import io, os, re, json, html
 
-SRC = "src/infoscience.html"
-OUT = "."
-LIVE = "https://infoscience2026.vercel.app"
+ROOT = os.path.dirname(os.path.abspath(__file__))
+def P(*a): return os.path.join(ROOT, *a)
+def rd(p): return io.open(P(p), encoding="utf-8").read()
+def wr(p, s):
+    os.makedirs(os.path.dirname(P(p)) or ROOT, exist_ok=True)
+    io.open(P(p), "w", encoding="utf-8", newline="\n").write(s)
 
-src = io.open(SRC, encoding="utf-8").read()
+COURSE = json.loads(rd("src/data/course.json"))
+GLOSS = json.loads(rd("src/data/glossary.json"))
+QUIZ = json.loads(rd("src/data/quiz.json"))
+UNITS = {u["n"]: u for u in COURSE["units"]}
+UNIT_NS = sorted(UNITS)
+PZ = COURSE["programiz"]
+# 해마다 바뀌는 값(학기 시작일·평가 비율). 사이트가 실행 중에 다시 읽으므로 빌드 없이 고쳐도 반영된다.
+SETTINGS = json.loads(rd("settings.json"))
+SETTINGS_EDIT = "https://github.com/%s/edit/%s/settings.json" % (COURSE["repo"], COURSE["branch"])
 
-# ---------- 조각 추출 ----------
-def grab(pattern, flags=re.S):
-    m = re.search(pattern, src, flags)
-    assert m, "not found: " + pattern[:60]
-    return m.group(1)
+# 도구 페이지: (파일 이름, 이름, 아이콘, 설명)
+TOOLS = [
+    ("course",   "수업 안내",   "📋", "평가 · 프로젝트 채점 기준 · 수업 약속 · AI 사용 신호등"),
+    ("labs",     "실습실",      "🧪", "그래프 탐색 · 이진 탐색 트리 · 정렬 경주 등 직접 조작하는 시뮬레이터"),
+    ("practice", "파이썬 실습", "🐍", "단원별 실습 세트를 Programiz로 실행 · 자주 나는 오류 해결표"),
+    ("glossary", "용어 사전",   "📖", "전 단원 핵심 용어를 검색하고 본문으로 바로 가기"),
+    ("my",       "내 학습",     "✅", "해 봤어요 진도 · 퀴즈 점수 · 정리 노트 · txt 내보내기"),
+]
+TOOL = {k: (n, i, d) for k, n, i, d in TOOLS}
+# 메뉴에는 없고 바닥글에서만 들어가는 교사용 페이지
+TOOL["settings"] = ("교사 설정", "⚙️", "학기 시작일과 평가 비율을 고치는 교사용 설정")
 
-style   = grab(r'<style>(.*?)</style>')
-script  = grab(r'<script>(.*?)</script>')
-masthead= grab(r'(<header class="masthead">.*?</header>)')
-unitmap = grab(r'(<nav class="unitmap".*?</nav>)')
-plan    = grab(r'(<section class="plan" id="plan">.*?</section>)')
-footer  = grab(r'(<footer>.*?</footer>)')
+# 실습실 페이지에만 있는 시뮬레이터(단원 페이지 '실습 모음'에 함께 보인다)
+LAB_EXTRA = {
+    2: [("labs.html#graph", "그래프 탐색 DFS · BFS"), ("labs.html#bst", "이진 탐색 트리")],
+    3: [("labs.html#sort", "정렬 알고리즘 경주")],
+}
+# 파이썬 실습 페이지의 단원별 세트 위치
+PRACTICE_ANCHOR = {1: "nb1", 2: "nb2", 3: "nb3", 4: "nb4"}
 
-units = {}
-for n in (1, 2, 3, 4):
-    units[n] = grab(r'(<section class="unit u%d" id="unit%d">.*?</section>\s*)(?=<!-- =+ UNIT|\n</main>)' % (n, n))
+def esc(s): return html.escape(s, quote=False)
+def uname(u): return u.get("short") or u["name"]
+def wklabel(u):
+    if u.get("weeks_label"): return u["weeks_label"]
+    a, b = u["weeks"]
+    return "%d주차" % a if a == b else "%d~%d주차" % (a, b)
+def ucls(n): return "u%d" % n
 
 # ---------- 실행 가능한 코드 블록 표시 ----------
 import ast as _ast, html as _html
@@ -101,774 +130,10 @@ def mark_quiz_blank(body):
     return _QUIZ_ANSWER_RE.sub(block_sub, body)
 
 
-UNIT_META = {
-    1: ("Ⅰ", "프로그래밍", "1~5주차", "함수 · 모듈 · 재귀 구조 — 코드를 작은 단위로 나누는 법"),
-    2: ("Ⅱ", "데이터 구조", "6~9주차", "스택 · 큐 · 트리 · 그래프 — 데이터를 담는 그릇의 모양"),
-    3: ("Ⅲ", "알고리즘", "10~13주차", "복잡도 · 탐색 기반 · 관계 기반 — 더 빠른 해결 전략"),
-    4: ("Ⅳ", "정보과학 프로젝트", "14~16주차", "문제 발견부터 검증까지, 실제로 만들어 보는 4단계"),
-}
-
-_run_total = 0
-for _n in (1, 2, 3, 4):
-    units[_n], _c0 = mark_editable_drill(units[_n])
-    units[_n], _c1 = mark_runnable(units[_n])
-    units[_n] = mark_quiz_blank(units[_n])
-    _run_total += _c0 + _c1
-
-# ---------- 추가 CSS ----------
-EXTRA_CSS = """
-  /* ---------- 상단 바 ---------- */
-  .topbar{
-    position:sticky; top:0; z-index:50; background:var(--surface);
-    border-bottom:1px solid var(--line); transition:box-shadow .22s ease;
-  }
-  body.is-scrolled .topbar{box-shadow:0 8px 18px -12px rgba(20,25,34,.28)}
-  .topbar-in{
-    max-width:1120px; margin:0 auto; padding:0 1.25rem;
-    display:flex; align-items:center; gap:1.25rem; min-height:var(--topbar-h);
-  }
-  .brand{
-    font-family:var(--display); font-size:1.06rem; font-weight:400; color:var(--ink);
-    white-space:nowrap; letter-spacing:.14em; padding-right:.14em;
-  }
-  .brand:hover{text-decoration:none; color:var(--accent-ink)}
-  .unitnav{display:flex; gap:.15rem; overflow-x:auto; scrollbar-width:none; flex:1}
-  .unitnav::-webkit-scrollbar{display:none}
-  .unitnav a{
-    padding:.3rem .6rem; font-size:.84rem; color:var(--ink2); white-space:nowrap;
-    border-radius:2px; border-bottom:2px solid transparent;
-  }
-  .unitnav a:hover{text-decoration:none; color:var(--ink)}
-  .unitnav a.is-current{color:var(--accent-ink); border-bottom-color:var(--accent); font-weight:700}
-  .progress{height:2px; background:var(--accent); width:0; transition:width .12s linear}
-  .themetoggle{
-    flex:0 0 auto; display:inline-flex; align-items:center; gap:.4rem;
-    padding:.34rem .6rem; border:1px solid var(--line); background:var(--surface-2);
-    color:var(--ink2); border-radius:2px; cursor:pointer; font-size:.78rem; line-height:1;
-    transition:border-color .18s ease, color .18s ease;
-  }
-  .themetoggle:hover{border-color:var(--accent); color:var(--accent-ink)}
-  .themetoggle svg{width:1rem; height:1rem; display:block}
-  .themetoggle .ico-sun{display:none}
-  :root[data-theme="dark"] .themetoggle .ico-sun{display:block}
-  :root[data-theme="dark"] .themetoggle .ico-moon{display:none}
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]) .themetoggle .ico-sun{display:block}
-    :root:not([data-theme="light"]) .themetoggle .ico-moon{display:none}
-  }
-  @media (max-width:640px){ .themetoggle .ico-label{display:none} .themetoggle{padding:.5rem .6rem} }
-  @media (prefers-reduced-motion: reduce){ .progress{transition:none} }
-  .crumbbar{
-    display:none; border-bottom:1px solid var(--line); background:var(--surface-2);
-    font-size:.8rem; color:var(--ink3); padding:.4rem 1.25rem;
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-  }
-  .crumbbar b{color:var(--accent-ink); font-weight:700}
-  @media (max-width:1079px){
-    .crumbbar{display:block; position:sticky; top:var(--topbar-h); z-index:49}
-  }
-
-  /* ---------- 목차(스크롤 스파이) ---------- */
-  .toc{display:none}
-  @media (min-width:1080px){
-    .toc{
-      display:block; position:sticky; top:calc(var(--topbar-h) + 1.5rem);
-      max-height:calc(100vh - var(--topbar-h) - 3rem); overflow-y:auto;
-      font-size:.85rem; line-height:1.5; padding-right:.4rem;
-    }
-    .toc-home{
-      display:block; font-size:.78rem; color:var(--ink3); margin-bottom:.7rem;
-    }
-    .toc-home:hover{color:var(--accent-ink); text-decoration:none}
-    .toc-title{
-      font-weight:700; font-size:.95rem; color:var(--ink);
-      padding-bottom:.45rem; margin-bottom:.55rem; border-bottom:2px solid var(--accent);
-      display:flex; justify-content:space-between; align-items:baseline; gap:.5rem;
-    }
-    .toc-title span{
-      font-family:var(--mono); font-size:.68rem; font-weight:400; color:var(--accent-ink);
-    }
-    .toc ol{list-style:none; margin:0; padding:0}
-    .toc li{margin:0}
-    .toc a{
-      display:block; color:var(--ink2); padding:.28rem 0 .28rem .7rem;
-      border-left:2px solid var(--line); position:relative;
-    }
-    .toc a:hover{color:var(--ink); text-decoration:none; border-left-color:var(--ink3)}
-    .toc a em{font-family:var(--mono); font-style:normal; font-size:.72rem; color:var(--ink3); margin-right:.3rem}
-    .toc a.is-parent{color:var(--ink); font-weight:700}
-    .toc a.is-parent em{color:var(--accent)}
-    .toc a.is-active{
-      color:var(--accent-ink); font-weight:700;
-      border-left-color:var(--accent); background:var(--accent-soft);
-    }
-    .toc a.is-active em{color:var(--accent-ink)}
-    .toc .sub{margin:.1rem 0 .35rem}
-    .toc .sub a{
-      padding-left:1.5rem; font-size:.79rem; color:var(--ink3);
-    }
-    .toc .sub a::before{
-      content:''; position:absolute; left:.75rem; top:1em;
-      width:.4rem; height:1px; background:var(--line);
-    }
-    .toc .sub a.is-active::before{background:var(--accent)}
-  }
-
-  /* ---------- 파이썬 코드 실행기 ---------- */
-  pre[data-run]{margin-bottom:0; border-radius:3px 3px 0 0}
-  pre.is-editable{
-    outline:2px dashed var(--accent); outline-offset:-2px; cursor:text;
-  }
-  pre.is-editable:focus{outline-style:solid; background:var(--accent-soft)}
-  pre.is-editable:empty::before{content:attr(data-placeholder); color:var(--ink3); pointer-events:none}
-  .runner{
-    margin:0 0 1.2rem; border:1px solid var(--line); border-top:none;
-    background:var(--surface); border-radius:0 0 3px 3px;
-  }
-  .runner-bar{display:flex; flex-wrap:wrap; gap:.45rem; align-items:center; padding:.5rem .7rem}
-  .runner-bar .hint{font-size:.76rem; color:var(--ink3); margin-left:auto}
-  .stdin-lab{
-    display:block; font-size:.75rem; color:var(--ink3);
-    padding:.5rem .7rem .6rem; border-top:1px solid var(--line-2);
-  }
-  .stdin-lab textarea{
-    display:block; width:100%; margin-top:.35rem;
-    border:1px solid var(--line); background:var(--code-bg); color:var(--code-ink);
-    font-family:var(--mono); font-size:.82rem; padding:.45rem .55rem;
-    resize:vertical; border-radius:2px;
-  }
-  .runner-out{
-    margin:0; border:none; border-top:1px solid var(--line-2); border-radius:0;
-    background:var(--code-bg); font-size:.84rem; max-height:22rem; overflow:auto;
-    white-space:pre-wrap; word-break:break-all; padding:.7rem;
-  }
-  .runner-out.err{color:var(--err)}
-  .runner-out.wait{color:var(--ink3)}
-
-  /* ---------- 열람 잠금 화면 ---------- */
-  html:not(.unlocked) body{overflow:hidden}
-  html.unlocked #gate{display:none}
-  #gate{
-    position:fixed; inset:0; z-index:100; background:var(--paper);
-    display:flex; align-items:center; justify-content:center; padding:1.5rem;
-    background-image:radial-gradient(circle at 1px 1px, var(--dot) 1px, transparent 0);
-    background-size:22px 22px;
-  }
-  .gate-card{
-    width:100%; max-width:23rem; background:var(--surface);
-    border:1px solid var(--line); border-top:2px solid var(--accent);
-    border-radius:3px; padding:2rem 1.8rem 1.6rem; box-shadow:var(--lift);
-    display:flex; flex-direction:column;
-  }
-  .gate-card h1{
-    font-family:var(--display-solid); font-weight:500; font-size:1.9rem;
-    letter-spacing:.1em; text-indent:.1em; margin:0; color:var(--ink);
-    text-shadow:var(--title-shadow);
-  }
-  .gate-sub{margin:.7rem 0 1.6rem; font-size:.86rem; color:var(--ink3); line-height:1.6}
-  .gate-lab{
-    font-family:var(--mono); font-size:.68rem; letter-spacing:.14em;
-    text-transform:uppercase; color:var(--accent); margin-bottom:.4rem;
-  }
-  .gate-pwrap{position:relative}
-  #gate-pw{
-    width:100%; padding:.6rem 2.6rem .6rem .7rem; font-size:1rem;
-    border:1px solid var(--line); background:var(--surface-2); color:var(--ink);
-    border-radius:2px;
-  }
-  #gate-pw:focus{outline:2px solid var(--accent); outline-offset:-2px}
-  .gate-eye{
-    position:absolute; right:.15rem; top:50%; transform:translateY(-50%);
-    width:2.2rem; height:2.2rem; display:flex; align-items:center; justify-content:center;
-    border:none; background:none; color:var(--ink2); cursor:pointer; border-radius:2px;
-  }
-  .gate-eye:hover{color:var(--accent-ink)}
-  .gate-eye:focus-visible{outline:2px solid var(--accent); outline-offset:1px}
-  .gate-eye svg{width:1.15rem; height:1.15rem; display:block}
-  .gate-eye .ico-eye-off{display:none}
-  .gate-eye[aria-pressed="true"] .ico-eye{display:none}
-  .gate-eye[aria-pressed="true"] .ico-eye-off{display:block}
-  .gate-hint{margin:.45rem 0 0; font-size:.74rem; color:var(--ink3); line-height:1.55}
-  .gate-msg{margin:.6rem 0 0; font-size:.82rem; color:var(--err); min-height:1.2em}
-  .gate-btn{margin-top:.9rem; width:100%; justify-content:center; padding:.6rem}
-  .gate-note{
-    margin:1.5rem 0 0; padding-top:1rem; border-top:1px solid var(--line-2);
-    font-size:.76rem; color:var(--ink3); line-height:1.65;
-  }
-
-  /* ---------- 이전/다음 ---------- */
-  .pager{
-    max-width:1120px; margin:0 auto; padding:2.5rem 1.25rem 0;
-    display:grid; gap:.8rem; grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));
-  }
-  .pager a{
-    border:1px solid var(--line); background:var(--surface); padding:1rem 1.15rem;
-    color:var(--ink); display:block; border-radius:3px;
-    transition:border-color .18s ease, transform .18s ease, box-shadow .18s ease;
-  }
-  .pager a:hover{
-    border-color:var(--accent); text-decoration:none;
-    transform:translateY(-2px); box-shadow:var(--lift);
-  }
-  .pager .dir{
-    display:block; font-family:var(--mono); font-size:.68rem; letter-spacing:.14em;
-    text-transform:uppercase; color:var(--ink3); margin-bottom:.3rem;
-  }
-  .pager .ttl{font-weight:700; font-size:.98rem}
-  .pager .next{text-align:right}
-  @media (prefers-reduced-motion: reduce){
-    .pager a{transition:none} .pager a:hover{transform:none}
-  }
-
-  /* ---------- 홈 ---------- */
-  .home-lead{max-width:1120px; margin:0 auto; padding:0 1.25rem}
-  .home-lead h2{
-    font-family:var(--serif); font-size:1.35rem; margin:2.5rem 0 .6rem; font-weight:700;
-  }
-  .home-lead p{color:var(--ink2); max-width:66ch; margin:.4rem 0}
-  .howto{
-    max-width:1120px; margin:1.2rem auto 0; padding:0 1.25rem;
-    display:grid; gap:1rem; grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));
-  }
-  .howto div{
-    border:1px solid var(--line); background:var(--surface); padding:1.15rem 1.2rem;
-    border-radius:3px; transition:border-color .18s ease, box-shadow .18s ease;
-  }
-  .howto div:hover{border-color:var(--accent); box-shadow:var(--shadow)}
-  .howto h3{position:relative; padding-left:.85rem}
-  .howto h3::before{
-    content:''; position:absolute; left:0; top:.42em;
-    width:.32rem; height:.32rem; background:var(--accent); border-radius:50%;
-  }
-  .howto h3{margin:0 0 .35rem; font-size:.95rem; font-weight:700}
-  .howto p{margin:0; font-size:.86rem; color:var(--ink3); line-height:1.6}
-"""
-
-# ---------- 글자 크기 1.3배 ----------
-# rem 기준을 키워 여백·글자를 함께 확대하고, 위젯의 고정 px 치수도 rem으로 바꿔 같이 커지게 한다.
-assert "font-family:var(--sans); font-size:16px;" in style, "body 글자 크기 선언을 찾지 못함"
-style = style.replace("font-family:var(--sans); font-size:16px;",
-                      "font-family:var(--sans); font-size:1rem;", 1)
-style = style.replace("  body{\n", "  html{font-size:130%}\n  body{\n", 1)
-assert "html{font-size:130%}" in style, "기준 글자 크기 치환 실패"
-
-PX2REM = [
-    # 상단 바 높이 · 헤딩 여유
-    # 스택 · 큐
-    ("width:132px; height:216px", "width:8.25rem; height:13.5rem"),
-    ("width:min(100%,392px); height:66px", "width:min(100%,24.5rem); height:4.125rem"),
-    (".stackbox .cell{height:32px; width:100%}", ".stackbox .cell{height:2rem; width:100%}"),
-    (".queuebox .cell{height:100%; width:62px}", ".queuebox .cell{height:100%; width:3.875rem}"),
-    ("width:min(100%,392px); font-size:.72rem", "width:min(100%,24.5rem); font-size:.72rem"),
-    # 재귀 추적
-    ("width:190px; height:auto; min-height:216px", "width:11.875rem; height:auto; min-height:13.5rem"),
-    ("min-height:30px", "min-height:1.875rem"),
-    ("max-height:246px", "max-height:15.4rem"),
-    # 하노이
-    ("max-width:520px; margin:0 auto}", "max-width:32.5rem; margin:0 auto}"),
-    ("height:176px", "height:11rem"),
-    ("border-bottom:7px solid var(--ink3)", "border-bottom:.44rem solid var(--ink3)"),
-    ("width:7px; height:158px", "width:.44rem; height:9.875rem"),
-    ("height:21px; border-radius:3px", "height:1.3rem; border-radius:3px"),
-    ("bottom:-24px", "bottom:-1.5rem"),
-    ("padding-bottom:26px", "padding-bottom:1.6rem"),
-    # 이진 탐색 · 막대
-    ("width:44px; height:40px", "width:2.75rem; height:2.5rem"),
-    ("max-width:520px; margin:0 auto}\n  .bar-row", "max-width:32.5rem; margin:0 auto}\n  .bar-row"),
-    ("height:22px; position:relative", "height:1.375rem; position:relative"),
-    # 좁은 화면 보정
-    ("width:112px; height:200px", "width:7rem; height:12.5rem"),
-    ("width:54px}", "width:3.375rem}"),
-    (".peg{height:150px} .peg::before{height:132px}", ".peg{height:9.4rem} .peg::before{height:8.25rem}"),
-    ("width:38px; height:36px", "width:2.4rem; height:2.25rem"),
-]
-for a, b in PX2REM:
-    if a in style:
-        style = style.replace(a, b)
-    else:
-        print("  [건너뜀] px→rem 대상 없음:", a[:48])
-
-# 상단 바 높이 변수 + 넓어진 글자에 맞춘 사이드바
-style = style.replace(":root{\n", ":root{\n    --topbar-h:3.4rem;\n", 1)
-style = style.replace("@media (min-width:1000px){\n    .wrap{grid-template-columns:216px minmax(0,1fr); gap:3rem; align-items:start}\n  }",
-                      "@media (min-width:1080px){\n    .wrap{grid-template-columns:13.5rem minmax(0,1fr); gap:2.6rem; align-items:start}\n  }")
-
-# 단일 페이지 시절의 .toc 규칙 제거(새 규칙으로 대체)
-style = re.sub(r'  \.toc\{display:none\}\n  @media \(min-width:1000px\)\{.*?\n  \}\n',
-               '', style, count=1, flags=re.S)
-# 헤딩이 상단 바에 가리지 않도록
-style = style.replace(".unit{padding-top:3rem; scroll-margin-top:1rem}",
-                      ".unit{padding-top:2rem; scroll-margin-top:4.6rem}")
-style = style.replace(".topic{margin-top:2.6rem; scroll-margin-top:1rem}",
-                      ".topic{margin-top:2.6rem; scroll-margin-top:4.6rem}")
-style = style.replace(".topic h4{", ".topic h4{scroll-margin-top:4.6rem; ")
-style += EXTRA_CSS
-
-# ---------- 추가 JS(스크롤 스파이) ----------
-EXTRA_JS = """
-/* ============ 파이썬 코드 실행기 ============ */
-(function () {
-  'use strict';
-  var pres = [].slice.call(document.querySelectorAll('pre[data-run]'));
-  if (!pres.length) return;
-
-  var BASE = 'https://cdn.jsdelivr.net/pyodide/v0.27.2/full/';
-  var booting = null, gvars = null;
-
-  function boot() {
-    if (booting) return booting;
-    booting = new Promise(function (resolve, reject) {
-      var s = document.createElement('script');
-      s.src = BASE + 'pyodide.js';
-      s.onload = function () { window.loadPyodide({ indexURL: BASE }).then(resolve, reject); };
-      s.onerror = function () { reject(new Error('실행기를 내려받지 못했습니다. 인터넷 연결을 확인해 주세요.')); };
-      document.head.appendChild(s);
-    });
-    return booting;
-  }
-  function el(tag, cls, text) {
-    var e = document.createElement(tag);
-    if (cls) e.className = cls;
-    if (text != null) e.textContent = text;
-    return e;
-  }
-  function globalsOf(py) { if (!gvars) gvars = py.toPy({}); return gvars; }
-  function resetVars() { if (gvars) { gvars.destroy(); gvars = null; } }
-
-  // Pyodide 기본 배포판에 들어 있지 않은 순수 파이썬 라이브러리는
-  // loadPackagesFromImports가 찾지 못해 ModuleNotFoundError가 난다.
-  // 코드에서 이런 라이브러리를 쓰면 micropip으로 한 번만 내려받는다.
-  var EXTRA_PKGS = ['colorama'];
-  var micropip = null, installedPkgs = {};
-  function ensureExtraPackages(py, code) {
-    var need = EXTRA_PKGS.filter(function (name) {
-      return !installedPkgs[name] && code.indexOf(name) !== -1;
-    });
-    if (!need.length) return Promise.resolve();
-    var ready = micropip ? Promise.resolve(micropip)
-      : py.loadPackage('micropip').then(function () {
-          return (micropip = py.pyimport('micropip'));
-        });
-    return ready.then(function (mp) {
-      return need.reduce(function (p, name) {
-        return p.then(function () { return mp.install(name); })
-          .then(function () { installedPkgs[name] = true; });
-      }, Promise.resolve());
-    });
-  }
-
-  // execCommand('insertText', ...)는 더 이상 표준이 아니고 브라우저마다 동작이
-  // 다르므로, 편집 가능한 코드 블록에서는 Selection/Range API로 직접 텍스트
-  // 노드를 다뤄 Tab·Enter·붙여넣기가 항상 같은 방식으로 동작하게 한다.
-  function insertPlainText(text) {
-    var sel = window.getSelection();
-    if (!sel.rangeCount) return;
-    var range = sel.getRangeAt(0);
-    range.deleteContents();
-    var node = document.createTextNode(text);
-    range.insertNode(node);
-    range.setStartAfter(node);
-    range.collapse(true);
-    sel.removeAllRanges();
-    sel.addRange(range);
-  }
-
-  function run(pre, out, stdinEl, btn) {
-    var label = btn.textContent;
-    btn.disabled = true;
-    btn.textContent = '실행 중…';
-    out.hidden = false;
-    out.className = 'runner-out wait';
-    out.textContent = booting ? '실행 중…'
-      : '파이썬 실행기를 준비하고 있습니다. 처음 한 번만 몇 초 걸립니다…';
-
-    var NL = String.fromCharCode(10), CR = String.fromCharCode(13);
-    var raw = stdinEl ? stdinEl.value.split(CR).join('') : '';
-    var lines = stdinEl ? raw.split(NL) : [];
-    var i = 0;
-    var buf = [];
-
-    // stdout은 줄바꿈이 없으면 곧바로 batched 콜백으로 넘어오지 않고 뒤늦게
-    // 모아서 전달될 수 있어, input() 프롬프트와 입력값을 실행 도중 실시간으로
-    // 순서대로 재현하기 어렵다. 그 대신 실제로 소비된 입력값을 결과 맨 앞에
-    // 따로 정리해 보여 주어, input()을 쓴 예제도 결과를 바로 확인할 수 있게 한다.
-    function withInputSummary(body) {
-      if (!i) return body;
-      var used = lines.slice(0, i).map(function (v) { return v === '' ? '(빈 값)' : v; });
-      return 'input() 입력값 → ' + used.join(', ') + NL + NL + body;
-    }
-
-    boot().then(function (py) {
-      return ensureExtraPackages(py, pre.textContent).then(function () {
-        py.setStdin({ stdin: function () { return i < lines.length ? lines[i++] : ''; } });
-        py.setStdout({ batched: function (s) { buf.push(s); } });
-        py.setStderr({ batched: function (s) { buf.push(s); } });
-        return py.runPythonAsync(pre.textContent, { globals: globalsOf(py) });
-      }).then(function () {
-        out.className = 'runner-out';
-        out.textContent = withInputSummary(buf.length ? buf.join(NL) : '(출력 없음)');
-      });
-    }).catch(function (e) {
-      out.className = 'runner-out err';
-      var msg = String((e && e.message) || e);
-      var m = msg.match(new RegExp('([A-Za-z_]*(?:Error|Exception)[^]*)$'));
-      var errText = (m ? m[1] : msg).trim();
-      out.textContent = withInputSummary(buf.length ? buf.join(NL) + NL + NL + errText : errText);
-      if (/NameError/.test(msg)) {
-        out.textContent += String.fromCharCode(10,10) + '힌트: 이 예제는 앞 코드 블록에서 만든 함수나 변수를 씁니다. 위쪽 블록을 먼저 실행해 보세요.';
-      }
-    }).then(function () {
-      btn.disabled = false;
-      btn.textContent = label;
-    });
-  }
-
-  pres.forEach(function (pre) {
-    var editable = pre.hasAttribute('data-editable');
-    var isBlank = pre.hasAttribute('data-blank');
-    var original = pre.textContent;
-    var revealed = !isBlank;
-
-    var wrap = el('div', 'runner');
-    var bar = el('div', 'runner-bar');
-
-    var runBtn = el('button', 'btn btn-p', '▶ 실행');  runBtn.type = 'button';
-    var copyBtn = el('button', 'btn', '복사');          copyBtn.type = 'button';
-    var resetBtn = el('button', 'btn', '변수 초기화');   resetBtn.type = 'button';
-    bar.appendChild(runBtn); bar.appendChild(copyBtn); bar.appendChild(resetBtn);
-
-    if (editable) {
-      pre.classList.add('is-editable');
-      pre.contentEditable = 'true';
-      pre.spellcheck = false;
-      pre.setAttribute('aria-label', '코드를 직접 고칠 수 있습니다');
-
-      // 연습 문제 정답 코드는 바로 보여 주지 않고 빈 칸으로 시작해서
-      // 먼저 스스로 풀어 보게 하고, 버튼을 눌러야 정답을 확인할 수 있다.
-      if (isBlank) {
-        pre.textContent = '';
-        pre.setAttribute('data-placeholder', '여기에 직접 코드를 작성해 보세요');
-      }
-
-      var revertBtn = el('button', 'btn', isBlank ? '정답 코드 보기' : '원래 코드로');
-      revertBtn.type = 'button';
-      revertBtn.addEventListener('click', function () {
-        if (isBlank) {
-          revealed = !revealed;
-          pre.textContent = revealed ? original : '';
-          revertBtn.textContent = revealed ? '다시 비우기' : '정답 코드 보기';
-        } else {
-          pre.textContent = original;
-        }
-        out.hidden = true;
-      });
-      bar.appendChild(revertBtn);
-
-      pre.addEventListener('paste', function (e) {
-        e.preventDefault();
-        var text = (e.clipboardData || window.clipboardData).getData('text/plain');
-        insertPlainText(text);
-      });
-      pre.addEventListener('keydown', function (e) {
-        if (e.key === 'Tab') {
-          e.preventDefault();
-          insertPlainText('    ');
-        } else if (e.key === 'Enter') {
-          // contenteditable 기본 동작은 줄바꿈 대신 <div>/<br>을 넣어
-          // textContent에 개행이 사라지므로, 실제 개행 문자를 직접 삽입한다.
-          e.preventDefault();
-          insertPlainText(String.fromCharCode(10));
-        }
-      });
-    }
-
-    bar.appendChild(el('span', 'hint', editable ? '직접 고쳐서 실행해 보세요' : '브라우저 안에서 실행됩니다'));
-    wrap.appendChild(bar);
-
-    var stdinEl = null;
-    if (pre.hasAttribute('data-needs-stdin')) {
-      var lab = el('label', 'stdin-lab', 'input() 에 넣을 값 — 한 줄에 하나씩');
-      stdinEl = el('textarea');
-      stdinEl.rows = 2;
-      stdinEl.placeholder = '값을 비워 두면 빈 문자열이 입력됩니다';
-      lab.appendChild(stdinEl);
-      wrap.appendChild(lab);
-    }
-
-    var out = el('pre', 'runner-out');
-    out.hidden = true;
-    wrap.appendChild(out);
-    pre.insertAdjacentElement('afterend', wrap);
-
-    runBtn.addEventListener('click', function () { run(pre, out, stdinEl, runBtn); });
-    resetBtn.addEventListener('click', function () {
-      resetVars();
-      out.hidden = false; out.className = 'runner-out wait';
-      out.textContent = '지금까지 만들어진 변수와 함수를 모두 지웠습니다.';
-    });
-    copyBtn.addEventListener('click', function () {
-      var text = pre.textContent;
-      var done = function () {
-        copyBtn.textContent = '복사됨';
-        setTimeout(function () { copyBtn.textContent = '복사'; }, 1200);
-      };
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(done, done);
-      } else {
-        var ta = document.createElement('textarea');
-        ta.value = text; document.body.appendChild(ta); ta.select();
-        try { document.execCommand('copy'); } catch (e) {}
-        document.body.removeChild(ta); done();
-      }
-    });
-  });
-})();
-
-/* ============ 열람 잠금 ============ */
-(function () {
-  'use strict';
-  var gate = document.getElementById('gate');
-  if (!gate) return;
-  var form = gate.querySelector('[data-gate-form]');
-  var pw = gate.querySelector('[data-gate-pw]');
-  var msg = gate.querySelector('[data-gate-msg]');
-  var eye = gate.querySelector('[data-gate-eye]');
-  // 한글 IME가 꺼진 상태에서 친 영문 자판 값(qhansrh)도 함께 받아 준다.
-  // 맥에서 자모가 분리되어 들어오는 경우를 위해 NFC로 정규화한다.
-  var KEYS = ['보문고', 'qhansrh'];
-
-  function norm(s) {
-    s = (s || '').trim().toLowerCase();
-    try { s = s.normalize('NFC'); } catch (e) {}
-    return s;
-  }
-
-  function unlock() {
-    try { localStorage.setItem('unlocked', 'yes'); } catch (e) {}
-    document.documentElement.classList.add('unlocked');
-  }
-  if (document.documentElement.classList.contains('unlocked')) return;
-
-  if (eye) {
-    eye.addEventListener('click', function () {
-      var shown = pw.type === 'text';
-      pw.type = shown ? 'password' : 'text';
-      eye.setAttribute('aria-pressed', String(!shown));
-      eye.setAttribute('aria-label', shown ? '비밀번호 표시' : '비밀번호 숨기기');
-      pw.focus();
-    });
-  }
-
-  setTimeout(function () { pw.focus(); }, 60);
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var v = norm(pw.value);
-    if (KEYS.map(norm).indexOf(v) >= 0) {
-      msg.textContent = '';
-      unlock();
-    } else {
-      msg.textContent = '비밀번호가 맞지 않습니다. 한글 입력 상태인지 확인해 주세요.';
-      pw.value = '';
-      pw.focus();
-    }
-  });
-})();
-
-/* ============ 밝게/어둡게 전환 ============ */
-(function () {
-  'use strict';
-  var btns = [].slice.call(document.querySelectorAll('[data-theme-toggle]'));
-  if (!btns.length) return;
-  var root = document.documentElement;
-
-  function current() {
-    var t = root.getAttribute('data-theme');
-    if (t === 'dark' || t === 'light') return t;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  }
-  function apply(t, save) {
-    root.setAttribute('data-theme', t);
-    if (save) { try { localStorage.setItem('theme', t); } catch (e) {} }
-    btns.forEach(function (b) {
-      b.setAttribute('aria-pressed', String(t === 'dark'));
-      b.title = (t === 'dark') ? '밝은 화면으로' : '어두운 화면으로';
-      var lab = b.querySelector('.ico-label');
-      if (lab) lab.textContent = (t === 'dark') ? '밝게' : '어둡게';
-    });
-  }
-  btns.forEach(function (b) {
-    b.addEventListener('click', function () {
-      apply(current() === 'dark' ? 'light' : 'dark', true);
-    });
-  });
-  apply(current(), false);
-})();
-
-/* ============ 목차 자동 생성 + 스크롤 스파이 ============ */
-(function () {
-  'use strict';
-  var nav = document.getElementById('toc-nav');
-  var crumb = document.querySelector('[data-crumb]');
-  var bar = document.querySelector('[data-progress]');
-  if (!nav && !crumb && !bar) return;
-
-  // 1) 소단원(h3) 아래 h4를 하위 목차로 추가
-  if (nav) {
-    [].slice.call(nav.querySelectorAll('a[data-level="1"]')).forEach(function (a, ti) {
-      var topic = document.getElementById(a.getAttribute('href').slice(1));
-      if (!topic) return;
-      var hs = [].slice.call(topic.querySelectorAll('h4'));
-      if (!hs.length) return;
-      var ol = document.createElement('ol');
-      ol.className = 'sub';
-      hs.forEach(function (h, i) {
-        if (!h.id) h.id = 's' + (ti + 1) + '-' + (i + 1);
-        var li = document.createElement('li');
-        var link = document.createElement('a');
-        link.href = '#' + h.id;
-        link.dataset.level = '2';
-        link.textContent = h.textContent.trim();
-        li.appendChild(link); ol.appendChild(li);
-      });
-      a.parentNode.appendChild(ol);
-    });
-  }
-
-  // 2) 스파이 대상 = 문서 순서대로 정렬된 목차 링크
-  var links = nav ? [].slice.call(nav.querySelectorAll('a[href^="#"]')) : [];
-  var items = links.map(function (a) {
-    return { a: a, el: document.getElementById(a.getAttribute('href').slice(1)) };
-  }).filter(function (x) { return x.el; });
-  items.sort(function (p, q) {
-    return p.el.getBoundingClientRect().top - q.el.getBoundingClientRect().top;
-  });
-
-  // 모바일 현재 위치 표시는 목차가 없어도 동작하도록 소단원에서 직접 수집
-  var topics = [].slice.call(document.querySelectorAll('article.topic'));
-
-  var ticking = false, lastIdx = -1;
-  var topbarEl = document.querySelector('.topbar');
-  function top(el) { return el.getBoundingClientRect().top + window.pageYOffset; }
-  // scroll-margin-top(클릭 이동 기준)과 같은 만큼 여백을 두어, 방금 이동한
-  // 위치와 '현재 항목' 판정 기준이 어긋나지 않게 한다. 상단바 높이를 매번
-  // 실측하므로 글자 크기·화면 배율이 달라져도 함께 맞는다.
-  function lineOffset() {
-    var h = topbarEl ? topbarEl.getBoundingClientRect().height : 0;
-    return h + 24;
-  }
-
-  // rAF가 억제되는 환경(백그라운드 탭 등)에서도 갱신되도록 타이머를 함께 건다
-  function schedule() {
-    if (ticking) return;
-    ticking = true;
-    var ran = false;
-    var run = function () { if (ran) return; ran = true; update(); };
-    if (window.requestAnimationFrame) window.requestAnimationFrame(run);
-    setTimeout(run, 120);
-  }
-
-  function update() {
-    ticking = false;
-    var line = window.pageYOffset + lineOffset();
-
-    document.body.classList.toggle('is-scrolled', window.pageYOffset > 8);
-
-    if (bar) {
-      var h = document.documentElement.scrollHeight - window.innerHeight;
-      bar.style.width = (h > 0 ? Math.max(0, Math.min(100, window.pageYOffset / h * 100)) : 0) + '%';
-    }
-
-    if (items.length) {
-      var idx = 0;
-      for (var i = 0; i < items.length; i++) if (top(items[i].el) <= line) idx = i;
-      if (idx !== lastIdx) {
-        lastIdx = idx;
-        items.forEach(function (x) { x.a.classList.remove('is-active', 'is-parent'); });
-        items[idx].a.classList.add('is-active');
-        if (items[idx].a.dataset.level === '2') {
-          for (var j = idx; j >= 0; j--) {
-            if (items[j].a.dataset.level === '1') { items[j].a.classList.add('is-parent'); break; }
-          }
-        }
-        var act = items[idx].a;
-        if (nav && act.offsetParent) {
-          var r = act.getBoundingClientRect(), nr = nav.parentNode.getBoundingClientRect();
-          if (r.top < nr.top || r.bottom > nr.bottom) act.scrollIntoView({ block: 'center' });
-        }
-      }
-    }
-
-    if (crumb && topics.length) {
-      var cur = topics[0];
-      topics.forEach(function (t) { if (top(t) <= line) cur = t; });
-      var h3 = cur.querySelector('h3');
-      if (h3) {
-        var idxEl = h3.querySelector('.idx');
-        var title = h3.cloneNode(true);
-        [].slice.call(title.querySelectorAll('span')).forEach(function (s) { s.remove(); });
-        crumb.innerHTML = (idxEl ? idxEl.textContent + ' ' : '') + '<b>' + title.textContent.trim() + '</b>';
-      }
-    }
-  }
-  window.addEventListener('scroll', schedule, { passive: true });
-  window.addEventListener('resize', function () { lastIdx = -1; update(); });
-  window.addEventListener('load', update);
-  window.addEventListener('hashchange', function () { lastIdx = -1; update(); });
-  // 이 사이트는 scroll-behavior:smooth를 쓰지 않고 앵커로 '즉시' 이동하는데,
-  // 이런 즉시 이동에서는 브라우저가 scroll 이벤트를 보내지 않는 경우가 있다.
-  // 그러면 위치는 정확히 옮겨가도 목차의 강조 색은 이전 자리에 남는다.
-  // 그래서 앵커(#...) 클릭을 직접 감지해, 이동이 끝난 다음 틱에 강제로 다시 계산한다.
-  document.addEventListener('click', function (e) {
-    var a = e.target && e.target.closest && e.target.closest('a[href^="#"]');
-    if (!a) return;
-    lastIdx = -1;
-    setTimeout(update, 0);
-  });
-  update();
-})();
-"""
-script = script.rstrip() + "\n" + EXTRA_JS
-
-# ---------- 파일 쓰기 ----------
-if os.path.isdir(OUT):
-    for f in os.listdir(OUT):
-        # 빌드가 만드는 페이지만 지운다(손으로 쓴 다른 .html은 건드리지 않음)
-        if f == "index.html" or re.fullmatch(r"unit\d+\.html", f):
-            os.remove(os.path.join(OUT, f))
-os.makedirs(os.path.join(OUT, "assets"), exist_ok=True)
-
-RESET = """*,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{margin:0}
-img,svg{display:block;max-width:100%}
-button,input,select,textarea{font:inherit}
-"""
-io.open(os.path.join(OUT, "assets", "style.css"), "w", encoding="utf-8", newline="\n").write(RESET + style)
-io.open(os.path.join(OUT, "assets", "app.js"), "w", encoding="utf-8", newline="\n").write(script.strip() + "\n")
 
 FAVICON = ("<link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' "
            "viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#129513;</text></svg>\">")
 
-def head(title, desc, css="assets/style.css"):
-    return """<!doctype html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>%s</title>
-<meta name="description" content="%s">
-<meta property="og:title" content="%s">
-<meta property="og:description" content="%s">
-<meta property="og:type" content="website">
-%s
-<script>
-(function(){try{if(localStorage.getItem('unlocked')==='yes')document.documentElement.className+=' unlocked';}catch(e){}})();
-(function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
-</script>
-<link rel="stylesheet" href="%s">
-</head>
-""" % (title, desc, title, desc, FAVICON, css)
 
 GATE = """<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
   <form class="gate-card" data-gate-form autocomplete="off">
@@ -900,104 +165,360 @@ THEME_BTN = """    <button class="themetoggle" type="button" data-theme-toggle a
     </button>"""
 
 
-def topbar(current, prefix="", brand=True):
-    links = []
-    for n in (1, 2, 3, 4):
-        r, name, wk, _ = UNIT_META[n]
-        cls = ' class="is-current"' if n == current else ''
-        links.append('      <a href="%sunit%d.html"%s>%s %s</a>' % (prefix, n, cls, r, name))
-    return """<header class="topbar">
-  <div class="topbar-in">
+
+# ---------- 단원 본문 ----------
+BODY = {}
+_run_total = 0
+for n in UNIT_NS:
+    b = rd("src/units/unit%d.html" % n)
+    b, c0 = mark_editable_drill(b)
+    b, c1 = mark_runnable(b)
+    b = mark_quiz_blank(b)
+    BODY[n] = b
+    _run_total += c0 + c1
+
+def topics(n):
+    out = []
+    for m in re.finditer(r'<article class="topic" id="(t\d-\d+)">\s*<h3>(.*?)</h3>', BODY[n], re.S):
+        h3 = m.group(2)
+        idx = re.search(r'<span class="idx">(.*?)</span>', h3)
+        title = re.sub(r'<span class="(?:lesson|idx)">.*?</span>', '', h3)
+        title = re.sub(r'<[^>]+>', '', title).strip()
+        out.append((m.group(1), idx.group(1) if idx else '', title))
+    return out
+
+def labs_in(n):
+    out = []
+    for m in re.finditer(r'<div class="lab" id="(lab-[\w-]+)">.*?<h5>(.*?)</h5>', BODY[n], re.S):
+        out.append(("unit%d.html#%s" % (n, m.group(1)), re.sub(r'<[^>]+>', '', m.group(2)).split(' — ')[0]))
+    return out + LAB_EXTRA.get(n, [])
+
+def weeks_of(n):
+    a, b = UNITS[n]["weeks"]
+    return [w for w in COURSE["weeks"] if a <= w["week"] <= b]
+
+def week_row(w):
+    return ('<div class="wk" data-week="%d"><span class="n">%d주</span><ol>%s</ol></div>'
+            % (w["week"], w["week"], "".join("<li>%s</li>" % l for l in w["lessons"])))
+
+def quiz_html(n):
+    qs = [q for q in QUIZ if q["unit"] == n]
+    out = ['<section class="qz-set" data-qz-set="%d">' % n]
+    for i, q in enumerate(qs):
+        out.append('  <div class="qz" data-ans="%d">' % q["answer"])
+        out.append('    <h4><span class="qnum">Q%d</span><span>%s</span></h4>' % (i + 1, q["q"]))
+        if q.get("code"):
+            code = q["code"] if "&lt;" in q["code"] else esc(q["code"])
+            out.append('    <pre>%s</pre>' % code)
+        out.append('    <ol class="opts">%s</ol>' % "".join(
+            '<li><button type="button" data-n="%s">%s</button></li>' % ("①②③④"[j], o) for j, o in enumerate(q["options"])))
+        out.append('    <p class="why"><b>해설</b> — %s</p>' % q["why"])
+        out.append('  </div>')
+    out.append('  <div class="qz-score" data-qz-score><span>맞힌 문제 <b data-qz-right>0</b> / %d</span>'
+               '<span class="muted" data-qz-left>남은 문제 %d개</span><span class="muted" data-qz-best></span>'
+               '<button class="btn" type="button" data-qz-reset>다시 풀기</button></div>' % (len(qs), len(qs)))
+    out.append('</section>')
+    return "\n".join(out)
+
+def gloss_html(items, with_unit=False):
+    out = []
+    for g in items:
+        u = UNITS[g["unit"]]
+        out.append('  <div class="gl %s" data-unit="%d"><dt>%s <small>%s</small>%s</dt><dd>%s <a href="unit%d.html#%s">본문 →</a></dd></div>'
+                   % (ucls(g["unit"]), g["unit"], g["term"], esc(g["en"]),
+                      '<span class="pill">%s</span>' % (u["roman"] if g["unit"] else "기초") if with_unit else "",
+                      g["desc"], g["unit"], g["topic"]))
+    return "\n".join(out)
+
+# ---------- 공통 틀 ----------
+def head(title, desc):
+    return """<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>%s</title>
+<meta name="description" content="%s">
+<meta property="og:title" content="%s">
+<meta property="og:description" content="%s">
+<meta property="og:type" content="website">
 %s
-    <nav class="unitnav" aria-label="단원">
+<script>
+(function(){try{if(localStorage.getItem('unlocked')==='yes')document.documentElement.className+=' unlocked';}catch(e){}})();
+(function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
+</script>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+""" % (title, desc, title, desc, FAVICON)
+
+def header(current):
+    tools = ['      <a href="index.html"%s>수업 홈</a>' % (' class="is-current"' if current == "home" else "")]
+    for k, name, ic, d in TOOLS:
+        tools.append('      <a href="%s.html"%s>%s</a>' % (k, ' class="is-current"' if k == current else "", name))
+    tabs = []
+    for n in UNIT_NS:
+        u = UNITS[n]
+        tabs.append('    <a class="unittab %s%s" href="unit%d.html"><span class="r">%s</span><span class="nm">%s</span><span class="uw">%s</span></a>'
+                    % (ucls(n), " is-current" if n == current else "", n, u["roman"], uname(u), wklabel(u)))
+    return """<a class="skip" href="#main">본문 바로가기</a>
+<header class="topbar">
+  <div class="bar-top">
+    <a class="brand" href="index.html"><span class="brand-mark">IS</span><span class="brand-name">정보과학</span></a>
+    <nav class="toolnav" aria-label="수업 도구">
 %s
     </nav>
 %s
   </div>
+  <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
+%s
+  </div></nav>
   <div class="progress" data-progress></div>
 </header>
-""" % (
-        ('    <a class="brand" href="%sindex.html">정보과학</a>' % prefix) if brand else '',
-        "\n".join(links), THEME_BTN)
+""" % ("\n".join(tools), THEME_BTN, "\n".join(tabs))
 
-def toc(n):
-    r, name, wk, _ = UNIT_META[n]
-    body = units[n]
-    entries = []
-    for m in re.finditer(r'<article class="topic" id="(t\d-\d)">\s*\n\s*<h3>(.*?)</h3>', body, re.S):
-        tid, h3 = m.group(1), m.group(2)
-        idx = re.search(r'<span class="idx">(.*?)</span>', h3)
-        title = re.sub(r'<span class="lesson">.*?</span>', '', h3)
-        title = re.sub(r'<span class="idx">.*?</span>', '', title)
-        title = re.sub(r'<[^>]+>', '', title).strip()
-        entries.append('        <li><a href="#%s" data-level="1"><em>%s</em>%s</a></li>'
-                       % (tid, idx.group(1) if idx else '', title))
-    return """<aside class="toc" aria-label="이 단원 목차">
-  <a class="toc-home" href="index.html">← 전체 목차</a>
-  <div class="toc-title">%s %s<span>%s</span></div>
-  <nav id="toc-nav">
-    <ol>
-%s
-    </ol>
-  </nav>
-</aside>
-""" % (r, name, wk, "\n".join(entries))
+def footer():
+    links = ['<a href="index.html">수업 홈</a>'] + ['<a href="unit%d.html">%s %s</a>' % (n, UNITS[n]["roman"], uname(UNITS[n])) for n in UNIT_NS] \
+        + ['<a href="%s.html">%s</a>' % (k, n) for k, n, i, d in TOOLS] \
+        + ['<a href="%s" target="_blank" rel="noopener">Programiz</a>' % PZ]
+    return """<footer>
+  <div class="foot-in">
+    <div>
+      <p><b data-teacher-tap>%s</b> — %s 수업 자료 · %s</p>
+      <p>%s <b>%s</b> 선생님 제작.</p>
+      <p>개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
+      <p class="copyright">본 자료는 학교 수업 목적으로 제작되었으며, 저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+    </div>
+    <nav class="foot-links" aria-label="사이트 전체">%s</nav>
+  </div>
+</footer>
+""" % (COURSE["title"], COURSE["textbook"], COURSE["term"], COURSE["school"], COURSE["teacher"], "".join(links))
 
-def pager(n, prefix=""):
-    parts = []
-    if n > 1:
-        r, name, wk, _ = UNIT_META[n - 1]
-        parts.append('  <a class="prev" href="%sunit%d.html"><span class="dir">← 이전 단원</span>'
-                     '<span class="ttl">%s %s</span></a>' % (prefix, n - 1, r, name))
+SITE_DATA = {
+    "topics": {str(n): [t[0] for t in topics(n)] for n in UNIT_NS},
+    "units": {str(n): {"roman": UNITS[n]["roman"], "name": UNITS[n]["name"], "weeks": UNITS[n]["weeks"] if n else None} for n in UNIT_NS},
+    "quiz": {str(n): sum(1 for q in QUIZ if q["unit"] == n) for n in UNIT_NS},
+    "weeks": COURSE["weeks"],
+    "settings": SETTINGS,
+    "settings_edit": SETTINGS_EDIT,
+    "programiz": PZ,
+}
+
+def page(title, desc, body_cls, current, body):
+    return (head(title, desc)
+            + '<body class="%s">\n' % body_cls + GATE + header(current)
+            + body + "\n" + footer()
+            + '<script>window.SITE=%s;</script>\n' % json.dumps(SITE_DATA, ensure_ascii=False, separators=(",", ":"))
+            + '<script src="assets/site.js"></script>\n</body>\n</html>\n')
+
+# ---------- 단원 페이지 ----------
+def unit_page(n):
+    u = UNITS[n]
+    tps, labs = topics(n), labs_in(n)
+    terms = [g for g in GLOSS if g["unit"] == n]
+    nq = sum(1 for q in QUIZ if q["unit"] == n)
+    label = "%s %s" % (u["roman"], u["name"]) if n else u["name"]
+    chips = ['<span class="chip"><b>%s</b></span>' % wklabel(u), '<span class="chip">소단원 <b>%d</b></span>' % len(tps)]
+    if labs: chips.append('<span class="chip">실습 <b>%d</b></span>' % len(labs))
+    chips += ['<span class="chip">용어 <b>%d</b></span>' % len(terms), '<span class="chip">퀴즈 <b>%d</b></span>' % nq]
+    hero = """<section class="unithero">
+  <div class="unithero-in">
+    <p class="crumbs"><a href="index.html">수업 홈</a> / %s</p>
+    <div class="bigr" aria-hidden="true">%s</div>
+    <div>
+      <p class="kicker">%s</p>
+      <h1>%s</h1>
+      <p class="goal">%s</p>
+      <div class="chips">%s</div>
+    </div>
+  </div>
+</section>
+""" % (label, u["roman"], "UNIT %s" % u["roman"] if n else "BEFORE UNIT Ⅰ", u["name"], u["goal"], "".join(chips))
+    quick = ['<a href="#%s">%s %s<span>%s</span></a>' % (tps[0][0], "처음부터", "읽기", tps[0][1])]
+    if labs: quick.append('<a href="#u-labs">실습 모음<span>%d개</span></a>' % len(labs))
+    quick.append('<a href="#u-terms">핵심 용어<span>%d개</span></a>' % len(terms))
+    quick.append('<a href="#u-quiz">단원 퀴즈<span>%d문제</span></a>' % nq)
+    quick.append('<a href="#u-practice">Programiz 실습<span>→</span></a>')
+    overview = """<section class="overview">
+  <div class="ovbox"><h2>이 단원을 마치면</h2><ul class="cando">%s</ul></div>
+  <div class="ovbox"><h2>차시 계획</h2>%s</div>
+  <div class="ovbox"><h2>바로 가기</h2><div class="qlinks">%s</div></div>
+</section>
+""" % ("".join("<li>%s</li>" % c for c in u["cando"]),
+       "".join(week_row(w) for w in weeks_of(n)) if n else '<p class="muted" style="margin:0">1주차 오리엔테이션 전후에 스스로 복습합니다. 정보 과목에서 배운 내용을 다시 확인하는 단원이라 따로 시간을 잡지 않았어요.</p>',
+       "".join(quick))
+    toc = ['<aside class="toc" aria-label="이 단원 목차">', '  <div class="toc-title">%s</div>' % label, '  <nav id="toc-nav">',
+           '    <p class="toc-group">본문</p>', '    <ol>']
+    toc += ['      <li><a href="#%s" data-level="1"><em>%s</em>%s</a></li>' % t for t in tps]
+    toc += ['    </ol>', '    <p class="toc-group">단원 마무리</p>', '    <ol>']
+    if labs: toc.append('      <li><a href="#u-labs" data-level="1">실습 모음</a></li>')
+    toc += ['      <li><a href="#u-terms" data-level="1">핵심 용어</a></li>', '      <li><a href="#u-quiz" data-level="1">단원 퀴즈</a></li>',
+            '      <li><a href="#u-practice" data-level="1">Programiz 실습</a></li>', '    </ol>', '  </nav>', '</aside>']
+    wrap = []
+    if labs:
+        wrap.append('<section class="wrapup" id="u-labs"><h3><span class="idx">마무리</span> 실습 모음</h3>'
+                    '<p class="lede">이 단원에서 직접 조작해 보는 실습입니다. 다시 해 보고 싶은 것을 눌러 보세요.</p>'
+                    '<div class="labindex">%s</div></section>'
+                    % "".join('<a href="%s">%s</a>' % (h.replace("unit%d.html" % n, ""), t) for h, t in labs))
+    wrap.append('<section class="wrapup" id="u-terms"><h3><span class="idx">마무리</span> 핵심 용어</h3>'
+                '<p class="lede">이 단원에서 꼭 알아야 할 용어 %d개입니다. 전 단원 용어는 <a href="glossary.html">용어 사전</a>에서 검색할 수 있어요.</p>'
+                '<dl class="gl-list">\n%s\n</dl></section>' % (len(terms), gloss_html(terms)))
+    wrap.append('<section class="wrapup" id="u-quiz"><h3><span class="idx">마무리</span> 단원 퀴즈</h3>'
+                '<p class="lede">보기를 누르면 바로 채점되고 해설이 나옵니다. 가장 좋은 점수는 <a href="my.html">내 학습</a>에 기록돼요.</p>\n%s\n</section>' % quiz_html(n))
+    if n in PRACTICE_ANCHOR:
+        prac = ('<a class="tile" href="practice.html#%s"><span class="ic">🐍</span><h3>%s 실습 세트</h3><p>이 단원 내용을 묶은 실습 코드입니다. 칸마다 <b>Programiz에서 실행</b>을 눌러 돌려 보세요.</p></a>'
+                % (PRACTICE_ANCHOR[n], label))
     else:
-        parts.append('  <a class="prev" href="%sindex.html"><span class="dir">← 처음으로</span>'
-                     '<span class="ttl">전체 목차와 주차 계획</span></a>' % prefix)
-    if n < 4:
-        r, name, wk, _ = UNIT_META[n + 1]
-        parts.append('  <a class="next" href="%sunit%d.html"><span class="dir">다음 단원 →</span>'
-                     '<span class="ttl">%s %s</span></a>' % (prefix, n + 1, r, name))
-    else:
-        parts.append('  <a class="next" href="%sindex.html"><span class="dir">처음으로 →</span>'
-                     '<span class="ttl">전체 목차와 주차 계획</span></a>' % prefix)
-    return '<nav class="pager" aria-label="단원 이동">\n' + "\n".join(parts) + '\n</nav>\n'
-
-def unit_page(n, prefix="", css="assets/style.css", js="assets/app.js"):
-    r, name, wk, desc = UNIT_META[n]
-    title = "%s %s · 정보과학" % (r, name)
-    return (head(title, desc, css)
-            + '<body class="u%d">\n' % n + GATE
-            + topbar(n, prefix)
-            + '<div class="crumbbar" data-crumb></div>\n'
-            + '<div class="wrap">\n'
-            + toc(n)
-            + '<main>\n\n' + units[n].strip() + '\n\n</main>\n</div>\n\n'
-            + pager(n, prefix)
-            + footer + '\n'
-            + '<script src="%s"></script>\n' % js
-            + '</body>\n</html>\n')
-
-for n in (1, 2, 3, 4):
-    io.open(os.path.join(OUT, "unit%d.html" % n), "w", encoding="utf-8", newline="\n").write(unit_page(n))
+        prac = ('<a class="tile" href="#%s"><span class="ic">🐍</span><h3>위 예제로 연습</h3><p>본문 예제마다 있는 <b>Programiz에서 실행</b>으로 바로 연습할 수 있어요.</p></a>' % tps[1][0])
+    wrap.append('<section class="wrapup" id="u-practice"><h3><span class="idx">마무리</span> Programiz 실습</h3>'
+                '<p class="lede">코드는 <a href="%s" target="_blank" rel="noopener">Programiz 온라인 컴파일러</a>에서 실행합니다. 사용법과 오류 해결표는 <a href="practice.html">파이썬 실습</a>에 있어요.</p>'
+                '<div class="tiles">%s<a class="tile" href="practice.html#errors"><span class="ic">🩹</span><h3>오류 해결표</h3><p>빨간 글씨가 나오면 마지막 줄의 오류 이름으로 찾아보세요.</p></a></div></section>' % (PZ, prac))
+    # 이전/다음
+    i = UNIT_NS.index(n)
+    def plink(cls, d, k):
+        if k is None:
+            return '<a class="%s" href="index.html"><span class="dir">%s</span><span class="ttl">수업 홈</span></a>' % (cls, d)
+        v = UNITS[k]
+        return '<a class="%s %s" href="unit%d.html"><span class="dir">%s</span><span class="ttl">%s %s</span></a>' % (cls, ucls(k), k, d, v["roman"], v["name"])
+    pager = '<nav class="pager" aria-label="단원 이동">%s%s</nav>\n' % (
+        plink("prev", "← 이전", UNIT_NS[i - 1] if i > 0 else None),
+        plink("next", "다음 →", UNIT_NS[i + 1] if i + 1 < len(UNIT_NS) else None))
+    body = (hero + overview + '<div class="crumbbar" data-crumb></div>\n<div class="wrap">\n' + "\n".join(toc)
+            + '\n<main id="main">\n\n' + BODY[n].strip() + "\n\n" + "\n".join(wrap) + "\n</main>\n</div>\n" + pager)
+    return page("%s · 정보과학" % label, u["summary"], "unitpage " + ucls(n), n, body)
 
 # ---------- 홈 ----------
-HOWTO = """<section class="howto">
-  <div><h3>단원별로 나뉘어 있습니다</h3><p>위 카드나 상단 메뉴에서 단원을 고르세요. 각 단원은 독립된 페이지라 필요한 부분만 열어 볼 수 있습니다.</p></div>
-  <div><h3>왼쪽 목차가 현재 위치를 알려 줍니다</h3><p>단원 페이지에서 스크롤하면 지금 보고 있는 항목이 왼쪽 목차에 표시됩니다. 휴대폰에서는 화면 위쪽에 나타납니다.</p></div>
-  <div><h3>코드를 바로 실행해 보세요</h3><p>예제 코드 아래 <b>▶ 실행</b>을 누르면 설치 없이 브라우저 안에서 파이썬이 돌아갑니다. <code>input()</code>이 있는 예제는 입력값을 미리 적어 두면 됩니다.</p></div>
-  <div><h3>직접 조작하는 실습</h3><p>스택·큐·재귀 호출·하노이 탑·이진 탐색 등 7개의 실습 위젯이 본문 안에 들어 있습니다.</p></div>
+def home():
+    cards = []
+    for n in UNIT_NS:
+        u = UNITS[n]
+        tps = topics(n)
+        cards.append("""  <a class="unitcard %s" href="unit%d.html">
+    <div class="band"><span class="r">%s</span><span class="wk">%s</span></div>
+    <div class="body">
+      <h3>%s</h3><p>%s</p>
+      <div class="stats"><span>소단원 <b>%d</b></span><span>실습 <b>%d</b></span><span>용어 <b>%d</b></span><span>퀴즈 <b>%d</b></span></div>
+      <div class="ubar"><i data-uprog="%d"></i></div>
+      <div class="ubar-l"><span>해 봤어요</span><span data-uprog-l="%d">0 / %d</span></div>
+    </div>
+  </a>""" % (ucls(n), n, u["roman"], wklabel(u), u["name"], u["summary"], len(tps), len(labs_in(n)),
+             sum(1 for g in GLOSS if g["unit"] == n), sum(1 for q in QUIZ if q["unit"] == n), n, n, len(tps)))
+    cols = []
+    for n in UNIT_NS:
+        if n == 0: continue
+        u = UNITS[n]
+        cols.append('<div class="wkcol %s"><h3><a href="unit%d.html">%s %s</a><span>%s</span></h3>%s</div>'
+                    % (ucls(n), n, u["roman"], u["name"], wklabel(u), "".join(week_row(w) for w in weeks_of(n))))
+    n_labs = sum(len(labs_in(n)) for n in UNIT_NS)
+    body = """<section class="hero">
+  <div class="hero-in">
+    <div>
+      <p class="kicker">%s · %s</p>
+      <h1>%s</h1>
+      <p>%s를 바탕으로 함수와 재귀, 데이터 구조, 알고리즘을 배우고 생활 속 문제를 프로그램으로 해결합니다.</p>
+      <div class="chips"><span class="chip">%s</span><span class="chip">단원 <b>%d</b></span><span class="chip">실습 <b>%d</b></span><span class="chip">퀴즈 <b>%d</b></span><span class="chip">Python · Programiz</span></div>
+    </div>
+    <div class="nowcard" data-now>
+      <p class="kicker">처음 오셨나요?</p>
+      <h2>이렇게 시작하세요</h2>
+      <ol>
+        <li><a href="course.html">수업 안내</a>에서 평가와 AI 사용 규칙을 읽어요.</li>
+        <li><a href="unit0.html">파이썬 기초</a>로 정보 시간에 배운 문법을 복습해요.</li>
+        <li><a href="%s" target="_blank" rel="noopener">Programiz</a>를 열어 코드를 실행해 봐요.</li>
+      </ol>
+      <a class="go" href="unit1.html">Ⅰ 프로그래밍 시작하기 →</a>
+    </div>
+  </div>
 </section>
-"""
-home_map = unitmap
-for n in (1, 2, 3, 4):
-    home_map = home_map.replace('href="#unit%d"' % n, 'href="unit%d.html"' % n)
 
-home = (head("정보과학",
-             "씨마스 『정보과학』 2022 개정 교육과정 핵심 내용 정리 · 보문고등학교 김용득 선생님 제작.")
-        + '<body>\n' + GATE
-        + topbar(None, brand=False)
-        + masthead + "\n\n" + home_map + "\n\n" + HOWTO + "\n" + plan + "\n\n"
-        + footer + '\n<script src="assets/app.js"></script>\n</body>\n</html>\n')
-io.open(os.path.join(OUT, "index.html"), "w", encoding="utf-8", newline="\n").write(home)
+<main id="main">
+<section class="sec" id="units">
+  <div class="sec-h"><h2>단원</h2><p>소단원 끝의 <b>해 봤어요</b>를 누르면 진도 막대가 채워져요.</p></div>
+  <div class="unitcards">
+%s
+  </div>
+</section>
 
-print("built:", ", ".join(sorted(os.listdir(OUT))))
-print("실행 가능한 코드 블록:", _run_total, "개")
+<section class="sec" id="plan">
+  <div class="sec-h"><h2>16주 수업 계획</h2><p>%s · 총 48시간</p></div>
+  <div class="weeks">%s</div>
+</section>
+
+<section class="sec" id="guide">
+  <div class="sec-h"><h2>수업 안내</h2><p>첫 시간에 함께 읽어요.</p></div>
+  <div class="tiles">
+    <a class="tile" href="course.html#grade"><span class="ic">📝</span><h3>평가</h3><p>지필·수행평가 영역과 반영 비율, 시기</p></a>
+    <a class="tile" href="course.html#rubric"><span class="ic">🧩</span><h3>프로젝트 채점 기준</h3><p>문제 해결 5단계로 보는 루브릭</p></a>
+    <a class="tile" href="course.html#ai"><span class="ic">🚦</span><h3>AI 사용 신호등</h3><p>초록·노랑·빨강 — 활동마다 AI를 써도 되는 범위</p></a>
+    <a class="tile" href="course.html#rules"><span class="ic">🤝</span><h3>수업 약속</h3><p>손으로 먼저, 오류는 힌트, 기록은 내 말로</p></a>
+  </div>
+</section>
+
+<section class="sec" id="tools">
+  <div class="sec-h"><h2>수업 도구</h2></div>
+  <div class="tiles">
+%s
+  </div>
+</section>
+</main>
+""" % (COURSE["school"], COURSE["term"], COURSE["title"], COURSE["textbook"], COURSE["term"], len(UNIT_NS), n_labs, len(QUIZ),
+       PZ, "\n".join(cards), COURSE["term"], "".join(cols),
+       "\n".join('    <a class="tile" href="%s.html"><span class="ic">%s</span><h3>%s</h3><p>%s</p></a>' % (k, i, n, d) for k, n, i, d in TOOLS if k != "course"))
+    return page("정보과학 · %s" % COURSE["school"], "%s 수업 사이트 — 단원별 본문, 실습, 용어, 퀴즈." % COURSE["textbook"], "home", "home", body)
+
+# ---------- 도구 페이지 ----------
+def pagehead(key, inner):
+    name = TOOL[key][0]
+    return ('<header class="pagehead"><div class="pagehead-in"><p class="crumbs"><a href="index.html">수업 홈</a> / %s</p>%s</div></header>\n'
+            % (name, inner))
+
+def grade_table(st):
+    # src/js/tools.js 의 gradeTable()과 같은 표. JS가 최신 settings.json으로 다시 그린다.
+    rows = []
+    for g in st["grading"]:
+        what = esc(g["what"]) + (' (<a href="course.html#rubric">채점 기준</a>)' if "프로젝트" in g["name"] else "")
+        rows.append('<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td class="num">%s%%</td></tr>'
+                    % (esc(g["type"]), esc(g["name"]), what, esc(g["when"]), g["ratio"]))
+    return ('<div class="tablewrap"><table class="gradetbl"><thead><tr><th>구분</th><th>평가</th><th>무엇을 보나요</th><th>시기</th><th>반영 비율</th></tr></thead><tbody>'
+            + "".join(rows) + '</tbody><tfoot><tr><td colspan="4">합계</td><td class="num"><b>%d%%</b></td></tr></tfoot></table></div>'
+            % sum(g["ratio"] for g in st["grading"]))
+
+def tool_page(key):
+    name, ic, desc = TOOL[key]
+    body = rd("src/pages/%s.html" % key)
+    m = re.search(r'<header class="xp-hero">(.*?)</header>\s*', body, re.S)
+    assert m, key
+    rest = body[m.end():].replace("<!--GRADE-->", grade_table(SETTINGS)) \
+        .replace("<span data-grade-year>학년도</span>", "<span data-grade-year>%s학년도 %s</span>" % (SETTINGS["year"], SETTINGS["term"]))
+    return page("%s · 정보과학" % name, desc, "tool tool-%s" % key, key,
+                pagehead(key, m.group(1)) + '<main class="xp" id="main">\n' + rest.strip() + "\n</main>\n")
+
+def glossary_page():
+    btns = ['<button class="btn" type="button" data-gl-u="all" aria-pressed="true">전체</button>']
+    for n in UNIT_NS:
+        u = UNITS[n]
+        btns.append('<button class="btn" type="button" data-gl-u="%d" aria-pressed="false">%s</button>'
+                    % (n, ("%s %s" % (u["roman"], uname(u))) if n else u["name"]))
+    inner = ('<p class="kicker">GLOSSARY</p><h1>용어 사전</h1><p class="sub">전 단원 핵심 용어 %d개입니다. 낱말이나 영어 이름으로 찾고, <b>본문 →</b>을 눌러 그 용어가 나오는 곳으로 가세요.</p>' % len(GLOSS))
+    body = ('<div class="gl-tools" data-gl-tools><input type="search" data-gl-q placeholder="용어나 영어 이름으로 찾기 (예: 스택, DFS, return)" aria-label="용어 검색">'
+            + "".join(btns) + '<span class="gl-count" data-gl-count role="status" aria-live="polite"></span></div>\n'
+            + '<dl class="gl-list" data-gl-list>\n' + gloss_html(GLOSS, True) + '\n</dl>\n<p class="muted" data-gl-empty hidden>찾는 용어가 없어요. 다른 낱말로 검색해 보세요.</p>\n')
+    return page("용어 사전 · 정보과학", TOOL["glossary"][2], "tool tool-glossary", "glossary",
+                pagehead("glossary", inner) + '<main class="xp" id="main">\n' + body + "</main>\n")
+
+# ---------- 출력 ----------
+CSS = ["base.css", "content.css", "tools.css"]
+JS = ["widgets.js", "tools.js"]
+wr("assets/site.css", "\n".join(rd("src/css/" + f) for f in CSS))
+wr("assets/site.js", "\n".join(rd("src/js/" + f) for f in JS))
+wr("index.html", home())
+for n in UNIT_NS:
+    wr("unit%d.html" % n, unit_page(n))
+for k, n, i, d in TOOLS:
+    if k == "glossary":
+        wr("glossary.html", glossary_page())
+    else:
+        wr("%s.html" % k, tool_page(k))
+wr("settings.html", tool_page("settings"))
+
+print("built: index.html, %s, %s" % (", ".join("unit%d.html" % n for n in UNIT_NS), ", ".join(k + ".html" for k, *_ in TOOLS)))
+print("실행 가능한 코드 블록(단원 본문):", _run_total, "개 · 용어", len(GLOSS), "개 · 퀴즈", len(QUIZ), "문제")

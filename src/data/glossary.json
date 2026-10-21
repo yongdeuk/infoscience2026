@@ -1,0 +1,800 @@
+[
+ {
+  "unit": 0,
+  "term": "변수",
+  "en": "variable",
+  "topic": "t0-1",
+  "desc": "값을 저장하는 이름표. <code>=</code>로 값을 넣으며, 실행 중에 값이 바뀔 수 있다."
+ },
+ {
+  "unit": 0,
+  "term": "f 문자열",
+  "en": "f-string",
+  "topic": "t0-1",
+  "desc": "문자열 앞에 <code>f</code>를 붙여 중괄호 안에 변수를 바로 넣는 방법. <code>{score:.2f}</code>처럼 형식도 정할 수 있다."
+ },
+ {
+  "unit": 0,
+  "term": "자료형",
+  "en": "data type",
+  "topic": "t0-2",
+  "desc": "값의 종류. 문자열(str), 정수(int), 실수(float), 논리형(bool) 등이 있고 <code>type()</code>으로 확인한다."
+ },
+ {
+  "unit": 0,
+  "term": "형 변환",
+  "en": "type casting",
+  "topic": "t0-2",
+  "desc": "값을 다른 자료형으로 바꾸는 것. <code>int()</code>, <code>float()</code>, <code>str()</code>, <code>bool()</code>."
+ },
+ {
+  "unit": 0,
+  "term": "프롬프트",
+  "en": "prompt",
+  "topic": "t0-3",
+  "desc": "<code>input('밑변 입력: ')</code>처럼 입력을 받기 전에 보여 주는 안내 문구."
+ },
+ {
+  "unit": 0,
+  "term": "산술 연산자",
+  "en": "arithmetic operator",
+  "topic": "t0-4",
+  "desc": "<code>+ - * /</code>, 몫 <code>//</code>, 나머지 <code>%</code>, 거듭제곱 <code>**</code>."
+ },
+ {
+  "unit": 0,
+  "term": "논리 연산자",
+  "en": "logical operator",
+  "topic": "t0-4",
+  "desc": "조건을 잇는 <code>and</code>(모두 참), <code>or</code>(하나라도 참), <code>not</code>(반대)."
+ },
+ {
+  "unit": 0,
+  "term": "조건문",
+  "en": "if statement",
+  "topic": "t0-5",
+  "desc": "조건식이 참일 때만 블록을 실행하는 문장. <code>if</code> · <code>elif</code> · <code>else</code>."
+ },
+ {
+  "unit": 0,
+  "term": "반복문",
+  "en": "loop",
+  "topic": "t0-6",
+  "desc": "같은 코드를 여러 번 실행하는 문장. 조건이 참인 동안 도는 <code>while</code>, 시퀀스를 차례로 도는 <code>for</code>."
+ },
+ {
+  "unit": 0,
+  "term": "시퀀스",
+  "en": "sequence",
+  "topic": "t0-6",
+  "desc": "원소가 순서대로 나열된 자료형. 문자열, 리스트, 튜플, range."
+ },
+ {
+  "unit": 0,
+  "term": "인덱스",
+  "en": "index",
+  "topic": "t0-7",
+  "desc": "리스트 안 원소의 위치 번호. 0부터 시작하고 마지막 원소는 -1."
+ },
+ {
+  "unit": 0,
+  "term": "슬라이싱",
+  "en": "slicing",
+  "topic": "t0-7",
+  "desc": "<code>a[start:stop:step]</code>으로 일부분을 잘라 내는 것. stop 위치는 포함하지 않는다."
+ },
+ {
+  "unit": 0,
+  "term": "리스트",
+  "en": "list",
+  "topic": "t0-7",
+  "desc": "여러 값을 순서대로 담고 바꿀 수 있는 자료형. 대괄호 <code>[ ]</code>."
+ },
+ {
+  "unit": 0,
+  "term": "튜플",
+  "en": "tuple",
+  "topic": "t0-8",
+  "desc": "순서가 있지만 값을 바꿀 수 없는 자료형. 소괄호 <code>( )</code>."
+ },
+ {
+  "unit": 0,
+  "term": "집합",
+  "en": "set",
+  "topic": "t0-9",
+  "desc": "중복이 없고 순서가 없는 자료형. 교집합 <code>&amp;</code>, 합집합 <code>|</code>."
+ },
+ {
+  "unit": 0,
+  "term": "사전(딕셔너리)",
+  "en": "dictionary",
+  "topic": "t0-10",
+  "desc": "키와 값을 짝지어 저장하는 자료형. <code>{키: 값}</code>, 키로 값을 찾는다."
+ },
+ {
+  "unit": 1,
+  "term": "함수",
+  "en": "function",
+  "topic": "t1-1",
+  "desc": "특정 작업을 수행하는 코드를 하나로 묶고 이름을 붙인 것. 한 번 정의해 두면 이름으로 여러 번 불러 쓸 수 있다."
+ },
+ {
+  "unit": 1,
+  "term": "내장 함수",
+  "en": "built-in function",
+  "topic": "t1-1",
+  "desc": "파이썬에 처음부터 들어 있어 따로 정의하지 않고 쓰는 함수. <code>print()</code>, <code>len()</code>, <code>max()</code> 등."
+ },
+ {
+  "unit": 1,
+  "term": "사용자 정의 함수",
+  "en": "user-defined function",
+  "topic": "t1-1",
+  "desc": "프로그래머가 <code>def</code>로 직접 만든 함수."
+ },
+ {
+  "unit": 1,
+  "term": "함수 정의",
+  "en": "definition",
+  "topic": "t1-1",
+  "desc": "<code>def 함수이름(매개 변수):</code> 형식으로 함수가 할 일을 적어 두는 것. 정의만으로는 실행되지 않는다."
+ },
+ {
+  "unit": 1,
+  "term": "함수 호출",
+  "en": "call",
+  "topic": "t1-1",
+  "desc": "정의된 함수 이름 뒤에 괄호를 붙여 실제로 실행시키는 것. 호출하면 실행 흐름이 함수 안으로 들어갔다가 끝나면 돌아온다."
+ },
+ {
+  "unit": 1,
+  "term": "매개 변수",
+  "en": "parameter",
+  "topic": "t1-1",
+  "desc": "함수를 정의할 때 괄호 안에 적어, 전달받은 값을 담는 변수."
+ },
+ {
+  "unit": 1,
+  "term": "인수",
+  "en": "argument",
+  "topic": "t1-1",
+  "desc": "함수를 호출할 때 괄호 안에 넣어 실제로 전달하는 값. 인수가 매개 변수에 차례로 담긴다."
+ },
+ {
+  "unit": 1,
+  "term": "반환값",
+  "en": "return value",
+  "topic": "t1-1",
+  "desc": "함수가 일을 마치고 <code>return</code>으로 호출한 곳에 돌려주는 결과."
+ },
+ {
+  "unit": 1,
+  "term": "return",
+  "en": "return",
+  "topic": "t1-1",
+  "desc": "값을 돌려주는 역할과 함수를 즉시 끝내는 역할을 함께 한다. 값 없이 끝나면 <code>None</code>을 돌려준다."
+ },
+ {
+  "unit": 1,
+  "term": "지역 변수",
+  "en": "local variable",
+  "topic": "t1-1",
+  "desc": "함수 안에서 만들어져 그 함수 안에서만 쓸 수 있는 변수. 함수가 끝나면 사라진다."
+ },
+ {
+  "unit": 1,
+  "term": "전역 변수",
+  "en": "global variable",
+  "topic": "t1-1",
+  "desc": "함수 밖에서 만들어져 프로그램 전체에서 읽을 수 있는 변수. 함수 안에서 값을 바꾸려면 <code>global</code> 선언이 필요하다."
+ },
+ {
+  "unit": 1,
+  "term": "변수의 범위",
+  "en": "scope",
+  "topic": "t1-1",
+  "desc": "변수를 사용할 수 있는 영역. 지역 범위와 전역 범위로 나뉜다."
+ },
+ {
+  "unit": 1,
+  "term": "기본값 매개 변수",
+  "en": "default parameter",
+  "topic": "t1-2",
+  "desc": "인수를 생략하면 미리 정해 둔 값이 쓰이는 매개 변수. 예: <code>def greet(name='친구')</code>."
+ },
+ {
+  "unit": 1,
+  "term": "가변 인수 매개 변수",
+  "en": "*args",
+  "topic": "t1-2",
+  "desc": "개수가 정해지지 않은 인수를 튜플로 한꺼번에 받는 매개 변수. 이름 앞에 <code>*</code>를 붙인다."
+ },
+ {
+  "unit": 1,
+  "term": "클래스",
+  "en": "class",
+  "topic": "t1-2",
+  "desc": "같은 종류의 객체가 가질 속성(데이터)과 메서드(기능)를 정의한 설계도."
+ },
+ {
+  "unit": 1,
+  "term": "객체",
+  "en": "object",
+  "topic": "t1-2",
+  "desc": "클래스로부터 만들어진 실체. 같은 클래스로 여러 객체(인스턴스)를 만들 수 있다."
+ },
+ {
+  "unit": 1,
+  "term": "메서드",
+  "en": "method",
+  "topic": "t1-2",
+  "desc": "클래스 안에 정의된 함수. 객체 이름 뒤에 점을 찍어 <code>obj.method()</code>처럼 호출한다."
+ },
+ {
+  "unit": 1,
+  "term": "생성자",
+  "en": "__init__",
+  "topic": "t1-2",
+  "desc": "객체가 만들어질 때 자동으로 실행되어 속성의 처음 값을 정하는 특별한 메서드."
+ },
+ {
+  "unit": 1,
+  "term": "self",
+  "en": "self",
+  "topic": "t1-2",
+  "desc": "메서드 안에서 ‘지금 이 객체 자신’을 가리키는 첫 번째 매개 변수."
+ },
+ {
+  "unit": 1,
+  "term": "모듈",
+  "en": "module",
+  "topic": "t1-2",
+  "desc": "함수·클래스·변수를 모아 둔 파이썬 파일(.py). <code>import</code>로 가져와 쓴다."
+ },
+ {
+  "unit": 1,
+  "term": "패키지",
+  "en": "package",
+  "topic": "t1-2",
+  "desc": "관련된 모듈 여러 개를 폴더로 묶은 것."
+ },
+ {
+  "unit": 1,
+  "term": "라이브러리",
+  "en": "library",
+  "topic": "t1-2",
+  "desc": "자주 쓰는 기능을 모아 둔 모듈·패키지의 묶음. <code>random</code>, <code>math</code> 같은 표준 라이브러리와 따로 설치하는 외부 라이브러리가 있다."
+ },
+ {
+  "unit": 1,
+  "term": "재귀",
+  "en": "recursion",
+  "topic": "t1-3",
+  "desc": "함수가 자기 자신을 다시 호출하는 구조. 큰 문제를 같은 모양의 더 작은 문제로 바꾸어 푼다."
+ },
+ {
+  "unit": 1,
+  "term": "재귀 함수",
+  "en": "recursive function",
+  "topic": "t1-3",
+  "desc": "실행 중에 자기 자신을 호출하는 함수. 반드시 종료 조건이 있어야 한다."
+ },
+ {
+  "unit": 1,
+  "term": "종료 조건",
+  "en": "base case",
+  "topic": "t1-3",
+  "desc": "더 이상 자기 자신을 호출하지 않고 바로 답을 내는 경우. 없으면 호출이 끝없이 이어져 RecursionError가 난다."
+ },
+ {
+  "unit": 1,
+  "term": "재귀 관계",
+  "en": "recurrence relation",
+  "topic": "t1-3",
+  "desc": "앞의 항으로 다음 항을 나타내는 식. 예: n! = n × (n−1)!."
+ },
+ {
+  "unit": 1,
+  "term": "수학적 귀납법",
+  "en": "mathematical induction",
+  "topic": "t1-3",
+  "desc": "첫 번째 경우가 참이고, k번째가 참이면 k+1번째도 참임을 보여 모든 경우가 참임을 증명하는 방법. 재귀의 사고방식과 같다."
+ },
+ {
+  "unit": 1,
+  "term": "호출 스택",
+  "en": "call stack",
+  "topic": "t1-3",
+  "desc": "호출된 함수들이 차례로 쌓이는 메모리 공간. 나중에 호출된 함수가 먼저 끝나므로 스택 구조다."
+ },
+ {
+  "unit": 1,
+  "term": "하노이 탑",
+  "en": "Tower of Hanoi",
+  "topic": "t1-4",
+  "desc": "원판 n개를 규칙대로 옮기는 퍼즐. n−1개를 옮기는 문제로 나누어 재귀로 풀며 최소 2ⁿ−1번 이동한다."
+ },
+ {
+  "unit": 2,
+  "term": "데이터 구조",
+  "en": "data structure",
+  "topic": "t2-1",
+  "desc": "데이터를 효율적으로 저장·관리하기 위한 형태. 선형 구조(리스트·스택·큐)와 비선형 구조(트리·그래프)로 나뉜다."
+ },
+ {
+  "unit": 2,
+  "term": "선형 구조",
+  "en": "linear structure",
+  "topic": "t2-1",
+  "desc": "데이터가 한 줄로 앞뒤 관계를 이루는 구조. 리스트, 스택, 큐, 덱."
+ },
+ {
+  "unit": 2,
+  "term": "비선형 구조",
+  "en": "non-linear structure",
+  "topic": "t2-3",
+  "desc": "하나의 데이터 뒤에 여러 데이터가 이어질 수 있는 구조. 트리, 그래프."
+ },
+ {
+  "unit": 2,
+  "term": "스택",
+  "en": "stack",
+  "topic": "t2-1",
+  "desc": "한쪽 끝(top)으로만 넣고 빼는 구조. 나중에 넣은 것이 먼저 나온다."
+ },
+ {
+  "unit": 2,
+  "term": "LIFO",
+  "en": "Last In First Out",
+  "topic": "t2-1",
+  "desc": "후입선출. 마지막에 들어온 데이터가 가장 먼저 나가는 방식. 스택의 특징."
+ },
+ {
+  "unit": 2,
+  "term": "push",
+  "en": "push",
+  "topic": "t2-1",
+  "desc": "스택의 top에 데이터를 넣는 연산. 파이썬 리스트에서는 <code>append()</code>."
+ },
+ {
+  "unit": 2,
+  "term": "pop",
+  "en": "pop",
+  "topic": "t2-1",
+  "desc": "스택의 top에서 데이터를 꺼내는 연산. 파이썬 리스트에서는 <code>pop()</code>."
+ },
+ {
+  "unit": 2,
+  "term": "peek",
+  "en": "peek / top",
+  "topic": "t2-1",
+  "desc": "데이터를 꺼내지 않고 top에 있는 값만 확인하는 연산. <code>stack[-1]</code>."
+ },
+ {
+  "unit": 2,
+  "term": "오버플로·언더플로",
+  "en": "overflow / underflow",
+  "topic": "t2-1",
+  "desc": "가득 찬 곳에 넣으려 할 때(오버플로), 비어 있는데 꺼내려 할 때(언더플로) 생기는 오류 상황."
+ },
+ {
+  "unit": 2,
+  "term": "큐",
+  "en": "queue",
+  "topic": "t2-2",
+  "desc": "한쪽(rear)으로 넣고 반대쪽(front)으로 빼는 구조. 먼저 넣은 것이 먼저 나온다."
+ },
+ {
+  "unit": 2,
+  "term": "FIFO",
+  "en": "First In First Out",
+  "topic": "t2-2",
+  "desc": "선입선출. 먼저 들어온 데이터가 먼저 나가는 방식. 큐의 특징."
+ },
+ {
+  "unit": 2,
+  "term": "enqueue / dequeue",
+  "en": "enqueue / dequeue",
+  "topic": "t2-2",
+  "desc": "큐의 rear에 넣는 연산(enqueue)과 front에서 꺼내는 연산(dequeue)."
+ },
+ {
+  "unit": 2,
+  "term": "덱",
+  "en": "deque",
+  "topic": "t2-2",
+  "desc": "양쪽 끝에서 모두 넣고 뺄 수 있는 구조. <code>collections.deque</code>."
+ },
+ {
+  "unit": 2,
+  "term": "우선순위 큐",
+  "en": "priority queue",
+  "topic": "t2-2",
+  "desc": "들어온 순서가 아니라 우선순위가 높은 데이터부터 꺼내는 큐. <code>heapq</code>로 구현."
+ },
+ {
+  "unit": 2,
+  "term": "트리",
+  "en": "tree",
+  "topic": "t2-3",
+  "desc": "노드들이 간선으로 연결되어 계층을 이루고 사이클이 없는 구조. 가족 관계도, 폴더 구조."
+ },
+ {
+  "unit": 2,
+  "term": "노드",
+  "en": "node",
+  "topic": "t2-3",
+  "desc": "트리·그래프에서 데이터를 담는 하나하나의 점."
+ },
+ {
+  "unit": 2,
+  "term": "간선",
+  "en": "edge",
+  "topic": "t2-3",
+  "desc": "노드와 노드를 잇는 선. 노드가 n개인 트리의 간선은 n−1개."
+ },
+ {
+  "unit": 2,
+  "term": "루트 노드",
+  "en": "root",
+  "topic": "t2-3",
+  "desc": "트리의 맨 위, 부모가 없는 노드."
+ },
+ {
+  "unit": 2,
+  "term": "단말 노드",
+  "en": "leaf",
+  "topic": "t2-3",
+  "desc": "자식이 없는 노드. 잎 노드라고도 한다."
+ },
+ {
+  "unit": 2,
+  "term": "부모·자식·형제",
+  "en": "parent / child / sibling",
+  "topic": "t2-3",
+  "desc": "간선으로 연결된 위아래 노드 관계. 같은 부모를 가진 노드끼리 형제."
+ },
+ {
+  "unit": 2,
+  "term": "차수",
+  "en": "degree",
+  "topic": "t2-3",
+  "desc": "한 노드가 가진 자식의 수(트리) 또는 연결된 간선의 수(그래프)."
+ },
+ {
+  "unit": 2,
+  "term": "깊이·높이",
+  "en": "depth / height",
+  "topic": "t2-3",
+  "desc": "루트에서 그 노드까지의 거리가 깊이, 트리에서 가장 깊은 노드의 깊이가 높이."
+ },
+ {
+  "unit": 2,
+  "term": "서브 트리",
+  "en": "subtree",
+  "topic": "t2-3",
+  "desc": "한 노드와 그 아래 자손들로 이루어진 작은 트리."
+ },
+ {
+  "unit": 2,
+  "term": "이진 트리",
+  "en": "binary tree",
+  "topic": "t2-3",
+  "desc": "모든 노드의 자식이 최대 두 개(왼쪽·오른쪽)인 트리."
+ },
+ {
+  "unit": 2,
+  "term": "이진 탐색 트리",
+  "en": "binary search tree",
+  "topic": "t2-3",
+  "desc": "왼쪽 서브 트리에는 작은 값, 오른쪽에는 큰 값이 오도록 정리한 이진 트리. 값을 찾을 때 한 번에 한쪽을 버린다."
+ },
+ {
+  "unit": 2,
+  "term": "트리 순회",
+  "en": "traversal",
+  "topic": "t2-3",
+  "desc": "트리의 모든 노드를 한 번씩 방문하는 방법. 전위(루트→왼→오), 중위(왼→루트→오), 후위(왼→오→루트)."
+ },
+ {
+  "unit": 2,
+  "term": "그래프",
+  "en": "graph",
+  "topic": "t2-4",
+  "desc": "노드(정점)와 간선으로 대상 사이의 관계를 나타낸 구조. 지하철 노선도, SNS 친구 관계."
+ },
+ {
+  "unit": 2,
+  "term": "방향·무방향 그래프",
+  "en": "directed / undirected",
+  "topic": "t2-4",
+  "desc": "간선에 방향이 있으면 방향 그래프, 양쪽으로 오갈 수 있으면 무방향 그래프."
+ },
+ {
+  "unit": 2,
+  "term": "가중치 그래프",
+  "en": "weighted graph",
+  "topic": "t2-4",
+  "desc": "간선마다 거리·시간·비용 같은 값(가중치)이 붙은 그래프."
+ },
+ {
+  "unit": 2,
+  "term": "인접 행렬",
+  "en": "adjacency matrix",
+  "topic": "t2-4",
+  "desc": "노드 i와 j가 연결되면 [i][j]를 1(또는 가중치)로 적는 2차원 표. 연결 여부 확인이 빠르다."
+ },
+ {
+  "unit": 2,
+  "term": "인접 리스트",
+  "en": "adjacency list",
+  "topic": "t2-4",
+  "desc": "각 노드마다 연결된 노드 목록을 저장하는 방식. 간선이 적을 때 메모리를 아낀다."
+ },
+ {
+  "unit": 2,
+  "term": "깊이 우선 탐색",
+  "en": "DFS",
+  "topic": "t2-4",
+  "desc": "갈 수 있는 데까지 깊이 들어갔다가 막히면 되돌아오는 탐색. 스택(또는 재귀)을 쓴다."
+ },
+ {
+  "unit": 2,
+  "term": "너비 우선 탐색",
+  "en": "BFS",
+  "topic": "t2-4",
+  "desc": "시작점에서 가까운 노드부터 한 겹씩 넓혀 가는 탐색. 큐를 쓰며, 간선 수 기준 최단 경로를 찾는다."
+ },
+ {
+  "unit": 3,
+  "term": "알고리즘",
+  "en": "algorithm",
+  "topic": "t3-1",
+  "desc": "문제를 해결하기 위한 명확하고 유한한 절차. 입력·출력·명확성·유한성·효율성을 갖춘다."
+ },
+ {
+  "unit": 3,
+  "term": "시간 복잡도",
+  "en": "time complexity",
+  "topic": "t3-2",
+  "desc": "입력 크기 n이 커질 때 알고리즘의 연산 횟수가 얼마나 늘어나는지 나타낸 것."
+ },
+ {
+  "unit": 3,
+  "term": "공간 복잡도",
+  "en": "space complexity",
+  "topic": "t3-2",
+  "desc": "알고리즘이 실행되는 동안 필요한 메모리의 양."
+ },
+ {
+  "unit": 3,
+  "term": "빅오 표기법",
+  "en": "Big-O notation",
+  "topic": "t3-2",
+  "desc": "최악의 경우 연산 횟수의 증가 정도를 가장 큰 차수만 남겨 나타내는 방법. O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(2ⁿ)."
+ },
+ {
+  "unit": 3,
+  "term": "최선·평균·최악",
+  "en": "best / average / worst",
+  "topic": "t3-2",
+  "desc": "같은 알고리즘도 입력에 따라 걸리는 시간이 다르다. 보통 최악의 경우로 성능을 비교한다."
+ },
+ {
+  "unit": 3,
+  "term": "상태 공간",
+  "en": "state space",
+  "topic": "t3-3",
+  "desc": "문제에서 나올 수 있는 모든 상태와 상태 사이의 이동을 모은 것. 초기 상태·목표 상태·연산자로 정의한다."
+ },
+ {
+  "unit": 3,
+  "term": "탐색 공간",
+  "en": "search space",
+  "topic": "t3-3",
+  "desc": "답을 찾기 위해 살펴봐야 하는 후보 전체."
+ },
+ {
+  "unit": 3,
+  "term": "전체 탐색",
+  "en": "exhaustive search",
+  "topic": "t3-3",
+  "desc": "모든 후보를 빠짐없이 확인하는 방법. 브루트 포스. 정확하지만 후보가 많으면 느리다."
+ },
+ {
+  "unit": 3,
+  "term": "순차 탐색",
+  "en": "sequential search",
+  "topic": "t3-3",
+  "desc": "처음부터 하나씩 차례로 비교하는 탐색. O(n)."
+ },
+ {
+  "unit": 3,
+  "term": "탐색 공간 배제",
+  "en": "pruning",
+  "topic": "t3-4",
+  "desc": "답이 없다고 확실한 부분을 아예 살펴보지 않고 버려 탐색 시간을 줄이는 전략."
+ },
+ {
+  "unit": 3,
+  "term": "이진 탐색",
+  "en": "binary search",
+  "topic": "t3-4",
+  "desc": "정렬된 자료에서 가운데 값과 비교해 절반씩 버리며 찾는 방법. O(log n)."
+ },
+ {
+  "unit": 3,
+  "term": "탐욕 알고리즘",
+  "en": "greedy",
+  "topic": "t3-4",
+  "desc": "매 순간 가장 좋아 보이는 선택을 하는 방법. 빠르지만 항상 최적해를 보장하지는 않는다."
+ },
+ {
+  "unit": 3,
+  "term": "최적해",
+  "en": "optimal solution",
+  "topic": "t3-4",
+  "desc": "가능한 해 가운데 가장 좋은 해."
+ },
+ {
+  "unit": 3,
+  "term": "백트래킹",
+  "en": "backtracking",
+  "topic": "t3-4",
+  "desc": "해를 하나씩 만들어 가다가 조건을 어기면 바로 이전 단계로 되돌아가 다른 선택을 하는 방법. N-퀸 문제."
+ },
+ {
+  "unit": 3,
+  "term": "분기 한정",
+  "en": "branch and bound",
+  "topic": "t3-4",
+  "desc": "지금까지 찾은 가장 좋은 해보다 나아질 수 없는 가지는 더 탐색하지 않는 방법."
+ },
+ {
+  "unit": 3,
+  "term": "분할 정복",
+  "en": "divide and conquer",
+  "topic": "t3-5",
+  "desc": "문제를 작은 문제로 나누고(분할), 각각 풀고(정복), 결과를 합쳐(결합) 원래 문제를 푸는 방법."
+ },
+ {
+  "unit": 3,
+  "term": "퀵 정렬",
+  "en": "quick sort",
+  "topic": "t3-5",
+  "desc": "기준값(피벗)보다 작은 쪽과 큰 쪽으로 나누어 재귀적으로 정렬. 평균 O(n log n)."
+ },
+ {
+  "unit": 3,
+  "term": "합병 정렬",
+  "en": "merge sort",
+  "topic": "t3-5",
+  "desc": "반으로 나누어 각각 정렬한 뒤 두 정렬된 리스트를 합친다. 항상 O(n log n)."
+ },
+ {
+  "unit": 3,
+  "term": "피벗",
+  "en": "pivot",
+  "topic": "t3-5",
+  "desc": "퀵 정렬에서 리스트를 나누는 기준이 되는 값."
+ },
+ {
+  "unit": 3,
+  "term": "동적 계획법",
+  "en": "dynamic programming",
+  "topic": "t3-6",
+  "desc": "작은 부분 문제의 답을 저장해 두고 큰 문제를 풀 때 다시 쓰는 방법. 같은 계산을 반복하지 않는다."
+ },
+ {
+  "unit": 3,
+  "term": "메모이제이션",
+  "en": "memoization",
+  "topic": "t3-6",
+  "desc": "한 번 계산한 결과를 저장해 두었다가 같은 호출이 오면 바로 꺼내 쓰는 기법(하향식)."
+ },
+ {
+  "unit": 3,
+  "term": "상향식",
+  "en": "bottom-up",
+  "topic": "t3-6",
+  "desc": "가장 작은 부분 문제부터 표를 채워 올라가며 답을 구하는 동적 계획법 방식."
+ },
+ {
+  "unit": 3,
+  "term": "최적 부분 구조",
+  "en": "optimal substructure",
+  "topic": "t3-6",
+  "desc": "큰 문제의 최적해가 부분 문제의 최적해로 이루어지는 성질. 동적 계획법을 쓸 수 있는 조건."
+ },
+ {
+  "unit": 3,
+  "term": "중복 부분 문제",
+  "en": "overlapping subproblems",
+  "topic": "t3-6",
+  "desc": "같은 부분 문제가 여러 번 반복해서 나타나는 성질. 피보나치 수열의 재귀 호출."
+ },
+ {
+  "unit": 3,
+  "term": "배낭 문제",
+  "en": "knapsack problem",
+  "topic": "t3-6",
+  "desc": "무게 제한 안에서 가치의 합이 최대가 되도록 물건을 고르는 문제. 0-1 배낭은 동적 계획법으로 푼다."
+ },
+ {
+  "unit": 4,
+  "term": "문제 해결 5단계",
+  "en": "problem solving",
+  "topic": "t4-1",
+  "desc": "문제 발견 → 문제 구조화 → 알고리즘 설계 → 프로그램 구현 → 검증·공유."
+ },
+ {
+  "unit": 4,
+  "term": "문제 구조화",
+  "en": "structuring",
+  "topic": "t4-1",
+  "desc": "문제의 현재 상태·목표 상태·조건을 정리하고 필요한 데이터를 정하는 단계."
+ },
+ {
+  "unit": 4,
+  "term": "추상화",
+  "en": "abstraction",
+  "topic": "t4-1",
+  "desc": "문제의 핵심만 남기고 불필요한 세부 사항을 덜어 내는 것."
+ },
+ {
+  "unit": 4,
+  "term": "모델링",
+  "en": "modeling",
+  "topic": "t4-1",
+  "desc": "현실의 대상을 데이터 구조나 수식으로 나타내는 것. 지역을 노드, 도로를 간선으로 나타내는 것이 예."
+ },
+ {
+  "unit": 4,
+  "term": "요구 사항 분석",
+  "en": "requirements",
+  "topic": "t4-4",
+  "desc": "프로그램이 반드시 지켜야 할 조건(고정 자리, 선호 등)을 빠짐없이 정리하는 것."
+ },
+ {
+  "unit": 4,
+  "term": "제약 조건",
+  "en": "constraint",
+  "topic": "t4-4",
+  "desc": "해가 반드시 만족해야 하는 조건. 백트래킹은 제약 조건을 어기는 순간 되돌아간다."
+ },
+ {
+  "unit": 4,
+  "term": "다익스트라 알고리즘",
+  "en": "Dijkstra",
+  "topic": "t4-3",
+  "desc": "가중치가 음수가 아닌 그래프에서 한 출발점으로부터 모든 노드까지의 최단 거리를 구하는 알고리즘. 아직 확정되지 않은 노드 중 가장 가까운 노드를 하나씩 확정한다."
+ },
+ {
+  "unit": 4,
+  "term": "탄소 발자국",
+  "en": "carbon footprint",
+  "topic": "t4-3",
+  "desc": "사람의 활동이나 상품이 만들어지고 쓰이는 동안 배출되는 온실가스의 양을 CO₂ 무게로 나타낸 것."
+ },
+ {
+  "unit": 4,
+  "term": "테스트 케이스",
+  "en": "test case",
+  "topic": "t4-1",
+  "desc": "프로그램이 올바르게 동작하는지 확인하기 위한 입력과 기대 출력의 쌍. 경계값과 예외 상황을 꼭 넣는다."
+ },
+ {
+  "unit": 4,
+  "term": "디버깅",
+  "en": "debugging",
+  "topic": "t4-4",
+  "desc": "프로그램의 오류(버그)를 찾아 고치는 과정."
+ },
+ {
+  "unit": 4,
+  "term": "배포",
+  "en": "deployment",
+  "topic": "t4-6",
+  "desc": "만든 프로그램을 다른 사람이 쓸 수 있도록 공개하는 것."
+ }
+]

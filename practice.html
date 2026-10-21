@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>파이썬 실습 · 정보과학</title>
+<meta name="description" content="단원별 실습 세트를 Programiz로 실행 · 자주 나는 오류 해결표">
+<meta property="og:title" content="파이썬 실습 · 정보과학">
+<meta property="og:description" content="단원별 실습 세트를 Programiz로 실행 · 자주 나는 오류 해결표">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#129513;</text></svg>">
+<script>
+(function(){try{if(localStorage.getItem('unlocked')==='yes')document.documentElement.className+=' unlocked';}catch(e){}})();
+(function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
+</script>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body class="tool tool-practice">
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <form class="gate-card" data-gate-form autocomplete="off">
+    <h1 id="gate-title">정보과학</h1>
+    <p class="gate-sub">씨마스 『정보과학』 2022 개정 교육과정 수업 자료</p>
+    <label class="gate-lab" for="gate-pw">열람 비밀번호</label>
+    <div class="gate-pwrap">
+      <input id="gate-pw" type="password" data-gate-pw autocomplete="off"
+             spellcheck="false" autocapitalize="off" placeholder="수업 시간에 안내된 비밀번호">
+      <button class="gate-eye" type="button" data-gate-eye aria-pressed="false" aria-label="비밀번호 표시">
+        <svg class="ico-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg class="ico-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18M10.6 10.6a3 3 0 0 0 4.24 4.24M9.9 5.1A10.9 10.9 0 0 1 12 5c7 0 10.5 7 10.5 7a13.6 13.6 0 0 1-3.2 4.1M6.5 6.5C3.4 8.3 1.5 12 1.5 12a13.5 13.5 0 0 0 4.2 4.9"/></svg>
+      </button>
+    </div>
+    <p class="gate-hint">한글로 입력하세요. 대소문자와 앞뒤 공백은 구분하지 않습니다.</p>
+    <p class="gate-msg" data-gate-msg role="status" aria-live="polite"></p>
+    <button class="btn btn-p gate-btn" type="submit">들어가기</button>
+    <p class="gate-note">본 자료는 학교 수업 목적으로 제작되었으며,
+      저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+  </form>
+</div>
+<a class="skip" href="#main">본문 바로가기</a>
+<header class="topbar">
+  <div class="bar-top">
+    <a class="brand" href="index.html"><span class="brand-mark">IS</span><span class="brand-name">정보과학</span></a>
+    <nav class="toolnav" aria-label="수업 도구">
+      <a href="index.html">수업 홈</a>
+      <a href="course.html">수업 안내</a>
+      <a href="labs.html">실습실</a>
+      <a href="practice.html" class="is-current">파이썬 실습</a>
+      <a href="glossary.html">용어 사전</a>
+      <a href="my.html">내 학습</a>
+    </nav>
+    <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false" title="어두운 화면으로">
+      <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.6v2M12 19.4v2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M2.6 12h2M19.4 12h2M5.2 18.8l1.4-1.4M17.4 6.6l1.4-1.4"/></svg>
+      <span class="ico-label">어둡게</span>
+    </button>
+  </div>
+  <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
+    <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
+    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+  </div></nav>
+  <div class="progress" data-progress></div>
+</header>
+<header class="pagehead"><div class="pagehead-in"><p class="crumbs"><a href="index.html">수업 홈</a> / 파이썬 실습</p>
+  <p class="kicker">PYTHON PRACTICE</p>
+  <h1>파이썬 실습</h1>
+  <p>단원별 실습 7세트와 자주 나는 오류 해결표입니다. 코드는 이 페이지에서 <b>▶ 실행</b>으로 바로 돌려 보거나, <b>Programiz에서 실행</b>을 눌러 <a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz 온라인 컴파일러</a>에서 실행합니다. 로그인·설치·저장 단계가 없어 실수할 곳이 적습니다.</p>
+  <nav class="xp-jump" aria-label="이 페이지 목차">
+    <a href="#start">Programiz 사용법</a><a href="#nb1">Ⅰ 실습</a><a href="#nb2">Ⅱ 실습</a><a href="#nb3">Ⅲ 실습</a><a href="#nb4">Ⅳ 실습</a><a href="#errors">오류 해결표</a>
+  </nav>
+</div></header>
+<main class="xp" id="main">
+<section class="xp-sec" id="start">
+  <h2>Programiz 사용법</h2>
+  <ol class="run-steps">
+    <li><b>버튼 누르기</b>실습 코드 아래 <b>Programiz에서 실행</b>을 누르면 그 칸<b>까지의 코드가 모두 복사</b>되고 Programiz가 새 탭으로 열립니다.</li>
+    <li><b>예시 코드 지우기</b>왼쪽 편집 창(main.py)을 한 번 누르고 <kbd>Ctrl</kbd>+<kbd>A</kbd>로 전체 선택합니다.</li>
+    <li><b>붙여넣기</b><kbd>Ctrl</kbd>+<kbd>V</kbd>로 복사한 코드를 붙여넣습니다.</li>
+    <li><b>Run</b>파란 <b>Run</b> 버튼을 누르면 오른쪽 Output 창에 결과가 나옵니다.</li>
+    <li><b>input()은 Output 창에서</b><code>input()</code>이 있으면 Output 창에 값을 입력하고 <kbd>Enter</kbd>를 누릅니다.</li>
+  </ol>
+  <div class="callout"><b>꼭 기억할 것</b> — 앞 칸에서 만든 함수·변수를 뒤 칸에서 쓰기 때문에, 버튼은 앞 칸 코드까지 <b>한꺼번에</b> 복사합니다. Programiz는 코드를 <b>저장하지 않으니</b>, 직접 짠 코드는 <b>전체 코드 복사</b>로 옮겨 두거나 <a href="my.html">내 학습</a> 노트에 붙여 두세요. Programiz에서는 표준 라이브러리(<code>random</code>, <code>math</code>, <code>collections</code>, <code>heapq</code> 등)만 쓸 수 있고 파일 업로드는 되지 않습니다.</div>
+</section>
+
+<!-- ========== Ⅰ ========== -->
+<section class="xp-sec u1" id="nb1">
+  <h2>Ⅰ 프로그래밍</h2>
+
+  <details class="nb" data-nb="정보과학_1-1_함수">
+    <summary><span class="pill">Ⅰ-1</span><b>함수 만들고 불러 쓰기</b><span class="muted">정의와 호출 · 기본값 매개 변수 · 가변 인수 · 지역/전역 변수 · <a href="unit1.html#t1-1">본문</a></span></summary>
+    <div class="nb-body">
+      <div class="nb-tools"><button class="btn btn-p" type="button" data-nb-copy data-pz>전체 코드 복사 + Programiz 열기</button><a class="btn" href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz만 열기</a></div>
+      <p class="nbmd"><b>1. 함수 정의와 호출</b> — <code>def</code>로 정의하고, 이름(인수)로 호출합니다.</p>
+<pre data-run data-editable data-cell>def square(x):
+    return x * x
+
+print(square(3))
+print(square(12))</pre>
+      <p class="nbmd"><b>2. 기본값 매개 변수</b> — 인수를 생략하면 기본값이 쓰입니다.</p>
+<pre data-run data-editable data-cell>def greet(name, msg='안녕'):
+    return f'{name}, {msg}!'
+
+print(greet('지민'))
+print(greet('지민', '반가워'))</pre>
+      <p class="nbmd"><b>3. 가변 인수</b> — <code>*scores</code>는 넘긴 값들을 튜플로 받습니다.</p>
+<pre data-run data-editable data-cell>def average(*scores):
+    return sum(scores) / len(scores)
+
+print(average(80, 90))
+print(average(70, 85, 92, 100))</pre>
+      <p class="nbmd"><b>4. 지역 변수와 전역 변수</b> — 함수 안에서 전역 변수를 바꾸려면 <code>global</code>이 필요합니다.</p>
+<pre data-run data-editable data-cell>count = 0
+
+def click():
+    global count
+    count += 1
+
+for _ in range(3):
+    click()
+print('클릭 수:', count)</pre>
+      <p class="nbmd"><b>✍ 직접 해 보기</b> — 점수를 받아 90 이상 'A', 80 이상 'B', 70 이상 'C', 나머지 'D'를 돌려주는 <code>grade(score)</code>를 완성하세요.</p>
+<pre data-run data-editable data-cell>def grade(score):
+    # 여기에 코드를 작성하세요
+    return 'D'
+
+for s in [95, 83, 71, 40]:
+    print(s, grade(s))</pre>
+    </div>
+  </details>
+
+  <details class="nb" data-nb="정보과학_1-2_클래스와_재귀">
+    <summary><span class="pill">Ⅰ-2</span><b>클래스와 재귀</b><span class="muted">클래스·객체 · 팩토리얼 · 하노이 탑 · 자릿수 합 · <a href="unit1.html#t1-3">본문</a></span></summary>
+    <div class="nb-body">
+      <div class="nb-tools"><button class="btn btn-p" type="button" data-nb-copy data-pz>전체 코드 복사 + Programiz 열기</button><a class="btn" href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz만 열기</a></div>
+      <p class="nbmd"><b>1. 클래스와 객체</b> — 설계도(클래스) 하나로 여러 객체를 만듭니다.</p>
+<pre data-run data-editable data-cell>class Playlist:
+    def __init__(self, name):
+        self.name = name
+        self.songs = []
+
+    def add(self, title):
+        self.songs.append(title)
+
+    def show(self):
+        print(f'[{self.name}] {len(self.songs)}곡:', ', '.join(self.songs))
+
+p = Playlist('공부할 때')
+p.add('봄날')
+p.add('Lemon')
+p.show()</pre>
+      <p class="nbmd"><b>2. 재귀 함수 — 팩토리얼</b> — 종료 조건(<code>n == 1</code>)이 꼭 있어야 합니다.</p>
+<pre data-run data-editable data-cell>def fact(n):
+    if n == 1:            # 종료 조건
+        return 1
+    return n * fact(n - 1)
+
+print(fact(5))</pre>
+      <p class="nbmd"><b>3. 하노이 탑</b> — n−1개를 보조 기둥으로, 가장 큰 원판을 목표로, 다시 n−1개를 목표로.</p>
+<pre data-run data-editable data-cell>moves = 0
+def hanoi(n, src, aux, dst):
+    global moves
+    if n == 0:
+        return
+    hanoi(n - 1, src, dst, aux)
+    moves += 1
+    print(f'{n}번 원판: {src} → {dst}')
+    hanoi(n - 1, aux, src, dst)
+
+hanoi(3, 'A', 'B', 'C')
+print('이동 횟수:', moves, '(2³−1 =', 2**3 - 1, ')')</pre>
+      <p class="nbmd"><b>✍ 직접 해 보기</b> — 양의 정수의 각 자릿수 합을 재귀로 구하세요. <code>digit_sum(1234)</code> → 10. 힌트: <code>n % 10</code>, <code>n // 10</code>.</p>
+<pre data-run data-editable data-cell>def digit_sum(n):
+    # 종료 조건과 재귀 호출을 작성하세요
+    return 0
+
+print(digit_sum(1234))</pre>
+    </div>
+  </details>
+</section>
+
+<!-- ========== Ⅱ ========== -->
+<section class="xp-sec u2" id="nb2">
+  <h2>Ⅱ 데이터 구조</h2>
+
+  <details class="nb" data-nb="정보과학_2-1_스택과_큐">
+    <summary><span class="pill">Ⅱ-1</span><b>스택과 큐</b><span class="muted">리스트 스택 · 괄호 검사 · deque 큐 · 매점 줄 시뮬레이션 · <a href="unit2.html#t2-1">본문</a></span></summary>
+    <div class="nb-body">
+      <div class="nb-tools"><button class="btn btn-p" type="button" data-nb-copy data-pz>전체 코드 복사 + Programiz 열기</button><a class="btn" href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz만 열기</a></div>
+      <p class="nbmd"><b>1. 리스트로 스택</b> — <code>append</code>가 push, <code>pop</code>이 pop, <code>[-1]</code>이 peek.</p>
+<pre data-run data-editable data-cell>stack = []
+stack.append('A')
+stack.append('B')
+stack.append('C')
+print('top:', stack[-1])
+print('pop:', stack.pop())
+print('남은 스택:', stack)</pre>
+      <p class="nbmd"><b>2. 괄호 짝 검사</b> — 여는 괄호는 push, 닫는 괄호를 만나면 pop해서 짝을 맞춥니다.</p>
+<pre data-run data-editable data-cell>def balanced(text):
+    pair = {')': '(', ']': '[', '}': '{'}
+    st = []
+    for ch in text:
+        if ch in '([{':
+            st.append(ch)
+        elif ch in pair:
+            if not st or st.pop() != pair[ch]:
+                return False
+    return not st
+
+for t in ['(a+b)*[c]', '((a)', '{[()]}', '(]']:
+    print(t, balanced(t))</pre>
+      <p class="nbmd"><b>3. deque로 큐</b> — <code>append</code>로 넣고 <code>popleft</code>로 꺼냅니다. 리스트의 <code>pop(0)</code>보다 빠릅니다.</p>
+<pre data-run data-editable data-cell>from collections import deque
+q = deque()
+for name in ['민수', '서연', '지후']:
+    q.append(name)
+print('먼저 나감:', q.popleft())
+print('대기 중:', list(q))</pre>
+      <p class="nbmd"><b>4. 매점 줄 시뮬레이션</b> — 1분마다 학생이 오고, 계산원이 한 명씩 처리합니다.</p>
+<pre data-run data-editable data-cell>import random
+from collections import deque
+random.seed(1)
+
+line = deque()
+served = 0
+for minute in range(1, 11):
+    arrive = random.randint(0, 3)          # 이번 분에 온 학생 수
+    for _ in range(arrive):
+        line.append(minute)
+    if line:                               # 1분에 한 명 계산
+        line.popleft()
+        served += 1
+    print(f'{minute:2}분: {arrive}명 도착, 줄 길이 {len(line)}')
+print('계산 끝난 학생:', served)</pre>
+      <p class="nbmd"><b>✍ 직접 해 보기</b> — 스택을 써서 문자열을 거꾸로 뒤집는 <code>reverse(s)</code>를 완성하세요.</p>
+<pre data-run data-editable data-cell>def reverse(s):
+    st = []
+    # 한 글자씩 push 한 뒤, 모두 pop 해서 이어 붙이세요
+    return ''
+
+print(reverse('정보과학'))</pre>
+    </div>
+  </details>
+
+  <details class="nb" data-nb="정보과학_2-2_트리와_그래프">
+    <summary><span class="pill">Ⅱ-2</span><b>트리와 그래프</b><span class="muted">이진 탐색 트리 · 중위 순회 · 인접 리스트 · DFS · BFS 최단 경로 · <a href="unit2.html#t2-3">본문</a></span></summary>
+    <div class="nb-body">
+      <div class="nb-tools"><button class="btn btn-p" type="button" data-nb-copy data-pz>전체 코드 복사 + Programiz 열기</button><a class="btn" href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz만 열기</a></div>
+      <p class="nbmd"><b>1. 이진 탐색 트리</b> — 작으면 왼쪽, 크면 오른쪽. 중위 순회하면 정렬된 순서가 나옵니다.</p>
+<pre data-run data-editable data-cell>class Node:
+    def __init__(self, v):
+        self.v, self.left, self.right = v, None, None
+
+def insert(root, v):
+    if root is None:
+        return Node(v)
+    if v &lt; root.v:
+        root.left = insert(root.left, v)
+    else:
+        root.right = insert(root.right, v)
+    return root
+
+def inorder(node, out):
+    if node:
+        inorder(node.left, out)
+        out.append(node.v)
+        inorder(node.right, out)
+    return out
+
+root = None
+for v in [50, 30, 70, 20, 40, 60, 80]:
+    root = insert(root, v)
+print('중위 순회:', inorder(root, []))</pre>
+      <p class="nbmd"><b>2. 인접 리스트와 DFS(재귀)</b> — <a href="labs.html#graph">실습실 그래프 탐색</a>과 같은 그래프입니다.</p>
+<pre data-run data-editable data-cell>graph = {
+    'A': ['B', 'C'], 'B': ['A', 'D', 'E'], 'C': ['A', 'F'],
+    'D': ['B', 'G'], 'E': ['B', 'G', 'H'], 'F': ['C', 'H'],
+    'G': ['D', 'E'], 'H': ['E', 'F'],
+}
+
+def dfs(node, visited):
+    visited.append(node)
+    for nxt in graph[node]:
+        if nxt not in visited:
+            dfs(nxt, visited)
+    return visited
+
+print('DFS:', dfs('A', []))</pre>
+      <p class="nbmd"><b>3. BFS로 최단 경로</b> — 간선 수 기준 가장 짧은 길을 찾습니다.</p>
+<pre data-run data-editable data-cell>from collections import deque
+
+def shortest(start, goal):
+    prev = {start: None}
+    q = deque([start])
+    while q:
+        node = q.popleft()
+        if node == goal:
+            break
+        for nxt in graph[node]:
+            if nxt not in prev:
+                prev[nxt] = node
+                q.append(nxt)
+    path, cur = [], goal
+    while cur is not None:
+        path.append(cur)
+        cur = prev[cur]
+    return path[::-1]
+
+print('A → H:', ' → '.join(shortest('A', 'H')))</pre>
+      <p class="nbmd"><b>✍ 직접 해 보기</b> — 각 노드의 차수(연결된 간선 수)를 출력하고, 차수가 가장 큰 노드를 찾으세요.</p>
+<pre data-run data-editable data-cell>for node in graph:
+    pass   # 여기에 코드를 작성하세요</pre>
+    </div>
+  </details>
+</section>
+
+<!-- ========== Ⅲ ========== -->
+<section class="xp-sec u3" id="nb3">
+  <h2>Ⅲ 알고리즘</h2>
+
+  <details class="nb" data-nb="정보과학_3-1_복잡도와_탐색">
+    <summary><span class="pill">Ⅲ-1</span><b>복잡도와 탐색</b><span class="muted">실행 시간 재기 · 순차 vs 이진 탐색 · 탐욕 거스름돈 · <a href="unit3.html#t3-2">본문</a></span></summary>
+    <div class="nb-body">
+      <div class="nb-tools"><button class="btn btn-p" type="button" data-nb-copy data-pz>전체 코드 복사 + Programiz 열기</button><a class="btn" href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz만 열기</a></div>
+      <p class="nbmd"><b>1. 연산 횟수 세기</b> — n이 2배가 될 때 O(n)과 O(n²)은 각각 몇 배가 될까요?</p>
+<pre data-run data-editable data-cell>def ops_linear(n):
+    c = 0
+    for i in range(n):
+        c += 1
+    return c
+
+def ops_square(n):
+    c = 0
+    for i in range(n):
+        for j in range(n):
+            c += 1
+    return c
+
+for n in [10, 20, 40, 80]:
+    print(f'n={n:3}  O(n)={ops_linear(n):5}  O(n²)={ops_square(n):6}')</pre>
+      <p class="nbmd"><b>2. 순차 탐색 vs 이진 탐색</b> — 비교 횟수를 비교합니다.</p>
+<pre data-run data-editable data-cell>def seq_search(arr, t):
+    for i, v in enumerate(arr):
+        if v == t:
+            return i + 1          # 비교 횟수
+    return len(arr)
+
+def bin_search(arr, t):
+    lo, hi, c = 0, len(arr) - 1, 0
+    while lo &lt;= hi:
+        mid = (lo + hi) // 2
+        c += 1
+        if arr[mid] == t:
+            return c
+        if arr[mid] &lt; t:
+            lo = mid + 1
+        else:
+            hi = mid - 1
+    return c
+
+data = list(range(1, 100001))
+for t in [7, 50000, 99999]:
+    print(f'{t:6}: 순차 {seq_search(data, t):6}번, 이진 {bin_search(data, t):2}번')</pre>
+      <p class="nbmd"><b>3. 탐욕 거스름돈</b> — 동전 종류를 바꾸면 최적해가 아닐 수 있습니다.</p>
+<pre data-run data-editable data-cell>def greedy_change(amount, coins):
+    used = []
+    for c in sorted(coins, reverse=True):
+        while amount &gt;= c:
+            amount -= c
+            used.append(c)
+    return used
+
+print(greedy_change(1260, [500, 100, 50, 10]))
+print(greedy_change(8, [6, 4, 1]))   # 4+4 가 더 적은데?</pre>
+      <p class="nbmd"><b>✍ 직접 해 보기</b> — 리스트에서 합이 <code>target</code>이 되는 두 수를 전체 탐색으로 찾아 출력하세요. 시간 복잡도는 얼마일까요?</p>
+<pre data-run data-editable data-cell>nums = [8, 3, 11, 5, 2, 9]
+target = 14
+# 여기에 코드를 작성하세요</pre>
+    </div>
+  </details>
+
+  <details class="nb" data-nb="정보과학_3-2_분할정복과_동적계획법">
+    <summary><span class="pill">Ⅲ-2</span><b>분할 정복과 동적 계획법</b><span class="muted">퀵 정렬 · 합병 정렬 · 피보나치 메모이제이션 · 배낭 문제 · <a href="unit3.html#t3-5">본문</a></span></summary>
+    <div class="nb-body">
+      <div class="nb-tools"><button class="btn btn-p" type="button" data-nb-copy data-pz>전체 코드 복사 + Programiz 열기</button><a class="btn" href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz만 열기</a></div>
+      <p class="nbmd"><b>1. 퀵 정렬</b> — 피벗보다 작은 것, 같은 것, 큰 것으로 나누어 재귀.</p>
+<pre data-run data-editable data-cell>def quick(arr):
+    if len(arr) &lt;= 1:
+        return arr
+    pivot = arr[0]
+    small = [x for x in arr[1:] if x &lt; pivot]
+    big = [x for x in arr[1:] if x &gt;= pivot]
+    return quick(small) + [pivot] + quick(big)
+
+print(quick([33, 10, 55, 71, 29, 3, 18, 42]))</pre>
+      <p class="nbmd"><b>2. 합병 정렬</b> — 반으로 나눠 정렬한 뒤, 두 정렬된 리스트를 합칩니다.</p>
+<pre data-run data-editable data-cell>def merge_sort(arr):
+    if len(arr) &lt;= 1:
+        return arr
+    mid = len(arr) // 2
+    a, b = merge_sort(arr[:mid]), merge_sort(arr[mid:])
+    out, i, j = [], 0, 0
+    while i &lt; len(a) and j &lt; len(b):
+        if a[i] &lt;= b[j]:
+            out.append(a[i]); i += 1
+        else:
+            out.append(b[j]); j += 1
+    return out + a[i:] + b[j:]
+
+print(merge_sort([33, 10, 55, 71, 29, 3, 18, 42]))</pre>
+      <p class="nbmd"><b>3. 피보나치 — 재귀 vs 메모이제이션</b> — 호출 횟수 차이를 확인하세요.</p>
+<pre data-run data-editable data-cell>calls = 0
+def fib(n):
+    global calls
+    calls += 1
+    return 1 if n &lt;= 2 else fib(n - 1) + fib(n - 2)
+
+memo = {}
+mcalls = 0
+def fib_memo(n):
+    global mcalls
+    mcalls += 1
+    if n &lt;= 2:
+        return 1
+    if n not in memo:
+        memo[n] = fib_memo(n - 1) + fib_memo(n - 2)
+    return memo[n]
+
+print(fib(25), '재귀 호출', calls, '번')
+print(fib_memo(25), '메모 호출', mcalls, '번')</pre>
+      <p class="nbmd"><b>4. 0-1 배낭 문제(상향식)</b> — <code>dp[w]</code> = 무게 w까지 담을 때의 최대 가치.</p>
+<pre data-run data-editable data-cell>items = [('노트북', 3, 4), ('책', 1, 2), ('물병', 2, 3), ('카메라', 2, 5)]  # (이름, 무게, 가치)
+W = 5
+dp = [0] * (W + 1)
+for name, w, v in items:
+    for cap in range(W, w - 1, -1):      # 뒤에서부터: 같은 물건을 두 번 담지 않게
+        dp[cap] = max(dp[cap], dp[cap - w] + v)
+    print(f'{name:4} 고려 후:', dp)
+print('최대 가치:', dp[W])</pre>
+      <p class="nbmd"><b>✍ 직접 해 보기</b> — 계단을 한 번에 1칸 또는 2칸 오를 수 있을 때, n칸을 오르는 방법의 수를 동적 계획법으로 구하세요. (n=5 → 8)</p>
+<pre data-run data-editable data-cell>def stairs(n):
+    # dp 리스트를 만들어 채우세요
+    return 0
+
+print(stairs(5))</pre>
+    </div>
+  </details>
+</section>
+
+<!-- ========== Ⅳ ========== -->
+<section class="xp-sec u4" id="nb4">
+  <h2>Ⅳ 정보과학 프로젝트</h2>
+
+  <details class="nb" data-nb="정보과학_4_프로젝트_도구상자">
+    <summary><span class="pill">Ⅳ</span><b>프로젝트 도구상자</b><span class="muted">다익스트라(heapq) · 백트래킹 자리 배치 · assert로 테스트하기 · <a href="unit4.html#t4-3">본문</a></span></summary>
+    <div class="nb-body">
+      <div class="nb-tools"><button class="btn btn-p" type="button" data-nb-copy data-pz>전체 코드 복사 + Programiz 열기</button><a class="btn" href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz만 열기</a></div>
+      <p class="nbmd"><b>1. 다익스트라 — 탄소 배출이 가장 적은 경로</b> — 가중치는 구간별 배출량(g)입니다.</p>
+<pre data-run data-editable data-cell>import heapq
+
+road = {
+    '집':   {'정류장': 30, '역': 120},
+    '정류장': {'역': 40, '학교': 150},
+    '역':   {'학교': 35},
+    '학교': {},
+}
+
+def dijkstra(start):
+    dist = {n: float('inf') for n in road}
+    dist[start] = 0
+    pq = [(0, start)]
+    while pq:
+        d, node = heapq.heappop(pq)       # 가장 가까운 노드 확정
+        if d &gt; dist[node]:
+            continue
+        for nxt, w in road[node].items():
+            if d + w &lt; dist[nxt]:
+                dist[nxt] = d + w
+                heapq.heappush(pq, (dist[nxt], nxt))
+    return dist
+
+print(dijkstra('집'))</pre>
+      <p class="nbmd"><b>2. 백트래킹 — 짝꿍 배치</b> — 서로 사이가 안 좋은 두 학생이 옆자리에 앉지 않게 4자리에 배치합니다.</p>
+<pre data-run data-editable data-cell>students = ['가온', '나래', '다솜', '라온']
+avoid = {('가온', '나래'), ('다솜', '라온')}
+
+def ok(seat, s):
+    if not seat:
+        return True
+    left = seat[-1]
+    return (left, s) not in avoid and (s, left) not in avoid
+
+def place(seat, rest, out):
+    if not rest:
+        out.append(seat[:])
+        return
+    for s in rest:
+        if ok(seat, s):                  # 조건을 어기면 이 가지는 버림
+            seat.append(s)
+            place(seat, [r for r in rest if r != s], out)
+            seat.pop()                   # 되돌아가기
+    return out
+
+for arr in place([], students, []):
+    print(arr)</pre>
+      <p class="nbmd"><b>3. assert로 테스트하기</b> — 기대한 값과 다르면 바로 AssertionError가 납니다. 경계값을 꼭 넣으세요.</p>
+<pre data-run data-editable data-cell>def carbon(km, kind):
+    rate = {'도보': 0, '버스': 27, '지하철': 4, '자동차': 210}   # g/km (예시 값)
+    return km * rate[kind]
+
+assert carbon(0, '자동차') == 0          # 경계값
+assert carbon(10, '도보') == 0
+assert carbon(2, '버스') == 54
+print('모든 테스트 통과!')</pre>
+      <p class="nbmd"><b>✍ 우리 모둠 프로젝트</b> — 입력·출력·조건을 주석으로 먼저 적고, 함수로 나누어 작성하세요.</p>
+<pre data-run data-editable data-cell># 문제:
+# 입력:
+# 출력:
+# 조건:
+
+def solve():
+    pass
+
+solve()</pre>
+    </div>
+  </details>
+</section>
+
+<section class="xp-sec" id="errors">
+  <h2>자주 나는 오류 해결표</h2>
+  <p class="lede">오류가 나면 Output 창 빨간 글씨의 <b>마지막 줄</b>을 보세요. 오류 이름과 줄 번호가 거기 있습니다. 아래 칸에 오류 이름이나 낱말을 넣으면 해당 줄만 보입니다.</p>
+  <div class="errfilter"><input type="search" data-err-q placeholder="예: NameError, 들여쓰기, 한글" aria-label="오류 검색"><span class="muted" data-err-count></span></div>
+  <div class="tablewrap"><table class="errtbl" data-err-table>
+    <thead><tr><th>오류</th><th>이런 뜻이에요</th><th>이렇게 고쳐요</th></tr></thead>
+    <tbody>
+      <tr><td>SyntaxError</td><td>문법이 틀렸어요. <code>if</code>·<code>for</code>·<code>def</code> 끝의 콜론(<code>:</code>)이 빠졌거나 괄호·따옴표 짝이 안 맞는 경우가 많아요.</td><td>표시된 줄과 <b>바로 윗줄</b>의 콜론·괄호·따옴표를 확인합니다.</td></tr>
+      <tr><td>IndentationError</td><td>들여쓰기가 맞지 않아요. 블록 안의 줄은 같은 칸만큼 들여써야 해요.</td><td>스페이스 4칸으로 통일하고, 탭과 스페이스를 섞지 않습니다.</td></tr>
+      <tr><td>NameError</td><td>정의되지 않은 이름을 썼어요. 오타이거나, 그 이름을 만든 코드를 아직 실행하지 않았어요.</td><td>철자·대소문자를 확인하고, 이 사이트에서는 <b>위 칸부터 다시 실행</b>합니다.</td></tr>
+      <tr><td>TypeError: can only concatenate str</td><td>문자열과 숫자를 <code>+</code>로 붙이려 했어요.</td><td><code>str(n)</code>으로 바꾸거나 f-string <code>f'{n}점'</code>을 씁니다.</td></tr>
+      <tr><td>TypeError: missing 1 required positional argument</td><td>함수에 필요한 인수를 덜 넣었어요. 메서드라면 <code>self</code>를 빠뜨린 경우도 있어요.</td><td>함수 정의의 매개 변수 개수와 호출할 때의 인수 개수를 맞춥니다.</td></tr>
+      <tr><td>ValueError: invalid literal for int()</td><td>숫자가 아닌 글자를 <code>int()</code>로 바꾸려 했어요.</td><td><code>input()</code>에 숫자만 넣었는지, 앞뒤 공백이 없는지 확인합니다.</td></tr>
+      <tr><td>IndexError: list index out of range</td><td>리스트에 없는 위치를 꺼내려 했어요. 길이가 5면 인덱스는 0~4예요.</td><td><code>range(len(a))</code>를 쓰고, 빈 리스트에서 <code>pop()</code>·<code>[0]</code>을 하지 않았는지 봅니다.</td></tr>
+      <tr><td>IndexError: pop from empty list</td><td>빈 스택·큐에서 꺼내려 했어요(언더플로).</td><td>꺼내기 전에 <code>if stack:</code>으로 비었는지 먼저 확인합니다.</td></tr>
+      <tr><td>KeyError</td><td>딕셔너리에 없는 키를 찾았어요.</td><td><code>d.get(key, 기본값)</code>을 쓰거나 <code>if key in d:</code>로 확인합니다.</td></tr>
+      <tr><td>ZeroDivisionError</td><td>0으로 나누었어요. 빈 리스트의 평균을 구할 때 자주 나요.</td><td>나누기 전에 분모가 0인지 확인합니다.</td></tr>
+      <tr><td>AttributeError</td><td>그 객체에 없는 속성·메서드를 썼어요. 예: 리스트에 <code>.push()</code>.</td><td>철자를 확인하고, 리스트는 <code>append</code>, deque는 <code>popleft</code>처럼 맞는 이름을 씁니다.</td></tr>
+      <tr><td>RecursionError: maximum recursion depth</td><td>재귀 호출이 너무 깊어졌어요. 대부분 <b>종료 조건이 없거나</b> 종료 조건에 닿지 않아요.</td><td>종료 조건을 확인하고, 재귀 호출 때 n이 줄어드는지 봅니다.</td></tr>
+      <tr><td>UnboundLocalError</td><td>함수 안에서 전역 변수 값을 바꾸려 했어요.</td><td>함수 첫 줄에 <code>global 변수이름</code>을 쓰거나, 값을 매개 변수·반환값으로 주고받습니다.</td></tr>
+      <tr><td>ModuleNotFoundError</td><td>설치되지 않은 라이브러리를 <code>import</code>했어요. Programiz에서는 <code>numpy</code>·<code>matplotlib</code> 같은 외부 라이브러리를 쓸 수 없어요.</td><td>표준 라이브러리(<code>random</code>, <code>math</code>, <code>collections</code>, <code>heapq</code> 등)로 바꾸거나, 모듈 이름 오타를 확인합니다.</td></tr>
+      <tr><td>무한 반복(끝나지 않음)</td><td><code>while</code> 조건이 계속 참이에요.</td><td>Programiz는 <b>Stop</b>(Run 자리) 버튼, 이 사이트는 새로 고침. 반복 안에서 조건 변수가 바뀌는지 확인합니다.</td></tr>
+      <tr><td>입력을 기다리며 멈춤(<code>input</code>)</td><td>프로그램이 <code>input()</code>에서 값을 기다리는 중이에요.</td><td>Programiz는 오른쪽 <b>Output 창을 눌러</b> 값을 넣고 Enter. 이 사이트에서는 실행 전에 입력값을 미리 적습니다.</td></tr>
+      <tr><td>NameError (Programiz)</td><td>앞 칸에서 만든 함수·변수를 빼고 일부 코드만 붙여넣었어요.</td><td>실습 칸 아래 <b>Programiz에서 실행</b> 버튼으로 다시 복사하면 앞 칸 코드까지 함께 들어갑니다.</td></tr>
+      <tr><td>예시 코드가 같이 실행됨</td><td>Programiz 편집 창의 기본 예시 코드를 지우지 않고 붙여넣었어요.</td><td>편집 창에서 <kbd>Ctrl</kbd>+<kbd>A</kbd>로 모두 선택한 뒤 붙여넣습니다.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout"><b>AI에게 물을 때는</b> “고쳐 줘” 대신 “<code>오류 메시지</code>가 무슨 뜻이야? 어디를 보면 돼?”라고 물으세요. 자세한 규칙은 <a href="course.html#ai">AI 사용 신호등</a>에 있습니다.</div>
+</section>
+</main>
+
+<footer>
+  <div class="foot-in">
+    <div>
+      <p><b data-teacher-tap>정보과학</b> — 씨마스 『정보과학』 (2022 개정 교육과정) 수업 자료 · 1학기 · 주 3시간 · 16주</p>
+      <p>보문고등학교 <b>김용득</b> 선생님 제작.</p>
+      <p>개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
+      <p class="copyright">본 자료는 학교 수업 목적으로 제작되었으며, 저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+    </div>
+    <nav class="foot-links" aria-label="사이트 전체"><a href="index.html">수업 홈</a><a href="unit0.html">0 파이썬 기초</a><a href="unit1.html">Ⅰ 프로그래밍</a><a href="unit2.html">Ⅱ 데이터 구조</a><a href="unit3.html">Ⅲ 알고리즘</a><a href="unit4.html">Ⅳ 프로젝트</a><a href="course.html">수업 안내</a><a href="labs.html">실습실</a><a href="practice.html">파이썬 실습</a><a href="glossary.html">용어 사전</a><a href="my.html">내 학습</a><a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz</a></nav>
+  </div>
+</footer>
+<script>window.SITE={"topics":{"0":["t0-0","t0-1","t0-2","t0-3","t0-4","t0-5","t0-6","t0-7","t0-8","t0-9","t0-10"],"1":["t1-1","t1-2","t1-3","t1-4","t1-5"],"2":["t2-1","t2-2","t2-3","t2-4","t2-5"],"3":["t3-1","t3-2","t3-3","t3-4","t3-5","t3-6","t3-8","t3-7"],"4":["t4-1","t4-2","t4-3","t4-4","t4-6","t4-5"]},"units":{"0":{"roman":"0","name":"파이썬 기초","weeks":null},"1":{"roman":"Ⅰ","name":"프로그래밍","weeks":[1,5]},"2":{"roman":"Ⅱ","name":"데이터 구조","weeks":[6,9]},"3":{"roman":"Ⅲ","name":"알고리즘","weeks":[10,13]},"4":{"roman":"Ⅳ","name":"정보과학 프로젝트","weeks":[14,16]}},"quiz":{"0":10,"1":10,"2":10,"3":10,"4":10},"weeks":[{"week":1,"lessons":["오리엔테이션 — 정보과학은 무엇을 배우는 과목인가","함수의 개념 — 내장 함수와 사용자 정의 함수","함수의 정의(<code>def</code>)와 네 가지 구성 요소"]},{"week":2,"lessons":["함수 호출 — 인수와 매개 변수의 관계","<code>return</code>의 두 역할 / 매개 변수·반환값 4가지 형태","지역 변수와 전역 변수, <code>global</code>"]},{"week":3,"lessons":["[역량] 음악 플레이 리스트 관리 프로그램","기본값 매개 변수와 가변 인수 매개 변수","여러 값 반환 / 클래스와 객체"]},{"week":4,"lessons":["모듈 만들기와 <code>import</code>","패키지·라이브러리 / 내장 함수와 표준 라이브러리","[역량] 가위바위보 게임 만들기"]},{"week":5,"lessons":["재귀 구조의 이해 — 수학적 귀납법과 재귀 관계","재귀 함수의 동작 원리 — 호출과 반환","반복 vs 재귀 / 재귀 활용 — 자릿수 합·하노이 탑"]},{"week":6,"lessons":["데이터 구조의 분류 / 스택의 개념(LIFO)","스택의 연산 — push, pop, peek, isEmpty","리스트로 스택 구현하기 · 활용 사례"]},{"week":7,"lessons":["큐의 개념(FIFO)과 연산","리스트로 큐 구현하기 / 덱·우선순위 큐","[역량] 스택·큐를 활용한 프로그램"]},{"week":8,"lessons":["트리의 개념과 구성 요소","트리의 표현 — 인접 행렬과 인접 리스트","이진 트리와 순차 데이터 구조 표현"]},{"week":9,"lessons":["이진 탐색 트리의 규칙과 활용","그래프의 개념·종류와 표현","그래프 탐색 — 깊이 우선·너비 우선 탐색"]},{"week":10,"lessons":["알고리즘의 이해와 문제 해결 전략 네 가지","알고리즘 성능 평가 — 시간·공간 복잡도","빅오 표기법과 알고리즘 성능 비교"]},{"week":11,"lessons":["문제의 세 요소와 상태 공간","탐색 공간의 구조·범위 / 전체 탐색과 순차 탐색","비선형 전체 탐색 — DFS·BFS 적용"]},{"week":12,"lessons":["탐색 공간 배제와 이진 탐색","탐욕 알고리즘 — 거스름돈·시간표 문제","분기 한정 알고리즘과 백트래킹"]},{"week":13,"lessons":["문제 분해와 전체·부분 문제의 관계식","분할 정복법 — 퀵 정렬과 합병 정렬","동적 계획법 — 메모이제이션과 상향식"]},{"week":14,"lessons":["정보과학으로 문제 해결하기 · 문제 해결 5단계","학문 분야별 문제 탐색 / 모둠 구성·주제 선정","[프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화"]},{"week":15,"lessons":["[프로젝트 ①] 알고리즘 설계와 프로그램 작성","[프로젝트 ②] 탄소 발자국 — 데이터 수집과 구조화","[프로젝트 ②] 다익스트라 알고리즘으로 구현하기"]},{"week":16,"lessons":["[프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계","[프로젝트 ③] 백트래킹 구현과 디버깅","산출물 정리 / 프로젝트 발표와 상호 평가"]}],"settings":{"year":2026,"term":"1학기","semester_start":null,"grading":[{"type":"지필","name":"1차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 중간고사","ratio":25},{"type":"지필","name":"2차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 기말고사","ratio":25},{"type":"수행","name":"1차 수행평가 · 프로그래밍 과제","what":"함수·클래스·데이터 구조를 활용한 프로그램 작성과 설명","when":"Ⅰ·Ⅱ단원 중","ratio":25},{"type":"수행","name":"2차 수행평가 · 정보과학 프로젝트","what":"문제 해결 5단계 산출물, 프로그램, 발표·상호 평가","when":"14~16주차","ratio":25}]},"settings_edit":"https://github.com/yongdeuk/infoscience2026/edit/main/settings.json","programiz":"https://www.programiz.com/python-programming/online-compiler/"};</script>
+<script src="assets/site.js"></script>
+</body>
+</html>

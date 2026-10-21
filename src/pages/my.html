@@ -1,0 +1,28 @@
+<header class="xp-hero">
+  <p class="kicker">MY LEARNING</p>
+  <h1>내 학습</h1>
+  <p>단원 페이지의 <b>해 봤어요</b> 체크, 단원 퀴즈 최고 점수, 정리 노트를 한눈에 봅니다. 모든 기록은 <b>지금 쓰는 기기의 브라우저에만</b> 저장됩니다. 다른 기기로 옮기거나 제출하려면 아래 <b>txt로 내보내기</b>를 쓰세요.</p>
+</header>
+
+<section class="xp-sec" id="progress">
+  <h2>진도</h2>
+  <div class="mygrid">
+    <div class="mybox"><h3>해 봤어요 (소단원)</h3><div data-my-done></div><p class="muted">단원 페이지의 각 소단원 끝에 있는 <b>✓ 해 봤어요</b> 버튼으로 체크합니다.</p></div>
+    <div class="mybox"><h3>퀴즈 최고 점수</h3><div data-my-quiz></div><p class="muted">퀴즈는 각 단원 페이지 맨 아래 <b>단원 퀴즈</b>에 있어요.</p></div>
+  </div>
+</section>
+
+<section class="xp-sec" id="notes">
+  <h2>정리 노트</h2>
+  <p class="lede">단원을 마칠 때마다 <b>새로 알게 된 것 · 아직 헷갈리는 것 · 더 알고 싶은 것</b>을 내 말로 적어 보세요. 입력하면 바로 저장됩니다.</p>
+  <div class="note u1"><label for="note-u1">Ⅰ 프로그래밍</label><textarea id="note-u1" data-note="u1" placeholder="예: return은 값을 돌려주면서 함수를 끝낸다. 재귀에서 종료 조건이 없으면…"></textarea><div class="saved" data-saved></div></div>
+  <div class="note u2"><label for="note-u2">Ⅱ 데이터 구조</label><textarea id="note-u2" data-note="u2" placeholder="예: BFS는 큐, DFS는 스택. 이진 탐색 트리를 중위 순회하면…"></textarea><div class="saved" data-saved></div></div>
+  <div class="note u3"><label for="note-u3">Ⅲ 알고리즘</label><textarea id="note-u3" data-note="u3" placeholder="예: 탐욕법은 빠르지만 최적해가 아닐 수도 있다. 동적 계획법은…"></textarea><div class="saved" data-saved></div></div>
+  <div class="note u4"><label for="note-u4">Ⅳ 정보과학 프로젝트</label><textarea id="note-u4" data-note="u4" placeholder="예: 우리 모둠 주제, 맡은 역할, 오늘 해결한 문제…"></textarea><div class="saved" data-saved></div></div>
+  <div class="lab-ctrl">
+    <label>이름(선택) <input type="text" data-my-name placeholder="학번 이름" style="width:10rem"></label>
+    <button class="btn btn-p" type="button" data-my-export>txt로 내보내기</button>
+    <button class="btn" type="button" data-my-print>인쇄 / PDF로 저장</button>
+    <button class="btn" type="button" data-my-reset>모든 기록 지우기</button>
+  </div>
+</section>

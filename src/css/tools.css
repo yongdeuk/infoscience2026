@@ -1,0 +1,232 @@
+/* ===== 도구 페이지·단원 마무리 구성 요소: 수업 안내 · 실습실 · 파이썬 실습 · 용어 · 퀴즈 · 내 학습 ===== */
+/* ---------- 도구 페이지 공통 ---------- */
+.xp-jump{display:flex; flex-wrap:wrap; gap:.4rem; margin-top:1rem}
+.xp-jump a{
+  font-size:.8rem; border:1px solid var(--line); background:var(--surface);
+  padding:.25rem .6rem; border-radius:var(--r-sm); color:var(--ink2);
+}
+.xp-jump a:hover{border-color:var(--accent); color:var(--accent-ink); text-decoration:none}
+.xp-sec{padding-top:2.2rem; scroll-margin-top:7rem}
+.xp-sec > h2{
+  font-size:1.3rem; font-weight:700; margin:0 0 .4rem;
+  display:flex; align-items:baseline; gap:.6rem;
+}
+.xp-sec > h2::after{content:''; flex:1; height:1px; background:var(--hair)}
+.xp-sec > h3{font-size:1.02rem; margin:1.6rem 0 .4rem}
+.xp-sec > p, .xp-sec > ul, .xp-sec > ol{max-width:70ch}
+.xp-sec li{margin:.3rem 0}
+.xp-sec .lede{margin:.3rem 0 1rem; color:var(--ink2); max-width:68ch}
+.muted{color:var(--ink3); font-size:.85rem}
+.pill{
+  display:inline-block; font-family:var(--mono); font-size:.68rem; letter-spacing:.04em;
+  padding:.05rem .45rem; border-radius:var(--r-sm); border:1px solid var(--line); color:var(--ink2);
+  background:var(--surface-2); white-space:nowrap; vertical-align:.1em;
+}
+.pill.u1{border-color:var(--accent); color:var(--accent-ink); background:var(--accent-soft)}
+.pill.u2{border-color:var(--accent); color:var(--accent-ink); background:var(--accent-soft)}
+.pill.u3{border-color:var(--accent); color:var(--accent-ink); background:var(--accent-soft)}
+.pill.u4{border-color:var(--accent); color:var(--accent-ink); background:var(--accent-soft)}
+.fillme{background:var(--warn-soft); color:var(--warn); padding:0 .3rem; border-radius:var(--r-sm); font-weight:700}
+
+/* ---------- 진도 막대 ---------- */
+.pbar{display:grid; grid-template-columns:7.5rem minmax(0,1fr) 4.5rem; gap:.6rem; align-items:center; margin:.5rem 0}
+.pbar .nm{font-size:.86rem; color:var(--ink2)}
+.pbar .tr{height:.8rem; background:var(--code-bg); border:1px solid var(--line); border-radius:var(--r-sm); overflow:hidden}
+.pbar .fl{height:100%; background:var(--accent); width:0; transition:width .3s ease}
+.pbar .vl{font-family:var(--mono); font-size:.8rem; color:var(--accent-ink); text-align:right; white-space:nowrap}
+@media (prefers-reduced-motion: reduce){ .pbar .fl{transition:none} }
+
+/* ---------- 단원 페이지: 해 봤어요 ---------- */
+.donebar{
+  margin:2rem 0 0; padding:.8rem 1rem; border:1px dashed var(--line); border-radius:var(--r);
+  display:flex; flex-wrap:wrap; gap:.6rem 1rem; align-items:center; font-size:.86rem; color:var(--ink3);
+}
+.donebtn[aria-pressed="true"]{background:var(--ok-soft); border-color:var(--ok); color:var(--ok); font-weight:700}
+.toc a.is-done::after{content:' ✓'; color:var(--ok); font-weight:700}
+
+/* ---------- AI 사용 신호등 ---------- */
+.lights{display:grid; gap:.9rem; grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr)); margin:1rem 0}
+.light{border:1px solid var(--line); border-top:4px solid; border-radius:var(--r); background:var(--surface); padding:.9rem 1rem 1rem}
+.light h3{margin:0 0 .4rem; font-size:1rem; display:flex; align-items:center; gap:.5rem}
+.light h3 i{width:.9rem; height:.9rem; border-radius:50%; display:inline-block; flex:0 0 auto}
+.light p{margin:.3rem 0; font-size:.88rem; color:var(--ink2)}
+.light ul{margin:.4rem 0 0; padding-left:1.1rem; font-size:.86rem; color:var(--ink2)}
+.light.g{border-top-color:var(--ok)} .light.g h3 i{background:var(--ok)} .light.g h3{color:var(--ok)}
+.light.y{border-top-color:var(--warn)} .light.y h3 i{background:var(--warn)} .light.y h3{color:var(--warn)}
+.light.r{border-top-color:var(--no)} .light.r h3 i{background:var(--no)} .light.r h3{color:var(--no)}
+.dot{display:inline-block; width:.7rem; height:.7rem; border-radius:50%; vertical-align:-.05em; margin-right:.25rem}
+.dot.g{background:var(--ok)} .dot.y{background:var(--warn)} .dot.r{background:var(--no)}
+.saybox{display:grid; gap:.8rem; grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr)); margin:1rem 0}
+.saybox div{border:1px solid var(--line); border-radius:var(--r); padding:.8rem 1rem; background:var(--surface); font-size:.9rem}
+.saybox .bad{border-left:4px solid var(--no)} .saybox .good{border-left:4px solid var(--ok)}
+.saybox b{display:block; font-size:.78rem; font-family:var(--mono); letter-spacing:.06em; margin-bottom:.3rem}
+.saybox .bad b{color:var(--no)} .saybox .good b{color:var(--ok)}
+.saybox q{display:block; quotes:none; color:var(--ink); margin:.2rem 0}
+
+/* ---------- 실습실 목록 ---------- */
+.labindex{display:grid; gap:.7rem; grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr)); margin:1rem 0}
+.labindex a{
+  display:block; border:1px solid var(--line); border-left:3px solid var(--accent); background:var(--surface);
+  padding:.65rem .85rem; border-radius:var(--r); color:var(--ink); font-size:.9rem;
+}
+.labindex a:hover{border-color:var(--accent); text-decoration:none; box-shadow:var(--shadow)}
+.labindex a span{display:block; font-size:.76rem; color:var(--ink3); margin-top:.15rem}
+.labindex a.new::after{content:'이 페이지'; float:right; font-family:var(--mono); font-size:.64rem; color:var(--accent-ink); background:var(--accent-soft); padding:0 .35rem; border-radius:var(--r-sm)}
+
+/* 그래프 탐색 */
+.gsim{display:grid; gap:1rem; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); align-items:start}
+@media (max-width:760px){ .gsim{grid-template-columns:minmax(0,1fr)} }
+.gsim svg{width:100%; height:auto; display:block; color:var(--ink)}
+.gnode circle{fill:var(--surface-2); stroke:currentColor; stroke-width:1.6; transition:fill .2s ease}
+.gnode text{fill:currentColor; font-family:var(--sans); font-size:15px; font-weight:700; text-anchor:middle; dominant-baseline:central}
+.gnode.inq circle{fill:var(--warn-soft); stroke:var(--warn)}
+.gnode.cur circle{fill:var(--accent); stroke:var(--accent)}
+.gnode.cur text{fill:var(--surface)}
+.gnode.vis circle{fill:var(--accent-soft); stroke:var(--accent)}
+.gnode.vis text{fill:var(--accent-ink)}
+.gnode{cursor:pointer}
+.gedge{stroke:var(--line); stroke-width:2.2}
+.gedge.used{stroke:var(--accent); stroke-width:3.2}
+.gside{display:flex; flex-direction:column; gap:.7rem; min-width:0}
+.gbox{border:1px solid var(--line); background:var(--code-bg); border-radius:var(--r); padding:.5rem .7rem; font-family:var(--mono); font-size:.86rem; min-height:2.6rem; overflow-x:auto; white-space:nowrap}
+.gbox .k{display:block; font-family:var(--sans); font-size:.72rem; color:var(--ink3); margin-bottom:.15rem}
+.gbox .gchip{display:inline-block; min-width:1.7rem; text-align:center; padding:.05rem .35rem; margin:.1rem .15rem .1rem 0; border:1px solid var(--accent); color:var(--accent-ink); background:var(--accent-soft); border-radius:var(--r-sm); font-weight:700}
+.gbox .gchip.w{border-color:var(--warn); color:var(--warn); background:var(--warn-soft)}
+.legend{display:flex; flex-wrap:wrap; gap:.3rem 1rem; font-size:.76rem; color:var(--ink3); margin-top:.5rem}
+.legend i{display:inline-block; width:.75rem; height:.75rem; border-radius:50%; border:1.5px solid; vertical-align:-.08em; margin-right:.25rem}
+
+/* 이진 탐색 트리 */
+.bstwrap{overflow-x:auto}
+.bstwrap svg{display:block; margin:0 auto; color:var(--ink); max-width:100%; height:auto}
+.bnode circle{fill:var(--surface-2); stroke:currentColor; stroke-width:1.5}
+.bnode text{fill:currentColor; font-family:var(--sans); font-size:13px; font-weight:700; text-anchor:middle; dominant-baseline:central}
+.bnode.path circle{fill:var(--warn-soft); stroke:var(--warn)}
+.bnode.hit circle{fill:var(--accent); stroke:var(--accent)} .bnode.hit text{fill:var(--surface)}
+.bnode.ord circle{fill:var(--accent-soft); stroke:var(--accent)}
+.bedge{stroke:var(--ink3); stroke-width:1.4}
+
+/* 정렬 비교 */
+.sortgrid{display:grid; gap:.9rem; grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
+.sortcard{border:1px solid var(--line); border-radius:var(--r); background:var(--surface-2); padding:.6rem .7rem}
+.sortcard h6{margin:0 0 .4rem; font-size:.88rem; display:flex; justify-content:space-between; gap:.5rem}
+.sortcard h6 span{font-family:var(--mono); font-weight:400; color:var(--ink3); font-size:.74rem}
+.sbars{display:flex; align-items:flex-end; gap:2px; height:7.5rem}
+.sbars i{flex:1; background:var(--line); border-radius:1px 1px 0 0; min-width:2px}
+.sbars i.a{background:var(--ink)}
+.sbars i.s{background:var(--accent)}
+.sortcard .cnt{font-family:var(--mono); font-size:.76rem; color:var(--ink2); margin-top:.4rem}
+.sortcard.done{border-color:var(--accent)}
+.sortcard .rank{color:var(--accent-ink); font-weight:700}
+
+/* ---------- 파이썬 실습 ---------- */
+.nb{border:1px solid var(--line); border-radius:var(--r); background:var(--surface); margin:.8rem 0}
+.nb > summary{
+  cursor:pointer; list-style:none; padding:.75rem 1rem; display:flex; gap:.7rem; align-items:baseline; flex-wrap:wrap;
+}
+.nb > summary::-webkit-details-marker{display:none}
+.nb > summary::after{content:'펼치기 ▾'; margin-left:auto; font-family:var(--mono); font-size:.7rem; color:var(--ink3)}
+.nb[open] > summary::after{content:'접기 ▴'}
+.nb[open] > summary{border-bottom:1px solid var(--line)}
+.nb > summary b{font-size:.98rem}
+.nb > summary .muted{flex-basis:100%}
+.nb-body{padding:.4rem 1rem 1rem}
+.nb-tools{display:flex; flex-wrap:wrap; gap:.45rem; margin:.6rem 0 .2rem}
+.nbmd{font-size:.92rem; color:var(--ink2); margin:.9rem 0 .3rem; max-width:70ch}
+.nbmd b{color:var(--ink)}
+.run-steps{counter-reset:cs; list-style:none; padding:0; margin:1rem 0; display:grid; gap:.6rem; grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr))}
+.run-steps li{counter-increment:cs; border:1px solid var(--line); background:var(--surface); border-radius:var(--r); padding:.75rem .9rem .8rem 2.8rem; position:relative; font-size:.88rem; margin:0}
+.run-steps li::before{content:counter(cs); position:absolute; left:.8rem; top:.75rem; width:1.5rem; height:1.5rem; border-radius:50%; background:var(--accent); color:var(--surface); font-family:var(--mono); font-size:.78rem; font-weight:700; display:flex; align-items:center; justify-content:center}
+.run-steps b{display:block; color:var(--ink)}
+.errtbl td:first-child{white-space:nowrap; font-family:var(--mono); font-size:.82rem; color:var(--no)}
+.errfilter{margin:.6rem 0; display:flex; gap:.5rem; flex-wrap:wrap; align-items:center}
+.errfilter input, .gl-tools input{
+  font:inherit; font-size:.9rem; padding:.45rem .65rem; border:1px solid var(--line);
+  background:var(--surface); color:var(--ink); border-radius:var(--r-sm); width:min(100%,22rem);
+}
+.errfilter input:focus, .gl-tools input:focus{outline:2px solid var(--accent); outline-offset:-2px}
+
+/* ---------- 용어 사전 ---------- */
+.gl-tools{position:sticky; top:var(--topbar-h); z-index:5; background:var(--paper); padding:.8rem 0; display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; border-bottom:1px solid var(--line)}
+.gl-tools .btn[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--surface); font-weight:700}
+.gl-count{font-size:.8rem; color:var(--ink3); margin-left:auto}
+.gl-list{display:grid; gap:.6rem; grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr)); margin:1rem 0}
+.gl{border:1px solid var(--line); border-radius:var(--r); background:var(--surface); padding:.7rem .9rem; font-size:.9rem}
+.gl dt{font-weight:700; color:var(--ink); display:flex; flex-wrap:wrap; gap:.4rem; align-items:baseline}
+.gl dt small{font-family:var(--mono); font-weight:400; font-size:.74rem; color:var(--ink3)}
+.gl dt .pill{margin-left:auto}
+.gl dd{margin:.3rem 0 0; color:var(--ink2); line-height:1.65}
+.gl dd a{font-size:.8rem}
+.gl[hidden]{display:none}
+mark{background:var(--warn-soft); color:inherit; padding:0 .05rem; border-radius:var(--r-sm)}
+
+/* ---------- 퀴즈 ---------- */
+.qz-head{display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; margin:1rem 0}
+.qz-head .btn[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--surface); font-weight:700}
+.qz-set[hidden]{display:none}
+.qz{border:1px solid var(--line); background:var(--surface); border-radius:var(--r); padding:1rem 1.1rem; margin:.8rem 0}
+.qz h4{margin:0 0 .6rem; font-size:1rem; line-height:1.6; display:flex; gap:.6rem; align-items:baseline}
+.qz h4 .qnum{flex:0 0 auto}
+.qz pre{margin:.5rem 0 .7rem; font-size:.82rem}
+.opts{display:grid; gap:.4rem; margin:0; padding:0; list-style:none}
+.opts button{
+  width:100%; text-align:left; font:inherit; font-size:.92rem; line-height:1.5; padding:.5rem .75rem;
+  border:1px solid var(--line); background:var(--surface-2); color:var(--ink); border-radius:var(--r-sm); cursor:pointer;
+  display:flex; gap:.6rem;
+}
+.opts button::before{content:attr(data-n); font-family:var(--mono); color:var(--ink3); flex:0 0 auto}
+.opts button:hover:not(:disabled){border-color:var(--accent)}
+.opts button:disabled{cursor:default}
+.opts button.ok{border-color:var(--ok); background:var(--ok-soft); color:var(--ok); font-weight:700}
+.opts button.ng{border-color:var(--no); background:var(--no-soft); color:var(--no)}
+.qz .why{display:none; margin:.7rem 0 0; padding:.6rem .8rem; border-left:3px solid var(--accent); background:var(--surface-2); font-size:.88rem; color:var(--ink2)}
+.qz.answered .why{display:block}
+.qz .why b{color:var(--ink)}
+.qz-score{
+  position:sticky; bottom:0; z-index:5; margin-top:1rem; background:var(--surface); border:1px solid var(--accent);
+  border-radius:var(--r); padding:.7rem 1rem; display:flex; flex-wrap:wrap; gap:.6rem 1.2rem; align-items:center; box-shadow:var(--lift); font-size:.9rem;
+}
+.qz-score b{font-family:var(--serif); font-size:1.3rem; color:var(--accent-ink)}
+
+/* ---------- 내 학습 ---------- */
+.mygrid{display:grid; gap:1rem; grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
+.mybox{border:1px solid var(--line); border-radius:var(--r); background:var(--surface); padding:1rem 1.1rem}
+.mybox h3{margin:0 0 .6rem; font-size:1rem}
+.note{margin:1rem 0}
+.note label{display:block; font-weight:700; font-size:.92rem; margin-bottom:.3rem}
+.note textarea{
+  width:100%; min-height:8rem; font:inherit; font-size:.92rem; line-height:1.6; padding:.6rem .7rem;
+  border:1px solid var(--line); background:var(--surface); color:var(--ink); border-radius:var(--r); resize:vertical;
+}
+.note textarea:focus{outline:2px solid var(--accent); outline-offset:-2px}
+.note .saved{font-size:.74rem; color:var(--ink3); min-height:1.2em; margin-top:.2rem}
+
+/* 강의 계획 표 */
+.gradetbl td.num{width:6rem}
+.rubric td:first-child{font-weight:700; white-space:nowrap}
+
+@media print{
+  .topbar, .crumbbar, #gate, .qz-score, .gl-tools, .nb-tools, footer{display:none !important}
+  .nb{break-inside:avoid}
+}
+
+/* ---------- 교사 설정 ---------- */
+.set-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(12rem,100%),1fr)); gap:.8rem; margin:.4rem 0 .8rem}
+.set-grid label{display:flex; flex-direction:column; gap:.3rem; font-size:.88rem; font-weight:700; color:var(--ink2)}
+.set-grid small{font-weight:400; color:var(--ink3)}
+.set-grid input, .set-grid select, .set-tbl input, .set-tbl select{
+  font:inherit; font-size:.92rem; padding:.45rem .55rem; border:1px solid var(--line); border-radius:var(--r-sm);
+  background:var(--surface); color:var(--ink); min-width:0; width:100%;
+}
+.set-tbl{min-width:760px}
+.set-tbl td{vertical-align:middle; padding:.35rem .4rem}
+.set-tbl td:nth-child(1){width:6rem}
+.set-tbl td:nth-child(5){width:6rem}
+.set-tbl td:nth-child(6){width:3rem; text-align:center}
+.set-tbl tfoot td{border:0; padding-top:.7rem}
+.gradetbl tfoot td{font-weight:700; background:var(--surface-2)}
+.bad{color:var(--no) !important}
+.set-ways{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(18rem,100%),1fr)); gap:1rem}
+.set-ways .mybox p, .set-steps{font-size:.92rem}
+.set-steps{padding-left:1.2rem; margin:.4rem 0 .8rem}
+.set-banner{margin:1rem auto 0; max-width:1160px; padding:.6rem 1rem; border-radius:var(--r-sm);
+  background:var(--warn-soft); color:var(--warn); font-size:.9rem}
