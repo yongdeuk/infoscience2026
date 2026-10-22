@@ -28,11 +28,13 @@ UNIT_NS = sorted(UNITS)
 PZ = COURSE["programiz"]
 # 해마다 바뀌는 값(학기 시작일·평가 비율). 사이트가 실행 중에 다시 읽으므로 빌드 없이 고쳐도 반영된다.
 SETTINGS = json.loads(rd("settings.json"))
+# 학기는 settings.json을 따른다. 화면에서는 JS가 최신 값으로 [data-term]을 다시 채운다.
+TERM = '<span data-term>%s</span> · %s' % (SETTINGS["term"], COURSE["hours"])
 SETTINGS_EDIT = "https://github.com/%s/edit/%s/settings.json" % (COURSE["repo"], COURSE["branch"])
 
 # 도구 페이지: (파일 이름, 이름, 아이콘, 설명)
 TOOLS = [
-    ("course",   "수업 안내",   "📋", "평가 · 프로젝트 채점 기준 · 수업 약속 · AI 사용 신호등"),
+    ("course",   "수업 안내",   "📋", "평가 · 수행평가 채점 기준 · 수업 약속 · AI 사용 신호등"),
     ("labs",     "실습실",      "🧪", "그래프 탐색 · 이진 탐색 트리 · 정렬 경주 등 직접 조작하는 시뮬레이터"),
     ("practice", "파이썬 실습", "🐍", "단원별 실습 세트를 Programiz로 실행 · 자주 나는 오류 해결표"),
     ("glossary", "용어 사전",   "📖", "전 단원 핵심 용어를 검색하고 본문으로 바로 가기"),
@@ -291,7 +293,7 @@ def footer():
     <nav class="foot-links" aria-label="사이트 전체">%s</nav>
   </div>
 </footer>
-""" % (COURSE["title"], COURSE["textbook"], COURSE["term"], COURSE["school"], COURSE["teacher"], "".join(links))
+""" % (COURSE["title"], COURSE["textbook"], TERM, COURSE["school"], COURSE["teacher"], "".join(links))
 
 SITE_DATA = {
     "topics": {str(n): [t[0] for t in topics(n)] for n in UNIT_NS},
@@ -447,7 +449,7 @@ def home():
   <div class="sec-h"><h2>수업 안내</h2><p>첫 시간에 함께 읽어요.</p></div>
   <div class="tiles">
     <a class="tile" href="course.html#grade"><span class="ic">📝</span><h3>평가</h3><p>지필·수행평가 영역과 반영 비율, 시기</p></a>
-    <a class="tile" href="course.html#rubric"><span class="ic">🧩</span><h3>프로젝트 채점 기준</h3><p>문제 해결 5단계로 보는 루브릭</p></a>
+    <a class="tile" href="course.html#rubric"><span class="ic">🧩</span><h3>수행평가 채점 기준</h3><p>수행평가마다 무엇을 어떻게 채점하는지</p></a>
     <a class="tile" href="course.html#ai"><span class="ic">🚦</span><h3>AI 사용 신호등</h3><p>초록·노랑·빨강 — 활동마다 AI를 써도 되는 범위</p></a>
     <a class="tile" href="course.html#rules"><span class="ic">🤝</span><h3>수업 약속</h3><p>손으로 먼저, 오류는 힌트, 기록은 내 말로</p></a>
   </div>
@@ -460,8 +462,8 @@ def home():
   </div>
 </section>
 </main>
-""" % (COURSE["school"], COURSE["term"], COURSE["title"], COURSE["textbook"], COURSE["term"], len(UNIT_NS), n_labs, len(QUIZ),
-       PZ, "\n".join(cards), COURSE["term"], "".join(cols),
+""" % (COURSE["school"], TERM, COURSE["title"], COURSE["textbook"], TERM, len(UNIT_NS), n_labs, len(QUIZ),
+       PZ, "\n".join(cards), TERM, "".join(cols),
        "\n".join('    <a class="tile" href="%s.html"><span class="ic">%s</span><h3>%s</h3><p>%s</p></a>' % (k, i, n, d) for k, n, i, d in TOOLS if k != "course"))
     return page("정보과학 · %s" % COURSE["school"], "%s 수업 사이트 — 단원별 본문, 실습, 용어, 퀴즈." % COURSE["textbook"], "home", "home", body)
 
@@ -474,20 +476,44 @@ def pagehead(key, inner):
 def grade_table(st):
     # src/js/tools.js 의 gradeTable()과 같은 표. JS가 최신 settings.json으로 다시 그린다.
     rows = []
-    for g in st["grading"]:
-        what = esc(g["what"]) + (' (<a href="course.html#rubric">채점 기준</a>)' if "프로젝트" in g["name"] else "")
+    for i, g in enumerate(st["grading"]):
+        what = esc(g["what"]) + (' (<a href="course.html#rubric-%d">채점 기준</a>)' % (i + 1) if g.get("rubric") else "")
         rows.append('<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td class="num">%s%%</td></tr>'
                     % (esc(g["type"]), esc(g["name"]), what, esc(g["when"]), g["ratio"]))
     return ('<div class="tablewrap"><table class="gradetbl"><thead><tr><th>구분</th><th>평가</th><th>무엇을 보나요</th><th>시기</th><th>반영 비율</th></tr></thead><tbody>'
             + "".join(rows) + '</tbody><tfoot><tr><td colspan="4">합계</td><td class="num"><b>%d%%</b></td></tr></tfoot></table></div>'
             % sum(g["ratio"] for g in st["grading"]))
 
+def rubric_table(rb):
+    # src/js/tools.js 의 rubricTable()과 같은 표. 첫 열에서 위와 같은 칸은 합쳐 보인다.
+    def cell(t): return esc(str(t)).replace("\n", "<br>")
+    rows, i = [], 0
+    while i < len(rb["rows"]):
+        r = rb["rows"][i]
+        span = 1
+        while i + span < len(rb["rows"]) and rb["rows"][i + span][0] == r[0]:
+            span += 1
+        tds = ['<td rowspan="%d">%s</td>' % (span, cell(r[0])) if span > 1 else "<td>%s</td>" % cell(r[0])] + ["<td>%s</td>" % cell(x) for x in r[1:]]
+        rows.append("<tr>%s</tr>" % "".join(tds))
+        for r2 in rb["rows"][i + 1:i + span]:
+            rows.append('<tr class="rb-cont">%s</tr>' % "".join("<td>%s</td>" % cell(x) for x in r2[1:]))
+        i += span
+    return ('<div class="tablewrap"><table class="rubric"><thead><tr>%s</tr></thead><tbody>%s</tbody></table></div>'
+            % ("".join("<th>%s</th>" % cell(h) for h in rb["head"]), "".join(rows)))
+
+def rubrics_html(st):
+    out = []
+    for i, g in enumerate(st["grading"]):
+        if g.get("rubric"):
+            out.append('<h3 id="rubric-%d">%s</h3>%s' % (i + 1, esc(g["name"]), rubric_table(g["rubric"])))
+    return "".join(out) or '<p class="muted">채점 기준표가 아직 없어요.</p>'
+
 def tool_page(key):
     name, ic, desc = TOOL[key]
     body = rd("src/pages/%s.html" % key)
     m = re.search(r'<header class="xp-hero">(.*?)</header>\s*', body, re.S)
     assert m, key
-    rest = body[m.end():].replace("<!--GRADE-->", grade_table(SETTINGS)) \
+    rest = body[m.end():].replace("<!--GRADE-->", grade_table(SETTINGS)).replace("<!--RUBRICS-->", rubrics_html(SETTINGS)) \
         .replace("<span data-grade-year>학년도</span>", "<span data-grade-year>%s학년도 %s</span>" % (SETTINGS["year"], SETTINGS["term"]))
     return page("%s · 정보과학" % name, desc, "tool tool-%s" % key, key,
                 pagehead(key, m.group(1)) + '<main class="xp" id="main">\n' + rest.strip() + "\n</main>\n")
