@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>23차시 트리의 표현 — 인접 행렬과 인접 리스트 · 정보과학</title>
+<meta name="description" content="8주차 23차시 — 트리의 표현 — 인접 행렬과 인접 리스트">
+<meta property="og:title" content="23차시 트리의 표현 — 인접 행렬과 인접 리스트 · 정보과학">
+<meta property="og:description" content="8주차 23차시 — 트리의 표현 — 인접 행렬과 인접 리스트">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#129513;</text></svg>">
+<script>
+(function(){try{if(localStorage.getItem('unlocked')==='yes')document.documentElement.className+=' unlocked';}catch(e){}})();
+(function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
+</script>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body class="lessonpage u2">
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <form class="gate-card" data-gate-form autocomplete="off">
+    <h1 id="gate-title">정보과학</h1>
+    <p class="gate-sub">씨마스 『정보과학』 2022 개정 교육과정 수업 자료</p>
+    <label class="gate-lab" for="gate-pw">열람 비밀번호</label>
+    <div class="gate-pwrap">
+      <input id="gate-pw" type="password" data-gate-pw autocomplete="off"
+             spellcheck="false" autocapitalize="off" placeholder="수업 시간에 안내된 비밀번호">
+      <button class="gate-eye" type="button" data-gate-eye aria-pressed="false" aria-label="비밀번호 표시">
+        <svg class="ico-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg class="ico-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18M10.6 10.6a3 3 0 0 0 4.24 4.24M9.9 5.1A10.9 10.9 0 0 1 12 5c7 0 10.5 7 10.5 7a13.6 13.6 0 0 1-3.2 4.1M6.5 6.5C3.4 8.3 1.5 12 1.5 12a13.5 13.5 0 0 0 4.2 4.9"/></svg>
+      </button>
+    </div>
+    <p class="gate-hint">한글로 입력하세요. 대소문자와 앞뒤 공백은 구분하지 않습니다.</p>
+    <p class="gate-msg" data-gate-msg role="status" aria-live="polite"></p>
+    <button class="btn btn-p gate-btn" type="submit">들어가기</button>
+    <p class="gate-note">본 자료는 학교 수업 목적으로 제작되었으며,
+      저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+  </form>
+</div>
+<a class="skip" href="#main">본문 바로가기</a>
+<header class="topbar">
+  <div class="bar-top">
+    <a class="brand" href="index.html"><span class="brand-mark">IS</span><span class="brand-name">정보과학</span></a>
+    <nav class="toolnav" aria-label="수업 도구">
+      <a href="index.html">수업 홈</a>
+      <a href="lessons.html" class="is-current">차시 수업</a>
+      <a href="course.html">수업 안내</a>
+      <a href="labs.html">실습실</a>
+      <a href="practice.html">파이썬 실습</a>
+      <a href="glossary.html">용어 사전</a>
+      <a href="my.html">내 학습</a>
+    </nav>
+    <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false" title="어두운 화면으로">
+      <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.6v2M12 19.4v2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M2.6 12h2M19.4 12h2M5.2 18.8l1.4-1.4M17.4 6.6l1.4-1.4"/></svg>
+      <span class="ico-label">어둡게</span>
+    </button>
+  </div>
+  <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
+    <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
+    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+  </div></nav>
+  <div class="progress" data-progress></div>
+</header>
+<section class="unithero lessonhero">
+  <div class="unithero-in">
+    <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 23차시</p>
+    <div class="bigr" aria-hidden="true">23</div>
+    <div>
+      <p class="kicker">23차시 · 8주차 · <a href="unit2.html">Ⅱ 데이터 구조</a></p>
+      <h1>트리의 표현 — 인접 행렬과 인접 리스트</h1>
+      <ul class="lgoal"><li>인접 행렬과 인접 리스트로 트리를 저장하는 방법을 설명할 수 있다</li><li>ord()로 노드 이름을 인덱스로 바꾸어 두 가지 표현을 코드로 만들 수 있다</li></ul>
+      <div class="lprog" aria-label="전체 48차시 중 23차시"><i style="width:47.9%"></i></div>
+    </div>
+  </div>
+</section>
+<main class="lpage" id="main">
+<nav class="lflow" aria-label="이 차시 순서"><a href="#l-open"><b>1</b>생각 열기</a><a href="#l-learn"><b>2</b>교과서로 배우기</a><a href="#l-try"><b>3</b>직접 해 보기</a><a href="#l-check"><b>4</b>확인 문제</a><a href="#l-wrap"><b>5</b>한 줄 정리</a></nav>
+<section class="lsec" id="l-open"><h2><span class="ln">1</span>생각 열기</h2><div class="callout hook">반 친구 30명 중 누가 누구와 짝인지 기록하려고 해요. 30×30 표를 만들어 O/X를 칠할 수도 있고, 친구마다 짝 이름만 적을 수도 있어요. 어느 쪽이 종이를 덜 쓸까요? 어느 쪽이 '민수와 지아가 짝인가?'를 더 빨리 알려 줄까요?</div><div class="board" data-board="hook" hidden><div class="board-in"><textarea data-board-in rows="2" maxlength="300" placeholder="내 생각을 짧게 적어 보드에 올려 보세요"></textarea><div class="board-bar"><button class="btn btn-p" type="button" data-board-send>보드에 올리기</button><select data-board-class aria-label="반 고르기"><option value="">모든 반</option></select><button class="btn" type="button" data-board-big>크게 보기</button><span class="muted small" data-board-msg></span></div></div><div class="board-h"><b>모두의 생각</b> <span class="muted small" data-board-count></span></div><ul class="board-list" data-board-list></ul></div><div class="simlinks"><b>함께 보는 시뮬레이터</b><a href="https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/cs/tree.html" target="_blank" rel="noopener">트리 ↗</a></div></section>
+<section class="lsec" id="l-learn"><h2><span class="ln">2</span>교과서로 배우기</h2><p class="lede">코드 아래 <b>💡 코드 설명</b>을 펼쳐 보고, <b>빈칸</b>이 있으면 채운 뒤 실행해 보세요.</p><p class="lsrc">교과서 · <a href="unit2.html#t2-3">Ⅱ 2-1 트리 — 계층을 표현하는 구조</a></p>
+<h4>트리를 컴퓨터에 저장하는 두 가지 방법</h4>
+<div class="tablewrap">
+      <table>
+        <thead><tr><th>방법</th><th>저장 방식</th><th>장점</th><th>단점</th></tr></thead>
+        <tbody>
+          <tr><td>인접 행렬</td><td>n×n 2차원 리스트에 연결이 있으면 1</td><td>연결 여부를 바로 확인</td><td>빈칸이 많아 <b>메모리 낭비</b></td></tr>
+          <tr><td>인접 리스트</td><td>노드마다 연결된 노드만 리스트로 저장</td><td><b>메모리 절약</b></td><td>특정 연결 확인이 상대적으로 느림</td></tr>
+        </tbody>
+      </table>
+    </div>
+<p class="codecap">인접 행렬로 트리 저장하기</p>
+<pre data-c="1" data-run data-needs-stdin data-blanks>n = int(input('노드 개수: '))
+m = n - 1                                    # 트리의 링크 수는 항상 n-1
+am = <input class="blank" data-ans="[[0 for _ in range(n)] for _ in range(n)]" size="42" spellcheck="false" autocomplete="off" aria-label="빈칸">   # n × n 2차원 리스트
+
+print(f'링크 정보를 부모 노드와 자식 노드 순서로 {m}개 입력하세요.')
+for i in range(m):
+    e1, e2 = input().split()                 # 노드 이름은 대문자로, 한 칸 띄워 입력
+    am[<input class="blank" data-ans="ord(e1) - ord('A')" size="19" spellcheck="false" autocomplete="off" aria-label="빈칸">][ord(e2) - ord('A')] = 1
+
+for i in range(n):                           # 저장된 값 출력
+    for j in range(n):
+        print(am[i][j], end=' ')
+    print()</pre>
+<div class="callout"><code>ord('A')</code>는 문자 A의 정숫값(65)을 돌려줍니다. <code>ord(문자) - ord('A')</code>로 A→0, B→1 … 처럼 <b>이름을 인덱스로</b> 바꿉니다. <code>split()</code>은 공백을 기준으로 문자열을 나눕니다.</div>
+<p class="codecap">인접 리스트로 트리 저장하기</p>
+<pre data-c="2" data-run data-needs-stdin data-blanks>n = int(input('노드 개수: '))
+m = n - 1
+al = [[0] for _ in range(n)]                 # 각 리스트의 첫 칸은 부모 노드 자리
+
+print(f'링크 정보를 부모 노드와 자식 노드 순서로 {m}개 입력하세요.')
+for i in range(m):
+    e1, e2 = input().split()
+    al[ord(e1) - ord('A')]<input class="blank" data-ans=".append(e2)" size="12" spellcheck="false" autocomplete="off" aria-label="빈칸">        # 부모의 리스트에 자식 추가
+    al[ord(e2) - ord('A')]<input class="blank" data-ans="[0] = e1" size="9" spellcheck="false" autocomplete="off" aria-label="빈칸">           # 자식의 리스트 첫 칸에 부모 저장
+
+vertex = 'A'
+for vlist in al:
+    print(f'[{vertex}]: ', end=' ')
+    for v in vlist:
+        print(v, end=' ')
+    print()
+    vertex = chr(ord(vertex) + 1)            # 다음 알파벳으로</pre>
+<div class="callout">루트 노드는 부모가 없으므로 첫 칸에 <code>0</code>이 남습니다. 예를 들어 <code>A → 0 B C D</code>는 “A는 부모가 없고 자식이 B·C·D”라는 뜻입니다.</div></section>
+<section class="lsec" id="l-try"><h2><span class="ln">3</span>직접 해 보기</h2><p class="lede">코드를 고쳐서 <b>▶ 실행</b>하면 출력이 맞는지 바로 알려 줘요. 막히면 힌트부터 열어 보세요.</p><div class="task" data-kind="빈칸"><div class="task-h"><span class="task-k">빈칸</span><h4>input 없이 인접 행렬 만들기</h4></div><p>링크 목록 <code>links</code>로 6×6 인접 행렬을 만들어 출력하세요. 빈칸 두 곳은 이름을 인덱스로 바꾸는 식이에요.</p><pre data-run data-editable data-task data-expect="0 1 1 1 0 0 &#10;0 0 0 0 1 0 &#10;0 0 0 0 0 1 &#10;0 0 0 0 0 0 &#10;0 0 0 0 0 0 &#10;0 0 0 0 0 0 ">links = [('A', 'B'), ('A', 'C'), ('A', 'D'), ('B', 'E'), ('C', 'F')]
+n = 6
+am = [[0 for _ in range(n)] for _ in range(n)]
+for e1, e2 in links:
+    am[___][___] = 1
+for row in am:
+    for x in row:
+        print(x, end=' ')
+    print()
+</pre><details class="hintbox"><summary>힌트</summary><p>행은 부모 e1, 열은 자식 e2예요. ord(e1) - ord('A')처럼 바꿔요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>links = [('A', 'B'), ('A', 'C'), ('A', 'D'), ('B', 'E'), ('C', 'F')]
+n = 6
+am = [[0 for _ in range(n)] for _ in range(n)]
+for e1, e2 in links:
+    am[ord(e1) - ord('A')][ord(e2) - ord('A')] = 1
+for row in am:
+    for x in row:
+        print(x, end=' ')
+    print()
+</pre></details></div><div class="task" data-kind="고치기"><div class="task-h"><span class="task-k">고치기</span><h4>모든 노드가 똑같아지는 인접 리스트</h4></div><p>인접 리스트를 만들었는데 모든 노드의 리스트가 똑같이 이상하게 나와요. [A]는 <code>0 B C D</code>, [E]는 <code>B</code>(부모 B, 자식 없음)여야 해요. 리스트를 만드는 한 줄이 문제예요.</p><pre data-run data-editable data-task data-expect="[A]: 0 B C D &#10;[B]: A E &#10;[C]: A F &#10;[D]: A &#10;[E]: B &#10;[F]: C ">links = [('A', 'B'), ('A', 'C'), ('A', 'D'), ('B', 'E'), ('C', 'F')]
+n = 6
+al = [[0]] * n
+for e1, e2 in links:
+    al[ord(e1) - ord('A')].append(e2)
+    al[ord(e2) - ord('A')][0] = e1
+for i in range(n):
+    print(f'[{chr(i + 65)}]:', end=' ')
+    for v in al[i]:
+        print(v, end=' ')
+    print()
+</pre><details class="hintbox"><summary>힌트</summary><p>[[0]] * n은 리스트 하나를 n번 가리키는 것이라 한 곳을 바꾸면 전부 바뀌어요. [[0] for _ in range(n)]로 각각 새로 만들어야 해요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>links = [('A', 'B'), ('A', 'C'), ('A', 'D'), ('B', 'E'), ('C', 'F')]
+n = 6
+al = [[0] for _ in range(n)]
+for e1, e2 in links:
+    al[ord(e1) - ord('A')].append(e2)
+    al[ord(e2) - ord('A')][0] = e1
+for i in range(n):
+    print(f'[{chr(i + 65)}]:', end=' ')
+    for v in al[i]:
+        print(v, end=' ')
+    print()
+</pre></details></div><div class="task" data-kind="만들기"><div class="task-h"><span class="task-k">만들기</span><h4>두 방법의 칸 수 비교하기</h4></div><p>같은 트리를 두 가지로 저장하고, 쓴 칸 수를 비교하세요. 인접 행렬은 전체 칸 수와 1이 적힌 칸 수를, 인접 리스트는 모든 리스트 길이의 합을 출력해요. 예: <code>인접 행렬: 36칸 중 1은 5칸</code> / <code>인접 리스트: 11칸</code></p><pre data-run data-editable data-task data-expect="인접 행렬: 36칸 중 1은 5칸&#10;인접 리스트: 11칸">links = [('A', 'B'), ('A', 'C'), ('A', 'D'), ('B', 'E'), ('C', 'F')]
+n = 6
+am = [[0 for _ in range(n)] for _ in range(n)]
+al = [[0] for _ in range(n)]
+for e1, e2 in links:
+    p, c = ord(e1) - ord('A'), ord(e2) - ord('A')
+    # am과 al에 링크를 저장하세요
+
+ones = 0         # am에서 1인 칸 수를 세세요
+total = 0        # al의 모든 리스트 길이를 더하세요
+
+print(f'인접 행렬: {n * n}칸 중 1은 {ones}칸')
+print(f'인접 리스트: {total}칸')
+</pre><details class="hintbox"><summary>힌트</summary><p>am[p][c] = 1, al[p].append(e2), al[c][0] = e1로 저장해요. 1의 개수는 sum(row)를, 칸 수는 len(lst)를 반복문으로 더하면 돼요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>links = [('A', 'B'), ('A', 'C'), ('A', 'D'), ('B', 'E'), ('C', 'F')]
+n = 6
+am = [[0 for _ in range(n)] for _ in range(n)]
+al = [[0] for _ in range(n)]
+for e1, e2 in links:
+    p, c = ord(e1) - ord('A'), ord(e2) - ord('A')
+    am[p][c] = 1
+    al[p].append(e2)
+    al[c][0] = e1
+
+ones = 0
+for row in am:
+    ones += sum(row)
+total = 0
+for lst in al:
+    total += len(lst)
+
+print(f'인접 행렬: {n * n}칸 중 1은 {ones}칸')
+print(f'인접 리스트: {total}칸')
+</pre></details></div></section>
+<section class="lsec" id="l-check"><h2><span class="ln">4</span>확인 문제</h2><section class="qz-set" data-qz-set="L23">
+<div class="qz" data-ans="1"><h4><span class="qnum">Q1</span><span>노드 B를 인접 행렬의 인덱스로 바꾸는 식 ord('B') - ord('A')의 값은 무엇일까요?</span></h4><ol class="opts"><li><button type="button" data-n="①">0</button></li><li><button type="button" data-n="②">1</button></li><li><button type="button" data-n="③">2</button></li><li><button type="button" data-n="④">66</button></li></ol><p class="why"><b>해설</b> — ord('A')=65, ord('B')=66이라 66−65=1이에요. A가 0번이니 B는 1번 행·열이에요.</p></div>
+<div class="qz" data-ans="2"><h4><span class="qnum">Q2</span><span>노드가 1000개인 트리를 저장할 때 인접 리스트가 인접 행렬보다 유리한 점은 무엇일까요?</span></h4><ol class="opts"><li><button type="button" data-n="①">두 노드의 연결 여부를 즉시 알 수 있다</button></li><li><button type="button" data-n="②">코드가 항상 더 짧다</button></li><li><button type="button" data-n="③">연결된 노드만 저장하므로 메모리를 훨씬 적게 쓴다</button></li><li><button type="button" data-n="④">트리를 정렬해 준다</button></li></ol><p class="why"><b>해설</b> — 인접 행렬은 1000×1000=100만 칸이 필요하지만 링크는 999개뿐이라 대부분 0이에요. 인접 리스트는 링크만 저장해요.</p></div>
+<div class="qz-score" data-qz-score><span>맞힌 문제 <b data-qz-right>0</b> / 2</span><span class="muted" data-qz-left></span><span class="muted" data-qz-best></span><button class="btn" type="button" data-qz-reset>다시 풀기</button></div></section></section>
+<section class="lsec" id="l-wrap"><h2><span class="ln">5</span>한 줄 정리</h2><p><b>인접 행렬과 인접 리스트 중 하나를 고르는 기준을 '메모리'와 '연결 확인 속도'라는 말을 써서 정리해 보세요.</b></p><textarea class="think" data-think="L23.exit" rows="3" placeholder="내 말로 한두 문장"></textarea><p class="muted small" data-think-saved></p><div class="board" data-board="exit" hidden><div class="board-in"><textarea data-board-in rows="2" maxlength="300" placeholder="한 줄 정리를 보드에도 올려 보세요"></textarea><div class="board-bar"><button class="btn btn-p" type="button" data-board-send>보드에 올리기</button><select data-board-class aria-label="반 고르기"><option value="">모든 반</option></select><button class="btn" type="button" data-board-big>크게 보기</button><span class="muted small" data-board-msg></span></div></div><div class="board-h"><b>모두의 생각</b> <span class="muted small" data-board-count></span></div><ul class="board-list" data-board-list></ul></div><div class="donebar"><button class="btn donebtn" type="button" data-lesson-done="23">☐ 이 차시 마쳤어요</button><span>체크하면 <a href="lessons.html">차시 수업</a> 목록에 표시돼요.</span></div><div class="submitbox" data-submit hidden><button class="btn btn-p" type="button">선생님께 제출</button> <span class="muted small" data-submit-msg>한 줄 정리 · 생각 쓰기 · 실습 코드 · 확인 문제 점수를 보내요.</span></div></section>
+</main>
+<nav class="pager" aria-label="차시 이동"><a class="prev" href="lesson22.html"><span class="dir">← 이전 · 22차시</span><span class="ttl">트리의 개념과 구성 요소</span></a><a class="next" href="lesson24.html"><span class="dir">다음 → · 24차시</span><span class="ttl">이진 트리와 순차 데이터 구조 표현</span></a></nav>
+<script>window.LESSON={"n":23,"notes":{"C1":{"say":"노드 n개짜리 0으로 채운 n×n 표를 만들고, 부모-자식 링크가 있는 칸에 1을 적어 트리를 저장해요.","lines":[[2,"트리는 링크가 항상 노드 수보다 1개 적어요. 그래서 링크 수를 따로 입력받지 않아요."],[3,"리스트 안에 리스트를 만드는 2차원 리스트예요. [[0]*n]*n으로 만들면 모든 줄이 같은 리스트가 되어 버려서 이렇게 써요."],[7,"'A B'처럼 입력하면 split()이 공백에서 잘라 e1='A', e2='B'가 돼요."],[8,"ord(e1) - ord('A')로 A→0, B→1처럼 이름을 행·열 번호로 바꿔요. 부모 행, 자식 열에 1을 적어요."],[12,"end=' '로 한 줄에 이어 쓰고, 한 행이 끝나면 13번 줄 print()로 줄을 바꿔요."]],"blanks":[[3,"[[0 for _ in range(n)] for _ in range(n)]"],[8,"ord(e1) - ord('A')"]],"predict":{"q":"실행하기 전에 예측해 보세요: 노드 4개, 링크 'A B', 'A C', 'B D'를 입력하면 첫 줄(A 행)과 마지막 줄(D 행)은 무엇일까요?","a":"A 행은 0 1 1 0, D 행은 0 0 0 0 — A는 B·C의 부모라 B열·C열이 1이에요. D는 자식이 없는 단말 노드라 행 전체가 0이에요."}},"C2":{"say":"노드마다 리스트를 하나씩 두고, 첫 칸에는 부모를, 그 뒤에는 자식들만 적어 트리를 저장해요.","lines":[[3,"각 노드의 리스트를 [0]으로 시작해요. 이 첫 칸은 부모 자리이고, 부모가 없는 루트는 0이 남아요."],[8,"부모 노드의 리스트 뒤에 자식 이름을 붙여요. 연결된 것만 적으니 빈칸이 없어요."],[9,"자식 노드 리스트의 첫 칸(인덱스 0)에 부모 이름을 적어요. 부모를 바로 찾을 수 있게 해 둔 거예요."],[17,"chr(ord(vertex) + 1)은 다음 알파벳이에요. A → B → C 순서로 이름표를 붙여 출력해요."]],"blanks":[[8,".append(e2)"],[9,"[0] = e1"]],"predict":{"q":"실행하기 전에 예측해 보세요: 노드 4개, 링크 'A B', 'A C', 'B D'를 입력하면 [B] 줄에는 무엇이 출력될까요?","a":"[B]:  A D — 첫 칸은 부모 A, 그 뒤는 자식 D예요."}}}};</script>
+
+<footer>
+  <div class="foot-in">
+    <div>
+      <p><b data-teacher-tap>정보과학</b> — 씨마스 『정보과학』 (2022 개정 교육과정) 수업 자료 · <span data-term>2학기</span> · 주 3시간 · 16주</p>
+      <p>보문고등학교 <b>김용득</b> 선생님 제작.</p>
+      <p>개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
+      <p class="copyright">본 자료는 학교 수업 목적으로 제작되었으며, 저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+    </div>
+    <nav class="foot-links" aria-label="사이트 전체"><a href="index.html">수업 홈</a><a href="unit0.html">0 파이썬 기초</a><a href="unit1.html">Ⅰ 프로그래밍</a><a href="unit2.html">Ⅱ 데이터 구조</a><a href="unit3.html">Ⅲ 알고리즘</a><a href="unit4.html">Ⅳ 프로젝트</a><a href="lessons.html">차시 수업</a><a href="course.html">수업 안내</a><a href="labs.html">실습실</a><a href="practice.html">파이썬 실습</a><a href="glossary.html">용어 사전</a><a href="my.html">내 학습</a><a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz</a></nav>
+  </div>
+</footer>
+<script>window.SITE={"topics":{"0":["t0-0","t0-1","t0-2","t0-3","t0-4","t0-5","t0-6","t0-7","t0-8","t0-9","t0-10"],"1":["t1-1","t1-2","t1-3","t1-4","t1-5"],"2":["t2-1","t2-2","t2-3","t2-4","t2-5"],"3":["t3-1","t3-2","t3-3","t3-4","t3-5","t3-6","t3-8","t3-7"],"4":["t4-1","t4-2","t4-3","t4-4","t4-6","t4-5"]},"units":{"0":{"roman":"0","name":"파이썬 기초","weeks":null},"1":{"roman":"Ⅰ","name":"프로그래밍","weeks":[1,5]},"2":{"roman":"Ⅱ","name":"데이터 구조","weeks":[6,9]},"3":{"roman":"Ⅲ","name":"알고리즘","weeks":[10,13]},"4":{"roman":"Ⅳ","name":"정보과학 프로젝트","weeks":[14,16]}},"quiz":{"0":10,"1":10,"2":10,"3":10,"4":10},"weeks":[{"week":1,"lessons":["오리엔테이션 — 정보과학은 무엇을 배우는 과목인가","함수의 개념 — 내장 함수와 사용자 정의 함수","함수의 정의(<code>def</code>)와 네 가지 구성 요소"]},{"week":2,"lessons":["함수 호출 — 인수와 매개 변수의 관계","<code>return</code>의 두 역할 / 매개 변수·반환값 4가지 형태","지역 변수와 전역 변수, <code>global</code>"]},{"week":3,"lessons":["[역량] 음악 플레이 리스트 관리 프로그램","기본값 매개 변수와 가변 인수 매개 변수","여러 값 반환 / 클래스와 객체"]},{"week":4,"lessons":["모듈 만들기와 <code>import</code>","패키지·라이브러리 / 내장 함수와 표준 라이브러리","[역량] 가위바위보 게임 만들기"]},{"week":5,"lessons":["재귀 구조의 이해 — 수학적 귀납법과 재귀 관계","재귀 함수의 동작 원리 — 호출과 반환","반복 vs 재귀 / 재귀 활용 — 자릿수 합·하노이 탑"]},{"week":6,"lessons":["데이터 구조의 분류 / 스택의 개념(LIFO)","스택의 연산 — push, pop, peek, isEmpty","리스트로 스택 구현하기 · 활용 사례"]},{"week":7,"lessons":["큐의 개념(FIFO)과 연산","리스트로 큐 구현하기 / 덱·우선순위 큐","[역량] 스택·큐를 활용한 프로그램"]},{"week":8,"lessons":["트리의 개념과 구성 요소","트리의 표현 — 인접 행렬과 인접 리스트","이진 트리와 순차 데이터 구조 표현"]},{"week":9,"lessons":["이진 탐색 트리의 규칙과 활용","그래프의 개념·종류와 표현","그래프 탐색 — 깊이 우선·너비 우선 탐색"]},{"week":10,"lessons":["알고리즘의 이해와 문제 해결 전략 네 가지","알고리즘 성능 평가 — 시간·공간 복잡도","빅오 표기법과 알고리즘 성능 비교"]},{"week":11,"lessons":["문제의 세 요소와 상태 공간","탐색 공간의 구조·범위 / 전체 탐색과 순차 탐색","비선형 전체 탐색 — DFS·BFS 적용"]},{"week":12,"lessons":["탐색 공간 배제와 이진 탐색","탐욕 알고리즘 — 거스름돈·시간표 문제","분기 한정 알고리즘과 백트래킹"]},{"week":13,"lessons":["문제 분해와 전체·부분 문제의 관계식","분할 정복법 — 퀵 정렬과 합병 정렬","동적 계획법 — 메모이제이션과 상향식"]},{"week":14,"lessons":["정보과학으로 문제 해결하기 · 문제 해결 5단계","학문 분야별 문제 탐색 / 모둠 구성·주제 선정","[프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화"]},{"week":15,"lessons":["[프로젝트 ①] 알고리즘 설계와 프로그램 작성","[프로젝트 ②] 탄소 발자국 — 데이터 수집과 구조화","[프로젝트 ②] 다익스트라 알고리즘으로 구현하기"]},{"week":16,"lessons":["[프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계","[프로젝트 ③] 백트래킹 구현과 디버깅","산출물 정리 / 프로젝트 발표와 상호 평가"]}],"settings":{"year":2026,"term":"2학기","semester_start":"2026-08-13","submit_url":"","grading":[{"type":"지필","name":"1차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 중간고사","ratio":25},{"type":"지필","name":"2차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 기말고사","ratio":25},{"type":"수행","name":"1차 수행평가 · 프로그래밍 과제","what":"함수·클래스·데이터 구조를 활용한 프로그램 작성과 설명","when":"Ⅰ·Ⅱ단원 중","ratio":25},{"type":"수행","name":"2차 수행평가 · 정보과학 프로젝트","what":"문제 해결 5단계 산출물, 프로그램, 발표·상호 평가","when":"14~16주차","ratio":25,"rubric":{"head":["항목","잘함","보통","노력 필요"],"rows":[["① 문제 발견","생활 속 문제를 구체적인 수치·근거와 함께 제시함","문제를 제시했으나 근거가 부족함","문제가 막연하거나 해결할 대상이 불분명함"],["② 문제 구조화","입력·출력·제약 조건을 명확히 정하고 상태(데이터)를 정의함","입력과 출력은 정했으나 조건이 빠짐","무엇을 계산할지 정하지 못함"],["③ 알고리즘 설계","알맞은 데이터 구조·알고리즘을 고르고 그 이유와 효율(빅오)을 설명함","알고리즘은 설계했으나 선택 이유가 부족함","설계 없이 바로 코드부터 작성함"],["④ 프로그램 구현","함수로 나누어 읽기 쉽게 작성하고 오류 없이 동작함","동작하지만 구조가 정리되지 않음","실행되지 않거나 일부만 동작함"],["⑤ 검증·공유","여러 입력으로 시험하고 한계와 개선점을 발표함","한 가지 경우로만 확인함","결과를 확인하지 않음"],["협업·기여","맡은 역할을 해내고 모둠 기록에 기여가 드러남","역할을 일부 수행함","기여가 드러나지 않음"]]}}]},"settings_edit":"https://github.com/yongdeuk/infoscience2026/edit/main/settings.json","programiz":"https://www.programiz.com/python-programming/online-compiler/"};</script>
+<script src="assets/site.js"></script>
+</body>
+</html>

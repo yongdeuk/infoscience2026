@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20차시 리스트로 큐 구현하기 / 덱·우선순위 큐 · 정보과학</title>
+<meta name="description" content="7주차 20차시 — 리스트로 큐 구현하기 / 덱·우선순위 큐">
+<meta property="og:title" content="20차시 리스트로 큐 구현하기 / 덱·우선순위 큐 · 정보과학">
+<meta property="og:description" content="7주차 20차시 — 리스트로 큐 구현하기 / 덱·우선순위 큐">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#129513;</text></svg>">
+<script>
+(function(){try{if(localStorage.getItem('unlocked')==='yes')document.documentElement.className+=' unlocked';}catch(e){}})();
+(function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
+</script>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body class="lessonpage u2">
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <form class="gate-card" data-gate-form autocomplete="off">
+    <h1 id="gate-title">정보과학</h1>
+    <p class="gate-sub">씨마스 『정보과학』 2022 개정 교육과정 수업 자료</p>
+    <label class="gate-lab" for="gate-pw">열람 비밀번호</label>
+    <div class="gate-pwrap">
+      <input id="gate-pw" type="password" data-gate-pw autocomplete="off"
+             spellcheck="false" autocapitalize="off" placeholder="수업 시간에 안내된 비밀번호">
+      <button class="gate-eye" type="button" data-gate-eye aria-pressed="false" aria-label="비밀번호 표시">
+        <svg class="ico-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg class="ico-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18M10.6 10.6a3 3 0 0 0 4.24 4.24M9.9 5.1A10.9 10.9 0 0 1 12 5c7 0 10.5 7 10.5 7a13.6 13.6 0 0 1-3.2 4.1M6.5 6.5C3.4 8.3 1.5 12 1.5 12a13.5 13.5 0 0 0 4.2 4.9"/></svg>
+      </button>
+    </div>
+    <p class="gate-hint">한글로 입력하세요. 대소문자와 앞뒤 공백은 구분하지 않습니다.</p>
+    <p class="gate-msg" data-gate-msg role="status" aria-live="polite"></p>
+    <button class="btn btn-p gate-btn" type="submit">들어가기</button>
+    <p class="gate-note">본 자료는 학교 수업 목적으로 제작되었으며,
+      저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+  </form>
+</div>
+<a class="skip" href="#main">본문 바로가기</a>
+<header class="topbar">
+  <div class="bar-top">
+    <a class="brand" href="index.html"><span class="brand-mark">IS</span><span class="brand-name">정보과학</span></a>
+    <nav class="toolnav" aria-label="수업 도구">
+      <a href="index.html">수업 홈</a>
+      <a href="lessons.html" class="is-current">차시 수업</a>
+      <a href="course.html">수업 안내</a>
+      <a href="labs.html">실습실</a>
+      <a href="practice.html">파이썬 실습</a>
+      <a href="glossary.html">용어 사전</a>
+      <a href="my.html">내 학습</a>
+    </nav>
+    <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false" title="어두운 화면으로">
+      <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.6v2M12 19.4v2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M2.6 12h2M19.4 12h2M5.2 18.8l1.4-1.4M17.4 6.6l1.4-1.4"/></svg>
+      <span class="ico-label">어둡게</span>
+    </button>
+  </div>
+  <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
+    <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
+    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+  </div></nav>
+  <div class="progress" data-progress></div>
+</header>
+<section class="unithero lessonhero">
+  <div class="unithero-in">
+    <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 20차시</p>
+    <div class="bigr" aria-hidden="true">20</div>
+    <div>
+      <p class="kicker">20차시 · 7주차 · <a href="unit2.html">Ⅱ 데이터 구조</a></p>
+      <h1>리스트로 큐 구현하기 / 덱·우선순위 큐</h1>
+      <ul class="lgoal"><li>큐를 이용해 대기 줄과 피보나치수열 계산 프로그램을 만들 수 있다</li><li>덱과 우선순위 큐가 일반 큐와 어떻게 다른지 설명할 수 있다</li></ul>
+      <div class="lprog" aria-label="전체 48차시 중 20차시"><i style="width:41.7%"></i></div>
+    </div>
+  </div>
+</section>
+<main class="lpage" id="main">
+<nav class="lflow" aria-label="이 차시 순서"><a href="#l-open"><b>1</b>생각 열기</a><a href="#l-learn"><b>2</b>교과서로 배우기</a><a href="#l-try"><b>3</b>직접 해 보기</a><a href="#l-check"><b>4</b>확인 문제</a><a href="#l-wrap"><b>5</b>한 줄 정리</a></nav>
+<section class="lsec" id="l-open"><h2><span class="ln">1</span>생각 열기</h2><div class="callout hook">맛집 줄서기 앱은 '앞에 3팀, 예상 15분'처럼 알려 줘요. 앱은 어떤 정보만 있으면 이 숫자를 계산할 수 있을까요?</div><div class="board" data-board="hook" hidden><div class="board-in"><textarea data-board-in rows="2" maxlength="300" placeholder="내 생각을 짧게 적어 보드에 올려 보세요"></textarea><div class="board-bar"><button class="btn btn-p" type="button" data-board-send>보드에 올리기</button><select data-board-class aria-label="반 고르기"><option value="">모든 반</option></select><button class="btn" type="button" data-board-big>크게 보기</button><span class="muted small" data-board-msg></span></div></div><div class="board-h"><b>모두의 생각</b> <span class="muted small" data-board-count></span></div><ul class="board-list" data-board-list></ul></div><div class="simlinks"><b>함께 보는 시뮬레이터</b><a href="https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/cs/linear.html" target="_blank" rel="noopener">선형 자료구조 (스택·큐) ↗</a></div></section>
+<section class="lsec" id="l-learn"><h2><span class="ln">2</span>교과서로 배우기</h2><p class="lede">코드 아래 <b>💡 코드 설명</b>을 펼쳐 보고, <b>빈칸</b>이 있으면 채운 뒤 실행해 보세요.</p><p class="lsrc">교과서 · <a href="unit2.html#t2-2">Ⅱ 1-2 큐 — 먼저 온 사람이 먼저 나간다</a></p>
+<h4>큐가 쓰이는 곳</h4>
+<ul>
+      <li>프린터 <b>인쇄 작업 순서</b>, 콜센터 <b>상담 대기 순서</b>, 맛집 <b>줄서기 앱</b></li>
+      <li>동영상 <b>버퍼링</b> — 먼저 받은 데이터부터 재생</li>
+      <li>미로의 <b>너비 우선 탐색(BFS)</b></li>
+      <li><b>우선순위 큐</b> — 들어온 순서가 아니라 우선순위가 높은 것부터 나가는 변형 (Ⅳ단원 다익스트라에서 사용)</li>
+      <li>데이터 패킷 모델링, 공항 활주로 비행기 시뮬레이션, 은행 대기열 시뮬레이션</li>
+    </ul>
+<div class="callout"><b>덱(deque)</b>은 앞과 뒤 <b>양쪽에서 모두</b> 삽입·삭제가 가능한 구조입니다. 스택처럼도, 큐처럼도 쓸 수 있습니다.</div>
+<h4>큐로 문제 해결하기 ① 급식 대기 프로그램</h4>
+<p>대기 줄에 선 학생 수에 한 명당 5분을 곱해 예상 대기 시간을 알려 주고, 앞에서부터 한 명씩 입장시킵니다.</p>
+<pre data-c="1" data-run data-blanks>def wait(Queue):                                  # 대기 시간 계산
+    time = <input class="blank" data-ans="len(Queue.que) * 5" size="19" spellcheck="false" autocomplete="off" aria-label="빈칸">
+    return time
+
+def display(Queue):                               # 현재 상태 출력
+    print('▶현재 대기 상태:', ' → '.join(Queue.que), end=' ')
+    print('▶현재 예상 대기 시간:', wait(Queue), '분')
+
+def enter(Queue):                                 # 맨 앞 학생 입장
+    if not Queue.isEmpty():
+        person = <input class="blank" data-ans="Queue.dequeue()" size="16" spellcheck="false" autocomplete="off" aria-label="빈칸">
+        print(person, '이(가) 급식실에 입장했습니다.')
+
+q = Queue()
+q.enqueue('지원');  display(q)   # 지원, 5분
+q.enqueue('수현');  display(q)   # 지원 → 수현, 10분
+q.enqueue('채원');  display(q)   # 지원 → 수현 → 채원, 15분
+enter(q);           display(q)   # 수현 → 채원, 10분
+enter(q);           display(q)   # 채원, 5분</pre>
+<div class="callout"><code>'구분자'.join(리스트)</code>는 리스트의 문자열들을 구분자로 이어 붙입니다. <code>print(…, end=' ')</code>는 줄바꿈 대신 공백을 넣어 다음 출력을 같은 줄에 이어 씁니다.</div>
+<h4>큐로 문제 해결하기 ② 피보나치수열 계산</h4>
+<p>큐에 앞의 두 항만 남겨 두고 굴려 가며 계산합니다. 첫 값은 계산 후 버려야 하므로 <code>dequeue()</code>로 꺼내고, 두 번째 값은 다음에도 써야 하므로 <code>peek()</code>으로 <b>확인만</b> 합니다.</p>
+<pre data-c="2" data-run data-blanks>def fibo(n):
+    print('F(1) = 1')
+    for i in range(2, n + 1):
+        first = <input class="blank" data-ans="q.dequeue()" size="12" spellcheck="false" autocomplete="off" aria-label="빈칸">          # 이전 항 — 꺼내고 삭제
+        second = <input class="blank" data-ans="q.peek()" size="9" spellcheck="false" autocomplete="off" aria-label="빈칸">            # 현재 항 — 확인만
+        new_value = first + second
+        <input class="blank" data-ans="q.enqueue(new_value)" size="21" spellcheck="false" autocomplete="off" aria-label="빈칸">         # 새 항을 큐 뒤에 추가
+        print(f'F({i}) = {new_value}')
+
+q = Queue()
+q.enqueue(0)    # F(0) = 0
+q.enqueue(1)    # F(1) = 1
+fibo(10)</pre>
+<div class="callout"><b>파이썬 내장 <code>queue</code> 모듈</b> — 직접 구현하지 않아도 됩니다. <code>from queue import Queue</code> 후 <code>put(i)</code> 삽입, <code>get()</code> 삭제, <code>empty()</code> 공백 검사, <code>qsize()</code> 크기 확인을 쓸 수 있습니다.</div>
+<div class="drill">
+      <span class="lbl">스스로 해결하기</span>
+      <ol>
+        <li>다음 연산을 차례로 수행할 때 큐의 변화를 그려 보자.<br>
+          <code>enqueue(3) → enqueue(4) → enqueue(5) → dequeue() → dequeue() → enqueue(6) → enqueue(1) → dequeue() → dequeue()</code></li>
+        <li>파이썬 내장 <code>queue</code> 모듈로 위 과정을 그대로 구현해 보자.</li>
+      </ol>
+    </div>
+<div class="points">
+      <span class="lbl">스택 · 큐 한눈 정리</span>
+      <ul>
+        <li>스택 = <b>LIFO</b>, 한쪽(top)에서만 삽입·삭제 → <code>append()</code> / <code>pop()</code></li>
+        <li>큐 = <b>FIFO</b>, 뒤(rear)에서 삽입·앞(front)에서 삭제 → <code>append()</code> / <code>pop(0)</code></li>
+        <li>둘 다 <b>선형 구조</b>이며, 삭제 전에는 반드시 <code>isEmpty()</code>로 공백 상태를 검사한다.</li>
+        <li>DFS는 스택, BFS는 큐 — 탐색 알고리즘의 성격을 결정하는 것이 바로 이 그릇의 모양이다.</li>
+      </ul>
+    </div></section>
+<section class="lsec" id="l-try"><h2><span class="ln">3</span>직접 해 보기</h2><p class="lede">코드를 고쳐서 <b>▶ 실행</b>하면 출력이 맞는지 바로 알려 줘요. 막히면 힌트부터 열어 보세요.</p><div class="task" data-kind="빈칸"><div class="task-h"><span class="task-k">빈칸</span><h4>큐 변화 따라가기</h4></div><p>교과서 '스스로 해결하기'의 연산 enqueue(3) → enqueue(4) → enqueue(5) → dequeue() → dequeue() → enqueue(6) → enqueue(1) → dequeue() → dequeue()를 리스트로 실행해 보세요. 빈칸을 채우고, 결과를 손으로 그린 그림과 비교하세요.</p><pre data-run data-editable data-task data-expect="꺼낸 값: [3, 4, 5, 6]&#10;남은 큐: [1]">q = []
+out = []
+ops = ['in 3', 'in 4', 'in 5', 'out', 'out', 'in 6', 'in 1', 'out', 'out']
+for op in ops:
+    if op == 'out':
+        out.append(q.___)
+    else:
+        q.___(int(op.split()[1]))
+print('꺼낸 값:', out)
+print('남은 큐:', q)
+</pre><details class="hintbox"><summary>힌트</summary><p>큐에서 꺼낼 때는 pop(0), 넣을 때는 append예요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>q = []
+out = []
+ops = ['in 3', 'in 4', 'in 5', 'out', 'out', 'in 6', 'in 1', 'out', 'out']
+for op in ops:
+    if op == 'out':
+        out.append(q.pop(0))
+    else:
+        q.append(int(op.split()[1]))
+print('꺼낸 값:', out)
+print('남은 큐:', q)
+</pre></details></div><div class="task" data-kind="고치기"><div class="task-h"><span class="task-k">고치기</span><h4>피보나치 큐 고치기</h4></div><p>아래 코드는 실행하면 오류가 나요. F(7) = 13까지 출력되게 한 줄만 고치세요. 왜 그 줄에서 dequeue를 쓰면 안 되는지도 생각해 보세요.</p><pre data-run data-editable data-task data-expect="F(1) = 1&#10;F(2) = 1&#10;F(3) = 2&#10;F(4) = 3&#10;F(5) = 5&#10;F(6) = 8&#10;F(7) = 13">class Queue:
+    def __init__(self):
+        self.que = []
+    def isEmpty(self):
+        return len(self.que) == 0
+    def enqueue(self, data):
+        self.que.append(data)
+    def dequeue(self):
+        if not self.isEmpty():
+            return self.que.pop(0)
+    def peek(self):
+        if not self.isEmpty():
+            return self.que[0]
+
+def fibo(n):
+    print('F(1) = 1')
+    for i in range(2, n + 1):
+        first = q.dequeue()
+        second = q.dequeue()
+        new_value = first + second
+        q.enqueue(new_value)
+        print(f'F({i}) = {new_value}')
+
+q = Queue()
+q.enqueue(0)
+q.enqueue(1)
+fibo(7)
+</pre><details class="hintbox"><summary>힌트</summary><p>두 번째 항은 다음 계산에도 써야 하니 지우지 말고 peek으로 보기만 해야 해요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>class Queue:
+    def __init__(self):
+        self.que = []
+    def isEmpty(self):
+        return len(self.que) == 0
+    def enqueue(self, data):
+        self.que.append(data)
+    def dequeue(self):
+        if not self.isEmpty():
+            return self.que.pop(0)
+    def peek(self):
+        if not self.isEmpty():
+            return self.que[0]
+
+def fibo(n):
+    print('F(1) = 1')
+    for i in range(2, n + 1):
+        first = q.dequeue()
+        second = q.peek()
+        new_value = first + second
+        q.enqueue(new_value)
+        print(f'F({i}) = {new_value}')
+
+q = Queue()
+q.enqueue(0)
+q.enqueue(1)
+fibo(7)
+</pre></details></div><div class="task" data-kind="만들기"><div class="task-h"><span class="task-k">만들기</span><h4>돌아가며 인쇄하는 프린터</h4></div><p>프린터는 한 번에 <b>최대 3쪽</b>만 인쇄하고, 다 못 끝낸 문서는 남은 쪽수와 함께 <b>줄 맨 뒤로</b> 보내요. 1쪽에 1분이 걸릴 때, 문서가 끝날 때마다 <code>수학 완료 (5분)</code>처럼 출력하세요.</p><pre data-run data-editable data-task data-expect="수학 완료 (5분)&#10;국어 완료 (9분)&#10;영어 완료 (11분)">jobs = [['국어', 4], ['수학', 2], ['영어', 5]]   # [문서 이름, 남은 쪽수]
+time = 0
+while jobs:
+    name, pages = jobs.pop(0)     # 맨 앞 문서를 꺼냄
+    # 이번에 인쇄할 쪽수를 정하고 time을 늘리세요
+    # 남은 쪽이 있으면 줄 뒤로, 없으면 완료 메시지
+</pre><details class="hintbox"><summary>힌트</summary><p>printed = min(pages, 3)으로 이번 쪽수를 정하고, time += printed, pages -= printed 한 뒤 pages > 0이면 jobs.append([name, pages])를 하세요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>jobs = [['국어', 4], ['수학', 2], ['영어', 5]]   # [문서 이름, 남은 쪽수]
+time = 0
+while jobs:
+    name, pages = jobs.pop(0)     # 맨 앞 문서를 꺼냄
+    printed = min(pages, 3)
+    time += printed
+    pages -= printed
+    if pages &gt; 0:
+        jobs.append([name, pages])
+    else:
+        print(f'{name} 완료 ({time}분)')
+</pre></details></div></section>
+<section class="lsec" id="l-check"><h2><span class="ln">4</span>확인 문제</h2><section class="qz-set" data-qz-set="L20">
+<div class="qz" data-ans="1"><h4><span class="qnum">Q1</span><span>피보나치 큐 코드에서 두 번째 값을 dequeue()가 아니라 peek()으로 가져오는 이유는 무엇일까요?</span></h4><ol class="opts"><li><button type="button" data-n="①">peek()이 더 빨라서</button></li><li><button type="button" data-n="②">그 값은 다음 계산에서도 써야 하므로 지우면 안 되어서</button></li><li><button type="button" data-n="③">dequeue()는 두 번 쓸 수 없어서</button></li><li><button type="button" data-n="④">peek()은 맨 뒤 값을 보여 주어서</button></li></ol><p class="why"><b>해설</b> — peek은 보기만 하고 지우지 않아요. 두 번째 항은 다음 차례에서 '앞의 항'이 되므로 큐에 남아 있어야 해요.</p></div>
+<div class="qz" data-ans="3"><h4><span class="qnum">Q2</span><span>앞과 뒤 양쪽에서 모두 삽입·삭제할 수 있어서 스택처럼도 큐처럼도 쓸 수 있는 구조는 무엇일까요?</span></h4><ol class="opts"><li><button type="button" data-n="①">우선순위 큐</button></li><li><button type="button" data-n="②">트리</button></li><li><button type="button" data-n="③">배열</button></li><li><button type="button" data-n="④">덱(deque)</button></li></ol><p class="why"><b>해설</b> — 덱은 양쪽 끝이 모두 열려 있어요. 우선순위 큐는 들어온 순서가 아니라 우선순위가 높은 것부터 나가요.</p></div>
+<div class="qz-score" data-qz-score><span>맞힌 문제 <b data-qz-right>0</b> / 2</span><span class="muted" data-qz-left></span><span class="muted" data-qz-best></span><button class="btn" type="button" data-qz-reset>다시 풀기</button></div></section></section>
+<section class="lsec" id="l-wrap"><h2><span class="ln">5</span>한 줄 정리</h2><p><b>우리 생활에서 큐로 처리하면 좋은 상황을 하나 찾고, 그때 enqueue와 dequeue가 각각 무엇에 해당하는지 적어 보세요.</b></p><textarea class="think" data-think="L20.exit" rows="3" placeholder="내 말로 한두 문장"></textarea><p class="muted small" data-think-saved></p><div class="board" data-board="exit" hidden><div class="board-in"><textarea data-board-in rows="2" maxlength="300" placeholder="한 줄 정리를 보드에도 올려 보세요"></textarea><div class="board-bar"><button class="btn btn-p" type="button" data-board-send>보드에 올리기</button><select data-board-class aria-label="반 고르기"><option value="">모든 반</option></select><button class="btn" type="button" data-board-big>크게 보기</button><span class="muted small" data-board-msg></span></div></div><div class="board-h"><b>모두의 생각</b> <span class="muted small" data-board-count></span></div><ul class="board-list" data-board-list></ul></div><div class="donebar"><button class="btn donebtn" type="button" data-lesson-done="20">☐ 이 차시 마쳤어요</button><span>체크하면 <a href="lessons.html">차시 수업</a> 목록에 표시돼요.</span></div><div class="submitbox" data-submit hidden><button class="btn btn-p" type="button">선생님께 제출</button> <span class="muted small" data-submit-msg>한 줄 정리 · 생각 쓰기 · 실습 코드 · 확인 문제 점수를 보내요.</span></div></section>
+</main>
+<nav class="pager" aria-label="차시 이동"><a class="prev" href="lesson19.html"><span class="dir">← 이전 · 19차시</span><span class="ttl">큐의 개념(FIFO)과 연산</span></a><a class="next" href="lesson21.html"><span class="dir">다음 → · 21차시</span><span class="ttl">[역량] 스택·큐를 활용한 프로그램</span></a></nav>
+<script>window.LESSON={"n":20,"notes":{"C1":{"say":"큐에 학생을 줄 세우고, 인원수로 대기 시간을 계산하며, 맨 앞 학생부터 입장시키는 프로그램이에요.","lines":[[2,"줄에 선 사람 수(len)에 5분을 곱해요. 큐에 몇 개가 들어 있는지가 곧 대기 인원이에요."],[6,"' → '.join으로 이름들을 화살표로 이어요. end=' '라서 다음 print가 같은 줄에 이어 나와요."],[11,"dequeue로 맨 앞 학생을 꺼내요. 가장 먼저 온 지원이가 가장 먼저 입장해요."],[15,"세미콜론(;)으로 두 문장을 한 줄에 썼어요. 넣고 바로 상태를 출력해요."],[18,"입장하면 큐에서 빠지니 len이 줄고, 예상 시간도 자동으로 5분 줄어요."]],"blanks":[[2,"len(Queue.que) * 5"],[11,"Queue.dequeue()"]],"predict":{"q":"실행하기 전에 예측해 보세요: 18번 줄을 실행하면 어떤 두 줄이 출력될까요?","a":"'지원 이(가) 급식실에 입장했습니다.' 다음에 '▶현재 대기 상태: 수현 → 채원 ▶현재 예상 대기 시간: 10 분' — 맨 앞의 지원이가 빠져서 2명 × 5분이에요."}},"C2":{"say":"큐에 앞의 두 항만 남겨 두고, 하나 꺼내고 하나 넣기를 반복하며 피보나치수열을 계산해요.","lines":[[4,"가장 오래된 항은 이번 계산에만 쓰고 버려요. 그래서 dequeue로 꺼내면서 지워요."],[5,"두 번째 항은 다음 계산에서도 '앞의 항'이 돼요. 지우면 안 되니 peek으로 보기만 해요."],[7,"새 항을 뒤에 넣어요. 그래서 큐에는 언제나 딱 두 개의 항만 남아요."],[11,"F(0)=0과 F(1)=1을 미리 넣어 두어야 첫 계산을 할 수 있어요."]],"blanks":[[4,"q.dequeue()"],[5,"q.peek()"],[7,"q.enqueue(new_value)"]],"predict":{"q":"실행하기 전에 예측해 보세요: fibo(10)의 마지막 줄은 무엇일까요? 그때 큐 안에는 어떤 두 수가 남아 있을까요?","a":"F(10) = 55 — 큐에는 34와 55가 남아요. 매번 하나 빼고 하나 넣으니 항상 두 개예요."}}}};</script>
+
+<footer>
+  <div class="foot-in">
+    <div>
+      <p><b data-teacher-tap>정보과학</b> — 씨마스 『정보과학』 (2022 개정 교육과정) 수업 자료 · <span data-term>2학기</span> · 주 3시간 · 16주</p>
+      <p>보문고등학교 <b>김용득</b> 선생님 제작.</p>
+      <p>개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
+      <p class="copyright">본 자료는 학교 수업 목적으로 제작되었으며, 저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+    </div>
+    <nav class="foot-links" aria-label="사이트 전체"><a href="index.html">수업 홈</a><a href="unit0.html">0 파이썬 기초</a><a href="unit1.html">Ⅰ 프로그래밍</a><a href="unit2.html">Ⅱ 데이터 구조</a><a href="unit3.html">Ⅲ 알고리즘</a><a href="unit4.html">Ⅳ 프로젝트</a><a href="lessons.html">차시 수업</a><a href="course.html">수업 안내</a><a href="labs.html">실습실</a><a href="practice.html">파이썬 실습</a><a href="glossary.html">용어 사전</a><a href="my.html">내 학습</a><a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz</a></nav>
+  </div>
+</footer>
+<script>window.SITE={"topics":{"0":["t0-0","t0-1","t0-2","t0-3","t0-4","t0-5","t0-6","t0-7","t0-8","t0-9","t0-10"],"1":["t1-1","t1-2","t1-3","t1-4","t1-5"],"2":["t2-1","t2-2","t2-3","t2-4","t2-5"],"3":["t3-1","t3-2","t3-3","t3-4","t3-5","t3-6","t3-8","t3-7"],"4":["t4-1","t4-2","t4-3","t4-4","t4-6","t4-5"]},"units":{"0":{"roman":"0","name":"파이썬 기초","weeks":null},"1":{"roman":"Ⅰ","name":"프로그래밍","weeks":[1,5]},"2":{"roman":"Ⅱ","name":"데이터 구조","weeks":[6,9]},"3":{"roman":"Ⅲ","name":"알고리즘","weeks":[10,13]},"4":{"roman":"Ⅳ","name":"정보과학 프로젝트","weeks":[14,16]}},"quiz":{"0":10,"1":10,"2":10,"3":10,"4":10},"weeks":[{"week":1,"lessons":["오리엔테이션 — 정보과학은 무엇을 배우는 과목인가","함수의 개념 — 내장 함수와 사용자 정의 함수","함수의 정의(<code>def</code>)와 네 가지 구성 요소"]},{"week":2,"lessons":["함수 호출 — 인수와 매개 변수의 관계","<code>return</code>의 두 역할 / 매개 변수·반환값 4가지 형태","지역 변수와 전역 변수, <code>global</code>"]},{"week":3,"lessons":["[역량] 음악 플레이 리스트 관리 프로그램","기본값 매개 변수와 가변 인수 매개 변수","여러 값 반환 / 클래스와 객체"]},{"week":4,"lessons":["모듈 만들기와 <code>import</code>","패키지·라이브러리 / 내장 함수와 표준 라이브러리","[역량] 가위바위보 게임 만들기"]},{"week":5,"lessons":["재귀 구조의 이해 — 수학적 귀납법과 재귀 관계","재귀 함수의 동작 원리 — 호출과 반환","반복 vs 재귀 / 재귀 활용 — 자릿수 합·하노이 탑"]},{"week":6,"lessons":["데이터 구조의 분류 / 스택의 개념(LIFO)","스택의 연산 — push, pop, peek, isEmpty","리스트로 스택 구현하기 · 활용 사례"]},{"week":7,"lessons":["큐의 개념(FIFO)과 연산","리스트로 큐 구현하기 / 덱·우선순위 큐","[역량] 스택·큐를 활용한 프로그램"]},{"week":8,"lessons":["트리의 개념과 구성 요소","트리의 표현 — 인접 행렬과 인접 리스트","이진 트리와 순차 데이터 구조 표현"]},{"week":9,"lessons":["이진 탐색 트리의 규칙과 활용","그래프의 개념·종류와 표현","그래프 탐색 — 깊이 우선·너비 우선 탐색"]},{"week":10,"lessons":["알고리즘의 이해와 문제 해결 전략 네 가지","알고리즘 성능 평가 — 시간·공간 복잡도","빅오 표기법과 알고리즘 성능 비교"]},{"week":11,"lessons":["문제의 세 요소와 상태 공간","탐색 공간의 구조·범위 / 전체 탐색과 순차 탐색","비선형 전체 탐색 — DFS·BFS 적용"]},{"week":12,"lessons":["탐색 공간 배제와 이진 탐색","탐욕 알고리즘 — 거스름돈·시간표 문제","분기 한정 알고리즘과 백트래킹"]},{"week":13,"lessons":["문제 분해와 전체·부분 문제의 관계식","분할 정복법 — 퀵 정렬과 합병 정렬","동적 계획법 — 메모이제이션과 상향식"]},{"week":14,"lessons":["정보과학으로 문제 해결하기 · 문제 해결 5단계","학문 분야별 문제 탐색 / 모둠 구성·주제 선정","[프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화"]},{"week":15,"lessons":["[프로젝트 ①] 알고리즘 설계와 프로그램 작성","[프로젝트 ②] 탄소 발자국 — 데이터 수집과 구조화","[프로젝트 ②] 다익스트라 알고리즘으로 구현하기"]},{"week":16,"lessons":["[프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계","[프로젝트 ③] 백트래킹 구현과 디버깅","산출물 정리 / 프로젝트 발표와 상호 평가"]}],"settings":{"year":2026,"term":"2학기","semester_start":"2026-08-13","submit_url":"","grading":[{"type":"지필","name":"1차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 중간고사","ratio":25},{"type":"지필","name":"2차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 기말고사","ratio":25},{"type":"수행","name":"1차 수행평가 · 프로그래밍 과제","what":"함수·클래스·데이터 구조를 활용한 프로그램 작성과 설명","when":"Ⅰ·Ⅱ단원 중","ratio":25},{"type":"수행","name":"2차 수행평가 · 정보과학 프로젝트","what":"문제 해결 5단계 산출물, 프로그램, 발표·상호 평가","when":"14~16주차","ratio":25,"rubric":{"head":["항목","잘함","보통","노력 필요"],"rows":[["① 문제 발견","생활 속 문제를 구체적인 수치·근거와 함께 제시함","문제를 제시했으나 근거가 부족함","문제가 막연하거나 해결할 대상이 불분명함"],["② 문제 구조화","입력·출력·제약 조건을 명확히 정하고 상태(데이터)를 정의함","입력과 출력은 정했으나 조건이 빠짐","무엇을 계산할지 정하지 못함"],["③ 알고리즘 설계","알맞은 데이터 구조·알고리즘을 고르고 그 이유와 효율(빅오)을 설명함","알고리즘은 설계했으나 선택 이유가 부족함","설계 없이 바로 코드부터 작성함"],["④ 프로그램 구현","함수로 나누어 읽기 쉽게 작성하고 오류 없이 동작함","동작하지만 구조가 정리되지 않음","실행되지 않거나 일부만 동작함"],["⑤ 검증·공유","여러 입력으로 시험하고 한계와 개선점을 발표함","한 가지 경우로만 확인함","결과를 확인하지 않음"],["협업·기여","맡은 역할을 해내고 모둠 기록에 기여가 드러남","역할을 일부 수행함","기여가 드러나지 않음"]]}}]},"settings_edit":"https://github.com/yongdeuk/infoscience2026/edit/main/settings.json","programiz":"https://www.programiz.com/python-programming/online-compiler/"};</script>
+<script src="assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+{
+ "n": 5,
+ "goal": [
+  "매개 변수와 반환값의 유무에 따른 함수 4가지 형태를 구별할 수 있다",
+  "print로 보여 주는 함수와 return으로 돌려주는 함수의 차이를 설명할 수 있다"
+ ],
+ "hook": "자판기는 돈과 버튼(입력)을 받아 음료(결과)를 줘요. 그런데 ‘조명만 켜는 버튼’처럼 아무것도 받지도 주지도 않는 기능도 있죠. 함수도 그래요.",
+ "code_notes": {
+  "C1": {
+   "say": "받는 값도 돌려주는 값도 없이, 정해진 동작(1~10 출력)만 하는 함수예요.",
+   "lines": [
+    [
+     1,
+     "괄호가 비어 있어요. 부를 때 아무것도 보낼 필요가 없어요."
+    ],
+    [
+     3,
+     "input()은 Enter를 누를 때까지 기다리게 해요. 숫자가 한 번에 쏟아지지 않고 하나씩 나와요."
+    ],
+    [
+     6,
+     "return이 없으니 이 함수의 결과를 변수에 담아도 None이에요. ‘동작’ 자체가 목적이에요."
+    ]
+   ]
+  },
+  "C2": {
+   "say": "길이(length)를 받아 정사각형을 그리기만 하는 함수예요. 돌려주는 값은 없어요.",
+   "lines": [
+    [
+     1,
+     "!pip는 코랩에서만 쓰는 설치 명령이에요. 내 컴퓨터 파이썬에서는 import turtle을 쓰면 돼요."
+    ],
+    [
+     6,
+     "length를 매개 변수로 두었기 때문에 draw_square(50), draw_square(200)처럼 크기만 바꿔 다시 쓸 수 있어요."
+    ],
+    [
+     7,
+     "정사각형은 ‘앞으로 가기 + 90도 돌기’를 4번 하면 완성돼요. _는 반복 번호를 쓰지 않을 때 쓰는 이름이에요."
+    ],
+    [
+     9,
+     "네 번 모두 90도씩 돌면 360도, 처음 방향으로 돌아와요."
+    ]
+   ],
+   "blanks": [
+    [
+     7,
+     "range(4)"
+    ],
+    [
+     9,
+     "right(90)"
+    ]
+   ]
+  },
+  "C3": {
+   "say": "아무것도 받지 않고, 거북이의 현재 위치를 돌려주는 함수예요.",
+   "lines": [
+    [
+     6,
+     "position()이 알려 준 (x, y) 튜플을 그대로 return해요. 함수는 ‘상태를 알려 주는 창구’ 역할을 해요."
+    ],
+    [
+     10,
+     "돌아온 튜플 (x, y)를 두 변수 x, y에 한 번에 나눠 담아요."
+    ]
+   ]
+  },
+  "C4": {
+   "say": "두 점을 받아 그 사이의 거리를 계산해 돌려주는 함수예요. 받는 값도 돌려주는 값도 있어요.",
+   "lines": [
+    [
+     2,
+     "점 (0, 0) 같은 튜플을 x1, y1 두 변수로 풀어요. 그래야 식에서 좌표를 하나씩 쓸 수 있어요."
+    ],
+    [
+     4,
+     "피타고라스 정리예요. ** 0.5는 제곱근과 같아요. 결과를 return하니 다른 계산에 이어서 쓸 수 있어요."
+    ]
+   ],
+   "blanks": [
+    [
+     4,
+     "return"
+    ]
+   ],
+   "predict": {
+    "q": "print(get_dist((1, 1), (4, 5)))는 무엇을 출력할까요?",
+    "a": "5.0 — 가로 차이 3, 세로 차이 4라서 거리가 5예요. ** 0.5의 결과는 실수라 5.0으로 나와요."
+   }
+  }
+ },
+ "tasks": [
+  {
+   "kind": "빈칸",
+   "title": "네 가지 형태 완성하기",
+   "prompt": "네 가지 형태의 함수가 하나씩 있어요. <code>get_class()</code>는 <code>'1학년 3반'</code>을 돌려주고, <code>add()</code>는 두 수의 합을 돌려주도록 빈칸을 채우세요.",
+   "starter": "def print_line():          # ① 둘 다 없음\n    print('-' * 10)\n\ndef print_star(n):         # ② 매개 변수만\n    print('*' * n)\n\ndef get_class():           # ③ 반환값만\n    return ___\n\ndef add(a, b):             # ④ 둘 다 있음\n    ___ a + b\n\nprint_line()\nprint_star(5)\nprint(get_class())\nprint(add(3, 4))\nprint_line()",
+   "expect": "----------\n*****\n1학년 3반\n7\n----------",
+   "hint": "문자열은 따옴표로 감싸요. 값을 돌려주는 키워드는 return이에요.",
+   "answer": "def print_line():          # ① 둘 다 없음\n    print('-' * 10)\n\ndef print_star(n):         # ② 매개 변수만\n    print('*' * n)\n\ndef get_class():           # ③ 반환값만\n    return '1학년 3반'\n\ndef add(a, b):             # ④ 둘 다 있음\n    return a + b\n\nprint_line()\nprint_star(5)\nprint(get_class())\nprint(add(3, 4))\nprint_line()"
+  },
+  {
+   "kind": "고치기",
+   "title": "print와 return은 달라요",
+   "prompt": "두 구간의 거리를 더해 총 이동 거리를 구하려는데 <code>TypeError</code>가 나요. 함수가 거리를 <b>보여 주기만</b> 하고 <b>돌려주지</b> 않기 때문이에요. 한 줄을 고쳐 <code>총 이동 거리: 10.0</code>만 나오게 하세요.",
+   "starter": "def get_dist(p1, p2):\n    x1, y1 = p1\n    x2, y2 = p2\n    print(((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5)\n\ntotal = get_dist((0, 0), (3, 4)) + get_dist((3, 4), (6, 8))\nprint('총 이동 거리:', total)",
+   "expect": "총 이동 거리: 10.0",
+   "hint": "print 대신 무엇을 써야 계산 결과가 total 계산식으로 돌아올까요?",
+   "answer": "def get_dist(p1, p2):\n    x1, y1 = p1\n    x2, y2 = p2\n    return ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5\n\ntotal = get_dist((0, 0), (3, 4)) + get_dist((3, 4), (6, 8))\nprint('총 이동 거리:', total)"
+  },
+  {
+   "kind": "만들기",
+   "title": "글자로 정사각형 그리기",
+   "prompt": "거북이 대신 <code>#</code>으로 <b>속이 빈 정사각형</b>을 그리는 <code>draw_square(size)</code>를 만들어요(매개 변수만 있는 형태). 첫 줄과 마지막 줄은 <code>#</code>으로 꽉 채우고, 가운데 줄은 양 끝만 <code>#</code>, 사이는 공백이에요.",
+   "starter": "def draw_square(size):\n    # 첫 줄: '#' * size\n    # 가운데 줄 (size - 2)개: '#' + 공백 + '#'\n    # 마지막 줄: '#' * size\n    pass\n\ndraw_square(4)\nprint()\ndraw_square(5)",
+   "expect": "####\n#  #\n#  #\n####\n\n#####\n#   #\n#   #\n#   #\n#####",
+   "hint": "가운데 줄은 for _ in range(size - 2):로 반복하고, 공백 개수도 size - 2예요.",
+   "answer": "def draw_square(size):\n    print('#' * size)\n    for _ in range(size - 2):\n        print('#' + ' ' * (size - 2) + '#')\n    print('#' * size)\n\ndraw_square(4)\nprint()\ndraw_square(5)"
+  }
+ ],
+ "check": [
+  {
+   "q": "교과서의 get_position()은 네 가지 형태 중 어디에 해당할까요?",
+   "options": [
+    "둘 다 없음",
+    "매개 변수만 있음",
+    "반환값만 있음",
+    "둘 다 있음"
+   ],
+   "answer": 2,
+   "why": "괄호에 받는 값이 없고, position()이 알려 준 위치를 return해요."
+  },
+  {
+   "q": "함수 f()의 본문이 return 1 한 줄, 그 아래 print('안녕') 한 줄로 되어 있어요. print(f())를 실행하면 어떻게 될까요?",
+   "options": [
+    "1만 출력된다",
+    "안녕과 1이 출력된다",
+    "안녕만 출력된다",
+    "오류가 난다"
+   ],
+   "answer": 0,
+   "why": "return을 만나면 1을 돌려주고 함수가 즉시 끝나서 print('안녕')은 실행되지 않아요."
+  }
+ ],
+ "exit": "오늘 고친 get_dist()를 예로 들어, print로 끝나는 함수와 return하는 함수 중 어느 쪽이 ‘다시 쓰기’에 좋은지 이유와 함께 적어 보세요."
+}

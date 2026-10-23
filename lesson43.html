@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>43차시 [프로젝트 ①] 알고리즘 설계와 프로그램 작성 · 정보과학</title>
+<meta name="description" content="15주차 43차시 — [프로젝트 ①] 알고리즘 설계와 프로그램 작성">
+<meta property="og:title" content="43차시 [프로젝트 ①] 알고리즘 설계와 프로그램 작성 · 정보과학">
+<meta property="og:description" content="15주차 43차시 — [프로젝트 ①] 알고리즘 설계와 프로그램 작성">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#129513;</text></svg>">
+<script>
+(function(){try{if(localStorage.getItem('unlocked')==='yes')document.documentElement.className+=' unlocked';}catch(e){}})();
+(function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
+</script>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body class="lessonpage u4">
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <form class="gate-card" data-gate-form autocomplete="off">
+    <h1 id="gate-title">정보과학</h1>
+    <p class="gate-sub">씨마스 『정보과학』 2022 개정 교육과정 수업 자료</p>
+    <label class="gate-lab" for="gate-pw">열람 비밀번호</label>
+    <div class="gate-pwrap">
+      <input id="gate-pw" type="password" data-gate-pw autocomplete="off"
+             spellcheck="false" autocapitalize="off" placeholder="수업 시간에 안내된 비밀번호">
+      <button class="gate-eye" type="button" data-gate-eye aria-pressed="false" aria-label="비밀번호 표시">
+        <svg class="ico-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg class="ico-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18M10.6 10.6a3 3 0 0 0 4.24 4.24M9.9 5.1A10.9 10.9 0 0 1 12 5c7 0 10.5 7 10.5 7a13.6 13.6 0 0 1-3.2 4.1M6.5 6.5C3.4 8.3 1.5 12 1.5 12a13.5 13.5 0 0 0 4.2 4.9"/></svg>
+      </button>
+    </div>
+    <p class="gate-hint">한글로 입력하세요. 대소문자와 앞뒤 공백은 구분하지 않습니다.</p>
+    <p class="gate-msg" data-gate-msg role="status" aria-live="polite"></p>
+    <button class="btn btn-p gate-btn" type="submit">들어가기</button>
+    <p class="gate-note">본 자료는 학교 수업 목적으로 제작되었으며,
+      저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+  </form>
+</div>
+<a class="skip" href="#main">본문 바로가기</a>
+<header class="topbar">
+  <div class="bar-top">
+    <a class="brand" href="index.html"><span class="brand-mark">IS</span><span class="brand-name">정보과학</span></a>
+    <nav class="toolnav" aria-label="수업 도구">
+      <a href="index.html">수업 홈</a>
+      <a href="lessons.html" class="is-current">차시 수업</a>
+      <a href="course.html">수업 안내</a>
+      <a href="labs.html">실습실</a>
+      <a href="practice.html">파이썬 실습</a>
+      <a href="glossary.html">용어 사전</a>
+      <a href="my.html">내 학습</a>
+    </nav>
+    <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false" title="어두운 화면으로">
+      <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.6v2M12 19.4v2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M2.6 12h2M19.4 12h2M5.2 18.8l1.4-1.4M17.4 6.6l1.4-1.4"/></svg>
+      <span class="ico-label">어둡게</span>
+    </button>
+  </div>
+  <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
+    <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
+    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+  </div></nav>
+  <div class="progress" data-progress></div>
+</header>
+<section class="unithero lessonhero">
+  <div class="unithero-in">
+    <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 43차시</p>
+    <div class="bigr" aria-hidden="true">43</div>
+    <div>
+      <p class="kicker">43차시 · 15주차 · <a href="unit4.html">Ⅳ 정보과학 프로젝트</a></p>
+      <h1>[프로젝트 ①] 알고리즘 설계와 프로그램 작성</h1>
+      <ul class="lgoal"><li>메뉴 데이터를 딕셔너리로 나타내고 값을 꺼내 쓸 수 있다</li><li>동적 계획법으로 최소 잔반 조합을 찾는 재귀 함수를 설명할 수 있다</li><li>KeyError를 읽고 고치며, 모든 경우를 따져 보는 방법으로 결과를 검증할 수 있다</li></ul>
+      <div class="lprog" aria-label="전체 48차시 중 43차시"><i style="width:89.6%"></i></div>
+    </div>
+  </div>
+</section>
+<main class="lpage" id="main">
+<nav class="lflow" aria-label="이 차시 순서"><a href="#l-open"><b>1</b>생각 열기</a><a href="#l-learn"><b>2</b>교과서로 배우기</a><a href="#l-try"><b>3</b>직접 해 보기</a><a href="#l-check"><b>4</b>확인 문제</a><a href="#l-wrap"><b>5</b>한 줄 정리</a></nav>
+<section class="lsec" id="l-open"><h2><span class="ln">1</span>생각 열기</h2><div class="callout hook">고기·야채·국·반찬에서 하나씩 고르는 식단은 81가지예요. 손으로 81번 더해 볼 수도 있지만, 컴퓨터에게 ‘겹치는 계산 없이’ 시키려면 어떻게 말해야 할까요?</div><div class="board" data-board="hook" hidden><div class="board-in"><textarea data-board-in rows="2" maxlength="300" placeholder="내 생각을 짧게 적어 보드에 올려 보세요"></textarea><div class="board-bar"><button class="btn btn-p" type="button" data-board-send>보드에 올리기</button><select data-board-class aria-label="반 고르기"><option value="">모든 반</option></select><button class="btn" type="button" data-board-big>크게 보기</button><span class="muted small" data-board-msg></span></div></div><div class="board-h"><b>모두의 생각</b> <span class="muted small" data-board-count></span></div><ul class="board-list" data-board-list></ul></div></section>
+<section class="lsec" id="l-learn"><h2><span class="ln">2</span>교과서로 배우기</h2><p class="lede">코드 아래 <b>💡 코드 설명</b>을 펼쳐 보고, <b>빈칸</b>이 있으면 채운 뒤 실행해 보세요.</p><p class="lsrc">교과서 · <a href="unit4.html#t4-2">Ⅳ 1-2 프로젝트 ① 급식 잔반 최소화</a></p>
+<h4>2단계 · 알고리즘 설계</h4>
+<p>프로그램이 풀 문제를 또렷하게 정해요. <b>“고기·야채·국·반찬에서 메뉴를 하나씩 골라, 전체 잔반량이 가장 적은 조합을 찾는다.”</b></p>
+<figure>
+      <div class="figbody">
+        <svg viewBox="0 0 680 250" role="img" aria-label="고기, 야채, 국, 반찬 네 카테고리에 메뉴가 세 개씩 있고 각 메뉴에 잔반량이 적혀 있다. 소고기 30, 브로콜리 20, 된장국 20, 김치 15가 강조되어 합이 85그램이다">
+          <g class="sv-t-b" text-anchor="middle"><text x="95" y="24">고기</text><text x="265" y="24">야채</text><text x="435" y="24">국</text><text x="605" y="24">반찬</text></g>
+          <g>
+            <rect x="30" y="38" width="130" height="38" rx="3" class="sv-box"/><text x="95" y="62" class="sv-t" text-anchor="middle">닭고기 40g</text>
+            <rect x="30" y="88" width="130" height="38" rx="3" class="sv-box"/><text x="95" y="112" class="sv-t" text-anchor="middle">돼지고기 50g</text>
+            <rect x="30" y="138" width="130" height="38" rx="3" class="sv-box-a"/><text x="95" y="162" class="sv-t-b" text-anchor="middle" fill="var(--accent-ink)">소고기 30g</text>
+            <rect x="200" y="38" width="130" height="38" rx="3" class="sv-box-a"/><text x="265" y="62" class="sv-t-b" text-anchor="middle" fill="var(--accent-ink)">브로콜리 20g</text>
+            <rect x="200" y="88" width="130" height="38" rx="3" class="sv-box"/><text x="265" y="112" class="sv-t" text-anchor="middle">시금치 25g</text>
+            <rect x="200" y="138" width="130" height="38" rx="3" class="sv-box"/><text x="265" y="162" class="sv-t" text-anchor="middle">양배추 35g</text>
+            <rect x="370" y="38" width="130" height="38" rx="3" class="sv-box"/><text x="435" y="62" class="sv-t" text-anchor="middle">미역국 50g</text>
+            <rect x="370" y="88" width="130" height="38" rx="3" class="sv-box-a"/><text x="435" y="112" class="sv-t-b" text-anchor="middle" fill="var(--accent-ink)">된장국 20g</text>
+            <rect x="370" y="138" width="130" height="38" rx="3" class="sv-box"/><text x="435" y="162" class="sv-t" text-anchor="middle">김치찌개 40g</text>
+            <rect x="540" y="38" width="130" height="38" rx="3" class="sv-box-a"/><text x="605" y="62" class="sv-t-b" text-anchor="middle" fill="var(--accent-ink)">김치 15g</text>
+            <rect x="540" y="88" width="130" height="38" rx="3" class="sv-box"/><text x="605" y="112" class="sv-t" text-anchor="middle">멸치볶음 35g</text>
+            <rect x="540" y="138" width="130" height="38" rx="3" class="sv-box"/><text x="605" y="162" class="sv-t" text-anchor="middle">나물 25g</text>
+          </g>
+          <g class="sv-a" stroke-width="1.8"><line x1="160" y1="157" x2="200" y2="57"/><line x1="330" y1="57" x2="370" y2="107"/><line x1="500" y1="107" x2="540" y2="57"/></g>
+          <text x="340" y="212" class="sv-big" text-anchor="middle" fill="var(--accent-ink)">30 + 20 + 20 + 15 = 85g</text>
+          <text x="340" y="236" class="sv-t-s" text-anchor="middle">줄마다 하나씩 고르는 조합은 3 × 3 × 3 × 3 = 81가지</text>
+        </svg>
+      </div>
+      <figcaption>교과서의 예시 메뉴 데이터예요. 숫자는 그 메뉴가 나왔을 때 한 사람이 남기는 양(g)이에요. 우리 학교 상황에 맞게 카테고리와 메뉴를 바꿀 수 있어요.</figcaption>
+    </figure>
+<div class="lab" id="lab-menu">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>식단 짜기 — 잔반이 가장 적은 조합 찾기</h5></div>
+      <div class="lab-body">
+        <div class="lx-cats" data-cats></div>
+        <div class="counter">
+          <div><span class="cnum" data-total>—</span><span class="clab">이 식단의 잔반량</span></div>
+          <div><span class="cnum" data-tried>0</span><span class="clab">시험한 식단</span></div>
+        </div>
+        <div class="lab-ctrl">
+          <button class="btn" data-act="reset">처음부터</button>
+          <button class="btn" data-act="best">컴퓨터에게 맡기기</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite"></p>
+        <p class="lab-note">여기서는 줄마다 가장 적은 메뉴를 고르면 되지만, “같은 재료를 두 번 쓰지 않기” 같은 조건이 붙으면 그렇게 풀 수 없어요. 그래서 모든 경우를 빠짐없이, 그러나 겹치는 계산 없이 살피는 알고리즘이 필요해요.</p>
+      </div>
+    </div>
+<div class="tablewrap">
+      <table>
+        <thead><tr><th>설계 항목</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td>1. 데이터 설정</td><td><b>메뉴 데이터</b>(<code>menu_data</code>) — 메뉴마다 잔반량 / <b>카테고리 데이터</b>(<code>categories</code>) — 메뉴를 고기·야채·국·반찬으로 분류</td></tr>
+          <tr><td>2. 알고리즘 선택</td><td>데이터 구조는 <b>딕셔너리</b>, 알고리즘은 <b>동적 계획법</b>. 카테고리를 하나씩 넘어가며 메뉴를 고르고, 각 단계의 최소 잔반량을 계산해 <b>저장</b>해 둬요.</td></tr>
+          <tr><td>3. 프로그래밍 순서</td><td>데이터 입력 → 알고리즘 구현(카테고리 개수 계산, 재귀 함수의 종료 조건·중복 확인·초기화, 최소 조합 찾기) → 메인 함수 실행 및 결과 출력</td></tr>
+        </tbody>
+      </table>
+    </div>
+<div class="analogy">
+      <span class="lbl">쉽게 말하면 · 딕셔너리</span>
+      <p>딕셔너리는 <b>이름표가 붙은 서랍장</b>이에요. ‘김치’라는 이름표(키)가 붙은 서랍을 열면 그 안에 ‘잔반 15g’(값)이 들어 있어요. 이름표는 서로 달라야 하고, 이름만 알면 값을 바로 꺼낼 수 있어요. 파이썬에서는 <code>{'김치': 15}</code>처럼 써요.</p>
+    </div>
+<h4>3단계 · 프로그램 작성</h4>
+<p class="codecap">① 데이터 입력 — 딕셔너리로 메뉴와 카테고리 정의</p>
+<pre data-c="1">menu_data = {                                 # 메뉴 이름: {'waste': 잔반량}
+    '닭고기': {'waste': 40}, '돼지고기': {'waste': 50}, '소고기': {'waste': 30},
+    '브로콜리': {'waste': 20}, '시금치': {'waste': 25}, '양배추': {'waste': 35},
+    '미역국': {'waste': 50}, '된장국': {'waste': 20}, '김치찌개': {'waste': 40},
+    '김치': {'waste': 15}, '멸치볶음': {'waste': 35}, '나물': {'waste': 25}
+}
+categories = {                                # 카테고리: [그 안의 메뉴들]
+    '고기': ['닭고기', '돼지고기', '소고기'],
+    '야채': ['브로콜리', '시금치', '양배추'],
+    '국':   ['미역국', '된장국', '김치찌개'],
+    '반찬': ['김치', '멸치볶음', '나물']
+}</pre>
+<p class="codecap">② 알고리즘 구현 — 동적 계획법</p>
+<pre data-c="2">def dp_minimize_waste(menu_data, categories):
+    category_keys = list(categories.keys())   # (1) ['고기', '야채', '국', '반찬']
+    n = len(category_keys)                    #     카테고리 개수 = 4
+    dp = {}                                   #     동적 테이블(이미 계산한 결과 저장)
+
+    def get_min_waste(index, chosen):         # index번째 카테고리부터 골라 나감
+        if index == n:                        # (2)-① 종료 조건: 모두 골랐으면
+            return 0, []                      #      더할 잔반 0, 빈 조합
+        if (index, tuple(chosen)) in dp:      # (2)-② 중복 확인: 계산한 적 있으면
+            return dp[(index, tuple(chosen))] #      저장된 값을 그대로
+
+        min_waste = float('inf')              # (2)-③ 초기화: 최소 잔반은 무한대에서 시작
+        best_combination = []
+
+        current_category = category_keys[index]          # (3) 이번 카테고리의 메뉴를 하나씩
+        for menu in categories[current_category]:
+            if menu not in chosen:
+                # 다음 카테고리로 넘어가 나머지의 최소 잔반을 구함 (재귀 호출)
+                waste, combination = get_min_waste(index + 1, chosen + [menu])
+                waste += menu_data[menu]['waste']        # 이번 메뉴의 잔반을 더함
+                if waste &lt; min_waste:                    # 더 적으면 기록 갱신
+                    min_waste = waste
+                    best_combination = [menu] + combination
+
+        dp[(index, tuple(chosen))] = (min_waste, best_combination)   # 결과 저장
+        return dp[(index, tuple(chosen))]
+
+    min_waste, best_combination = get_min_waste(0, [])   # (4) 첫 카테고리부터 시작
+    return best_combination, min_waste</pre>
+<div class="callout"><b>코드 읽는 법</b> — <code>get_min_waste(index, chosen)</code>는 “<code>index</code>번째 카테고리부터 끝까지 골랐을 때의 <b>최소 잔반량과 그 조합</b>”을 돌려줘요. 고기에서 하나를 고르고 → 나머지(야채·국·반찬)의 최소는 자기 자신을 다시 불러 구해요. <code>float('inf')</code>는 무한대예요. 처음에 아주 큰 값으로 두어야 어떤 값이 와도 “더 작다”로 갱신돼요. <code>tuple(chosen)</code>은 리스트를 딕셔너리의 키로 쓸 수 있게 튜플로 바꾼 거예요.</div>
+<p class="codecap">전체 프로그램 — 실행해 보기</p>
+<pre data-c="3" data-run data-blanks>menu_data = {
+    '닭고기': {'waste': 40}, '돼지고기': {'waste': 50}, '소고기': {'waste': 30},
+    '브로콜리': {'waste': 20}, '시금치': {'waste': 25}, '양배추': {'waste': 35},
+    '미역국': {'waste': 50}, '된장국': {'waste': 20}, '김치찌개': {'waste': 40},
+    '김치': {'waste': 15}, '멸치볶음': {'waste': 35}, '나물': {'waste': 25}
+}
+categories = {
+    '고기': ['닭고기', '돼지고기', '소고기'],
+    '야채': ['브로콜리', '시금치', '양배추'],
+    '국':   ['미역국', '된장국', '김치찌개'],
+    '반찬': ['김치', '멸치볶음', '나물']
+}
+
+def dp_minimize_waste(menu_data, categories):
+    category_keys = list(categories.keys())
+    n = len(category_keys)
+    dp = {}
+
+    def get_min_waste(index, chosen):
+        if index == n:
+            <input class="blank" data-ans="return 0, []" size="13" spellcheck="false" autocomplete="off" aria-label="빈칸">
+        if (index, tuple(chosen)) in dp:
+            return dp[(index, tuple(chosen))]
+        min_waste = float('inf')
+        best_combination = []
+        current_category = category_keys[index]
+        for menu in categories[current_category]:
+            if menu not in chosen:
+                waste, combination = <input class="blank" data-ans="get_min_waste(index + 1, chosen + [menu])" size="42" spellcheck="false" autocomplete="off" aria-label="빈칸">
+                waste += menu_data[menu]['waste']
+                if <input class="blank" data-ans="waste &lt; min_waste" size="18" spellcheck="false" autocomplete="off" aria-label="빈칸">:
+                    min_waste = waste
+                    best_combination = [menu] + combination
+        dp[(index, tuple(chosen))] = (min_waste, best_combination)
+        return dp[(index, tuple(chosen))]
+
+    min_waste, best_combination = get_min_waste(0, [])
+    return best_combination, min_waste
+
+def main():                                   # 메인 함수: 실행을 맡는 부분
+    best_combination, min_waste = dp_minimize_waste(menu_data, categories)
+    print(f"최소 잔반량 메뉴 조합: {best_combination}")
+    print(f"최소 잔반량: {min_waste}g")
+
+main()</pre>
+<div class="walk">최소 잔반량 메뉴 조합: ['소고기', '브로콜리', '된장국', '김치']
+최소 잔반량: 85g</div>
+<div class="drill">
+      <span class="lbl">해 보기 · 우리 학교 데이터로 바꾸기</span>
+      <ol>
+        <li>모둠을 꾸려 역할을 나누고, 우리 모둠이 풀 문제를 한 문장으로 정의해 보자.</li>
+        <li>우리 학교 급식에 맞게 카테고리와 메뉴를 정하고 잔반량을 정해, 위 프로그램의 <code>menu_data</code>와 <code>categories</code>를 고쳐 실행해 보자.</li>
+        <li><b>선호도 추가하기</b> — 메뉴마다 선호도(1~5)를 더해 보자. 선호도를 가장 높이면서 잔반량도 줄이려면 프로그램을 어떻게 바꿔야 할까?</li>
+      </ol>
+      <div class="walk">menu_data = {
+    '닭고기':   {'preference': 3, 'waste': 40},   '돼지고기': {'preference': 2, 'waste': 50},
+    '소고기':   {'preference': 4, 'waste': 30},   '브로콜리': {'preference': 5, 'waste': 20},
+    '시금치':   {'preference': 4, 'waste': 25},   '양배추':   {'preference': 3, 'waste': 35},
+    '미역국':   {'preference': 2, 'waste': 50},   '된장국':   {'preference': 5, 'waste': 20},
+    '김치찌개': {'preference': 3, 'waste': 40},   '김치':     {'preference': 5, 'waste': 15},
+    '멸치볶음': {'preference': 3, 'waste': 35},   '나물':     {'preference': 4, 'waste': 25}
+}</div>
+      <p>값(value)이 이제 선호도와 잔반량 두 가지 정보를 가져요. 상황에 따라 ‘잔반 최소화’ 대신 ‘선호도 최대화’ 문제로 바꿀 수도 있어요.</p>
+    </div>
+<h4>4단계 · 프로그램 검증 및 디버깅</h4>
+<p>프로그램이 돌아간다고 끝이 아니에요. <b>정말 맞는 답을 내는지</b> 확인하고(검증), 숨어 있는 오류를 찾아 고쳐요(디버깅).</p>
+<div class="cards">
+      <div class="card"><span class="tag2">검증 ① 입력 데이터</span><h5>재료가 올바른가</h5><ul><li>모든 메뉴에 <code>'waste'</code> 키가 있고 값이 정수인가</li><li>카테고리마다 메뉴가 하나 이상 있는가</li><li>카테고리 속 메뉴가 모두 <code>menu_data</code>에 있는가</li></ul></div>
+      <div class="card"><span class="tag2">검증 ② 함수</span><h5>부품이 제대로 도는가</h5><ul><li>모든 카테고리를 고르면 잔반 0을 돌려주는가(종료 조건)</li><li>같은 상태를 두 번 계산하지 않는가(dp)</li><li>카테고리마다 정확히 하나씩, 겹치지 않게 골랐는가</li></ul></div>
+      <div class="card"><span class="tag2">검증 ③ 출력</span><h5>답이 맞는가</h5><ul><li>메뉴가 적은 작은 데이터로 돌려 보고</li><li>손으로 직접 계산한 답과 비교해요</li></ul></div>
+    </div>
+<p><b>디버깅 ① 오류 메시지 읽기.</b> <code>menu_data</code>에 <code>'소고기': {'waste': 30}</code>을 깜빡 빼먹으면 어떻게 될까요?</p>
+<div class="walk">KeyError: '소고기'</div>
+<p><code>KeyError</code>는 “그런 이름표(키)의 서랍이 없어요”라는 뜻이에요. 카테고리에는 소고기가 있는데 메뉴 데이터에는 없어서 생긴 오류예요. 오류 메시지는 무서운 것이 아니라 <b>어디를 고쳐야 하는지 알려 주는 쪽지</b>예요.</p>
+<p><b>디버깅 ② 테스트 케이스 추가.</b> 새로운 메뉴를 넣어도 잘 돌아가는지 확인해요. (위의 전체 프로그램을 먼저 실행한 다음 실행하세요.)</p>
+<pre data-c="4" data-run data-editable>menu_data['오리고기'] = {'waste': 15}          # 오리고기 추가
+categories['고기'] = ['닭고기', '돼지고기', '소고기', '오리고기']
+
+best_combination, min_waste = dp_minimize_waste(menu_data, categories)
+print(f"최소 잔반량 메뉴 조합: {best_combination}")
+print(f"최소 잔반량: {min_waste}g")</pre>
+<div class="walk">최소 잔반량 메뉴 조합: ['오리고기', '브로콜리', '된장국', '김치']
+최소 잔반량: 70g</div>
+<p>카테고리마다 메뉴 개수가 달라져도 안정적으로 답을 내요.</p>
+<div class="drill">
+      <span class="lbl">해 보기 · 프로그램 검증하기</span>
+      <p>우리 모둠의 프로그램을 아래 항목에 따라 점검해 보자.</p>
+      <ul>
+        <li>프로그램이 급식 잔반을 줄이려는 목표와 요구 사항을 정확히 반영했는가?</li>
+        <li>메뉴 데이터와 카테고리 데이터가 정확하고, 이상한 값(음수 등)이 없는가?</li>
+        <li>재귀 호출이 정상적으로 동작하고 중복 계산이 없는가?</li>
+        <li>데이터가 많아져도 프로그램이 효율적으로 실행되는가?</li>
+        <li>최종 결과가 예상한 대로 출력되는가?</li>
+      </ul>
+    </div>
+<div class="deep">
+      <span class="lbl">함께 해결하기 · 더 나아가기</span>
+      <h5>버튼과 표가 있는 프로그램으로</h5>
+      <p>교과서에서는 <b>PyQt5</b>라는 도구로 메뉴 목록 표, ‘최적 메뉴 조합 찾기’ 버튼, 결과 창이 있는 프로그램을 만들어 봐요. PyQt5는 파이썬으로 창·버튼·슬라이더 같은 화면(GUI)을 만들 수 있게 해 주는 도구예요.</p>
+      <p>PyQt5는 내 컴퓨터에 창을 띄우는 방식이라 <b>코랩이나 이 사이트의 실행기에서는 돌아가지 않아요.</b> 내 컴퓨터에 파이썬을 설치한 뒤 교과서의 예시 코드로 실행해 보세요. 알고리즘 부분은 위에서 만든 <code>dp_minimize_waste()</code>를 그대로 써요.</p>
+    </div>
+<div class="words">
+      <span class="lbl">낱말 풀이</span>
+      <dl>
+        <dt>잔반</dt><dd>먹고 남은 음식</dd>
+        <dt>카테고리</dt><dd>비슷한 것끼리 묶은 갈래. 여기서는 고기·야채·국·반찬</dd>
+        <dt>키(key)와 값(value)</dt><dd>딕셔너리에서 이름표와 그 안에 든 내용</dd>
+        <dt>검증</dt><dd>프로그램이 올바르게 동작하는지 확인하는 일</dd>
+        <dt>디버깅</dt><dd>오류(버그)의 원인을 찾아 고치는 일</dd>
+        <dt>테스트 케이스</dt><dd>프로그램을 시험해 보려고 준비한 입력과 기대하는 결과</dd>
+        <dt>이해관계자</dt><dd>그 일과 관련이 있어 영향을 주고받는 사람들</dd>
+      </dl>
+    </div></section>
+<section class="lsec" id="l-try"><h2><span class="ln">3</span>직접 해 보기</h2><p class="lede">코드를 고쳐서 <b>▶ 실행</b>하면 출력이 맞는지 바로 알려 줘요. 막히면 힌트부터 열어 보세요.</p><div class="task" data-kind="빈칸"><div class="task-h"><span class="task-k">빈칸</span><h4>딕셔너리에서 잔반량 꺼내 더하기</h4></div><p>친구가 짠 식단 <code>my_meal</code>의 전체 잔반량을 계산하세요. 메뉴 이름으로 <code>menu_data</code>에서 잔반량을 꺼내는 부분의 ___를 채워요. 딕셔너리 안의 딕셔너리라서 이름표를 두 번 따라가야 해요.</p><pre data-run data-editable data-task data-expect="닭고기: 40g&#10;시금치: 25g&#10;미역국: 50g&#10;김치: 15g&#10;이 식단의 잔반량: 130g">menu_data = {
+    '닭고기': {'waste': 40}, '돼지고기': {'waste': 50}, '소고기': {'waste': 30},
+    '브로콜리': {'waste': 20}, '시금치': {'waste': 25}, '양배추': {'waste': 35},
+    '미역국': {'waste': 50}, '된장국': {'waste': 20}, '김치찌개': {'waste': 40},
+    '김치': {'waste': 15}, '멸치볶음': {'waste': 35}, '나물': {'waste': 25}
+}
+categories = {
+    '고기': ['닭고기', '돼지고기', '소고기'],
+    '야채': ['브로콜리', '시금치', '양배추'],
+    '국': ['미역국', '된장국', '김치찌개'],
+    '반찬': ['김치', '멸치볶음', '나물']
+}
+
+my_meal = ['닭고기', '시금치', '미역국', '김치']
+total = 0
+for menu in my_meal:
+    w = menu_data[___][___]
+    print(f"{menu}: {w}g")
+    total += w
+print(f"이 식단의 잔반량: {total}g")
+</pre><details class="hintbox"><summary>힌트</summary><p>첫 칸은 메뉴 이름이 담긴 변수 menu, 둘째 칸은 문자열 키 'waste'예요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>menu_data = {
+    '닭고기': {'waste': 40}, '돼지고기': {'waste': 50}, '소고기': {'waste': 30},
+    '브로콜리': {'waste': 20}, '시금치': {'waste': 25}, '양배추': {'waste': 35},
+    '미역국': {'waste': 50}, '된장국': {'waste': 20}, '김치찌개': {'waste': 40},
+    '김치': {'waste': 15}, '멸치볶음': {'waste': 35}, '나물': {'waste': 25}
+}
+categories = {
+    '고기': ['닭고기', '돼지고기', '소고기'],
+    '야채': ['브로콜리', '시금치', '양배추'],
+    '국': ['미역국', '된장국', '김치찌개'],
+    '반찬': ['김치', '멸치볶음', '나물']
+}
+
+my_meal = ['닭고기', '시금치', '미역국', '김치']
+total = 0
+for menu in my_meal:
+    w = menu_data[menu]['waste']
+    print(f"{menu}: {w}g")
+    total += w
+print(f"이 식단의 잔반량: {total}g")
+</pre></details></div><div class="task" data-kind="고치기"><div class="task-h"><span class="task-k">고치기</span><h4>KeyError 디버깅</h4></div><p>실행하면 <code>KeyError: '소고기'</code>가 나요. 오류 메시지를 읽고 <b>어느 딕셔너리에 무엇이 빠졌는지</b> 찾아 고치세요(소고기의 잔반량은 30g). 고친 뒤 카테고리마다 잔반이 가장 적은 메뉴가 출력돼야 해요.</p><pre data-run data-editable data-task data-expect="고기: 소고기 30g&#10;야채: 브로콜리 20g&#10;국: 된장국 20g&#10;반찬: 김치 15g&#10;합계: 85g">menu_data = {
+    '닭고기': {'waste': 40}, '돼지고기': {'waste': 50},
+    '브로콜리': {'waste': 20}, '시금치': {'waste': 25}, '양배추': {'waste': 35},
+    '미역국': {'waste': 50}, '된장국': {'waste': 20}, '김치찌개': {'waste': 40},
+    '김치': {'waste': 15}, '멸치볶음': {'waste': 35}, '나물': {'waste': 25}
+}
+categories = {
+    '고기': ['닭고기', '돼지고기', '소고기'],
+    '야채': ['브로콜리', '시금치', '양배추'],
+    '국': ['미역국', '된장국', '김치찌개'],
+    '반찬': ['김치', '멸치볶음', '나물']
+}
+
+total = 0
+for cat, menus in categories.items():
+    best = menus[0]
+    for m in menus:
+        if menu_data[m]['waste'] &lt; menu_data[best]['waste']:
+            best = m
+    print(f"{cat}: {best} {menu_data[best]['waste']}g")
+    total += menu_data[best]['waste']
+print(f"합계: {total}g")
+</pre><details class="hintbox"><summary>힌트</summary><p>categories의 '고기'에는 소고기가 있는데 menu_data에는 없어요. menu_data에 '소고기': {'waste': 30}을 넣어요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>menu_data = {
+    '닭고기': {'waste': 40}, '돼지고기': {'waste': 50}, '소고기': {'waste': 30},
+    '브로콜리': {'waste': 20}, '시금치': {'waste': 25}, '양배추': {'waste': 35},
+    '미역국': {'waste': 50}, '된장국': {'waste': 20}, '김치찌개': {'waste': 40},
+    '김치': {'waste': 15}, '멸치볶음': {'waste': 35}, '나물': {'waste': 25}
+}
+categories = {
+    '고기': ['닭고기', '돼지고기', '소고기'],
+    '야채': ['브로콜리', '시금치', '양배추'],
+    '국': ['미역국', '된장국', '김치찌개'],
+    '반찬': ['김치', '멸치볶음', '나물']
+}
+
+total = 0
+for cat, menus in categories.items():
+    best = menus[0]
+    for m in menus:
+        if menu_data[m]['waste'] &lt; menu_data[best]['waste']:
+            best = m
+    print(f"{cat}: {best} {menu_data[best]['waste']}g")
+    total += menu_data[best]['waste']
+print(f"합계: {total}g")
+</pre></details></div><div class="task" data-kind="만들기"><div class="task-h"><span class="task-k">만들기</span><h4>81가지를 모두 따져 검증하기</h4></div><p>동적 계획법이 낸 85g이 정말 맞을까요? 검증 ③처럼 <b>다른 방법</b>으로 답을 구해 비교해 봐요. 네 카테고리에서 하나씩 고르는 모든 조합을 중첩 for 문으로 만들어 <b>살펴본 조합 수</b>와 <b>최소 잔반 조합</b>을 출력하세요. 고기·야채 반복은 만들어 두었어요.</p><pre data-run data-editable data-task data-expect="살펴본 조합: 81가지&#10;최소 잔반량: 85g&#10;조합: ['소고기', '브로콜리', '된장국', '김치']">menu_data = {
+    '닭고기': {'waste': 40}, '돼지고기': {'waste': 50}, '소고기': {'waste': 30},
+    '브로콜리': {'waste': 20}, '시금치': {'waste': 25}, '양배추': {'waste': 35},
+    '미역국': {'waste': 50}, '된장국': {'waste': 20}, '김치찌개': {'waste': 40},
+    '김치': {'waste': 15}, '멸치볶음': {'waste': 35}, '나물': {'waste': 25}
+}
+categories = {
+    '고기': ['닭고기', '돼지고기', '소고기'],
+    '야채': ['브로콜리', '시금치', '양배추'],
+    '국': ['미역국', '된장국', '김치찌개'],
+    '반찬': ['김치', '멸치볶음', '나물']
+}
+
+count = 0
+best_total = float('inf')
+best_meal = []
+for a in categories['고기']:
+    for b in categories['야채']:
+        # 국(c), 반찬(d) 반복을 더하고, 합계를 계산해 최소를 기록하세요
+        pass
+
+print(f"살펴본 조합: {count}가지")
+print(f"최소 잔반량: {best_total}g")
+print(f"조합: {best_meal}")
+</pre><details class="hintbox"><summary>힌트</summary><p>for c in categories['국']: 안에 for d in categories['반찬']: 을 두고, count += 1 한 뒤 네 메뉴의 waste 합이 best_total보다 작으면 기록해요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>menu_data = {
+    '닭고기': {'waste': 40}, '돼지고기': {'waste': 50}, '소고기': {'waste': 30},
+    '브로콜리': {'waste': 20}, '시금치': {'waste': 25}, '양배추': {'waste': 35},
+    '미역국': {'waste': 50}, '된장국': {'waste': 20}, '김치찌개': {'waste': 40},
+    '김치': {'waste': 15}, '멸치볶음': {'waste': 35}, '나물': {'waste': 25}
+}
+categories = {
+    '고기': ['닭고기', '돼지고기', '소고기'],
+    '야채': ['브로콜리', '시금치', '양배추'],
+    '국': ['미역국', '된장국', '김치찌개'],
+    '반찬': ['김치', '멸치볶음', '나물']
+}
+
+count = 0
+best_total = float('inf')
+best_meal = []
+for a in categories['고기']:
+    for b in categories['야채']:
+        for c in categories['국']:
+            for d in categories['반찬']:
+                count += 1
+                meal = [a, b, c, d]
+                total = 0
+                for m in meal:
+                    total += menu_data[m]['waste']
+                if total &lt; best_total:
+                    best_total = total
+                    best_meal = meal
+
+print(f"살펴본 조합: {count}가지")
+print(f"최소 잔반량: {best_total}g")
+print(f"조합: {best_meal}")
+</pre></details></div></section>
+<section class="lsec" id="l-check"><h2><span class="ln">4</span>확인 문제</h2><section class="qz-set" data-qz-set="L43">
+<div class="qz" data-ans="1"><h4><span class="qnum">Q1</span><span>dp_minimize_waste()에서 딕셔너리 dp가 하는 일은?</span></h4><ol class="opts"><li><button type="button" data-n="①">메뉴의 잔반량을 처음 저장한다</button></li><li><button type="button" data-n="②">이미 계산한 상태의 최소 잔반과 조합을 저장해 다시 계산하지 않게 한다</button></li><li><button type="button" data-n="③">카테고리 이름을 정렬한다</button></li><li><button type="button" data-n="④">가장 많이 남긴 메뉴를 찾는다</button></li></ol><p class="why"><b>해설</b> — 같은 (index, chosen) 상태가 다시 나오면 저장된 답을 꺼내 써요. 동적 계획법의 메모이제이션이에요.</p></div>
+<div class="qz" data-ans="2"><h4><span class="qnum">Q2</span><span>min_waste의 시작값을 float('inf')로 두는 까닭은?</span></h4><ol class="opts"><li><button type="button" data-n="①">잔반량이 음수일 수 있어서</button></li><li><button type="button" data-n="②">프로그램을 빠르게 하려고</button></li><li><button type="button" data-n="③">어떤 잔반량이 와도 처음 비교에서 ‘더 작다’로 기록되게 하려고</button></li><li><button type="button" data-n="④">재귀 호출을 끝내려고</button></li></ol><p class="why"><b>해설</b> — 무한대보다 작지 않은 수는 없으니, 첫 번째로 계산한 값이 반드시 기록돼요.</p></div>
+<div class="qz-score" data-qz-score><span>맞힌 문제 <b data-qz-right>0</b> / 2</span><span class="muted" data-qz-left></span><span class="muted" data-qz-best></span><button class="btn" type="button" data-qz-reset>다시 풀기</button></div></section></section>
+<section class="lsec" id="l-wrap"><h2><span class="ln">5</span>한 줄 정리</h2><p><b>get_min_waste(index + 1, …)가 ‘자기 자신을 다시 부르는’ 까닭을 내 말로 한 줄 적어 보세요.</b></p><textarea class="think" data-think="L43.exit" rows="3" placeholder="내 말로 한두 문장"></textarea><p class="muted small" data-think-saved></p><div class="board" data-board="exit" hidden><div class="board-in"><textarea data-board-in rows="2" maxlength="300" placeholder="한 줄 정리를 보드에도 올려 보세요"></textarea><div class="board-bar"><button class="btn btn-p" type="button" data-board-send>보드에 올리기</button><select data-board-class aria-label="반 고르기"><option value="">모든 반</option></select><button class="btn" type="button" data-board-big>크게 보기</button><span class="muted small" data-board-msg></span></div></div><div class="board-h"><b>모두의 생각</b> <span class="muted small" data-board-count></span></div><ul class="board-list" data-board-list></ul></div><div class="donebar"><button class="btn donebtn" type="button" data-lesson-done="43">☐ 이 차시 마쳤어요</button><span>체크하면 <a href="lessons.html">차시 수업</a> 목록에 표시돼요.</span></div><div class="submitbox" data-submit hidden><button class="btn btn-p" type="button">선생님께 제출</button> <span class="muted small" data-submit-msg>한 줄 정리 · 생각 쓰기 · 실습 코드 · 확인 문제 점수를 보내요.</span></div></section>
+</main>
+<nav class="pager" aria-label="차시 이동"><a class="prev" href="lesson42.html"><span class="dir">← 이전 · 42차시</span><span class="ttl">[프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화</span></a><a class="next" href="lesson44.html"><span class="dir">다음 → · 44차시</span><span class="ttl">[프로젝트 ②] 탄소 발자국 — 데이터 수집과 구조화</span></a></nav>
+<script>window.LESSON={"n":43,"notes":{"C1":{"say":"메뉴마다 잔반량을, 카테고리마다 그 안의 메뉴 이름을 딕셔너리로 저장해요.","lines":[[1,"menu_data는 ‘메뉴 이름 → 정보’ 딕셔너리예요. 값을 다시 {'waste': 40}처럼 딕셔너리로 둔 까닭은 나중에 선호도 같은 정보를 쉽게 덧붙이기 위해서예요."],[2,"menu_data['닭고기']['waste']처럼 이름표를 두 번 따라가면 40을 꺼낼 수 있어요."],[7,"categories는 ‘카테고리 → 메뉴 리스트’예요. 메뉴의 정보와 분류를 나눠 두면 분류만 바꾸기 쉬워요."]],"predict":{"q":"menu_data['김치']['waste'] + menu_data['된장국']['waste']의 값은 얼마일까요?","a":"35 — 김치 15g + 된장국 20g이에요."}},"C2":{"say":"카테고리를 하나씩 넘어가며 메뉴를 골라, 전체 잔반이 가장 적은 조합을 재귀와 저장(dp)으로 찾아요.","lines":[[4,"dp는 ‘이미 풀어 본 문제의 답’을 적어 두는 공책이에요. 같은 상황이 또 나오면 다시 계산하지 않아요."],[7,"종료 조건이에요. 네 카테고리를 다 골랐으면 더할 잔반이 없으니 0을 돌려줘요. 이게 없으면 재귀가 끝나지 않아요."],[9,"(몇 번째 카테고리, 지금까지 고른 메뉴)가 dp에 있으면 저장된 답을 그대로 써요. 리스트는 키가 될 수 없어서 tuple로 바꿔요."],[12,"최솟값 찾기의 시작값을 무한대로 둬요. 그래야 첫 메뉴의 잔반이 무엇이든 ‘더 작다’로 기록돼요."],[19,"핵심 줄이에요. 이 메뉴를 고른 뒤 ‘나머지 카테고리의 최소’는 자기 자신에게 다시 물어봐요(재귀 호출)."],[21,"지금 메뉴 + 나머지의 합이 지금까지 최소보다 작으면 기록을 갈아치워요."]]},"C3":{"say":"데이터, 동적 계획법 함수, 결과를 출력하는 main()을 합친 전체 프로그램이에요.","lines":[[20,"모든 카테고리를 다 고르면(index == n) 잔반 0, 빈 조합을 돌려주며 재귀를 끝내요."],[29,"이번 메뉴를 고른 상태로 다음 카테고리(index + 1)의 최소를 구해요. chosen + [menu]는 원래 리스트를 건드리지 않고 새 리스트를 만들어요."],[31,"‘더 적은 잔반’을 찾으면 그 값과 조합을 저장해요. 부등호 방향이 틀리면 최대 잔반을 찾게 돼요."],[40,"main()은 실행을 맡는 부분이에요. 계산 함수와 출력을 나누면 함수를 다른 곳에서도 다시 쓸 수 있어요."]],"blanks":[[21,"return 0, []"],[29,"get_min_waste(index + 1, chosen + [menu])"],[31,"waste < min_waste"]],"predict":{"q":"실행하기 전에 예측해 보세요: 최소 잔반량은 몇 g일까요?","a":"85g — 소고기 30 + 브로콜리 20 + 된장국 20 + 김치 15예요."}},"C4":{"say":"새 메뉴를 넣어도 프로그램이 제대로 답하는지 확인하는 테스트 케이스예요.","lines":[[1,"딕셔너리에 새 키를 대입하면 메뉴가 추가돼요."],[2,"categories에도 넣어 줘야 해요. 한쪽에만 넣으면 고를 수 없거나 KeyError가 나요."],[4,"함수를 고치지 않고 데이터만 바꿔 다시 불러요. 함수로 만들어 둔 덕분이에요."]],"predict":{"q":"오리고기(15g)를 넣으면 최소 잔반량은 어떻게 바뀔까요?","a":"70g — 소고기 30 대신 오리고기 15가 골라져 15g 줄어요."}}}};</script>
+
+<footer>
+  <div class="foot-in">
+    <div>
+      <p><b data-teacher-tap>정보과학</b> — 씨마스 『정보과학』 (2022 개정 교육과정) 수업 자료 · <span data-term>2학기</span> · 주 3시간 · 16주</p>
+      <p>보문고등학교 <b>김용득</b> 선생님 제작.</p>
+      <p>개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
+      <p class="copyright">본 자료는 학교 수업 목적으로 제작되었으며, 저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+    </div>
+    <nav class="foot-links" aria-label="사이트 전체"><a href="index.html">수업 홈</a><a href="unit0.html">0 파이썬 기초</a><a href="unit1.html">Ⅰ 프로그래밍</a><a href="unit2.html">Ⅱ 데이터 구조</a><a href="unit3.html">Ⅲ 알고리즘</a><a href="unit4.html">Ⅳ 프로젝트</a><a href="lessons.html">차시 수업</a><a href="course.html">수업 안내</a><a href="labs.html">실습실</a><a href="practice.html">파이썬 실습</a><a href="glossary.html">용어 사전</a><a href="my.html">내 학습</a><a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz</a></nav>
+  </div>
+</footer>
+<script>window.SITE={"topics":{"0":["t0-0","t0-1","t0-2","t0-3","t0-4","t0-5","t0-6","t0-7","t0-8","t0-9","t0-10"],"1":["t1-1","t1-2","t1-3","t1-4","t1-5"],"2":["t2-1","t2-2","t2-3","t2-4","t2-5"],"3":["t3-1","t3-2","t3-3","t3-4","t3-5","t3-6","t3-8","t3-7"],"4":["t4-1","t4-2","t4-3","t4-4","t4-6","t4-5"]},"units":{"0":{"roman":"0","name":"파이썬 기초","weeks":null},"1":{"roman":"Ⅰ","name":"프로그래밍","weeks":[1,5]},"2":{"roman":"Ⅱ","name":"데이터 구조","weeks":[6,9]},"3":{"roman":"Ⅲ","name":"알고리즘","weeks":[10,13]},"4":{"roman":"Ⅳ","name":"정보과학 프로젝트","weeks":[14,16]}},"quiz":{"0":10,"1":10,"2":10,"3":10,"4":10},"weeks":[{"week":1,"lessons":["오리엔테이션 — 정보과학은 무엇을 배우는 과목인가","함수의 개념 — 내장 함수와 사용자 정의 함수","함수의 정의(<code>def</code>)와 네 가지 구성 요소"]},{"week":2,"lessons":["함수 호출 — 인수와 매개 변수의 관계","<code>return</code>의 두 역할 / 매개 변수·반환값 4가지 형태","지역 변수와 전역 변수, <code>global</code>"]},{"week":3,"lessons":["[역량] 음악 플레이 리스트 관리 프로그램","기본값 매개 변수와 가변 인수 매개 변수","여러 값 반환 / 클래스와 객체"]},{"week":4,"lessons":["모듈 만들기와 <code>import</code>","패키지·라이브러리 / 내장 함수와 표준 라이브러리","[역량] 가위바위보 게임 만들기"]},{"week":5,"lessons":["재귀 구조의 이해 — 수학적 귀납법과 재귀 관계","재귀 함수의 동작 원리 — 호출과 반환","반복 vs 재귀 / 재귀 활용 — 자릿수 합·하노이 탑"]},{"week":6,"lessons":["데이터 구조의 분류 / 스택의 개념(LIFO)","스택의 연산 — push, pop, peek, isEmpty","리스트로 스택 구현하기 · 활용 사례"]},{"week":7,"lessons":["큐의 개념(FIFO)과 연산","리스트로 큐 구현하기 / 덱·우선순위 큐","[역량] 스택·큐를 활용한 프로그램"]},{"week":8,"lessons":["트리의 개념과 구성 요소","트리의 표현 — 인접 행렬과 인접 리스트","이진 트리와 순차 데이터 구조 표현"]},{"week":9,"lessons":["이진 탐색 트리의 규칙과 활용","그래프의 개념·종류와 표현","그래프 탐색 — 깊이 우선·너비 우선 탐색"]},{"week":10,"lessons":["알고리즘의 이해와 문제 해결 전략 네 가지","알고리즘 성능 평가 — 시간·공간 복잡도","빅오 표기법과 알고리즘 성능 비교"]},{"week":11,"lessons":["문제의 세 요소와 상태 공간","탐색 공간의 구조·범위 / 전체 탐색과 순차 탐색","비선형 전체 탐색 — DFS·BFS 적용"]},{"week":12,"lessons":["탐색 공간 배제와 이진 탐색","탐욕 알고리즘 — 거스름돈·시간표 문제","분기 한정 알고리즘과 백트래킹"]},{"week":13,"lessons":["문제 분해와 전체·부분 문제의 관계식","분할 정복법 — 퀵 정렬과 합병 정렬","동적 계획법 — 메모이제이션과 상향식"]},{"week":14,"lessons":["정보과학으로 문제 해결하기 · 문제 해결 5단계","학문 분야별 문제 탐색 / 모둠 구성·주제 선정","[프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화"]},{"week":15,"lessons":["[프로젝트 ①] 알고리즘 설계와 프로그램 작성","[프로젝트 ②] 탄소 발자국 — 데이터 수집과 구조화","[프로젝트 ②] 다익스트라 알고리즘으로 구현하기"]},{"week":16,"lessons":["[프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계","[프로젝트 ③] 백트래킹 구현과 디버깅","산출물 정리 / 프로젝트 발표와 상호 평가"]}],"settings":{"year":2026,"term":"2학기","semester_start":"2026-08-13","submit_url":"","grading":[{"type":"지필","name":"1차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 중간고사","ratio":25},{"type":"지필","name":"2차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 기말고사","ratio":25},{"type":"수행","name":"1차 수행평가 · 프로그래밍 과제","what":"함수·클래스·데이터 구조를 활용한 프로그램 작성과 설명","when":"Ⅰ·Ⅱ단원 중","ratio":25},{"type":"수행","name":"2차 수행평가 · 정보과학 프로젝트","what":"문제 해결 5단계 산출물, 프로그램, 발표·상호 평가","when":"14~16주차","ratio":25,"rubric":{"head":["항목","잘함","보통","노력 필요"],"rows":[["① 문제 발견","생활 속 문제를 구체적인 수치·근거와 함께 제시함","문제를 제시했으나 근거가 부족함","문제가 막연하거나 해결할 대상이 불분명함"],["② 문제 구조화","입력·출력·제약 조건을 명확히 정하고 상태(데이터)를 정의함","입력과 출력은 정했으나 조건이 빠짐","무엇을 계산할지 정하지 못함"],["③ 알고리즘 설계","알맞은 데이터 구조·알고리즘을 고르고 그 이유와 효율(빅오)을 설명함","알고리즘은 설계했으나 선택 이유가 부족함","설계 없이 바로 코드부터 작성함"],["④ 프로그램 구현","함수로 나누어 읽기 쉽게 작성하고 오류 없이 동작함","동작하지만 구조가 정리되지 않음","실행되지 않거나 일부만 동작함"],["⑤ 검증·공유","여러 입력으로 시험하고 한계와 개선점을 발표함","한 가지 경우로만 확인함","결과를 확인하지 않음"],["협업·기여","맡은 역할을 해내고 모둠 기록에 기여가 드러남","역할을 일부 수행함","기여가 드러나지 않음"]]}}]},"settings_edit":"https://github.com/yongdeuk/infoscience2026/edit/main/settings.json","programiz":"https://www.programiz.com/python-programming/online-compiler/"};</script>
+<script src="assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>33차시 비선형 전체 탐색 — DFS·BFS 적용 · 정보과학</title>
+<meta name="description" content="11주차 33차시 — 비선형 전체 탐색 — DFS·BFS 적용">
+<meta property="og:title" content="33차시 비선형 전체 탐색 — DFS·BFS 적용 · 정보과학">
+<meta property="og:description" content="11주차 33차시 — 비선형 전체 탐색 — DFS·BFS 적용">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#129513;</text></svg>">
+<script>
+(function(){try{if(localStorage.getItem('unlocked')==='yes')document.documentElement.className+=' unlocked';}catch(e){}})();
+(function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
+</script>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body class="lessonpage u3">
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <form class="gate-card" data-gate-form autocomplete="off">
+    <h1 id="gate-title">정보과학</h1>
+    <p class="gate-sub">씨마스 『정보과학』 2022 개정 교육과정 수업 자료</p>
+    <label class="gate-lab" for="gate-pw">열람 비밀번호</label>
+    <div class="gate-pwrap">
+      <input id="gate-pw" type="password" data-gate-pw autocomplete="off"
+             spellcheck="false" autocapitalize="off" placeholder="수업 시간에 안내된 비밀번호">
+      <button class="gate-eye" type="button" data-gate-eye aria-pressed="false" aria-label="비밀번호 표시">
+        <svg class="ico-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg class="ico-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18M10.6 10.6a3 3 0 0 0 4.24 4.24M9.9 5.1A10.9 10.9 0 0 1 12 5c7 0 10.5 7 10.5 7a13.6 13.6 0 0 1-3.2 4.1M6.5 6.5C3.4 8.3 1.5 12 1.5 12a13.5 13.5 0 0 0 4.2 4.9"/></svg>
+      </button>
+    </div>
+    <p class="gate-hint">한글로 입력하세요. 대소문자와 앞뒤 공백은 구분하지 않습니다.</p>
+    <p class="gate-msg" data-gate-msg role="status" aria-live="polite"></p>
+    <button class="btn btn-p gate-btn" type="submit">들어가기</button>
+    <p class="gate-note">본 자료는 학교 수업 목적으로 제작되었으며,
+      저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+  </form>
+</div>
+<a class="skip" href="#main">본문 바로가기</a>
+<header class="topbar">
+  <div class="bar-top">
+    <a class="brand" href="index.html"><span class="brand-mark">IS</span><span class="brand-name">정보과학</span></a>
+    <nav class="toolnav" aria-label="수업 도구">
+      <a href="index.html">수업 홈</a>
+      <a href="lessons.html" class="is-current">차시 수업</a>
+      <a href="course.html">수업 안내</a>
+      <a href="labs.html">실습실</a>
+      <a href="practice.html">파이썬 실습</a>
+      <a href="glossary.html">용어 사전</a>
+      <a href="my.html">내 학습</a>
+    </nav>
+    <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false" title="어두운 화면으로">
+      <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.6v2M12 19.4v2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M2.6 12h2M19.4 12h2M5.2 18.8l1.4-1.4M17.4 6.6l1.4-1.4"/></svg>
+      <span class="ico-label">어둡게</span>
+    </button>
+  </div>
+  <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
+    <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
+    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+  </div></nav>
+  <div class="progress" data-progress></div>
+</header>
+<section class="unithero lessonhero">
+  <div class="unithero-in">
+    <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 33차시</p>
+    <div class="bigr" aria-hidden="true">33</div>
+    <div>
+      <p class="kicker">33차시 · 11주차 · <a href="unit3.html">Ⅲ 알고리즘</a></p>
+      <h1>비선형 전체 탐색 — DFS·BFS 적용</h1>
+      <ul class="lgoal"><li>DFS와 BFS가 갈림길을 도는 순서를 비교할 수 있다</li><li>재귀와 ‘되돌리기’로 비선형 전체 탐색을 구현할 수 있다</li><li>경우의 수가 n!, 10ⁿ처럼 불어나는 것을 확인할 수 있다</li></ul>
+      <div class="lprog" aria-label="전체 48차시 중 33차시"><i style="width:68.8%"></i></div>
+    </div>
+  </div>
+</section>
+<main class="lpage" id="main">
+<nav class="lflow" aria-label="이 차시 순서"><a href="#l-open"><b>1</b>생각 열기</a><a href="#l-learn"><b>2</b>교과서로 배우기</a><a href="#l-try"><b>3</b>직접 해 보기</a><a href="#l-check"><b>4</b>확인 문제</a><a href="#l-wrap"><b>5</b>한 줄 정리</a></nav>
+<section class="lsec" id="l-open"><h2><span class="ln">1</span>생각 열기</h2><div class="callout hook">세 자리 자물쇠 비밀번호를 잊었어요. 000부터 하나씩 돌려 본다면 최악의 경우 몇 번 만에 열릴까요? 네 자리라면요?</div><div class="board" data-board="hook" hidden><div class="board-in"><textarea data-board-in rows="2" maxlength="300" placeholder="내 생각을 짧게 적어 보드에 올려 보세요"></textarea><div class="board-bar"><button class="btn btn-p" type="button" data-board-send>보드에 올리기</button><select data-board-class aria-label="반 고르기"><option value="">모든 반</option></select><button class="btn" type="button" data-board-big>크게 보기</button><span class="muted small" data-board-msg></span></div></div><div class="board-h"><b>모두의 생각</b> <span class="muted small" data-board-count></span></div><ul class="board-list" data-board-list></ul></div><div class="simlinks"><b>함께 보는 시뮬레이터</b><a href="https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/ai/search-bfs-dfs.html" target="_blank" rel="noopener">맹목적 탐색 (BFS·DFS) ↗</a><a href="https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/ai/search-n-queen.html" target="_blank" rel="noopener">N-Queen ↗</a></div></section>
+<section class="lsec" id="l-learn"><h2><span class="ln">2</span>교과서로 배우기</h2><p class="lede">코드 아래 <b>💡 코드 설명</b>을 펼쳐 보고, <b>빈칸</b>이 있으면 채운 뒤 실행해 보세요.</p><p class="lsrc">교과서 · <a href="unit3.html#t3-3">Ⅲ 2-1 탐색 기반 알고리즘의 이해</a></p>
+<h4>비선형 전체 탐색 — 갈림길을 모두 가 보기</h4>
+<p>트리나 그래프처럼 <b>갈림길이 있는 구조</b>를 빠짐없이 도는 것이 비선형 탐색이에요. 갈림길에서는 어느 쪽부터 갈지 순서를 정해야 하고, 순서에 따라 같은 구조에서도 방문 순서가 달라져요. 대표적인 방법이 Ⅱ단원에서 배운 <b>깊이 우선 탐색(DFS)</b>과 <b>너비 우선 탐색(BFS)</b>이에요.</p>
+<div class="cards">
+      <div class="card"><span class="tag2">깊이 우선 탐색 · DFS</span><h5>한 길로 끝까지</h5><p>갈림길에서 한쪽을 골라 <b>막다른 곳까지</b> 간 다음, 되돌아와 다른 길을 가요. 스택(또는 재귀)을 써요.</p></div>
+      <div class="card"><span class="tag2">너비 우선 탐색 · BFS</span><h5>가까운 곳부터 차례로</h5><p>출발점에서 <b>가까운 곳을 먼저 모두</b> 본 다음 한 단계 더 먼 곳으로 넘어가요. 큐를 써요.</p></div>
+    </div>
+<p><b>예제 — 3×3 숫자판에서 가장 작은 합 찾기.</b> 아래 숫자판에서 <b>가로줄(행)과 세로줄(열)이 겹치지 않게</b> 숫자 3개를 골라요. 고른 숫자의 합이 가장 작게 하려면 무엇을 골라야 할까요?</p>
+<figure>
+      <div class="figbody">
+        <svg viewBox="0 0 680 330" role="img" aria-label="3행 3열 숫자판 1 5 3, 2 5 7, 9 3 5와, 행마다 열이 겹치지 않게 하나씩 고르는 여섯 가지 경로의 트리. 합은 11, 11, 12, 21, 8, 17이고 3, 2, 3을 고른 합 8이 가장 작다">
+        <rect x="20" y="100" width="38" height="38" class="sv-tile"/><text x="39" y="124" class="sv-t-b" text-anchor="middle">1</text>
+        <rect x="58" y="100" width="38" height="38" class="sv-tile"/><text x="77" y="124" class="sv-t-b" text-anchor="middle">5</text>
+        <rect x="96" y="100" width="38" height="38" class="sv-box-a"/><text x="115" y="124" class="sv-t-b" text-anchor="middle">3</text>
+        <rect x="20" y="138" width="38" height="38" class="sv-box-a"/><text x="39" y="162" class="sv-t-b" text-anchor="middle">2</text>
+        <rect x="58" y="138" width="38" height="38" class="sv-tile"/><text x="77" y="162" class="sv-t-b" text-anchor="middle">5</text>
+        <rect x="96" y="138" width="38" height="38" class="sv-tile"/><text x="115" y="162" class="sv-t-b" text-anchor="middle">7</text>
+        <rect x="20" y="176" width="38" height="38" class="sv-tile"/><text x="39" y="200" class="sv-t-b" text-anchor="middle">9</text>
+        <rect x="58" y="176" width="38" height="38" class="sv-box-a"/><text x="77" y="200" class="sv-t-b" text-anchor="middle">3</text>
+        <rect x="96" y="176" width="38" height="38" class="sv-tile"/><text x="115" y="200" class="sv-t-b" text-anchor="middle">5</text>
+        <text x="77" y="90" class="sv-t-s" text-anchor="middle">숫자판</text>
+        <text x="168" y="34" class="sv-t-s">시작</text>
+        <text x="168" y="104" class="sv-t-s">첫째 줄</text>
+        <text x="168" y="174" class="sv-t-s">둘째 줄</text>
+        <text x="168" y="244" class="sv-t-s">셋째 줄</text>
+        <text x="168" y="300" class="sv-t-s">합</text>
+        <circle cx="450" cy="30" r="6" class="sv-box"/>
+        <line x1="450" y1="36" x2="286" y2="84" class="sv-line"/>
+        <line x1="286" y1="116" x2="245" y2="154" class="sv-line"/>
+        <line x1="245" y1="186" x2="245" y2="224" class="sv-line"/>
+        <rect x="229" y="154" width="32" height="32" rx="3" class="sv-tile"/><text x="245" y="175" class="sv-t-b" text-anchor="middle">5</text>
+        <rect x="229" y="224" width="32" height="32" rx="3" class="sv-tile"/><text x="245" y="245" class="sv-t-b" text-anchor="middle">5</text>
+        <text x="245" y="300" class="sv-t" text-anchor="middle">11</text>
+        <line x1="286" y1="116" x2="327" y2="154" class="sv-line"/>
+        <line x1="327" y1="186" x2="327" y2="224" class="sv-line"/>
+        <rect x="311" y="154" width="32" height="32" rx="3" class="sv-tile"/><text x="327" y="175" class="sv-t-b" text-anchor="middle">7</text>
+        <rect x="311" y="224" width="32" height="32" rx="3" class="sv-tile"/><text x="327" y="245" class="sv-t-b" text-anchor="middle">3</text>
+        <text x="327" y="300" class="sv-t" text-anchor="middle">11</text>
+        <rect x="270" y="84" width="32" height="32" rx="3" class="sv-tile"/><text x="286" y="105" class="sv-t-b" text-anchor="middle">1</text>
+        <line x1="450" y1="36" x2="450" y2="84" class="sv-line"/>
+        <line x1="450" y1="116" x2="409" y2="154" class="sv-line"/>
+        <line x1="409" y1="186" x2="409" y2="224" class="sv-line"/>
+        <rect x="393" y="154" width="32" height="32" rx="3" class="sv-tile"/><text x="409" y="175" class="sv-t-b" text-anchor="middle">2</text>
+        <rect x="393" y="224" width="32" height="32" rx="3" class="sv-tile"/><text x="409" y="245" class="sv-t-b" text-anchor="middle">5</text>
+        <text x="409" y="300" class="sv-t" text-anchor="middle">12</text>
+        <line x1="450" y1="116" x2="491" y2="154" class="sv-line"/>
+        <line x1="491" y1="186" x2="491" y2="224" class="sv-line"/>
+        <rect x="475" y="154" width="32" height="32" rx="3" class="sv-tile"/><text x="491" y="175" class="sv-t-b" text-anchor="middle">7</text>
+        <rect x="475" y="224" width="32" height="32" rx="3" class="sv-tile"/><text x="491" y="245" class="sv-t-b" text-anchor="middle">9</text>
+        <text x="491" y="300" class="sv-t" text-anchor="middle">21</text>
+        <rect x="434" y="84" width="32" height="32" rx="3" class="sv-tile"/><text x="450" y="105" class="sv-t-b" text-anchor="middle">5</text>
+        <line x1="450" y1="36" x2="614" y2="84" class="sv-a"/>
+        <line x1="614" y1="116" x2="573" y2="154" class="sv-a"/>
+        <line x1="573" y1="186" x2="573" y2="224" class="sv-a"/>
+        <rect x="557" y="154" width="32" height="32" rx="3" class="sv-box-a"/><text x="573" y="175" class="sv-t-b" text-anchor="middle">2</text>
+        <rect x="557" y="224" width="32" height="32" rx="3" class="sv-box-a"/><text x="573" y="245" class="sv-t-b" text-anchor="middle">3</text>
+        <text x="573" y="300" class="sv-big" text-anchor="middle">8</text>
+        <text x="573" y="320" class="sv-t-a" text-anchor="middle">가장 작음</text>
+        <line x1="614" y1="116" x2="655" y2="154" class="sv-line"/>
+        <line x1="655" y1="186" x2="655" y2="224" class="sv-line"/>
+        <rect x="639" y="154" width="32" height="32" rx="3" class="sv-tile"/><text x="655" y="175" class="sv-t-b" text-anchor="middle">5</text>
+        <rect x="639" y="224" width="32" height="32" rx="3" class="sv-tile"/><text x="655" y="245" class="sv-t-b" text-anchor="middle">9</text>
+        <text x="655" y="300" class="sv-t" text-anchor="middle">17</text>
+        <rect x="598" y="84" width="32" height="32" rx="3" class="sv-box-a"/><text x="614" y="105" class="sv-t-b" text-anchor="middle">3</text>
+        </svg>
+      </div>
+      <figcaption>위에서 아래로 한 줄씩 내려가며 고르는 모든 경우를 그린 트리예요. 맨 아래 숫자가 고른 세 수의 합이에요. 깊이 우선 탐색은 왼쪽 가지부터 끝까지 내려갔다가 되돌아오며 여섯 가지를 모두 살펴봐요.</figcaption>
+    </figure>
+<p>첫째 줄에서는 3개 중 하나, 둘째 줄에서는 남은 세로줄 2개 중 하나, 셋째 줄에서는 남은 1개를 고르게 돼요. 그래서 경우의 수는 3 × 2 × 1 = <b>6가지</b>예요. 6가지를 모두 따져 보면 <b>3 + 2 + 3 = 8</b>이 가장 작아요.</p>
+<pre data-c="1" data-run data-blanks>m = [[1, 5, 3], [2, 5, 7], [9, 3, 5]]
+visited = [False] * 3                # 세로줄(열)을 이미 썼는지 표시
+min_solution = float('inf')          # 가장 작은 합. 처음엔 '무한대'로
+
+def find_min_sum(row, current_sum):
+    global min_solution
+    if row == 3:                     # 마지막 줄까지 모두 골랐으면
+        min_solution = min(min_solution, current_sum)
+        return
+    for col in range(3):             # 이번 줄에서 고를 세로줄을 하나씩 시도
+        if not visited[col]:         # 아직 쓰지 않은 세로줄이면
+            visited[col] = True      # 골랐다고 표시하고
+            find_min_sum(<input class="blank" data-ans="row + 1" size="8" spellcheck="false" autocomplete="off" aria-label="빈칸">, current_sum + m[row][col])  # 다음 줄로
+            <input class="blank" data-ans="visited[col] = False" size="21" spellcheck="false" autocomplete="off" aria-label="빈칸">     # 되돌리기 — 다른 길도 가 봐야 하니까
+
+find_min_sum(0, 0)
+print('최소 합:', min_solution)</pre>
+<div class="callout"><b>코드 읽는 법</b> — <code>visited</code>는 “이 세로줄은 이미 썼어요” 표시판이에요. 한 길을 끝까지 가 본 뒤에는 표시를 <code>False</code>로 <b>되돌려 놓아야</b> 다른 길을 갈 수 있어요. 숫자판이 n×n이면 경우의 수는 n × (n−1) × … × 1 = <b>n!</b>가지예요. 4×4면 24가지, 10×10이면 362만 가지가 넘어요.</div>
+<div class="drill">
+      <span class="lbl">함께 해결하기 · 자물쇠 비밀번호 찾기</span>
+      <figure class="photo"><img src="assets/img/padlock.jpg" alt="철문에 걸려 있는 숫자 다이얼 자물쇠" loading="lazy" width="880" height="660"><figcaption>0~9 숫자 세 자리로 여는 자물쇠. 비밀번호를 잊어버렸다면?<span class="credit">사진: Ivan Radic · <a href="https://commons.wikimedia.org/wiki/File:Close-up_of_a_padlock_with_number_combination_(50724043466).jpg" target="_blank" rel="noopener">CC BY 2.0</a> · Wikimedia Commons</span></figcaption></figure>
+      <p>0부터 9까지의 숫자로 <b>세 자리 비밀번호</b>를 정하는 자물쇠의 비밀번호를 전체 탐색으로 맞혀 보자.</p>
+      <ol>
+        <li>전체 탐색으로 푸는 알고리즘을 말로 써 보자. (가능한 비밀번호는 모두 몇 가지일까?)</li>
+        <li>비밀번호가 <code>[3, 4, 5]</code>일 때, 위 알고리즘대로 찾아가는 과정을 프로그램으로 작성해 보자.</li>
+      </ol>
+      <details class="check"><summary>풀이 예시 보기</summary><div class="ans"><p>가능한 비밀번호는 000부터 999까지 10 × 10 × 10 = <b>1,000가지</b>예요. 000, 001, 002 … 순서로 하나씩 돌려 보면 돼요. 반복문 세 개를 겹치면 모든 경우를 만들 수 있어요.</p>
+<pre data-c="2" data-run data-editable>password = [3, 4, 5]
+count = 0                                   # 몇 번째 시도인지 세기
+
+for a in range(10):                         # 첫째 자리 0~9
+    for b in range(10):                     # 둘째 자리 0~9
+        for c in range(10):                 # 셋째 자리 0~9
+            count += 1
+            if [a, b, c] == password:       # 유효성 검사: 비밀번호와 같은가?
+                print(f'{count}번째 시도에서 찾음: {a}{b}{c}')</pre>
+      <p>345는 346번째 시도에서 열려요. 자리가 하나 늘 때마다 경우의 수는 10배가 돼요.</p></div></details>
+    </div>
+<div class="drill">
+      <span class="lbl">역량 키우기 · 4퀸 문제</span>
+      <figure class="photo"><img src="assets/img/queens.jpg" alt="체스판 위에 퀸 여덟 개가 서로 공격하지 못하는 자리에 놓여 있는 모습" loading="lazy" width="880" height="495"><figcaption>체스의 퀸은 가로·세로·대각선으로 원하는 만큼 움직일 수 있는 가장 강한 말이에요. 사진은 8×8 판에 퀸 8개를 서로 공격하지 못하게 놓은 ‘8퀸 문제’의 답 가운데 하나예요.<span class="credit">사진: Dietmar Rabich · <a href="https://commons.wikimedia.org/wiki/File:8-Damen-Problem_--_2022_--_0288.jpg" target="_blank" rel="noopener">CC BY-SA 4.0</a> · Wikimedia Commons</span></figcaption></figure>
+      <p><b>4×4 체스판에 퀸 4개를 서로 공격할 수 없게 놓아 보자.</b> 처음 체스판은 비어 있고(초기 상태), 퀸은 상하좌우와 대각선 방향으로 원하는 만큼 움직일 수 있어요.</p>
+      <figure>
+      <div class="figbody">
+        <svg viewBox="0 0 680 230" role="img" aria-label="4행 4열 체스판. 첫째 줄 둘째 칸, 둘째 줄 넷째 칸, 셋째 줄 첫째 칸, 넷째 줄 셋째 칸에 퀸이 놓여 서로 공격하지 못한다">
+        <text x="162" y="18" class="sv-t-s" text-anchor="middle">초기 상태 (빈 판)</text>
+        <rect x="70" y="28" width="46" height="46" class="sv-tile"/>
+        <rect x="116" y="28" width="46" height="46" class="sv-box"/>
+        <rect x="162" y="28" width="46" height="46" class="sv-tile"/>
+        <rect x="208" y="28" width="46" height="46" class="sv-box"/>
+        <rect x="70" y="74" width="46" height="46" class="sv-box"/>
+        <rect x="116" y="74" width="46" height="46" class="sv-tile"/>
+        <rect x="162" y="74" width="46" height="46" class="sv-box"/>
+        <rect x="208" y="74" width="46" height="46" class="sv-tile"/>
+        <rect x="70" y="120" width="46" height="46" class="sv-tile"/>
+        <rect x="116" y="120" width="46" height="46" class="sv-box"/>
+        <rect x="162" y="120" width="46" height="46" class="sv-tile"/>
+        <rect x="208" y="120" width="46" height="46" class="sv-box"/>
+        <rect x="70" y="166" width="46" height="46" class="sv-box"/>
+        <rect x="116" y="166" width="46" height="46" class="sv-tile"/>
+        <rect x="162" y="166" width="46" height="46" class="sv-box"/>
+        <rect x="208" y="166" width="46" height="46" class="sv-tile"/>
+        <text x="502" y="18" class="sv-t-s" text-anchor="middle">목표 상태 (답 가운데 하나)</text>
+        <rect x="410" y="28" width="46" height="46" class="sv-tile"/>
+        <rect x="456" y="28" width="46" height="46" class="sv-box-a"/>
+        <text x="479" y="61" text-anchor="middle" font-size="28" fill="var(--accent-ink)">♛</text>
+        <rect x="502" y="28" width="46" height="46" class="sv-tile"/>
+        <rect x="548" y="28" width="46" height="46" class="sv-box"/>
+        <rect x="410" y="74" width="46" height="46" class="sv-box"/>
+        <rect x="456" y="74" width="46" height="46" class="sv-tile"/>
+        <rect x="502" y="74" width="46" height="46" class="sv-box"/>
+        <rect x="548" y="74" width="46" height="46" class="sv-box-a"/>
+        <text x="571" y="107" text-anchor="middle" font-size="28" fill="var(--accent-ink)">♛</text>
+        <rect x="410" y="120" width="46" height="46" class="sv-box-a"/>
+        <text x="433" y="153" text-anchor="middle" font-size="28" fill="var(--accent-ink)">♛</text>
+        <rect x="456" y="120" width="46" height="46" class="sv-box"/>
+        <rect x="502" y="120" width="46" height="46" class="sv-tile"/>
+        <rect x="548" y="120" width="46" height="46" class="sv-box"/>
+        <rect x="410" y="166" width="46" height="46" class="sv-box"/>
+        <rect x="456" y="166" width="46" height="46" class="sv-tile"/>
+        <rect x="502" y="166" width="46" height="46" class="sv-box-a"/>
+        <text x="525" y="199" text-anchor="middle" font-size="28" fill="var(--accent-ink)">♛</text>
+        <rect x="548" y="166" width="46" height="46" class="sv-tile"/>
+        <line x1="275" y1="120" x2="390" y2="120" class="sv-a"/><path d="M382 113 L392 120 L382 127" class="sv-a"/>
+        <text x="332" y="108" class="sv-t-s" text-anchor="middle">퀸 4개 놓기</text>
+        </svg>
+      </div>
+      <figcaption>오른쪽처럼 놓으면 어떤 두 퀸도 같은 가로줄·세로줄·대각선에 있지 않아요. 프로그램에서는 이 답을 <code>[1, 3, 0, 2]</code>(줄마다 퀸이 놓인 칸 번호)로 나타내요.</figcaption>
+    </figure>
+    <div class="lab" id="lab-queens">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>퀸 놓기 — 막히면 되돌아가기</h5></div>
+      <div class="lab-body">
+        <div class="lx-board" data-board></div>
+        <div class="lab-ctrl">
+          <label>판 크기 <select data-n><option value="4">4 × 4</option><option value="5">5 × 5</option><option value="6">6 × 6</option><option value="8">8 × 8</option></select></label>
+          <button class="btn" data-act="reset">모두 치우기</button>
+          <button class="btn" data-act="solve">답 하나 보기</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite"></p>
+        <p class="lab-note">칸을 누르면 퀸을 놓고, 퀸을 다시 누르면 치워요. 옅게 칠해진 칸은 공격받는 칸, 붉은 퀸은 다른 퀸에게 공격받는 퀸이에요.</p>
+      </div>
+    </div>
+
+      <p>한 줄(행)에는 퀸을 하나만 놓을 수 있으니, <b>첫째 줄부터 한 줄씩 내려가며</b> 퀸을 어느 칸(열)에 놓을지 정해요. 놓을 때마다 위쪽 줄의 퀸들과 <b>같은 세로줄</b>인지, <b>대각선</b>인지 검사해요.</p>
+      <pre data-c="3" data-run data-blanks>def is_safe(board, row, col):
+    for i in range(row):                         # 같은 열에 다른 퀸이 있는지 확인
+        if board[i] == col:
+            return False
+    for i in range(row):                         # 대각선 공격을 확인
+        if <input class="blank" data-ans="abs(board[i] - col) == abs(i - row)" size="36" spellcheck="false" autocomplete="off" aria-label="빈칸">:  # 가로 차이 == 세로 차이면 대각선
+            return False
+    return True
+
+def solve_n_queens(n, row=0, board=[]):
+    if row == n:                                 # 마지막 줄까지 다 놓았으면 성공
+        print_board(board)
+        return True
+    for col in range(n):                         # 이번 줄의 각 칸에 놓아 보기
+        if is_safe(board, row, col):
+            board.append(col)                    # 놓고
+            if solve_n_queens(n, row + 1, board):    # 다음 줄로
+                return True
+            <input class="blank" data-ans="board.pop()" size="12" spellcheck="false" autocomplete="off" aria-label="빈칸">                          # 막히면 치우고 다음 칸 시도
+    return False
+
+def print_board(board):                          # 퀸은 'Q', 빈칸은 '.'
+    for row in board:
+        line = ''
+        for i in range(len(board)):
+            if i == row:
+                line += 'Q'
+            else:
+                line += '.'
+        print(line)
+    print()
+
+solve_n_queens(4)</pre>
+      <p><code>board</code>에는 줄마다 퀸을 놓은 칸 번호가 차례로 들어가요. <code>[1, 3, 0, 2]</code>라면 첫째 줄은 1번 칸, 둘째 줄은 3번 칸 … 이라는 뜻이에요.</p>
+    </div>
+<div class="words">
+      <span class="lbl">낱말 풀이</span>
+      <dl>
+        <dt>탐색</dt><dd>원하는 것을 찾으려고 여기저기 살펴보는 일</dd>
+        <dt>상태</dt><dd>문제가 어느 한 순간에 놓여 있는 모습. 퍼즐이라면 ‘지금 타일이 놓인 모양’</dd>
+        <dt>상태 공간</dt><dd>초기 상태에서 목표 상태까지 가는 동안 거칠 수 있는 모든 상태의 모음</dd>
+        <dt>연산자</dt><dd>상태를 바꾸는 행동. 8-퍼즐에서는 UP·LEFT·DOWN·RIGHT</dd>
+        <dt>추론</dt><dd>주어진 정보에서 새로운 정보를 이끌어 내는 것. 인공지능은 탐색과 추론으로 문제를 풀어요</dd>
+        <dt>순회</dt><dd>빠뜨리지 않고 차례로 모두 돌아보는 것</dd>
+        <dt>유효성 검사</dt><dd>조건에 맞는지 확인하는 것</dd>
+      </dl>
+    </div>
+<div class="points">
+      <span class="lbl">핵심 포인트</span>
+      <ul>
+        <li>문제 = <b>초기 상태 + 목표 상태 + 행동</b>. 거칠 수 있는 모든 상태의 집합이 <b>상태 공간</b>.</li>
+        <li>탐색 알고리즘은 <b>구조</b>(선형/비선형)와 <b>범위</b>(전체/부분)에 따라 설계가 달라진다.</li>
+        <li>전체 탐색(브루트 포스)은 <b>최적해를 보장</b>하지만, 경우의 수가 n!처럼 불어나면 감당할 수 없다.</li>
+        <li>순차 탐색은 O(n). 비선형 전체 탐색은 재귀 + “되돌리기”로 구현한다.</li>
+      </ul>
+    </div></section>
+<section class="lsec" id="l-try"><h2><span class="ln">3</span>직접 해 보기</h2><p class="lede">코드를 고쳐서 <b>▶ 실행</b>하면 출력이 맞는지 바로 알려 줘요. 막히면 힌트부터 열어 보세요.</p><div class="task" data-kind="빈칸"><div class="task-h"><span class="task-k">빈칸</span><h4>여섯 가지 길을 모두 출력하기</h4></div><p>C1을 고쳐서 고른 숫자들과 합을 모두 출력해요. 되돌리기 두 줄의 <code>___</code>를 채우면 교과서 트리의 여섯 가지 경우가 왼쪽 가지부터 차례로 나와요. 가장 작은 합은 어느 줄인가요?</p><pre data-run data-editable data-task data-expect="[1, 5, 5] 합 11&#10;[1, 7, 3] 합 11&#10;[5, 2, 5] 합 12&#10;[5, 7, 9] 합 21&#10;[3, 2, 3] 합 8&#10;[3, 5, 9] 합 17">m = [[1, 5, 3], [2, 5, 7], [9, 3, 5]]
+visited = [False] * 3
+chosen = []                          # 지금까지 고른 숫자들
+
+def find(row, current_sum):
+    if row == 3:
+        print(chosen, '합', current_sum)
+        return
+    for col in range(3):
+        if not visited[col]:
+            visited[col] = True
+            chosen.append(m[row][col])
+            find(row + 1, current_sum + m[row][col])
+            chosen.___()                # 고른 숫자 빼기
+            visited[col] = ___          # 세로줄 표시 되돌리기
+
+find(0, 0)</pre><details class="hintbox"><summary>힌트</summary><p>리스트의 마지막 값을 빼는 메서드는 pop이고, 세로줄 표시는 ‘안 씀’ 상태인 False로 되돌려요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>m = [[1, 5, 3], [2, 5, 7], [9, 3, 5]]
+visited = [False] * 3
+chosen = []                          # 지금까지 고른 숫자들
+
+def find(row, current_sum):
+    if row == 3:
+        print(chosen, '합', current_sum)
+        return
+    for col in range(3):
+        if not visited[col]:
+            visited[col] = True
+            chosen.append(m[row][col])
+            find(row + 1, current_sum + m[row][col])
+            chosen.pop()                # 고른 숫자 빼기
+            visited[col] = False          # 세로줄 표시 되돌리기
+
+find(0, 0)</pre></details></div><div class="task" data-kind="고치기"><div class="task-h"><span class="task-k">고치기</span><h4>1000가지가 아니라고요?</h4></div><p>세 자리 자물쇠는 000~999, 모두 1000가지예요. 그런데 이 코드는 경우의 수와 시도 횟수가 이상하게 나와요. 고쳐서 <b>346번째, 1000가지</b>가 나오게 해 보세요.</p><pre data-run data-editable data-task data-expect="346번째 시도에서 찾음&#10;전체 경우의 수: 1000">password = [3, 4, 5]
+count = 0
+found_at = 0
+for a in range(9):
+    for b in range(9):
+        for c in range(9):
+            count += 1
+            if [a, b, c] == password:
+                found_at = count
+print(f'{found_at}번째 시도에서 찾음')
+print('전체 경우의 수:', count)</pre><details class="hintbox"><summary>힌트</summary><p>range(9)는 0~8까지예요. 숫자 9가 빠졌어요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>password = [3, 4, 5]
+count = 0
+found_at = 0
+for a in range(10):
+    for b in range(10):
+        for c in range(10):
+            count += 1
+            if [a, b, c] == password:
+                found_at = count
+print(f'{found_at}번째 시도에서 찾음')
+print('전체 경우의 수:', count)</pre></details></div><div class="task" data-kind="만들기"><div class="task-h"><span class="task-k">만들기</span><h4>4×4 숫자판 최소 합</h4></div><p>C1을 4×4 숫자판으로 넓혀요. 가로줄·세로줄이 겹치지 않게 4개를 골라 합이 가장 작은 값을 찾고, 끝까지 가 본 경우(마지막 줄까지 고른 경우)가 몇 가지인지도 세어 보세요. 4! = 24가지가 나오나요?</p><pre data-run data-editable data-task data-expect="최소 합: 9 / 끝까지 가 본 경우: 24 가지">m = [[4, 7, 2, 8],
+     [6, 3, 9, 5],
+     [1, 8, 4, 7],
+     [5, 2, 6, 3]]
+n = len(m)
+visited = [False] * n
+best = float('inf')
+leaves = 0                           # 끝까지 가 본 경우의 수
+
+def find(row, current_sum):
+    global best, leaves
+    pass    # 여기에: row == n 이면 best·leaves 갱신 후 return, 아니면 안 쓴 세로줄을 하나씩 골라 재귀 + 되돌리기
+
+find(0, 0)
+print('최소 합:', best, '/ 끝까지 가 본 경우:', leaves, '가지')</pre><details class="hintbox"><summary>힌트</summary><p>C1의 find_min_sum과 거의 같아요. 3 대신 n을 쓰고, row == n일 때 leaves += 1 을 추가해요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>m = [[4, 7, 2, 8],
+     [6, 3, 9, 5],
+     [1, 8, 4, 7],
+     [5, 2, 6, 3]]
+n = len(m)
+visited = [False] * n
+best = float('inf')
+leaves = 0                           # 끝까지 가 본 경우의 수
+
+def find(row, current_sum):
+    global best, leaves
+    if row == n:
+        leaves += 1
+        best = min(best, current_sum)
+        return
+    for col in range(n):
+        if not visited[col]:
+            visited[col] = True
+            find(row + 1, current_sum + m[row][col])
+            visited[col] = False
+
+find(0, 0)
+print('최소 합:', best, '/ 끝까지 가 본 경우:', leaves, '가지')</pre></details></div></section>
+<section class="lsec" id="l-check"><h2><span class="ln">4</span>확인 문제</h2><section class="qz-set" data-qz-set="L33">
+<div class="qz" data-ans="1"><h4><span class="qnum">Q1</span><span>갈림길에서 한쪽을 골라 막다른 곳까지 간 뒤 되돌아와 다른 길을 가는 탐색은?</span></h4><ol class="opts"><li><button type="button" data-n="①">너비 우선 탐색(BFS)</button></li><li><button type="button" data-n="②">깊이 우선 탐색(DFS)</button></li><li><button type="button" data-n="③">순차 탐색</button></li><li><button type="button" data-n="④">이진 탐색</button></li></ol><p class="why"><b>해설</b> — DFS는 스택(또는 재귀)을 써서 한 길로 끝까지 가요. BFS는 가까운 곳부터 큐로 차례로 봐요.</p></div>
+<div class="qz" data-ans="3"><h4><span class="qnum">Q2</span><span>5×5 숫자판에서 가로·세로가 겹치지 않게 5개를 고르는 경우의 수는?</span></h4><ol class="opts"><li><button type="button" data-n="①">25가지</button></li><li><button type="button" data-n="②">5⁵ = 3125가지</button></li><li><button type="button" data-n="③">5 × 4 = 20가지</button></li><li><button type="button" data-n="④">5! = 120가지</button></li></ol><p class="why"><b>해설</b> — 첫 줄 5가지, 둘째 줄 남은 4가지 … 마지막 줄 1가지라서 5 × 4 × 3 × 2 × 1 = 120가지예요.</p></div>
+<div class="qz-score" data-qz-score><span>맞힌 문제 <b data-qz-right>0</b> / 2</span><span class="muted" data-qz-left></span><span class="muted" data-qz-best></span><button class="btn" type="button" data-qz-reset>다시 풀기</button></div></section></section>
+<section class="lsec" id="l-wrap"><h2><span class="ln">5</span>한 줄 정리</h2><p><b>재귀로 탐색할 때 ‘되돌리기(visited를 False로, pop)’가 꼭 필요한 이유를 적어 보세요.</b></p><textarea class="think" data-think="L33.exit" rows="3" placeholder="내 말로 한두 문장"></textarea><p class="muted small" data-think-saved></p><div class="board" data-board="exit" hidden><div class="board-in"><textarea data-board-in rows="2" maxlength="300" placeholder="한 줄 정리를 보드에도 올려 보세요"></textarea><div class="board-bar"><button class="btn btn-p" type="button" data-board-send>보드에 올리기</button><select data-board-class aria-label="반 고르기"><option value="">모든 반</option></select><button class="btn" type="button" data-board-big>크게 보기</button><span class="muted small" data-board-msg></span></div></div><div class="board-h"><b>모두의 생각</b> <span class="muted small" data-board-count></span></div><ul class="board-list" data-board-list></ul></div><div class="donebar"><button class="btn donebtn" type="button" data-lesson-done="33">☐ 이 차시 마쳤어요</button><span>체크하면 <a href="lessons.html">차시 수업</a> 목록에 표시돼요.</span></div><div class="submitbox" data-submit hidden><button class="btn btn-p" type="button">선생님께 제출</button> <span class="muted small" data-submit-msg>한 줄 정리 · 생각 쓰기 · 실습 코드 · 확인 문제 점수를 보내요.</span></div></section>
+</main>
+<nav class="pager" aria-label="차시 이동"><a class="prev" href="lesson32.html"><span class="dir">← 이전 · 32차시</span><span class="ttl">탐색 공간의 구조·범위 / 전체 탐색과 순차 탐색</span></a><a class="next" href="lesson34.html"><span class="dir">다음 → · 34차시</span><span class="ttl">탐색 공간 배제와 이진 탐색</span></a></nav>
+<script>window.LESSON={"n":33,"notes":{"C1":{"say":"줄마다 아직 안 쓴 세로줄의 숫자를 하나씩 골라 보며, 세 수의 합이 가장 작은 경우를 찾는 깊이 우선 탐색이에요.","lines":[[2,"visited[col]은 ‘이 세로줄은 이미 썼어요’ 표시판이에요."],[7,"row가 3이면 세 줄을 다 골랐다는 뜻이에요. 지금 합을 최솟값과 비교하고 되돌아가요."],[13,"다음 줄(row + 1)로 내려가며 합에 고른 수를 더해요. 자기 자신을 부르는 재귀가 ‘한 길로 끝까지’ 가는 DFS예요."],[14,"끝까지 가 보고 돌아오면 표시를 False로 되돌려요. 그래야 다음 가지에서 이 세로줄을 다시 고를 수 있어요."]],"blanks":[[13,"row + 1"],[14,"visited[col] = False"]],"predict":{"q":"14번 줄(visited[col] = False)을 지우면 어떻게 될까요?","a":"첫 길(1, 5, 5)만 끝까지 가고 나머지 세로줄은 모두 ‘사용 중’으로 남아 다른 길을 못 가요. 그래서 최소 합이 8이 아니라 11로 나와요."}},"C2":{"say":"세 자리 비밀번호를 000부터 999까지 차례로 모두 만들어 보며 맞는 것을 찾아요.","lines":[[4,"반복문을 세 겹 겹치면 첫째·둘째·셋째 자리의 모든 조합(10×10×10)이 만들어져요."],[7,"몇 번째 시도인지 셉니다. 순서는 000, 001, …, 009, 010, …"],[8,"유효성 검사: 만든 번호가 비밀번호와 같은가?"]],"predict":{"q":"실행하면 몇 번째 시도에서 찾았다고 나올까요?","a":"346번째예요. 345 앞에 000~344까지 345개가 있으니 345 + 1 = 346."}},"C3":{"say":"한 줄에 퀸을 하나씩 놓되, 공격받는 칸은 건너뛰고 막히면 되돌아가는 방식으로 4퀸의 답 하나를 찾아요.","lines":[[3,"위쪽 줄에 같은 세로줄(col)의 퀸이 있으면 놓을 수 없어요."],[6,"두 퀸의 가로 거리와 세로 거리가 같으면 대각선 위에 있어요. 예: (0,1)과 (2,3)은 둘 다 2 차이."],[11,"row가 n이면 모든 줄에 퀸을 놓은 거예요. 판을 출력하고 True로 성공을 알려요."],[17,"다음 줄에서 성공하면 True를 위로 전달해 탐색을 멈춰요."],[19,"다음 줄에서 막혔다면 방금 놓은 퀸을 치우고(pop) 이 줄의 다음 칸을 시도해요. 이것이 되돌리기예요."]],"blanks":[[6,"abs(board[i] - col) == abs(i - row)"],[19,"board.pop()"]],"predict":{"q":"출력되는 판의 첫째 줄은 어떤 모양일까요?","a":".Q.. — 첫 답은 [1, 3, 0, 2]라서 첫째 줄 퀸이 1번 칸에 있어요. 0번 칸부터 시작하면 끝까지 못 가서 되돌아왔기 때문이에요."}}}};</script>
+
+<footer>
+  <div class="foot-in">
+    <div>
+      <p><b data-teacher-tap>정보과학</b> — 씨마스 『정보과학』 (2022 개정 교육과정) 수업 자료 · <span data-term>2학기</span> · 주 3시간 · 16주</p>
+      <p>보문고등학교 <b>김용득</b> 선생님 제작.</p>
+      <p>개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
+      <p class="copyright">본 자료는 학교 수업 목적으로 제작되었으며, 저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+    </div>
+    <nav class="foot-links" aria-label="사이트 전체"><a href="index.html">수업 홈</a><a href="unit0.html">0 파이썬 기초</a><a href="unit1.html">Ⅰ 프로그래밍</a><a href="unit2.html">Ⅱ 데이터 구조</a><a href="unit3.html">Ⅲ 알고리즘</a><a href="unit4.html">Ⅳ 프로젝트</a><a href="lessons.html">차시 수업</a><a href="course.html">수업 안내</a><a href="labs.html">실습실</a><a href="practice.html">파이썬 실습</a><a href="glossary.html">용어 사전</a><a href="my.html">내 학습</a><a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz</a></nav>
+  </div>
+</footer>
+<script>window.SITE={"topics":{"0":["t0-0","t0-1","t0-2","t0-3","t0-4","t0-5","t0-6","t0-7","t0-8","t0-9","t0-10"],"1":["t1-1","t1-2","t1-3","t1-4","t1-5"],"2":["t2-1","t2-2","t2-3","t2-4","t2-5"],"3":["t3-1","t3-2","t3-3","t3-4","t3-5","t3-6","t3-8","t3-7"],"4":["t4-1","t4-2","t4-3","t4-4","t4-6","t4-5"]},"units":{"0":{"roman":"0","name":"파이썬 기초","weeks":null},"1":{"roman":"Ⅰ","name":"프로그래밍","weeks":[1,5]},"2":{"roman":"Ⅱ","name":"데이터 구조","weeks":[6,9]},"3":{"roman":"Ⅲ","name":"알고리즘","weeks":[10,13]},"4":{"roman":"Ⅳ","name":"정보과학 프로젝트","weeks":[14,16]}},"quiz":{"0":10,"1":10,"2":10,"3":10,"4":10},"weeks":[{"week":1,"lessons":["오리엔테이션 — 정보과학은 무엇을 배우는 과목인가","함수의 개념 — 내장 함수와 사용자 정의 함수","함수의 정의(<code>def</code>)와 네 가지 구성 요소"]},{"week":2,"lessons":["함수 호출 — 인수와 매개 변수의 관계","<code>return</code>의 두 역할 / 매개 변수·반환값 4가지 형태","지역 변수와 전역 변수, <code>global</code>"]},{"week":3,"lessons":["[역량] 음악 플레이 리스트 관리 프로그램","기본값 매개 변수와 가변 인수 매개 변수","여러 값 반환 / 클래스와 객체"]},{"week":4,"lessons":["모듈 만들기와 <code>import</code>","패키지·라이브러리 / 내장 함수와 표준 라이브러리","[역량] 가위바위보 게임 만들기"]},{"week":5,"lessons":["재귀 구조의 이해 — 수학적 귀납법과 재귀 관계","재귀 함수의 동작 원리 — 호출과 반환","반복 vs 재귀 / 재귀 활용 — 자릿수 합·하노이 탑"]},{"week":6,"lessons":["데이터 구조의 분류 / 스택의 개념(LIFO)","스택의 연산 — push, pop, peek, isEmpty","리스트로 스택 구현하기 · 활용 사례"]},{"week":7,"lessons":["큐의 개념(FIFO)과 연산","리스트로 큐 구현하기 / 덱·우선순위 큐","[역량] 스택·큐를 활용한 프로그램"]},{"week":8,"lessons":["트리의 개념과 구성 요소","트리의 표현 — 인접 행렬과 인접 리스트","이진 트리와 순차 데이터 구조 표현"]},{"week":9,"lessons":["이진 탐색 트리의 규칙과 활용","그래프의 개념·종류와 표현","그래프 탐색 — 깊이 우선·너비 우선 탐색"]},{"week":10,"lessons":["알고리즘의 이해와 문제 해결 전략 네 가지","알고리즘 성능 평가 — 시간·공간 복잡도","빅오 표기법과 알고리즘 성능 비교"]},{"week":11,"lessons":["문제의 세 요소와 상태 공간","탐색 공간의 구조·범위 / 전체 탐색과 순차 탐색","비선형 전체 탐색 — DFS·BFS 적용"]},{"week":12,"lessons":["탐색 공간 배제와 이진 탐색","탐욕 알고리즘 — 거스름돈·시간표 문제","분기 한정 알고리즘과 백트래킹"]},{"week":13,"lessons":["문제 분해와 전체·부분 문제의 관계식","분할 정복법 — 퀵 정렬과 합병 정렬","동적 계획법 — 메모이제이션과 상향식"]},{"week":14,"lessons":["정보과학으로 문제 해결하기 · 문제 해결 5단계","학문 분야별 문제 탐색 / 모둠 구성·주제 선정","[프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화"]},{"week":15,"lessons":["[프로젝트 ①] 알고리즘 설계와 프로그램 작성","[프로젝트 ②] 탄소 발자국 — 데이터 수집과 구조화","[프로젝트 ②] 다익스트라 알고리즘으로 구현하기"]},{"week":16,"lessons":["[프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계","[프로젝트 ③] 백트래킹 구현과 디버깅","산출물 정리 / 프로젝트 발표와 상호 평가"]}],"settings":{"year":2026,"term":"2학기","semester_start":"2026-08-13","submit_url":"","grading":[{"type":"지필","name":"1차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 중간고사","ratio":25},{"type":"지필","name":"2차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 기말고사","ratio":25},{"type":"수행","name":"1차 수행평가 · 프로그래밍 과제","what":"함수·클래스·데이터 구조를 활용한 프로그램 작성과 설명","when":"Ⅰ·Ⅱ단원 중","ratio":25},{"type":"수행","name":"2차 수행평가 · 정보과학 프로젝트","what":"문제 해결 5단계 산출물, 프로그램, 발표·상호 평가","when":"14~16주차","ratio":25,"rubric":{"head":["항목","잘함","보통","노력 필요"],"rows":[["① 문제 발견","생활 속 문제를 구체적인 수치·근거와 함께 제시함","문제를 제시했으나 근거가 부족함","문제가 막연하거나 해결할 대상이 불분명함"],["② 문제 구조화","입력·출력·제약 조건을 명확히 정하고 상태(데이터)를 정의함","입력과 출력은 정했으나 조건이 빠짐","무엇을 계산할지 정하지 못함"],["③ 알고리즘 설계","알맞은 데이터 구조·알고리즘을 고르고 그 이유와 효율(빅오)을 설명함","알고리즘은 설계했으나 선택 이유가 부족함","설계 없이 바로 코드부터 작성함"],["④ 프로그램 구현","함수로 나누어 읽기 쉽게 작성하고 오류 없이 동작함","동작하지만 구조가 정리되지 않음","실행되지 않거나 일부만 동작함"],["⑤ 검증·공유","여러 입력으로 시험하고 한계와 개선점을 발표함","한 가지 경우로만 확인함","결과를 확인하지 않음"],["협업·기여","맡은 역할을 해내고 모둠 기록에 기여가 드러남","역할을 일부 수행함","기여가 드러나지 않음"]]}}]},"settings_edit":"https://github.com/yongdeuk/infoscience2026/edit/main/settings.json","programiz":"https://www.programiz.com/python-programming/online-compiler/"};</script>
+<script src="assets/site.js"></script>
+</body>
+</html>

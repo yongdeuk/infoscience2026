@@ -3,7 +3,7 @@
   <h1>교사 설정</h1>
   <p>해마다 바뀌는 <b>학기</b>, <b>평가 비율</b>, <b>수행평가 채점 기준표</b>를 여기서 고칩니다. 저장하면 홈의 학기·<b>이번 주 수업</b>과 <a href="course.html#grade">수업 안내</a>의 평가 표·채점 기준에 바로 반영됩니다.</p>
   <p class="muted">이 페이지는 메뉴에 없고, 페이지 맨 아래 <b>정보과학</b> 글자를 5번 연속 누르면 들어옵니다. 학생과 함께 쓰는 컴퓨터라면 다 쓴 뒤 <button class="btn" type="button" data-teacher-off>교사 모드 끄기</button>를 눌러 주세요.</p>
-  <nav class="xp-jump"><a href="#s-term">학기</a><a href="#s-grade">평가 비율</a><a href="#s-rubric">채점 기준표</a><a href="#s-save">저장하기</a></nav>
+  <nav class="xp-jump"><a href="#s-term">학기</a><a href="#s-submit">제출·보드</a><a href="#s-grade">평가 비율</a><a href="#s-rubric">채점 기준표</a><a href="#s-save">저장하기</a></nav>
 </header>
 
 <form data-set-form autocomplete="off">
@@ -15,6 +15,23 @@
     <label>학기 시작일 <small>첫 주 월요일</small><input type="date" name="semester_start"></label>
   </div>
   <p class="muted" data-set-week></p>
+</section>
+
+<section class="xp-sec" id="s-submit">
+  <h2>학생 제출 · 모두의 생각 보드</h2>
+  <p class="lede">구글 시트에 연결하면 차시 페이지에 <b>선생님께 제출</b> 버튼과 <b>모두의 생각</b> 보드가 나타나요. 비워 두면 둘 다 숨겨집니다.</p>
+  <div class="set-grid"><label>Apps Script 웹 앱 주소 <small>https://script.google.com/macros/s/…/exec</small><input type="url" name="submit_url" placeholder="https://script.google.com/macros/s/…/exec"></label></div>
+  <details class="set-help"><summary>연결하는 법 (처음 한 번, 5분)</summary>
+    <ol>
+      <li>구글 드라이브에서 <b>새 구글 시트</b>를 만들고 이름을 정합니다(예: 정보과학 제출).</li>
+      <li>시트 메뉴 <b>확장 프로그램 → Apps Script</b>를 엽니다.</li>
+      <li>있던 코드를 지우고, 저장소의 <code>apps-script/Code.gs</code> 내용을 붙여 넣은 뒤 저장합니다. <button class="btn" type="button" data-copy-gs>코드 복사하기</button></li>
+      <li>오른쪽 위 <b>배포 → 새 배포</b> → 톱니바퀴에서 <b>웹 앱</b>을 고릅니다.</li>
+      <li><b>실행 사용자: 나</b>, <b>액세스 권한이 있는 사용자: 모든 사용자</b>로 두고 <b>배포</b>를 누른 뒤, 권한을 허용합니다.</li>
+      <li>나온 <b>웹 앱 URL</b>(…/exec)을 위 칸에 붙여 넣고 아래 <b>저장하기</b>를 합니다.</li>
+    </ol>
+    <p class="muted">학생 이름·학번과 제출 내용은 선생님의 구글 시트에만 저장돼요. 보드에는 이름 없이 내용만 보입니다.</p>
+  </details>
 </section>
 
 <section class="xp-sec" id="s-grade">

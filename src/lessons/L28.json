@@ -1,0 +1,61 @@
+{
+ "n": 28,
+ "goal": [
+  "알고리즘이 무엇인지 내 말로 설명할 수 있다",
+  "알고리즘의 네 조건(입출력·유한성·명확성·수행 가능성)으로 절차를 판단할 수 있다",
+  "탐욕법·분기 한정법·분할 정복법·동적 계획법의 생각을 구별할 수 있다"
+ ],
+ "hook": "오늘 아침 집에서 학교까지 온 과정을 남에게 설명한다고 해 봐요. ‘적당히 가다가 꺾어’라고 하면 친구가 똑같이 따라올 수 있을까요?",
+ "code_notes": {},
+ "tasks": [
+  {
+   "kind": "생각",
+   "title": "라면 알고리즘 고쳐 쓰기",
+   "prompt": "아래 라면 끓이기 절차에는 네 조건 중 지키지 못한 것이 있어요. 어느 조건을 어겼는지 쓰고, 컴퓨터도 따라 할 수 있게 고쳐 써 보세요.<br><code>① 물을 적당히 붓는다 ② 물이 끓을 때까지 계속 기다린다 ③ 면을 넣고 맛있어질 때까지 끓인다</code>",
+   "placeholder": "어긴 조건: 명확성 (‘적당히’, ‘맛있어질 때까지’) …\n고친 절차: ① 물 550mL를 붓는다 ② …"
+  },
+  {
+   "kind": "고치기",
+   "title": "탐욕법 친구의 실수",
+   "prompt": "놀이공원 거리표(분)가 있어요. 탐욕법 친구는 <b>지금 있는 곳에서 가장 가까운</b> 놀이기구로 가려고 했는데, 코드가 엉뚱하게 가장 <b>먼</b> 곳으로 가요. 한 단어를 고쳐 탐욕법 경로를 출력해 보세요.",
+   "starter": "dist = {\n    ('정문', 'A'): 3, ('정문', 'B'): 4, ('정문', 'C'): 6, ('정문', 'D'): 12,\n    ('A', 'B'): 5, ('A', 'C'): 8, ('A', 'D'): 9,\n    ('B', 'C'): 7, ('B', 'D'): 6, ('C', 'D'): 12,\n}\n\ndef d(x, y):                      # 거리는 어느 방향으로 가든 같아요\n    return dist.get((x, y)) or dist.get((y, x))\n\nnow, path, total = '정문', ['정문'], 0\nleft = ['A', 'B', 'C', 'D']\nwhile left:\n    nxt = max(left, key=lambda r: d(now, r))   # 다음에 갈 놀이기구 고르기\n    total += d(now, nxt)\n    path.append(nxt)\n    left.remove(nxt)\n    now = nxt\ntotal += d(now, '정문')              # 마지막에 정문으로 돌아오기\npath.append('정문')\nprint(' → '.join(path), '/', total, '분')",
+   "expect": "정문 → A → B → D → C → 정문 / 32 분",
+   "hint": "가장 가까운 곳 = 거리가 가장 ‘작은’ 곳이에요. max와 반대인 함수는?",
+   "answer": "dist = {\n    ('정문', 'A'): 3, ('정문', 'B'): 4, ('정문', 'C'): 6, ('정문', 'D'): 12,\n    ('A', 'B'): 5, ('A', 'C'): 8, ('A', 'D'): 9,\n    ('B', 'C'): 7, ('B', 'D'): 6, ('C', 'D'): 12,\n}\n\ndef d(x, y):                      # 거리는 어느 방향으로 가든 같아요\n    return dist.get((x, y)) or dist.get((y, x))\n\nnow, path, total = '정문', ['정문'], 0\nleft = ['A', 'B', 'C', 'D']\nwhile left:\n    nxt = min(left, key=lambda r: d(now, r))   # 다음에 갈 놀이기구 고르기\n    total += d(now, nxt)\n    path.append(nxt)\n    left.remove(nxt)\n    now = nxt\ntotal += d(now, '정문')              # 마지막에 정문으로 돌아오기\npath.append('정문')\nprint(' → '.join(path), '/', total, '분')"
+  },
+  {
+   "kind": "만들기",
+   "title": "모든 순서를 다 돌아보기",
+   "prompt": "이번엔 <b>모든 순서</b>(4개면 24가지)를 다 계산해서 가장 짧은 경로를 찾아요. <code>total</code>을 계산하는 부분을 직접 써 보세요. 결과를 앞 과제의 탐욕법(32분)과 비교해 보세요. 가까운 곳부터 고른 길이 정말 가장 빠른 길이었나요?",
+   "starter": "dist = {\n    ('정문', 'A'): 3, ('정문', 'B'): 4, ('정문', 'C'): 6, ('정문', 'D'): 12,\n    ('A', 'B'): 5, ('A', 'C'): 8, ('A', 'D'): 9,\n    ('B', 'C'): 7, ('B', 'D'): 6, ('C', 'D'): 12,\n}\n\ndef d(x, y):                      # 거리는 어느 방향으로 가든 같아요\n    return dist.get((x, y)) or dist.get((y, x))\n\nfrom itertools import permutations\nbest, best_path = 999, None\nfor order in permutations(['A', 'B', 'C', 'D']):   # 가능한 모든 순서\n    path = ['정문'] + list(order) + ['정문']\n    total = 0\n    # 여기에: path에서 이웃한 두 곳의 거리 d(path[i], path[i + 1])를 모두 더하기\n\n    if total < best:\n        best, best_path = total, path\nprint('가장 짧은 경로:', ' → '.join(best_path), '/', best, '분')",
+   "expect": "가장 짧은 경로: 정문 → A → D → B → C → 정문 / 31 분",
+   "hint": "for i in range(len(path) - 1): 로 돌면서 total += d(path[i], path[i + 1]) 를 해 보세요.",
+   "answer": "dist = {\n    ('정문', 'A'): 3, ('정문', 'B'): 4, ('정문', 'C'): 6, ('정문', 'D'): 12,\n    ('A', 'B'): 5, ('A', 'C'): 8, ('A', 'D'): 9,\n    ('B', 'C'): 7, ('B', 'D'): 6, ('C', 'D'): 12,\n}\n\ndef d(x, y):                      # 거리는 어느 방향으로 가든 같아요\n    return dist.get((x, y)) or dist.get((y, x))\n\nfrom itertools import permutations\nbest, best_path = 999, None\nfor order in permutations(['A', 'B', 'C', 'D']):   # 가능한 모든 순서\n    path = ['정문'] + list(order) + ['정문']\n    total = 0\n    for i in range(len(path) - 1):\n        total += d(path[i], path[i + 1])\n    if total < best:\n        best, best_path = total, path\nprint('가장 짧은 경로:', ' → '.join(best_path), '/', best, '분')"
+  }
+ ],
+ "check": [
+  {
+   "q": "다음 중 알고리즘의 조건 ‘명확성’을 어긴 것은?",
+   "options": [
+    "물 550mL를 붓는다",
+    "4분 동안 끓인다",
+    "스프를 적당량 넣는다",
+    "불을 끈다"
+   ],
+   "answer": 2,
+   "why": "‘적당량’은 사람마다 다르게 이해해요. 누가 읽어도 똑같이 이해되어야 명확성을 지켜요."
+  },
+  {
+   "q": "“계산한 구간의 가장 빠른 길은 적어 두고 다시 쓰자”는 어떤 전략일까요?",
+   "options": [
+    "동적 계획법",
+    "탐욕법",
+    "분기 한정법",
+    "분할 정복법"
+   ],
+   "answer": 0,
+   "why": "한 번 푼 답을 기억해 두고 다시 쓰는 것이 동적 계획법이에요."
+  }
+ ],
+ "exit": "오늘 실습에서 탐욕법 경로와 전체를 다 본 경로는 몇 분 차이가 났나요? 그 이유를 한 문장으로 적어 보세요."
+}

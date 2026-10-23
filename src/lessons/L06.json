@@ -1,0 +1,142 @@
+{
+ "n": 6,
+ "goal": [
+  "지역 변수와 전역 변수의 차이를 설명할 수 있다",
+  "global 키워드가 필요한 경우를 판단하고 사용할 수 있다"
+ ],
+ "hook": "교실 칠판에 쓴 공지는 모두가 보지만, 내 공책에 쓴 메모는 나만 봐요. 그런데 내 공책에 칠판과 같은 제목을 쓰면 어느 쪽을 보게 될까요?",
+ "code_notes": {
+  "C1": {
+   "say": "함수 안에서 global을 선언해 전역 변수 drink의 값 자체를 바꾸는 코드예요.",
+   "lines": [
+    [
+     1,
+     "함수 밖(맨 바깥)에서 만든 변수라 프로그램 어디서나 읽을 수 있는 전역 변수예요."
+    ],
+    [
+     4,
+     "global이 없으면 5번 줄의 drink = …는 ‘함수 안에 새 지역 변수를 만든다’는 뜻이 돼요. global로 ‘바깥의 그 drink를 쓰겠다’고 밝혀요."
+    ],
+    [
+     5,
+     "이제 전역 변수의 값이 'coke'로 바뀌어요. 함수가 끝나도 바뀐 값이 그대로 남아요."
+    ]
+   ],
+   "blanks": [
+    [
+     4,
+     "global drink"
+    ]
+   ],
+   "predict": {
+    "q": "print_global_drink()를 호출한 뒤 함수 밖에서 print(drink)를 하면 무엇이 나올까요?",
+    "a": "coke — global 선언 덕분에 전역 변수 자체가 바뀌었어요. 4번 줄이 없었다면 coffee가 나와요."
+   }
+  },
+  "C2": {
+   "say": "메뉴를 입력받아 order() 함수가 만든 문장을 출력하는 코드예요. order()는 직접 만들어야 해요.",
+   "lines": [
+    [
+     1,
+     "input()이 돌려준 문자열(예: '버블티')이 user_menu에 담겨요."
+    ],
+    [
+     2,
+     "order()가 문장을 return해야 print가 출력할 수 있어요. order() 안에서 print만 하면 None이 함께 찍혀요."
+    ]
+   ]
+  },
+  "C3": {
+   "say": "도착 시간을 받아 40분 전 출발 시간을 출력하는 함수의 뼈대예요. 빈 곳은 실습에서 채워요.",
+   "lines": [
+    [
+     2,
+     "먼저 잘못된 값(분이 0~59가 아님)을 걸러요."
+    ],
+    [
+     4,
+     "값 없는 return으로 바로 끝내서, 잘못된 값으로 계산하지 않게 막아요."
+    ],
+    [
+     5,
+     "여기에 ‘7시 이후 10시 이전’ 검사와 40분 빼기 계산이 들어가요. 분이 음수가 되는 경우를 조심해요."
+    ],
+    [
+     6,
+     "new_hour, new_min은 함수 안에서 만든 지역 변수예요. 함수 밖에서는 쓸 수 없어요."
+    ]
+   ]
+  },
+  "C5": {
+   "say": "전역 변수 count를 함수가 부를 때마다 1씩 늘리는 정답 코드예요.",
+   "lines": [
+    [
+     1,
+     "방문자 수는 함수가 끝나도 남아 있어야 하니 전역 변수로 둬요. 지역 변수는 함수가 끝나면 사라져요."
+    ],
+    [
+     4,
+     "count += 1은 count를 ‘바꾸는’ 문장이라 global 선언이 꼭 필요해요."
+    ],
+    [
+     6,
+     "읽기만 하는 것은 global 없이도 되지만, 바꾸려면 선언해야 해요."
+    ]
+   ]
+  }
+ },
+ "tasks": [
+  {
+   "kind": "빈칸",
+   "title": "가까운 쪽이 이긴다",
+   "prompt": "지역 변수와 전역 변수가 같은 이름일 때를 실험해요. <code>change_drink()</code>가 <b>전역</b> drink를 'coke'로 바꾸도록 빈칸을 채우세요.",
+   "starter": "drink = 'coffee'\n\ndef print_local_drink():\n    drink = 'lemonade'        # 지역 변수\n    print('지역:', drink)\n\ndef change_drink():\n    ___ drink\n    drink = 'coke'\n\nprint_local_drink()\nprint('전역:', drink)\nchange_drink()\nprint('전역:', drink)",
+   "expect": "지역: lemonade\n전역: coffee\n전역: coke",
+   "hint": "함수 안에서 전역 변수 자체를 바꾸겠다고 선언하는 키워드예요.",
+   "answer": "drink = 'coffee'\n\ndef print_local_drink():\n    drink = 'lemonade'        # 지역 변수\n    print('지역:', drink)\n\ndef change_drink():\n    global drink\n    drink = 'coke'\n\nprint_local_drink()\nprint('전역:', drink)\nchange_drink()\nprint('전역:', drink)"
+  },
+  {
+   "kind": "고치기",
+   "title": "좋아요 버튼",
+   "prompt": "좋아요 버튼을 누를 때마다 수가 1씩 늘어야 하는데 <code>UnboundLocalError</code>가 나요. 한 줄을 추가해 <code>좋아요 1개</code>, <code>2개</code>, <code>3개</code>가 나오게 하세요.",
+   "starter": "likes = 0\n\ndef like():\n    likes = likes + 1\n    print(f'좋아요 {likes}개')\n\nlike()\nlike()\nlike()",
+   "expect": "좋아요 1개\n좋아요 2개\n좋아요 3개",
+   "hint": "함수 안에서 likes에 값을 대입하면 파이썬은 likes를 지역 변수로 봐요. 그런데 아직 값이 없으니 오류가 나요.",
+   "answer": "likes = 0\n\ndef like():\n    global likes\n    likes = likes + 1\n    print(f'좋아요 {likes}개')\n\nlike()\nlike()\nlike()"
+  },
+  {
+   "kind": "만들기",
+   "title": "출발 시간 계산기",
+   "prompt": "교과서 ‘스스로 해결하기’의 <code>calculate_time()</code>를 완성하세요. 등교에 40분이 걸리고, 도착 시간은 7시 이후 10시 이전이어야 해요. 범위를 벗어나면 <code>도착 시간은 7시 이후 10시 이전이어야 합니다.</code>를 출력하고 끝내요.",
+   "starter": "def calculate_time(hour, min):\n    if min < 0 or min >= 60:\n        print('분은 0-59 사이여야 합니다.')\n        return\n    # (조건 검사와 시간 계산을 채워 넣기)\n    print(f'출발 시간: {new_hour}시 {new_min}분')\n\ncalculate_time(8, 0)\ncalculate_time(9, 30)\ncalculate_time(10, 40)",
+   "expect": "출발 시간: 7시 20분\n출발 시간: 8시 50분\n도착 시간은 7시 이후 10시 이전이어야 합니다.",
+   "hint": "시각을 전부 ‘분’으로 바꿔 40을 뺀 다음, // 60으로 시, % 60으로 분을 구하면 분이 음수가 되는 문제를 피할 수 있어요.",
+   "answer": "def calculate_time(hour, min):\n    if min < 0 or min >= 60:\n        print('분은 0-59 사이여야 합니다.')\n        return\n    if hour < 7 or hour >= 10:\n        print('도착 시간은 7시 이후 10시 이전이어야 합니다.')\n        return\n    total = hour * 60 + min - 40\n    new_hour = total // 60\n    new_min = total % 60\n    print(f'출발 시간: {new_hour}시 {new_min}분')\n\ncalculate_time(8, 0)\ncalculate_time(9, 30)\ncalculate_time(10, 40)"
+  }
+ ],
+ "check": [
+  {
+   "q": "함수 안에서 global 선언 없이 전역 변수와 같은 이름에 값을 대입하면 어떻게 될까요?",
+   "options": [
+    "전역 변수의 값이 바뀐다",
+    "오류가 나며 프로그램이 멈춘다",
+    "그 이름의 지역 변수가 새로 만들어진다",
+    "전역 변수가 삭제된다"
+   ],
+   "answer": 2,
+   "why": "대입하는 순간 파이썬은 그 이름을 지역 변수로 봐요. 전역 변수는 그대로 남아요."
+  },
+  {
+   "q": "전역 변수를 꼭 필요할 때만 써야 하는 이유로 가장 알맞은 것은?",
+   "options": [
+    "전역 변수는 실행 속도가 매우 느려서",
+    "한 함수에서 바꾼 값이 다른 함수에 영향을 주어 함수의 독립성을 해치기 때문에",
+    "전역 변수에는 숫자만 저장할 수 있어서",
+    "프로그램이 끝나면 값이 사라져서"
+   ],
+   "answer": 1,
+   "why": "여러 함수가 같은 전역 변수를 바꾸면 어디서 값이 바뀌었는지 찾기 어려워 버그가 생기기 쉬워요."
+  }
+ ],
+ "exit": "오늘 고친 like() 함수에서 global이 왜 필요했는지 ‘지역 변수’라는 말을 넣어 한 줄로 설명해 보세요."
+}

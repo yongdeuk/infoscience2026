@@ -1,0 +1,128 @@
+{
+  "n": 17,
+  "goal": [
+    "스택이 쓰이는 곳(뒤로 가기, 함수 호출, 되돌리기 등)을 예로 들 수 있다",
+    "스택을 이용해 순서를 뒤집는 프로그램(문자열 뒤집기, 2진수 변환)을 작성할 수 있다"
+  ],
+  "hook": "웹 브라우저에서 뉴스 → 유튜브 → 학교 홈페이지 순서로 들어갔어요. '뒤로 가기'를 두 번 누르면 어디에 도착할까요? 브라우저는 이 순서를 어떻게 기억할까요?",
+  "code_notes": {
+    "C1": {
+      "say": "입력한 문자열을 한 글자씩 스택에 넣었다가, 빌 때까지 꺼내 출력해서 거꾸로 된 암호문을 만들어요.",
+      "lines": [
+        [
+          2,
+          "문자열을 입력받아요. 이 차시 실습에서는 input 대신 문자열을 직접 넣어 볼 거예요."
+        ],
+        [
+          3,
+          "for 문으로 문자열을 돌면 i에 한 글자씩 차례로 들어가요."
+        ],
+        [
+          4,
+          "글자를 앞에서부터 쌓으니, 마지막 글자가 맨 위(top)에 놓여요."
+        ],
+        [
+          8,
+          "isEmpty가 True가 될 때까지, 즉 다 꺼낼 때까지 반복해요. 몇 번 돌지 몰라도 되니 while이 알맞아요."
+        ],
+        [
+          9,
+          "end=''로 줄바꿈 없이 이어서 출력해요. 맨 위부터 나오니 글자 순서가 뒤집혀요."
+        ]
+      ],
+      "blanks": [
+        [
+          4,
+          "Stack.push(i)"
+        ],
+        [
+          8,
+          "not Stack.isEmpty()"
+        ],
+        [
+          9,
+          "Stack.pop()"
+        ]
+      ],
+      "predict": {
+        "q": "실행하기 전에 예측해 보세요: 'ab cd'를 입력하면 암호문은 무엇이 될까요?",
+        "a": "dc ba — 공백도 한 글자로 스택에 들어가요. 그래서 공백 위치까지 뒤집혀서 나와요."
+      }
+    },
+    "C3": {
+      "say": "2로 나눈 나머지를 스택에 쌓은 뒤 거꾸로 꺼내 2진수 문자열을 만드는 정답 코드예요.",
+      "lines": [
+        [
+          4,
+          "나머지(0 또는 1)는 2진수의 가장 낮은 자리부터 나와요. 일단 쌓아 둬요."
+        ],
+        [
+          5,
+          "몫으로 n을 바꿔서 다음 자리를 구할 준비를 해요. n이 0이 되면 끝나요."
+        ],
+        [
+          7,
+          "빈 리스트는 거짓으로 취급돼요. 그래서 while stack:은 '스택이 빌 때까지'라는 뜻이에요."
+        ],
+        [
+          8,
+          "가장 늦게 쌓은 나머지(가장 높은 자리)부터 꺼내 붙이니 올바른 순서가 돼요."
+        ]
+      ]
+    }
+  },
+  "tasks": [
+    {
+      "kind": "빈칸",
+      "title": "input 없이 문자열 뒤집기",
+      "prompt": "단어 <code>'stack'</code>을 한 글자씩 스택에 넣고, 빌 때까지 꺼내 <code>result</code>에 이어 붙이세요. <b>kcats</b>가 나오면 성공이에요.",
+      "starter": "class Stack:\n    def __init__(self):\n        self.stack = []\n    def isEmpty(self):\n        return len(self.stack) == 0\n    def push(self, data):\n        self.stack.append(data)\n    def pop(self):\n        if not self.isEmpty():\n            return self.stack.pop()\n    def peek(self):\n        if not self.isEmpty():\n            return self.stack[-1]\n\ns = Stack()\nword = 'stack'\nfor ch in word:\n    s.___(ch)\nresult = ''\nwhile not s.___():\n    result += s.___()\nprint(result)\n",
+      "expect": "kcats",
+      "hint": "넣을 때는 push, 비었는지 확인은 isEmpty, 꺼낼 때는 pop이에요.",
+      "answer": "class Stack:\n    def __init__(self):\n        self.stack = []\n    def isEmpty(self):\n        return len(self.stack) == 0\n    def push(self, data):\n        self.stack.append(data)\n    def pop(self):\n        if not self.isEmpty():\n            return self.stack.pop()\n    def peek(self):\n        if not self.isEmpty():\n            return self.stack[-1]\n\ns = Stack()\nword = 'stack'\nfor ch in word:\n    s.push(ch)\nresult = ''\nwhile not s.isEmpty():\n    result += s.pop()\nprint(result)\n"
+    },
+    {
+      "kind": "고치기",
+      "title": "2진수 변환기의 버그 두 개",
+      "prompt": "13은 1101, 10은 1010, 0은 0이 나와야 해요. 그런데 지금은 자리 순서가 거꾸로이고 0은 아무것도 안 나와요. 버그 두 곳을 고치세요.",
+      "starter": "def to_binary(n):\n    stack = []\n    while n > 0:\n        stack.append(n % 2)\n        n //= 2\n    result = ''\n    while stack:\n        result += str(stack.pop(0))\n    return result\n\nprint(to_binary(13))\nprint(to_binary(10))\nprint(to_binary(0))\n",
+      "expect": "1101\n1010\n0",
+      "hint": "pop(0)은 맨 앞(가장 먼저 쌓은 낮은 자리)을 꺼내요. 그리고 n이 0이면 while이 한 번도 안 돌아요. 맨 앞에서 따로 처리하세요.",
+      "answer": "def to_binary(n):\n    if n == 0:\n        return '0'\n    stack = []\n    while n > 0:\n        stack.append(n % 2)\n        n //= 2\n    result = ''\n    while stack:\n        result += str(stack.pop())\n    return result\n\nprint(to_binary(13))\nprint(to_binary(10))\nprint(to_binary(0))\n"
+    },
+    {
+      "kind": "만들기",
+      "title": "브라우저 뒤로 가기 만들기",
+      "prompt": "<code>actions</code>를 차례로 처리하세요. 주소면 스택에 push하고 <code>방문: 주소</code>를 출력해요. <code>'back'</code>이면 현재 페이지를 pop하고, 새 맨 위 페이지를 <code>뒤로 → 주소</code>로 출력해요.",
+      "starter": "actions = ['naver', 'youtube', 'school', 'back', 'map', 'back', 'back']\nhistory = []   # 리스트를 스택으로 사용\n\nfor a in actions:\n    if a == 'back':\n        pass   # 현재 페이지를 꺼내고, 맨 위 페이지를 출력\n    else:\n        pass   # 주소를 쌓고, 방문 메시지를 출력\n",
+      "expect": "방문: naver\n방문: youtube\n방문: school\n뒤로 → youtube\n방문: map\n뒤로 → youtube\n뒤로 → naver",
+      "hint": "뒤로 가기는 history.pop() 다음에 history[-1]을 보여 주면 돼요(peek과 같아요).",
+      "answer": "actions = ['naver', 'youtube', 'school', 'back', 'map', 'back', 'back']\nhistory = []   # 리스트를 스택으로 사용\n\nfor a in actions:\n    if a == 'back':\n        history.pop()\n        print('뒤로 →', history[-1])\n    else:\n        history.append(a)\n        print('방문:', a)\n"
+    }
+  ],
+  "check": [
+    {
+      "q": "다음 중 스택을 활용하는 예로 알맞지 않은 것은 무엇일까요?",
+      "options": [
+        "편집기의 되돌리기(Undo)",
+        "함수 호출 후 돌아갈 위치 저장",
+        "프린터 인쇄 대기 순서",
+        "소스 코드의 괄호 검사"
+      ],
+      "answer": 2,
+      "why": "프린터는 먼저 보낸 문서부터 인쇄하는 선입 선출이라 큐를 써요. 나머지는 마지막 것부터 처리하는 스택이에요."
+    },
+    {
+      "q": "10진수를 2진수로 바꿀 때 스택을 쓰는 가장 큰 이유는 무엇일까요?",
+      "options": [
+        "나머지를 빨리 계산하려고",
+        "나머지가 낮은 자리부터 나와서 순서를 뒤집어야 하므로",
+        "메모리를 아끼려고",
+        "2진수는 항상 4자리이므로"
+      ],
+      "answer": 1,
+      "why": "나머지는 1의 자리부터 나오지만 2진수는 높은 자리부터 써요. 순서 뒤집기가 스택의 특기예요."
+    }
+  ],
+  "exit": "오늘 만든 두 프로그램(문자열 뒤집기, 2진수 변환)에 공통으로 쓰인 스택의 성질을 한 문장으로 적어 보세요."
+}

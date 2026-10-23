@@ -134,12 +134,176 @@
     var unit = null;
     UNITS.forEach(function (u) { var r = SITE.units[u].weeks; if (r && wk >= r[0] && wk <= r[1]) unit = u; });
     now.innerHTML = '<p class="kicker">이번 주 · ' + wk + '주차</p><h2>' + (unit ? UNIT_NAME[unit] : '이번 주 수업') + '</h2><ol>' +
-      w.lessons.map(function (l) { return '<li>' + l + '</li>'; }).join('') + '</ol>' +
+      w.lessons.map(function (l, i) { var k = (wk - 1) * 3 + i + 1; return '<li><a href="lesson' + (k < 10 ? '0' : '') + k + '.html">' + k + '차시 · ' + l + '</a></li>'; }).join('') + '</ol>' +
       (unit ? '<a class="go" href="unit' + unit + '.html">단원 펼치기 →</a>' : '');
     var row = $('#plan .wk[data-week="' + wk + '"]');
     if (row) row.classList.add('now');
   }
   loadSettings(applySettings);
+
+  /* ---------- 차시 페이지: 코드 설명 · 예측 · 생각 쓰기 · 마침 체크 · 제출 ---------- */
+  (function () {
+    var L = window.LESSON;
+    if (!L) return;
+    var key = 'L' + (L.n < 10 ? '0' : '') + L.n;
+    // 코드 블록마다 예측 질문(위)과 코드 설명(아래)
+    $$('pre[data-c]').forEach(function (pre) {
+      var note = L.notes['C' + pre.getAttribute('data-c')];
+      if (!note) return;
+      if (note.predict) {
+        var pd = document.createElement('div');
+        pd.className = 'predict';
+        pd.innerHTML = '<b>🤔 예측해 보기</b> ' + note.predict.q + ' <button class="btn" type="button">답 보기</button><p class="predict-a" hidden>' + note.predict.a + '</p>';
+        $('button', pd).addEventListener('click', function () { var a = $('.predict-a', pd); a.hidden = !a.hidden; this.textContent = a.hidden ? '답 보기' : '답 숨기기'; });
+        pre.parentNode.insertBefore(pd, pre);
+      }
+      var lines = (window.codeText ? window.codeText(pre) : pre.textContent).split('\n');
+      var d = document.createElement('details');
+      d.className = 'codenote';
+      d.innerHTML = '<summary>💡 코드 설명 — ' + note.say + '</summary><ol class="cn-lines">' +
+        (note.lines || []).map(function (x) {
+          var src = (lines[x[0] - 1] || '').trim();
+          return '<li><span class="cn-n">' + x[0] + '줄</span>' + (src && !pre.querySelector('input.blank') ? '<code>' + esc(src) + '</code>' : '') + '<span>' + x[1] + '</span></li>';
+        }).join('') + '</ol>';
+      var after = pre.nextElementSibling && pre.nextElementSibling.classList.contains('runner') ? pre.nextElementSibling : pre;
+      after.parentNode.insertBefore(d, after.nextSibling);
+    });
+    // 생각 쓰기 · 한 줄 정리 (이 기기에 저장)
+    $$('[data-think]').forEach(function (ta) {
+      var k = 'think.' + ta.getAttribute('data-think'), saved = ta.nextElementSibling, t = null;
+      ta.value = get(k, '');
+      ta.addEventListener('input', function () {
+        set(k, ta.value);
+        clearTimeout(t);
+        t = setTimeout(function () { if (saved) saved.textContent = '이 기기에 저장됨 · ' + new Date().toLocaleTimeString('ko-KR'); }, 400);
+      });
+    });
+    // 이 차시 마쳤어요
+    $$('[data-lesson-done]').forEach(function (btn) {
+      var k = 'lesson.' + btn.getAttribute('data-lesson-done');
+      function paint() { var on = get(k) === '1'; btn.setAttribute('aria-pressed', on); btn.textContent = on ? '✓ 이 차시 마쳤어요' : '☐ 이 차시 마쳤어요'; }
+      btn.addEventListener('click', function () { if (get(k) === '1') del(k); else set(k, '1'); paint(); });
+      paint();
+    });
+    // 선생님께 제출 (교사 설정에 Apps Script 주소가 있을 때만)
+    var box = $('[data-submit]');
+    if (!box) return;
+    loadSettings(function (st) {
+      if (!st.submit_url) return;
+      box.hidden = false;
+      var btn = $('button', box), msg = $('[data-submit-msg]', box);
+      btn.addEventListener('click', function () {
+        var name = get('name', '');
+        if (!name) {
+          name = (window.prompt('학번과 이름을 적어 주세요 (예: 10203 홍길동)') || '').trim();
+          if (!name) return;
+          set('name', name);
+        }
+        var thinks = $$('[data-think]').map(function (ta) { return ta.value.trim(); });
+        var tasks = $$('.task pre[data-task]').map(function (p, i) {
+          return '[과제' + (i + 1) + (p.closest('.task').classList.contains('is-pass') ? ' ✓' : '') + ']\n' + p.textContent.trim();
+        });
+        var q = quizBest(key);
+        var data = {
+          name: name, lesson: L.n, title: document.title.replace(/ · 정보과학$/, ''),
+          exit: get('think.' + key + '.exit', ''), thinks: thinks.slice(0, -1).filter(Boolean).join('\n---\n'),
+          passed: $$('.task.is-pass').length + ' / ' + $$('.task pre[data-task]').length,
+          quiz: q === null ? '' : q + '점', code: tasks.join('\n\n').slice(0, 40000)
+        };
+        btn.disabled = true; msg.textContent = '보내는 중…';
+        fetch(st.submit_url, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) })
+          .then(function () { msg.textContent = '보냈어요 ✓ (' + name + ') · ' + new Date().toLocaleTimeString('ko-KR'); set('sent.' + key, '1'); },
+                function () { msg.textContent = '보내지 못했어요. 인터넷 연결을 확인하고 다시 눌러 주세요.'; })
+          .then(function () { btn.disabled = false; });
+      });
+    });
+  })();
+
+  /* ---------- 모두의 생각 보드 (Apps Script) ---------- */
+  (function () {
+    var L = window.LESSON, boards = $$('[data-board]');
+    if (!L || !boards.length) return;
+    loadSettings(function (st) {
+      var url = st.submit_url;
+      if (!url) return;
+      boards.forEach(function (bd) {
+        var slot = bd.getAttribute('data-board'), list = $('[data-board-list]', bd), sel = $('[data-board-class]', bd);
+        var msg = $('[data-board-msg]', bd), cnt = $('[data-board-count]', bd), rows = [], timer = null;
+        bd.hidden = false;
+        var mine = (get('name', '').match(/(\d)(\d{2})\d{2}/) || []);
+        var myClass = mine.length ? mine[1] + '-' + (+mine[2]) : '';
+        function draw() {
+          var cls = sel.value, seen = {};
+          rows.forEach(function (r) { if (r.c) seen[r.c] = 1; });
+          var opts = Object.keys(seen).sort();
+          if (sel.options.length - 1 !== opts.length) {
+            var keep = cls;
+            sel.innerHTML = '<option value="">모든 반</option>' + opts.map(function (c) { return '<option value="' + c + '">' + c.replace('-', '학년 ') + '반</option>'; }).join('');
+            sel.value = keep || (opts.indexOf(myClass) >= 0 ? myClass : '');
+            cls = sel.value;
+          }
+          var vis = rows.filter(function (r) { return !cls || r.c === cls; });
+          cnt.textContent = vis.length ? vis.length + '개' : '아직 없어요';
+          list.innerHTML = vis.map(function (r) { return '<li>' + esc(r.x).replace(/\n/g, '<br>') + '</li>'; }).join('');
+        }
+        function pull() {
+          fetch(url + (url.indexOf('?') < 0 ? '?' : '&') + 'lesson=' + L.n + '&slot=' + slot, { cache: 'no-store' })
+            .then(function (r) { return r.json(); })
+            .then(function (j) { rows = j || []; draw(); }, function () { cnt.textContent = '보드를 불러오지 못했어요'; });
+        }
+        // 화면에 보일 때만 5초마다 새로 읽는다
+        function loop(on) { clearInterval(timer); if (on) { pull(); timer = setInterval(pull, 5000); } }
+        if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { loop(es[0].isIntersecting || bd.classList.contains('is-big')); }).observe(bd);
+        else loop(true);
+        sel.addEventListener('change', draw);
+        $('[data-board-big]', bd).addEventListener('click', function () {
+          var big = bd.classList.toggle('is-big');
+          this.textContent = big ? '닫기' : '크게 보기';
+          document.body.classList.toggle('has-big', big);
+          loop(true);
+        });
+        $('[data-board-send]', bd).addEventListener('click', function () {
+          var ta = $('[data-board-in]', bd), text = ta.value.trim(), btn = this;
+          if (!text) { ta.focus(); return; }
+          var name = get('name', '');
+          if (!name) {
+            name = (window.prompt('학번과 이름을 적어 주세요 (예: 10203 홍길동). 보드에는 이름이 보이지 않아요.') || '').trim();
+            if (!name) return;
+            set('name', name);
+          }
+          btn.disabled = true; msg.textContent = '올리는 중…';
+          fetch(url, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ type: 'board', name: name, lesson: L.n, slot: slot, text: text }) })
+            .then(function () { msg.textContent = '올렸어요 ✓'; ta.value = ''; setTimeout(pull, 800); },
+                  function () { msg.textContent = '올리지 못했어요. 다시 눌러 주세요.'; })
+            .then(function () { btn.disabled = false; });
+        });
+      });
+    });
+  })();
+
+  /* ---------- 차시 목록: 마친 차시 표시 · 이번 주 ---------- */
+  (function () {
+    var rows = $$('[data-lesson]');
+    if (!rows.length) return;
+    rows.forEach(function (r) { if (get('lesson.' + r.getAttribute('data-lesson')) === '1') r.classList.add('is-done'); });
+    var now = $('[data-lnow]');
+    loadSettings(function (st) {
+      var wk = weekOf(st);
+      if (!wk || wk < 1 || wk > 16) return;
+      rows.forEach(function (r) {
+        var k = +r.getAttribute('data-lesson');
+        if (Math.ceil(k / 3) === wk) r.classList.add('is-week');
+      });
+      if (now) {
+        now.hidden = false;
+        now.innerHTML = '<b>이번 주 · ' + wk + '주차</b>' + [1, 2, 3].map(function (i) {
+          var k = (wk - 1) * 3 + i, r = $('[data-lesson="' + k + '"]');
+          return r ? '<a href="' + r.getAttribute('href') + '">' + k + '차시 · ' + $('.lt', r).textContent + '</a>' : '';
+        }).join('');
+      }
+    });
+  })();
 
   /* ---------- 교사 모드: 바닥글 '정보과학'을 5번 연속 누르면 교사 설정으로 ----------
      링크를 숨기는 장치일 뿐 보안은 아니다. 실제 저장은 저장소 주인의 GitHub 로그인이 있어야 된다. */
@@ -172,6 +336,7 @@
         year: +F.year.value || null,
         term: F.term.value,
         semester_start: F.semester_start.value || null,
+        submit_url: F.submit_url.value.trim(),
         grading: $$('tr', rowsEl).map(function (tr) {
           var o = {};
           $$('[data-k]', tr).forEach(function (i) { var k = i.getAttribute('data-k'); o[k] = k === 'ratio' ? (+i.value || 0) : i.value.trim(); });
@@ -197,6 +362,7 @@
       F.year.value = st.year || new Date().getFullYear();
       F.term.value = st.term || '1학기';
       F.semester_start.value = st.semester_start || '';
+      F.submit_url.value = st.submit_url || '';
       rowsEl.innerHTML = (st.grading || []).map(rowHtml).join('');
       $$('tr', rowsEl).forEach(function (tr, i) { if (st.grading[i].rubric) tr._rubric = st.grading[i].rubric; });
       refresh();
@@ -306,6 +472,7 @@
       }).catch(function () { rbFail(card, '파일을 읽지 못했어요. 엑셀(xlsx)이나 CSV로 저장해 다시 올려 주세요.'); });
     });
     function valid(st) {
+      if (st.submit_url && !/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(st.submit_url)) { say('Apps Script 주소는 https://script.google.com/macros/s/…/exec 모양이어야 해요.', true); return false; }
       if (total(st) !== 100) { say('비율 합계가 100%가 아니에요(지금 ' + total(st) + '%).', true); return false; }
       if (st.grading.some(function (g) { return !g.name; })) { say('이름이 빈 평가 항목이 있어요.', true); return false; }
       return true;
@@ -326,6 +493,11 @@
       }
       return Promise.resolve(legacy());
     }
+    $('[data-copy-gs]').addEventListener('click', function () {
+      var b = this;
+      fetch('apps-script/Code.gs', { cache: 'no-store' }).then(function (r) { return r.text(); }).then(copy)
+        .then(function (ok) { b.textContent = ok ? '복사했어요 ✓' : '복사하지 못했어요'; }, function () { b.textContent = '코드를 불러오지 못했어요'; });
+    });
     form.addEventListener('input', refresh);
     form.addEventListener('change', refresh);
     form.addEventListener('submit', function (e) { e.preventDefault(); });
@@ -537,7 +709,7 @@
       }
       return Promise.resolve(legacy());
     }
-    function codeOf(pres) { return pres.map(function (p) { return p.textContent.replace(/\s+$/, ''); }).join('\n\n') + '\n'; }
+    function codeOf(pres) { return pres.map(function (p) { return (window.codeText ? window.codeText(p) : p.textContent).replace(/\s+$/, ''); }).join('\n\n') + '\n'; }
     function flash(btn, ok, okText) {
       var label = btn.getAttribute('data-label') || btn.textContent;
       btn.setAttribute('data-label', label);

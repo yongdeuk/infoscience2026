@@ -1,0 +1,160 @@
+{
+ "n": 33,
+ "goal": [
+  "DFS와 BFS가 갈림길을 도는 순서를 비교할 수 있다",
+  "재귀와 ‘되돌리기’로 비선형 전체 탐색을 구현할 수 있다",
+  "경우의 수가 n!, 10ⁿ처럼 불어나는 것을 확인할 수 있다"
+ ],
+ "hook": "세 자리 자물쇠 비밀번호를 잊었어요. 000부터 하나씩 돌려 본다면 최악의 경우 몇 번 만에 열릴까요? 네 자리라면요?",
+ "code_notes": {
+  "C1": {
+   "say": "줄마다 아직 안 쓴 세로줄의 숫자를 하나씩 골라 보며, 세 수의 합이 가장 작은 경우를 찾는 깊이 우선 탐색이에요.",
+   "lines": [
+    [
+     2,
+     "visited[col]은 ‘이 세로줄은 이미 썼어요’ 표시판이에요."
+    ],
+    [
+     7,
+     "row가 3이면 세 줄을 다 골랐다는 뜻이에요. 지금 합을 최솟값과 비교하고 되돌아가요."
+    ],
+    [
+     13,
+     "다음 줄(row + 1)로 내려가며 합에 고른 수를 더해요. 자기 자신을 부르는 재귀가 ‘한 길로 끝까지’ 가는 DFS예요."
+    ],
+    [
+     14,
+     "끝까지 가 보고 돌아오면 표시를 False로 되돌려요. 그래야 다음 가지에서 이 세로줄을 다시 고를 수 있어요."
+    ]
+   ],
+   "blanks": [
+    [
+     13,
+     "row + 1"
+    ],
+    [
+     14,
+     "visited[col] = False"
+    ]
+   ],
+   "predict": {
+    "q": "14번 줄(visited[col] = False)을 지우면 어떻게 될까요?",
+    "a": "첫 길(1, 5, 5)만 끝까지 가고 나머지 세로줄은 모두 ‘사용 중’으로 남아 다른 길을 못 가요. 그래서 최소 합이 8이 아니라 11로 나와요."
+   }
+  },
+  "C2": {
+   "say": "세 자리 비밀번호를 000부터 999까지 차례로 모두 만들어 보며 맞는 것을 찾아요.",
+   "lines": [
+    [
+     4,
+     "반복문을 세 겹 겹치면 첫째·둘째·셋째 자리의 모든 조합(10×10×10)이 만들어져요."
+    ],
+    [
+     7,
+     "몇 번째 시도인지 셉니다. 순서는 000, 001, …, 009, 010, …"
+    ],
+    [
+     8,
+     "유효성 검사: 만든 번호가 비밀번호와 같은가?"
+    ]
+   ],
+   "predict": {
+    "q": "실행하면 몇 번째 시도에서 찾았다고 나올까요?",
+    "a": "346번째예요. 345 앞에 000~344까지 345개가 있으니 345 + 1 = 346."
+   }
+  },
+  "C3": {
+   "say": "한 줄에 퀸을 하나씩 놓되, 공격받는 칸은 건너뛰고 막히면 되돌아가는 방식으로 4퀸의 답 하나를 찾아요.",
+   "lines": [
+    [
+     3,
+     "위쪽 줄에 같은 세로줄(col)의 퀸이 있으면 놓을 수 없어요."
+    ],
+    [
+     6,
+     "두 퀸의 가로 거리와 세로 거리가 같으면 대각선 위에 있어요. 예: (0,1)과 (2,3)은 둘 다 2 차이."
+    ],
+    [
+     11,
+     "row가 n이면 모든 줄에 퀸을 놓은 거예요. 판을 출력하고 True로 성공을 알려요."
+    ],
+    [
+     17,
+     "다음 줄에서 성공하면 True를 위로 전달해 탐색을 멈춰요."
+    ],
+    [
+     19,
+     "다음 줄에서 막혔다면 방금 놓은 퀸을 치우고(pop) 이 줄의 다음 칸을 시도해요. 이것이 되돌리기예요."
+    ]
+   ],
+   "blanks": [
+    [
+     6,
+     "abs(board[i] - col) == abs(i - row)"
+    ],
+    [
+     19,
+     "board.pop()"
+    ]
+   ],
+   "predict": {
+    "q": "출력되는 판의 첫째 줄은 어떤 모양일까요?",
+    "a": ".Q.. — 첫 답은 [1, 3, 0, 2]라서 첫째 줄 퀸이 1번 칸에 있어요. 0번 칸부터 시작하면 끝까지 못 가서 되돌아왔기 때문이에요."
+   }
+  }
+ },
+ "tasks": [
+  {
+   "kind": "빈칸",
+   "title": "여섯 가지 길을 모두 출력하기",
+   "prompt": "C1을 고쳐서 고른 숫자들과 합을 모두 출력해요. 되돌리기 두 줄의 <code>___</code>를 채우면 교과서 트리의 여섯 가지 경우가 왼쪽 가지부터 차례로 나와요. 가장 작은 합은 어느 줄인가요?",
+   "starter": "m = [[1, 5, 3], [2, 5, 7], [9, 3, 5]]\nvisited = [False] * 3\nchosen = []                          # 지금까지 고른 숫자들\n\ndef find(row, current_sum):\n    if row == 3:\n        print(chosen, '합', current_sum)\n        return\n    for col in range(3):\n        if not visited[col]:\n            visited[col] = True\n            chosen.append(m[row][col])\n            find(row + 1, current_sum + m[row][col])\n            chosen.___()                # 고른 숫자 빼기\n            visited[col] = ___          # 세로줄 표시 되돌리기\n\nfind(0, 0)",
+   "expect": "[1, 5, 5] 합 11\n[1, 7, 3] 합 11\n[5, 2, 5] 합 12\n[5, 7, 9] 합 21\n[3, 2, 3] 합 8\n[3, 5, 9] 합 17",
+   "hint": "리스트의 마지막 값을 빼는 메서드는 pop이고, 세로줄 표시는 ‘안 씀’ 상태인 False로 되돌려요.",
+   "answer": "m = [[1, 5, 3], [2, 5, 7], [9, 3, 5]]\nvisited = [False] * 3\nchosen = []                          # 지금까지 고른 숫자들\n\ndef find(row, current_sum):\n    if row == 3:\n        print(chosen, '합', current_sum)\n        return\n    for col in range(3):\n        if not visited[col]:\n            visited[col] = True\n            chosen.append(m[row][col])\n            find(row + 1, current_sum + m[row][col])\n            chosen.pop()                # 고른 숫자 빼기\n            visited[col] = False          # 세로줄 표시 되돌리기\n\nfind(0, 0)"
+  },
+  {
+   "kind": "고치기",
+   "title": "1000가지가 아니라고요?",
+   "prompt": "세 자리 자물쇠는 000~999, 모두 1000가지예요. 그런데 이 코드는 경우의 수와 시도 횟수가 이상하게 나와요. 고쳐서 <b>346번째, 1000가지</b>가 나오게 해 보세요.",
+   "starter": "password = [3, 4, 5]\ncount = 0\nfound_at = 0\nfor a in range(9):\n    for b in range(9):\n        for c in range(9):\n            count += 1\n            if [a, b, c] == password:\n                found_at = count\nprint(f'{found_at}번째 시도에서 찾음')\nprint('전체 경우의 수:', count)",
+   "expect": "346번째 시도에서 찾음\n전체 경우의 수: 1000",
+   "hint": "range(9)는 0~8까지예요. 숫자 9가 빠졌어요.",
+   "answer": "password = [3, 4, 5]\ncount = 0\nfound_at = 0\nfor a in range(10):\n    for b in range(10):\n        for c in range(10):\n            count += 1\n            if [a, b, c] == password:\n                found_at = count\nprint(f'{found_at}번째 시도에서 찾음')\nprint('전체 경우의 수:', count)"
+  },
+  {
+   "kind": "만들기",
+   "title": "4×4 숫자판 최소 합",
+   "prompt": "C1을 4×4 숫자판으로 넓혀요. 가로줄·세로줄이 겹치지 않게 4개를 골라 합이 가장 작은 값을 찾고, 끝까지 가 본 경우(마지막 줄까지 고른 경우)가 몇 가지인지도 세어 보세요. 4! = 24가지가 나오나요?",
+   "starter": "m = [[4, 7, 2, 8],\n     [6, 3, 9, 5],\n     [1, 8, 4, 7],\n     [5, 2, 6, 3]]\nn = len(m)\nvisited = [False] * n\nbest = float('inf')\nleaves = 0                           # 끝까지 가 본 경우의 수\n\ndef find(row, current_sum):\n    global best, leaves\n    pass    # 여기에: row == n 이면 best·leaves 갱신 후 return, 아니면 안 쓴 세로줄을 하나씩 골라 재귀 + 되돌리기\n\nfind(0, 0)\nprint('최소 합:', best, '/ 끝까지 가 본 경우:', leaves, '가지')",
+   "expect": "최소 합: 9 / 끝까지 가 본 경우: 24 가지",
+   "hint": "C1의 find_min_sum과 거의 같아요. 3 대신 n을 쓰고, row == n일 때 leaves += 1 을 추가해요.",
+   "answer": "m = [[4, 7, 2, 8],\n     [6, 3, 9, 5],\n     [1, 8, 4, 7],\n     [5, 2, 6, 3]]\nn = len(m)\nvisited = [False] * n\nbest = float('inf')\nleaves = 0                           # 끝까지 가 본 경우의 수\n\ndef find(row, current_sum):\n    global best, leaves\n    if row == n:\n        leaves += 1\n        best = min(best, current_sum)\n        return\n    for col in range(n):\n        if not visited[col]:\n            visited[col] = True\n            find(row + 1, current_sum + m[row][col])\n            visited[col] = False\n\nfind(0, 0)\nprint('최소 합:', best, '/ 끝까지 가 본 경우:', leaves, '가지')"
+  }
+ ],
+ "check": [
+  {
+   "q": "갈림길에서 한쪽을 골라 막다른 곳까지 간 뒤 되돌아와 다른 길을 가는 탐색은?",
+   "options": [
+    "너비 우선 탐색(BFS)",
+    "깊이 우선 탐색(DFS)",
+    "순차 탐색",
+    "이진 탐색"
+   ],
+   "answer": 1,
+   "why": "DFS는 스택(또는 재귀)을 써서 한 길로 끝까지 가요. BFS는 가까운 곳부터 큐로 차례로 봐요."
+  },
+  {
+   "q": "5×5 숫자판에서 가로·세로가 겹치지 않게 5개를 고르는 경우의 수는?",
+   "options": [
+    "25가지",
+    "5⁵ = 3125가지",
+    "5 × 4 = 20가지",
+    "5! = 120가지"
+   ],
+   "answer": 3,
+   "why": "첫 줄 5가지, 둘째 줄 남은 4가지 … 마지막 줄 1가지라서 5 × 4 × 3 × 2 × 1 = 120가지예요."
+  }
+ ],
+ "exit": "재귀로 탐색할 때 ‘되돌리기(visited를 False로, pop)’가 꼭 필요한 이유를 적어 보세요."
+}

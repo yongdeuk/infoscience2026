@@ -1,0 +1,143 @@
+{
+ "n": 35,
+ "goal": [
+  "탐욕 알고리즘이 매 순간 선택하는 방식을 설명할 수 있다",
+  "거스름돈·시간표 문제를 탐욕법으로 구현할 수 있다",
+  "탐욕법이 최적해를 내지 못하는 예를 찾아 설명할 수 있다"
+ ],
+ "hook": "편의점 점원은 1,760원을 거슬러 줄 때 고민하지 않고 500원부터 집어요. 이 ‘큰 것부터’ 작전은 언제나 동전 개수를 가장 적게 만들까요?",
+ "code_notes": {
+  "C1": {
+   "say": "큰 동전부터 줄 수 있는 만큼 주는 탐욕법으로 거스름돈을 계산해요.",
+   "lines": [
+    [
+     3,
+     "coins를 앞에서부터 꺼내요. 그래서 coins가 큰 것부터 적혀 있어야 ‘큰 동전부터’가 돼요."
+    ],
+    [
+     4,
+     "남은 돈이 이 동전 이상이면 계속 줘요. 이번 순간에 가장 크게 줄일 수 있는 선택이에요."
+    ],
+    [
+     5,
+     "준 만큼 남은 돈에서 빼요. 한 번 준 동전은 다시 돌려받지 않아요(돌아보지 않는 탐욕법)."
+    ]
+   ],
+   "blanks": [
+    [
+     4,
+     "amount >= coin"
+    ],
+    [
+     5,
+     "amount -= coin"
+    ]
+   ],
+   "predict": {
+    "q": "coins를 [9, 6, 1], amount를 12로 바꾸면 무엇이 출력될까요?",
+    "a": "[9, 1, 1, 1] — 동전 4개예요. 6원 두 개(2개)가 최적인데 탐욕법은 9원을 먼저 집어서 놓쳐요."
+   }
+  },
+  "C2": {
+   "say": "종료 시간이 빠른 수업부터 보면서, 겹치지 않으면 고르는 시간표 문제의 뼈대예요.",
+   "lines": [
+    [
+     3,
+     "key=lambda x: x[2]는 ‘튜플의 셋째 값(종료 시간)으로 정렬하라’는 뜻이에요. 빨리 끝나는 수업을 골라야 뒤에 쓸 시간이 많이 남아요."
+    ],
+    [
+     5,
+     "마지막으로 고른 수업이 끝나는 시각이에요. 처음엔 아무것도 안 골랐으니 0."
+    ],
+    [
+     9,
+     "여기를 채워야 해요. 시작 시간이 last_end_time 이상이면 고르고, last_end_time을 그 수업의 종료 시간으로 바꿔요."
+    ]
+   ]
+  },
+  "C4": {
+   "say": "1~30원마다 탐욕법의 동전 수와 진짜 최소 동전 수를 비교해 다른 금액만 출력해요.",
+   "lines": [
+    [
+     3,
+     "greedy: 큰 동전부터 주며 개수를 세요."
+    ],
+    [
+     12,
+     "dp[i]는 i원을 만드는 최소 동전 수예요. 처음엔 모른다는 뜻으로 큰 수 999를 넣어 둬요."
+    ],
+    [
+     16,
+     "마지막에 c원을 냈다면, 그 전에 i−c원을 최소로 만든 뒤 1개를 더한 거예요. 그중 가장 작은 값을 고르면 최적이에요(39차시 동적 계획법)."
+    ]
+   ]
+  },
+  "C6": {
+   "say": "종료 시간이 빠른 회의부터 겹치지 않게 골라 회의실 하나에 최대한 많이 배정해요.",
+   "lines": [
+    [
+     2,
+     "종료 시간 기준 정렬이 핵심이에요. 시작 시간이나 길이로 정렬하면 최적이 아닐 수 있어요."
+    ],
+    [
+     7,
+     "앞 회의가 끝난 뒤에 시작하면 겹치지 않으니 선택해요."
+    ]
+   ]
+  }
+ },
+ "tasks": [
+  {
+   "kind": "빈칸",
+   "title": "시간표 완성하기",
+   "prompt": "교과서 C2의 for 문 안을 완성했어요. <code>cls</code>는 <code>(과목, 시작, 종료)</code> 튜플이에요. 두 <code>___</code>에 알맞은 값을 채워 미술 → 수학 → 음악이 나오게 해 보세요.",
+   "starter": "classes = [('미술', 9, 10), ('영어', 9.5, 10.5), ('수학', 10, 11),\n           ('컴퓨터', 10.5, 11.5), ('음악', 11, 12)]\nclasses.sort(key=lambda x: x[2])      # 종료 시간 기준으로 정렬\nselected_classes = []\nlast_end_time = 0\n\nfor cls in classes:                   # cls = (과목, 시작, 종료)\n    if ___ >= last_end_time:\n        selected_classes.append(cls[0])\n        last_end_time = ___\n\nprint('최대한 많은 수업을 들을 수 있는 시간표: ', selected_classes)",
+   "expect": "최대한 많은 수업을 들을 수 있는 시간표:  ['미술', '수학', '음악']",
+   "hint": "시작 시간은 cls[1], 종료 시간은 cls[2]예요.",
+   "answer": "classes = [('미술', 9, 10), ('영어', 9.5, 10.5), ('수학', 10, 11),\n           ('컴퓨터', 10.5, 11.5), ('음악', 11, 12)]\nclasses.sort(key=lambda x: x[2])      # 종료 시간 기준으로 정렬\nselected_classes = []\nlast_end_time = 0\n\nfor cls in classes:                   # cls = (과목, 시작, 종료)\n    if cls[1] >= last_end_time:\n        selected_classes.append(cls[0])\n        last_end_time = cls[2]\n\nprint('최대한 많은 수업을 들을 수 있는 시간표: ', selected_classes)"
+  },
+  {
+   "kind": "고치기",
+   "title": "동전 176개를 주는 점원",
+   "prompt": "1,760원을 거슬러 주는데 10원짜리만 176개가 나와요! 동전 목록이 뒤죽박죽이기 때문이에요. 함수 첫 줄에 한 줄을 넣어 <b>큰 동전부터</b> 주게 고쳐 보세요.",
+   "starter": "def greedy_coin_change(amount, coins):\n    result = []\n    for coin in coins:\n        while amount >= coin:\n            amount -= coin\n            result.append(coin)\n    return result\n\nchange = greedy_coin_change(1760, [10, 500, 50, 100])\nprint('동전 개수:', len(change))\nprint(change)",
+   "expect": "동전 개수: 7\n[500, 500, 500, 100, 100, 50, 10]",
+   "hint": "리스트를 큰 것부터 정렬하려면 coins.sort(reverse=True)를 써요.",
+   "answer": "def greedy_coin_change(amount, coins):\n    coins.sort(reverse=True)       # 큰 동전부터 쓰도록 내림차순 정렬\n    result = []\n    for coin in coins:\n        while amount >= coin:\n            amount -= coin\n            result.append(coin)\n    return result\n\nchange = greedy_coin_change(1760, [10, 500, 50, 100])\nprint('동전 개수:', len(change))\nprint(change)"
+  },
+  {
+   "kind": "만들기",
+   "title": "탐욕법이 틀리는 금액 찾기",
+   "prompt": "동전이 4원·3원·1원일 때 1~20원 중 탐욕법이 최적이 아닌 금액을 모두 찾아요. <code>best(amount)</code>를 <b>전체 탐색</b>으로 직접 만들어 보세요: 4원을 x개(0개부터 가능한 만큼), 3원을 y개 쓰고 나머지는 1원으로 채우는 모든 경우 중 동전 수가 가장 적은 값을 돌려주면 돼요.",
+   "starter": "coins = [4, 3, 1]\n\ndef greedy(amount):                  # 큰 동전부터 줄 수 있는 만큼\n    n = 0\n    for c in coins:\n        while amount >= c:\n            amount -= c\n            n += 1\n    return n\n\ndef best(amount):                    # 전체 탐색: 4원·3원 개수를 모두 시도\n    return greedy(amount)            # 여기를 고쳐 직접 만들어 보세요\n\nfor money in range(1, 21):\n    g, b = greedy(money), best(money)\n    if g != b:\n        print(f'{money}원: 탐욕 {g}개 / 최적 {b}개')",
+   "expect": "6원: 탐욕 3개 / 최적 2개\n10원: 탐욕 4개 / 최적 3개\n14원: 탐욕 5개 / 최적 4개\n18원: 탐욕 6개 / 최적 5개",
+   "hint": "for x in range(amount // 4 + 1): 안에 for y in range((amount - 4*x) // 3 + 1): 를 쓰고, 1원 개수는 amount - 4*x - 3*y 예요.",
+   "answer": "coins = [4, 3, 1]\n\ndef greedy(amount):                  # 큰 동전부터 줄 수 있는 만큼\n    n = 0\n    for c in coins:\n        while amount >= c:\n            amount -= c\n            n += 1\n    return n\n\ndef best(amount):                    # 전체 탐색: 4원·3원 개수를 모두 시도\n    fewest = amount                  # 1원으로만 주면 amount개\n    for x in range(amount // 4 + 1):\n        for y in range((amount - 4 * x) // 3 + 1):\n            ones = amount - 4 * x - 3 * y\n            fewest = min(fewest, x + y + ones)\n    return fewest\n\nfor money in range(1, 21):\n    g, b = greedy(money), best(money)\n    if g != b:\n        print(f'{money}원: 탐욕 {g}개 / 최적 {b}개')"
+  }
+ ],
+ "check": [
+  {
+   "q": "탐욕 알고리즘에 대한 설명으로 옳은 것은?",
+   "options": [
+    "모든 경우를 다 살펴본 뒤 고른다",
+    "막히면 되돌아가 다른 선택을 한다",
+    "언제나 최적해를 보장한다",
+    "매 단계 그 순간 가장 좋아 보이는 것을 고르고 다시 돌아보지 않는다"
+   ],
+   "answer": 3,
+   "why": "탐욕법은 빠르지만 돌아보지 않기 때문에 최적해를 놓칠 수 있어요."
+  },
+  {
+   "q": "회의실 배정 문제에서 탐욕법이 최적이 되려면 회의를 무엇 기준으로 골라야 할까요?",
+   "options": [
+    "시작 시간이 빠른 순",
+    "종료 시간이 빠른 순",
+    "회의 시간이 긴 순",
+    "입력된 순서대로"
+   ],
+   "answer": 1,
+   "why": "빨리 끝나는 회의를 골라야 남은 시간이 가장 많아서 뒤에 더 많은 회의를 넣을 수 있어요."
+  }
+ ],
+ "exit": "우리나라 동전(500·100·50·10원)에서는 탐욕법이 잘 맞는데 4·3·1원에서는 틀리는 이유를 적어 보세요."
+}

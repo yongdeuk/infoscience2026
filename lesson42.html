@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>42차시 [프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화 · 정보과학</title>
+<meta name="description" content="14주차 42차시 — [프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화">
+<meta property="og:title" content="42차시 [프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화 · 정보과학">
+<meta property="og:description" content="14주차 42차시 — [프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#129513;</text></svg>">
+<script>
+(function(){try{if(localStorage.getItem('unlocked')==='yes')document.documentElement.className+=' unlocked';}catch(e){}})();
+(function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
+</script>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body class="lessonpage u4">
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <form class="gate-card" data-gate-form autocomplete="off">
+    <h1 id="gate-title">정보과학</h1>
+    <p class="gate-sub">씨마스 『정보과학』 2022 개정 교육과정 수업 자료</p>
+    <label class="gate-lab" for="gate-pw">열람 비밀번호</label>
+    <div class="gate-pwrap">
+      <input id="gate-pw" type="password" data-gate-pw autocomplete="off"
+             spellcheck="false" autocapitalize="off" placeholder="수업 시간에 안내된 비밀번호">
+      <button class="gate-eye" type="button" data-gate-eye aria-pressed="false" aria-label="비밀번호 표시">
+        <svg class="ico-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg class="ico-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18M10.6 10.6a3 3 0 0 0 4.24 4.24M9.9 5.1A10.9 10.9 0 0 1 12 5c7 0 10.5 7 10.5 7a13.6 13.6 0 0 1-3.2 4.1M6.5 6.5C3.4 8.3 1.5 12 1.5 12a13.5 13.5 0 0 0 4.2 4.9"/></svg>
+      </button>
+    </div>
+    <p class="gate-hint">한글로 입력하세요. 대소문자와 앞뒤 공백은 구분하지 않습니다.</p>
+    <p class="gate-msg" data-gate-msg role="status" aria-live="polite"></p>
+    <button class="btn btn-p gate-btn" type="submit">들어가기</button>
+    <p class="gate-note">본 자료는 학교 수업 목적으로 제작되었으며,
+      저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+  </form>
+</div>
+<a class="skip" href="#main">본문 바로가기</a>
+<header class="topbar">
+  <div class="bar-top">
+    <a class="brand" href="index.html"><span class="brand-mark">IS</span><span class="brand-name">정보과학</span></a>
+    <nav class="toolnav" aria-label="수업 도구">
+      <a href="index.html">수업 홈</a>
+      <a href="lessons.html" class="is-current">차시 수업</a>
+      <a href="course.html">수업 안내</a>
+      <a href="labs.html">실습실</a>
+      <a href="practice.html">파이썬 실습</a>
+      <a href="glossary.html">용어 사전</a>
+      <a href="my.html">내 학습</a>
+    </nav>
+    <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false" title="어두운 화면으로">
+      <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.6v2M12 19.4v2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M2.6 12h2M19.4 12h2M5.2 18.8l1.4-1.4M17.4 6.6l1.4-1.4"/></svg>
+      <span class="ico-label">어둡게</span>
+    </button>
+  </div>
+  <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
+    <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
+    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+  </div></nav>
+  <div class="progress" data-progress></div>
+</header>
+<section class="unithero lessonhero">
+  <div class="unithero-in">
+    <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 42차시</p>
+    <div class="bigr" aria-hidden="true">42</div>
+    <div>
+      <p class="kicker">42차시 · 14주차 · <a href="unit4.html">Ⅳ 정보과학 프로젝트</a></p>
+      <h1>[프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화</h1>
+      <ul class="lgoal"><li>급식 잔반 문제를 환경·경제·사회 측면에서 설명할 수 있다</li><li>모은 데이터로 잔반량과 온실가스를 계산할 수 있다</li><li>잔반 문제를 작은 문제로 나누고 해결 방안을 구조화할 수 있다</li></ul>
+      <div class="lprog" aria-label="전체 48차시 중 42차시"><i style="width:87.5%"></i></div>
+    </div>
+  </div>
+</section>
+<main class="lpage" id="main">
+<nav class="lflow" aria-label="이 차시 순서"><a href="#l-open"><b>1</b>생각 열기</a><a href="#l-learn"><b>2</b>교과서로 배우기</a><a href="#l-try"><b>3</b>직접 해 보기</a><a href="#l-check"><b>4</b>확인 문제</a><a href="#l-wrap"><b>5</b>한 줄 정리</a></nav>
+<section class="lsec" id="l-open"><h2><span class="ln">1</span>생각 열기</h2><div class="callout hook">오늘 점심 식판에 남긴 음식, 몇 g쯤 될까요? 한 사람은 조금이어도 전교생이 매일 남기면 얼마나 될지 직접 계산해 봐요.</div><div class="board" data-board="hook" hidden><div class="board-in"><textarea data-board-in rows="2" maxlength="300" placeholder="내 생각을 짧게 적어 보드에 올려 보세요"></textarea><div class="board-bar"><button class="btn btn-p" type="button" data-board-send>보드에 올리기</button><select data-board-class aria-label="반 고르기"><option value="">모든 반</option></select><button class="btn" type="button" data-board-big>크게 보기</button><span class="muted small" data-board-msg></span></div></div><div class="board-h"><b>모두의 생각</b> <span class="muted small" data-board-count></span></div><ul class="board-list" data-board-list></ul></div></section>
+<section class="lsec" id="l-learn"><h2><span class="ln">2</span>교과서로 배우기</h2><p class="lede">코드 아래 <b>💡 코드 설명</b>을 펼쳐 보고, <b>빈칸</b>이 있으면 채운 뒤 실행해 보세요.</p><p class="lsrc">교과서 · <a href="unit4.html#t4-2">Ⅳ 1-2 프로젝트 ① 급식 잔반 최소화</a></p>
+<p class="lede">점심시간마다 버려지는 음식을 줄일 수 있을까요? 데이터를 모으고, <b>잔반이 가장 적게 나오는 메뉴 조합</b>을 찾아 주는 프로그램을 만들어요.</p>
+<div class="goalbox">
+      <span class="lbl">이 프로젝트에서 하는 일</span>
+      <p class="q">급식 잔반을 줄이는 프로그램을 설계하려면 무엇을 고려해야 할까?</p>
+      <ul>
+        <li>급식 잔반 문제를 데이터로 살펴보고 작은 문제로 나눠요.</li>
+        <li><b>딕셔너리</b>에 메뉴 데이터를 담고, <b>동적 계획법</b>으로 최소 잔반 조합을 찾아요.</li>
+        <li>프로그램이 올바른지 검증하고, 오류를 찾아 고쳐요.</li>
+      </ul>
+    </div>
+<div class="story">
+      <span class="lbl">생활 속 이야기 · 점심시간</span>
+      <p>“많이 주세요!” 점심시간이 되면 식판에 음식을 가득 담아요. 친구들과 이야기하며 맛있게 먹고 나면, 식판에는 다 먹지 못한 음식이 남아 있어요.</p>
+      <p class="ask">이 남은 음식은 어디로 갈까요? 그리고 어떤 일을 일으킬까요?</p>
+    </div>
+<div class="photo-row">
+      <figure class="photo"><img src="assets/img/lunch.jpg" alt="밥, 국, 반찬, 우유가 놓인 학교 급식 식판" loading="lazy" width="880" height="660"><figcaption><b>오늘의 급식</b>식판에 담긴 음식 가운데 얼마가 버려질까요? (사진은 일본의 학교 급식)<span class="credit">사진: Chris Harber from Fukuoka, Japan · <a href="https://commons.wikimedia.org/wiki/File:School_lunch_(4196393696).jpg" target="_blank" rel="noopener">CC BY-SA 2.0</a> · Wikimedia Commons</span></figcaption></figure>
+      <figure class="photo"><img src="assets/img/foodwaste.jpg" alt="제주도의 주황색 음식물 쓰레기 수거함 세 대" loading="lazy" width="880" height="660"><figcaption><b>음식물 쓰레기 수거함</b>남긴 음식은 수거되어 처리돼요. 이 과정에 돈이 들고 온실가스가 나와요. (제주도)<span class="credit">사진: Sgroey · <a href="https://commons.wikimedia.org/wiki/File:Jeju_community_food_waste_disposal_bins.jpg" target="_blank" rel="noopener">CC BY-SA 4.0</a> · Wikimedia Commons</span></figcaption></figure>
+    </div>
+<div class="tablewrap">
+      <table>
+        <thead><tr><th>한눈에 보기</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td>문제 정의</td><td>학교 급식 잔반량을 조사하고 줄일 방안을 찾는다</td></tr>
+          <tr><td>데이터 구조</td><td><b>딕셔너리</b> — 메뉴 이름을 키(key), 잔반량을 값(value)으로</td></tr>
+          <tr><td>알고리즘</td><td><b>동적 계획법</b> — 카테고리별 선택을 부분 문제로 나누고 중복 계산을 피함</td></tr>
+          <tr><td>이어지는 단원</td><td>Ⅲ-3-2 동적 계획법 · UN 지속가능발전목표 <b>12. 책임 있는 소비와 생산</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+<h4>1단계 · 문제 발견 및 구조화</h4>
+<p><b>① 문제 발견.</b> 음식물 쓰레기는 환경·경제·사회 모든 면에서 문제를 일으켜요.</p>
+<div class="cards">
+      <div class="card"><span class="tag2">환경 문제</span><h5>지구를 덥힌다</h5><p>쓰레기를 처리할 때 나오는 <b>메탄가스</b>는 이산화탄소보다 25배나 강한 온실가스예요.</p></div>
+      <div class="card"><span class="tag2">경제 문제</span><h5>돈이 많이 든다</h5><p>음식물 쓰레기를 처리하는 데 매우 많은 비용이 들어요.</p></div>
+      <div class="card"><span class="tag2">사회 문제</span><h5>누군가는 굶는다</h5><p>한쪽에서는 식량이 버려지는데, 다른 한편에서는 많은 사람이 굶주리고 있어요.</p></div>
+    </div>
+<div class="bignum">
+      <div><b>약 14,314톤</b><span>하루에 나오는 음식물 쓰레기</span></div>
+      <div><b>8천억 원</b><span>한 해 처리 비용</span></div>
+      <div><b>885만 톤</b><span>한 해 온실가스 배출량</span></div>
+      <div><b>20조 원</b><span>한 해 경제적 손실</span></div>
+    </div>
+<p class="lab-note">출처: 환경부, 한국환경공단 (교과서 수록 자료)</p>
+<p><b>② 데이터 수집.</b> ‘급식 잔반’에 관한 데이터를 여러 방법으로 모아요.</p>
+<ul>
+      <li><b>면담</b> — 학교 영양 선생님께 잔반의 양과 원인을 여쭤봐요. 급식량은 알맞은지, 메뉴 선호도와 잔반량은 관계가 있는지 알아봐요.</li>
+      <li><b>인터넷 검색</b> — 음식물 쓰레기 처리 비용, 탄소 배출량 같은 전국 자료를 찾아 우리 학교와 비교해요.</li>
+      <li><b>설문 조사</b> — 학생들이 좋아하는 메뉴와 실제로 먹는 양을 조사해 잔반이 생기는 원인을 찾아요.</li>
+    </ul>
+<div class="bignum">
+      <div><b>약 170g</b><span>학생 1명이 한 끼에 남기는 양<br>(고등학생 연간 33kg ÷ 190일 ≈ 173g)</span></div>
+      <div><b>13~15만 원</b><span>음식물 쓰레기 1톤 처리 비용</span></div>
+      <div><b>1.65kg CO₂</b><span>잔반 1kg이 만드는 온실가스<br>(소나무 5그루가 흡수하는 양과 비슷)</span></div>
+      <div><b>선호도 ↑ 잔반 ↓</b><span>좋아하는 음식이 나오면 잔반이 줄어듦</span></div>
+    </div>
+<div class="callout"><b>데이터를 모을 때 지킬 것</b> — ① 주제와 관련된 다양한 데이터를 충분히 모아요. ② 주제에 대한 배경 지식을 미리 공부해요. ③ 면담 전에 질문 목록을 준비해요. ④ <b>출처를 분명히</b> 해서 믿을 수 있는 데이터를 모아요.</div>
+<p><b>③ 분석과 해결 방안 구조화.</b> 모은 데이터로 하루 평균 잔반량과 환경에 미치는 영향을 계산해 봐요. 그리고 음식물 쓰레기를 줄이는 길을 두 갈래로 정리해요.</p>
+<div class="cards">
+      <div class="card"><span class="tag2">해결 방안 ①</span><h5>조리량 조정</h5><ul><li>메뉴별 평균 잔반량을 분석해 알맞은 조리량 계산</li><li>선호도를 조사해 인기 메뉴는 늘리고 비인기 메뉴는 줄이기</li><li>급식을 먹지 않는 학생 수를 미리 조사하기</li></ul></div>
+      <div class="card"><span class="tag2">해결 방안 ②</span><h5>학생들의 인식 개선</h5><ul><li>잔반이 환경에 미치는 영향 교육하기</li><li>메뉴 계획에 학생이 참여하게 하기</li><li>먹겠다고 하고 먹지 않는 일에 책임 의식 갖게 하기</li></ul></div>
+    </div>
+<div class="callout"><b>해결 방안을 쓸 때</b> — 현실에서 실제로 할 수 있는 방안을 마련하고, 여러 이해관계자(학생·영양 선생님·조리 종사원)의 의견을 반영하고, 효과를 미리 예측해 보완해요.</div></section>
+<section class="lsec" id="l-try"><h2><span class="ln">3</span>직접 해 보기</h2><p class="lede">코드를 고쳐서 <b>▶ 실행</b>하면 출력이 맞는지 바로 알려 줘요. 막히면 힌트부터 열어 보세요.</p><div class="task" data-kind="빈칸"><div class="task-h"><span class="task-k">빈칸</span><h4>우리 학교 하루 잔반 계산하기</h4></div><p>교과서 데이터(한 사람 한 끼 약 173g, 잔반 1kg당 온실가스 1.65kg, 1톤 처리 비용 약 14만 원)로 우리 학교 하루 잔반량을 계산해요. g을 kg으로, kg을 톤으로 바꾸는 부분의 ___를 채우세요. 단위 바꾸기를 틀리면 답이 1000배 틀려져요!</p><pre data-run data-editable data-task data-expect="하루 잔반: 103.8kg&#10;온실가스: 171.3kg&#10;처리 비용: 14,532원&#10;1년(190일) 잔반: 19.7톤">students = 600            # 급식 먹는 학생 수 (우리 학교에 맞게 바꿔 보세요)
+per_person_g = 173        # 한 사람 한 끼 잔반(g)
+
+total_kg = students * per_person_g / ___      # g → kg
+co2_kg = total_kg * 1.65                        # 잔반 1kg → CO2 1.65kg
+cost = total_kg / ___ * 140000                  # kg → 톤, 1톤에 14만 원
+
+print(f"하루 잔반: {total_kg:.1f}kg")
+print(f"온실가스: {co2_kg:.1f}kg")
+print(f"처리 비용: {cost:,.0f}원")
+print(f"1년(190일) 잔반: {total_kg * 190 / 1000:.1f}톤")
+</pre><details class="hintbox"><summary>힌트</summary><p>1kg = 1000g, 1톤 = 1000kg 이에요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>students = 600            # 급식 먹는 학생 수 (우리 학교에 맞게 바꿔 보세요)
+per_person_g = 173        # 한 사람 한 끼 잔반(g)
+
+total_kg = students * per_person_g / 1000      # g → kg
+co2_kg = total_kg * 1.65                        # 잔반 1kg → CO2 1.65kg
+cost = total_kg / 1000 * 140000                  # kg → 톤, 1톤에 14만 원
+
+print(f"하루 잔반: {total_kg:.1f}kg")
+print(f"온실가스: {co2_kg:.1f}kg")
+print(f"처리 비용: {cost:,.0f}원")
+print(f"1년(190일) 잔반: {total_kg * 190 / 1000:.1f}톤")
+</pre></details></div><div class="task" data-kind="만들기"><div class="task-h"><span class="task-k">만들기</span><h4>요일별 잔반 데이터 분석하기</h4></div><p>영양 선생님께 받은 일주일 잔반량(kg)을 딕셔너리에 담았어요. <b>평균</b>과 <b>잔반이 가장 많은 요일</b>을 찾아 출력하세요. <code>max()</code>를 쓰지 말고, for 문으로 하나씩 비교하며 찾아보세요. 가장 많은 날의 메뉴를 살펴보면 원인을 짐작할 수 있어요.</p><pre data-run data-editable data-task data-expect="평균 잔반: 104.8kg&#10;가장 많은 요일: 목 (131.0kg)">waste = {'월': 98.5, '화': 112.0, '수': 87.5, '목': 131.0, '금': 95.0}
+
+total = 0
+worst_day = ''
+worst = 0
+for day, kg in waste.items():
+    # 합계를 더하고, 지금까지보다 많으면 worst_day와 worst를 바꾸세요
+    pass
+
+print(f"평균 잔반: {total / len(waste):.1f}kg")
+print(f"가장 많은 요일: {worst_day} ({worst}kg)")
+</pre><details class="hintbox"><summary>힌트</summary><p>total += kg 로 더하고, if kg > worst: 일 때 worst = kg, worst_day = day 로 기록해요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>waste = {'월': 98.5, '화': 112.0, '수': 87.5, '목': 131.0, '금': 95.0}
+
+total = 0
+worst_day = ''
+worst = 0
+for day, kg in waste.items():
+    total += kg
+    if kg &gt; worst:
+        worst = kg
+        worst_day = day
+
+print(f"평균 잔반: {total / len(waste):.1f}kg")
+print(f"가장 많은 요일: {worst_day} ({worst}kg)")
+</pre></details></div><div class="task" data-kind="생각"><div class="task-h"><span class="task-k">생각</span><h4>우리 모둠의 문제 정의와 해결 방안 구조화</h4></div><p>위 계산 결과를 바탕으로 ① 문제를 초기 상태·목표 상태로 정의하고 ② 영양 선생님 면담 질문 3개를 준비하고 ③ 해결 방안을 <b>조리량 조정</b>과 <b>인식 개선</b> 두 갈래로 하나씩 적어 보세요. 학생·영양 선생님·조리 종사원 중 누구의 의견이 필요한지도 적어요.</p><textarea class="think" data-think="L42.2" rows="4" placeholder="초기: 하루 103.8kg / 목표: 80kg 이하
+면담 질문: 1) 잔반이 가장 많은 메뉴는? 2) 조리량은 어떻게 정하나요? 3) 급식을 안 먹는 학생 수를 미리 아시나요?
+조리량 조정: 잔반이 많은 목요일 메뉴는 조리량을 10% 줄인다 (영양 선생님 의견 필요)
+인식 개선: 잔반 1kg = CO2 1.65kg 포스터 붙이기 (학생 의견 필요)"></textarea><p class="muted small" data-think-saved></p></div></section>
+<section class="lsec" id="l-check"><h2><span class="ln">4</span>확인 문제</h2><section class="qz-set" data-qz-set="L42">
+<div class="qz" data-ans="3"><h4><span class="qnum">Q1</span><span>음식물 쓰레기를 처리할 때 나오는, 이산화탄소보다 약 25배 강한 온실가스는?</span></h4><ol class="opts"><li><button type="button" data-n="①">산소</button></li><li><button type="button" data-n="②">질소</button></li><li><button type="button" data-n="③">수소</button></li><li><button type="button" data-n="④">메탄</button></li></ol><p class="why"><b>해설</b> — 음식물 쓰레기가 썩으면 메탄이 나오고, 메탄은 이산화탄소보다 열을 훨씬 강하게 가둬요.</p></div>
+<div class="qz" data-ans="2"><h4><span class="qnum">Q2</span><span>데이터를 모을 때 지켜야 할 것으로 알맞지 않은 것은?</span></h4><ol class="opts"><li><button type="button" data-n="①">면담 전에 질문 목록을 준비한다</button></li><li><button type="button" data-n="②">출처를 분명히 해 믿을 수 있는 데이터를 모은다</button></li><li><button type="button" data-n="③">결론에 맞는 데이터만 골라 모은다</button></li><li><button type="button" data-n="④">주제에 대한 배경 지식을 미리 공부한다</button></li></ol><p class="why"><b>해설</b> — 원하는 결론에 맞는 데이터만 고르면 문제를 잘못 이해하게 돼요. 다양한 데이터를 충분히 모아야 해요.</p></div>
+<div class="qz-score" data-qz-score><span>맞힌 문제 <b data-qz-right>0</b> / 2</span><span class="muted" data-qz-left></span><span class="muted" data-qz-best></span><button class="btn" type="button" data-qz-reset>다시 풀기</button></div></section></section>
+<section class="lsec" id="l-wrap"><h2><span class="ln">5</span>한 줄 정리</h2><p><b>우리 학교 잔반 문제를 풀 때 가장 먼저 모아야 할 데이터는 무엇이고, 왜 그런지 한 줄로 적어 보세요.</b></p><textarea class="think" data-think="L42.exit" rows="3" placeholder="내 말로 한두 문장"></textarea><p class="muted small" data-think-saved></p><div class="board" data-board="exit" hidden><div class="board-in"><textarea data-board-in rows="2" maxlength="300" placeholder="한 줄 정리를 보드에도 올려 보세요"></textarea><div class="board-bar"><button class="btn btn-p" type="button" data-board-send>보드에 올리기</button><select data-board-class aria-label="반 고르기"><option value="">모든 반</option></select><button class="btn" type="button" data-board-big>크게 보기</button><span class="muted small" data-board-msg></span></div></div><div class="board-h"><b>모두의 생각</b> <span class="muted small" data-board-count></span></div><ul class="board-list" data-board-list></ul></div><div class="donebar"><button class="btn donebtn" type="button" data-lesson-done="42">☐ 이 차시 마쳤어요</button><span>체크하면 <a href="lessons.html">차시 수업</a> 목록에 표시돼요.</span></div><div class="submitbox" data-submit hidden><button class="btn btn-p" type="button">선생님께 제출</button> <span class="muted small" data-submit-msg>한 줄 정리 · 생각 쓰기 · 실습 코드 · 확인 문제 점수를 보내요.</span></div></section>
+</main>
+<nav class="pager" aria-label="차시 이동"><a class="prev" href="lesson41.html"><span class="dir">← 이전 · 41차시</span><span class="ttl">학문 분야별 문제 탐색 / 모둠 구성·주제 선정</span></a><a class="next" href="lesson43.html"><span class="dir">다음 → · 43차시</span><span class="ttl">[프로젝트 ①] 알고리즘 설계와 프로그램 작성</span></a></nav>
+<script>window.LESSON={"n":42,"notes":{}};</script>
+
+<footer>
+  <div class="foot-in">
+    <div>
+      <p><b data-teacher-tap>정보과학</b> — 씨마스 『정보과학』 (2022 개정 교육과정) 수업 자료 · <span data-term>2학기</span> · 주 3시간 · 16주</p>
+      <p>보문고등학교 <b>김용득</b> 선생님 제작.</p>
+      <p>개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
+      <p class="copyright">본 자료는 학교 수업 목적으로 제작되었으며, 저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+    </div>
+    <nav class="foot-links" aria-label="사이트 전체"><a href="index.html">수업 홈</a><a href="unit0.html">0 파이썬 기초</a><a href="unit1.html">Ⅰ 프로그래밍</a><a href="unit2.html">Ⅱ 데이터 구조</a><a href="unit3.html">Ⅲ 알고리즘</a><a href="unit4.html">Ⅳ 프로젝트</a><a href="lessons.html">차시 수업</a><a href="course.html">수업 안내</a><a href="labs.html">실습실</a><a href="practice.html">파이썬 실습</a><a href="glossary.html">용어 사전</a><a href="my.html">내 학습</a><a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz</a></nav>
+  </div>
+</footer>
+<script>window.SITE={"topics":{"0":["t0-0","t0-1","t0-2","t0-3","t0-4","t0-5","t0-6","t0-7","t0-8","t0-9","t0-10"],"1":["t1-1","t1-2","t1-3","t1-4","t1-5"],"2":["t2-1","t2-2","t2-3","t2-4","t2-5"],"3":["t3-1","t3-2","t3-3","t3-4","t3-5","t3-6","t3-8","t3-7"],"4":["t4-1","t4-2","t4-3","t4-4","t4-6","t4-5"]},"units":{"0":{"roman":"0","name":"파이썬 기초","weeks":null},"1":{"roman":"Ⅰ","name":"프로그래밍","weeks":[1,5]},"2":{"roman":"Ⅱ","name":"데이터 구조","weeks":[6,9]},"3":{"roman":"Ⅲ","name":"알고리즘","weeks":[10,13]},"4":{"roman":"Ⅳ","name":"정보과학 프로젝트","weeks":[14,16]}},"quiz":{"0":10,"1":10,"2":10,"3":10,"4":10},"weeks":[{"week":1,"lessons":["오리엔테이션 — 정보과학은 무엇을 배우는 과목인가","함수의 개념 — 내장 함수와 사용자 정의 함수","함수의 정의(<code>def</code>)와 네 가지 구성 요소"]},{"week":2,"lessons":["함수 호출 — 인수와 매개 변수의 관계","<code>return</code>의 두 역할 / 매개 변수·반환값 4가지 형태","지역 변수와 전역 변수, <code>global</code>"]},{"week":3,"lessons":["[역량] 음악 플레이 리스트 관리 프로그램","기본값 매개 변수와 가변 인수 매개 변수","여러 값 반환 / 클래스와 객체"]},{"week":4,"lessons":["모듈 만들기와 <code>import</code>","패키지·라이브러리 / 내장 함수와 표준 라이브러리","[역량] 가위바위보 게임 만들기"]},{"week":5,"lessons":["재귀 구조의 이해 — 수학적 귀납법과 재귀 관계","재귀 함수의 동작 원리 — 호출과 반환","반복 vs 재귀 / 재귀 활용 — 자릿수 합·하노이 탑"]},{"week":6,"lessons":["데이터 구조의 분류 / 스택의 개념(LIFO)","스택의 연산 — push, pop, peek, isEmpty","리스트로 스택 구현하기 · 활용 사례"]},{"week":7,"lessons":["큐의 개념(FIFO)과 연산","리스트로 큐 구현하기 / 덱·우선순위 큐","[역량] 스택·큐를 활용한 프로그램"]},{"week":8,"lessons":["트리의 개념과 구성 요소","트리의 표현 — 인접 행렬과 인접 리스트","이진 트리와 순차 데이터 구조 표현"]},{"week":9,"lessons":["이진 탐색 트리의 규칙과 활용","그래프의 개념·종류와 표현","그래프 탐색 — 깊이 우선·너비 우선 탐색"]},{"week":10,"lessons":["알고리즘의 이해와 문제 해결 전략 네 가지","알고리즘 성능 평가 — 시간·공간 복잡도","빅오 표기법과 알고리즘 성능 비교"]},{"week":11,"lessons":["문제의 세 요소와 상태 공간","탐색 공간의 구조·범위 / 전체 탐색과 순차 탐색","비선형 전체 탐색 — DFS·BFS 적용"]},{"week":12,"lessons":["탐색 공간 배제와 이진 탐색","탐욕 알고리즘 — 거스름돈·시간표 문제","분기 한정 알고리즘과 백트래킹"]},{"week":13,"lessons":["문제 분해와 전체·부분 문제의 관계식","분할 정복법 — 퀵 정렬과 합병 정렬","동적 계획법 — 메모이제이션과 상향식"]},{"week":14,"lessons":["정보과학으로 문제 해결하기 · 문제 해결 5단계","학문 분야별 문제 탐색 / 모둠 구성·주제 선정","[프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화"]},{"week":15,"lessons":["[프로젝트 ①] 알고리즘 설계와 프로그램 작성","[프로젝트 ②] 탄소 발자국 — 데이터 수집과 구조화","[프로젝트 ②] 다익스트라 알고리즘으로 구현하기"]},{"week":16,"lessons":["[프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계","[프로젝트 ③] 백트래킹 구현과 디버깅","산출물 정리 / 프로젝트 발표와 상호 평가"]}],"settings":{"year":2026,"term":"2학기","semester_start":"2026-08-13","submit_url":"","grading":[{"type":"지필","name":"1차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 중간고사","ratio":25},{"type":"지필","name":"2차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 기말고사","ratio":25},{"type":"수행","name":"1차 수행평가 · 프로그래밍 과제","what":"함수·클래스·데이터 구조를 활용한 프로그램 작성과 설명","when":"Ⅰ·Ⅱ단원 중","ratio":25},{"type":"수행","name":"2차 수행평가 · 정보과학 프로젝트","what":"문제 해결 5단계 산출물, 프로그램, 발표·상호 평가","when":"14~16주차","ratio":25,"rubric":{"head":["항목","잘함","보통","노력 필요"],"rows":[["① 문제 발견","생활 속 문제를 구체적인 수치·근거와 함께 제시함","문제를 제시했으나 근거가 부족함","문제가 막연하거나 해결할 대상이 불분명함"],["② 문제 구조화","입력·출력·제약 조건을 명확히 정하고 상태(데이터)를 정의함","입력과 출력은 정했으나 조건이 빠짐","무엇을 계산할지 정하지 못함"],["③ 알고리즘 설계","알맞은 데이터 구조·알고리즘을 고르고 그 이유와 효율(빅오)을 설명함","알고리즘은 설계했으나 선택 이유가 부족함","설계 없이 바로 코드부터 작성함"],["④ 프로그램 구현","함수로 나누어 읽기 쉽게 작성하고 오류 없이 동작함","동작하지만 구조가 정리되지 않음","실행되지 않거나 일부만 동작함"],["⑤ 검증·공유","여러 입력으로 시험하고 한계와 개선점을 발표함","한 가지 경우로만 확인함","결과를 확인하지 않음"],["협업·기여","맡은 역할을 해내고 모둠 기록에 기여가 드러남","역할을 일부 수행함","기여가 드러나지 않음"]]}}]},"settings_edit":"https://github.com/yongdeuk/infoscience2026/edit/main/settings.json","programiz":"https://www.programiz.com/python-programming/online-compiler/"};</script>
+<script src="assets/site.js"></script>
+</body>
+</html>

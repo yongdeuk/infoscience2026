@@ -1,0 +1,156 @@
+{
+ "n": 8,
+ "goal": [
+  "기본값 매개 변수를 정의하고 생략해서 호출할 수 있다",
+  "가변 인수 매개 변수(*)로 개수가 정해지지 않은 값을 처리할 수 있다"
+ ],
+ "hook": "카페에서 “아메리카노 주세요”만 말해도 사이즈와 샷이 알아서 정해지죠. 반대로 친구들 주문을 한꺼번에 받을 땐 몇 잔이 될지 미리 모르고요. 함수도 이런 상황을 처리할 수 있어요.",
+ "code_notes": {
+  "C1": {
+   "say": "가격 목록과 할인율을 받아 판매가를 출력하는데, 할인율을 안 주면 0(할인 없음)으로 처리해요.",
+   "lines": [
+    [
+     1,
+     "discount=0이 기본값이에요. 인수를 하나만 보내면 discount는 자동으로 0이 돼요. 기본값 매개 변수는 일반 매개 변수 뒤에 둬요."
+    ],
+    [
+     3,
+     "1 - discount를 곱하면 할인된 가격이에요. 0.3이면 70%만 내요. round()로 소수점을 반올림해요."
+    ],
+    [
+     6,
+     "인수 1개 → prices만 받고 discount는 기본값 0을 써요."
+    ],
+    [
+     7,
+     "인수 2개 → 0.3이 기본값 대신 discount에 들어가요."
+    ]
+   ],
+   "blanks": [
+    [
+     1,
+     "discount=0"
+    ]
+   ],
+   "predict": {
+    "q": "apply_discount([1500], 0.1)을 실행하면 어떤 줄이 출력될까요?",
+    "a": "정가 1500 → 판매가 1350원 — 1500 × 0.9 = 1350이에요."
+   }
+  },
+  "C2": {
+   "say": "음료를 몇 잔 주문하든 한 함수로 받아 처리해요.",
+   "lines": [
+    [
+     1,
+     "*drinks는 들어온 인수를 모두 튜플 하나로 모아요. 0개가 와도 오류 없이 빈 튜플이 돼요."
+    ],
+    [
+     2,
+     "빈 튜플은 거짓(False)으로 취급돼서 not drinks가 참이 돼요. 주문이 없을 때를 먼저 걸러요."
+    ],
+    [
+     3,
+     "세미콜론(;)으로 한 줄에 두 문장을 썼어요. 출력하고 바로 return으로 끝내요."
+    ],
+    [
+     4,
+     "', '.join()은 튜플 안 문자열을 쉼표로 이어 붙여요."
+    ]
+   ],
+   "blanks": [
+    [
+     1,
+     "*drinks"
+    ],
+    [
+     2,
+     "not drinks"
+    ]
+   ],
+   "predict": {
+    "q": "order_drinks('녹차', '홍차')를 부르면 함수 안의 drinks에는 무엇이 들어 있을까요?",
+    "a": "('녹차', '홍차') — 인수들이 튜플 하나로 묶여 들어가요."
+   }
+  },
+  "C4": {
+   "say": "인사말을 생략하면 기본값 '안녕하세요'를 쓰는 정답 코드예요.",
+   "lines": [
+    [
+     1,
+     "꼭 받아야 하는 name을 앞에, 생략 가능한 word를 뒤에 둬요. 순서가 반대면 SyntaxError가 나요."
+    ],
+    [
+     5,
+     "두 번째 인수가 있으면 기본값 대신 그 값이 쓰여요."
+    ]
+   ]
+  },
+  "C6": {
+   "say": "점수를 몇 개든 받아 평균을 돌려주는 정답 코드예요.",
+   "lines": [
+    [
+     2,
+     "점수가 없으면 len(scores)가 0이라 나눗셈에서 ZeroDivisionError가 나요. 그래서 먼저 걸러요."
+    ],
+    [
+     4,
+     "sum()과 len()은 튜플에도 그대로 쓸 수 있어요."
+    ]
+   ]
+  }
+ },
+ "tasks": [
+  {
+   "kind": "빈칸",
+   "title": "커피 주문 기본값",
+   "prompt": "사이즈를 안 말하면 <code>'톨'</code>, 샷을 안 말하면 <b>1개</b>가 되도록 기본값을 정하고, 마지막 주문은 <b>샷 3개</b>로 보내세요.",
+   "starter": "def make_coffee(menu, size='톨', shot=___):\n    print(f'{menu} {size} 사이즈, 샷 {shot}개')\n\nmake_coffee('아메리카노')\nmake_coffee('라테', '그란데')\nmake_coffee('아메리카노', '벤티', ___)",
+   "expect": "아메리카노 톨 사이즈, 샷 1개\n라테 그란데 사이즈, 샷 1개\n아메리카노 벤티 사이즈, 샷 3개",
+   "hint": "기본값은 =뒤에 써요. 세 번째 인수는 순서대로 shot에 들어가요.",
+   "answer": "def make_coffee(menu, size='톨', shot=1):\n    print(f'{menu} {size} 사이즈, 샷 {shot}개')\n\nmake_coffee('아메리카노')\nmake_coffee('라테', '그란데')\nmake_coffee('아메리카노', '벤티', 3)"
+  },
+  {
+   "kind": "고치기",
+   "title": "매개 변수 순서 오류",
+   "prompt": "실행하면 <code>SyntaxError</code>가 나요. 기본값 매개 변수의 위치 규칙을 떠올려 <b>def 줄만</b> 고쳐서 <code>민서: 코딩 동아리</code>, <code>지호: 밴드 동아리</code>가 나오게 하세요.",
+   "starter": "def introduce(club='코딩', name):\n    print(f'{name}: {club} 동아리')\n\nintroduce('민서')\nintroduce('지호', '밴드')",
+   "expect": "민서: 코딩 동아리\n지호: 밴드 동아리",
+   "hint": "기본값이 있는 매개 변수는 기본값이 없는 매개 변수보다 뒤에 와야 해요.",
+   "answer": "def introduce(name, club='코딩'):\n    print(f'{name}: {club} 동아리')\n\nintroduce('민서')\nintroduce('지호', '밴드')"
+  },
+  {
+   "kind": "만들기",
+   "title": "점수 정렬하기",
+   "prompt": "점수를 개수 제한 없이 받아 오름차순 리스트와 과목 수를 출력하는 <code>sort_scores(*scores)</code>를 만드세요. 점수가 하나도 없으면 <code>점수가 없습니다.</code>만 출력해요.",
+   "starter": "def sort_scores(*scores):\n    # ① 점수가 없으면 안내하고 끝내기\n    # ② sorted()로 정렬해 출력하기\n    # ③ 과목 수 출력하기\n    pass\n\nsort_scores(85, 92, 78, 100, 95)\nsort_scores()",
+   "expect": "정렬: [78, 85, 92, 95, 100]\n과목 수: 5\n점수가 없습니다.",
+   "hint": "sorted(튜플)은 정렬된 ‘리스트’를 돌려줘요. 빈 튜플은 not scores로 걸러요.",
+   "answer": "def sort_scores(*scores):\n    if not scores:\n        print('점수가 없습니다.')\n        return\n    print('정렬:', sorted(scores))\n    print('과목 수:', len(scores))\n\nsort_scores(85, 92, 78, 100, 95)\nsort_scores()"
+  }
+ ],
+ "check": [
+  {
+   "q": "다음 중 올바르게 정의된 함수는?",
+   "options": [
+    "def f(a=1, b):",
+    "def f(*a, *b):",
+    "def f(a, b=1):",
+    "def f(a=1, b=2, c):"
+   ],
+   "answer": 2,
+   "why": "기본값 매개 변수는 일반 매개 변수 뒤에 와야 하고, 가변 인수(*)는 한 함수에 하나만 쓸 수 있어요."
+  },
+  {
+   "q": "def average(*scores):에서 average(80, 90)을 호출하면 scores의 자료형은?",
+   "options": [
+    "튜플",
+    "리스트",
+    "정수",
+    "딕셔너리"
+   ],
+   "answer": 0,
+   "why": "*를 붙인 매개 변수는 전달된 인수들을 튜플 하나로 묶어 받아요."
+  }
+ ],
+ "exit": "print()도 기본값 매개 변수(sep, end)와 가변 인수를 가진 함수예요. print('a', 'b', sep='-')의 결과를 예상하고, 그 이유를 한 줄로 적어 보세요."
+}

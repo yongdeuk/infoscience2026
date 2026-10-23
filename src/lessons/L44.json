@@ -1,0 +1,101 @@
+{
+  "n": 44,
+  "goal": [
+    "탄소 발자국과 탄소 중립의 뜻을 설명할 수 있다",
+    "활동량 × 배출 계수로 하루 탄소 발자국을 계산하는 프로그램을 작성할 수 있다",
+    "모을 데이터와 분석할 내용을 정리해 줄일 목표를 세울 수 있다"
+  ],
+  "hook": "오늘 아침 버스로 등교하고, 점심에 불고기를 먹고, 저녁에 노트북을 2시간 썼다면 이산화탄소는 몇 kg 나왔을까요? 가격 계산처럼 곱하고 더하면 알 수 있어요.",
+  "code_notes": {
+    "C1": {
+      "say": "활동마다 사용량을 입력받아 배출 계수를 곱하고, 모두 더해 하루 탄소 발자국을 구해요.",
+      "lines": [
+        [
+          1,
+          "배출 계수를 ‘활동 이름 → 한 단위당 kg CO2’ 딕셔너리로 저장해요. 활동을 늘리려면 이 줄에 항목만 더하면 돼요."
+        ],
+        [
+          3,
+          "합계를 담을 변수는 반복 전에 0으로 만들어요. 반복 안에서 만들면 매번 0으로 돌아가요."
+        ],
+        [
+          4,
+          ".items()는 (키, 값)을 한 쌍씩 꺼내 줘요. activity에는 이름, factor에는 계수가 들어가요."
+        ],
+        [
+          6,
+          "이 프로젝트의 기본 공식, 활동량 × 배출 계수예요."
+        ],
+        [
+          7,
+          "활동마다 나온 양을 total에 차곡차곡 더해요."
+        ]
+      ],
+      "blanks": [
+        [
+          6,
+          "amount * factor"
+        ],
+        [
+          7,
+          "total += co2"
+        ]
+      ],
+      "predict": {
+        "q": "전기 10, 버스 8, 소고기 0.2, 채소 0.2를 넣으면 마지막 줄에 무엇이 나올까요?",
+        "a": "오늘의 탄소 발자국: 11.04kg CO2 — 4.74 + 0.8 + 5.4 + 0.1이에요. 소고기 0.2kg이 거의 절반을 차지해요."
+      }
+    }
+  },
+  "tasks": [
+    {
+      "kind": "빈칸",
+      "title": "입력 없이 계산하는 탄소 계산기",
+      "prompt": "교과서 코드에서 <code>input()</code> 대신 사용량을 딕셔너리 <code>amounts</code>에 미리 넣었어요. 같은 키로 사용량을 꺼내 배출 계수와 곱하도록 ___를 채우세요. 두 딕셔너리의 키가 똑같아야 짝이 맞아요.",
+      "starter": "factors = {'전기(kWh)': 0.474, '버스(km)': 0.1, '소고기(kg)': 27, '채소(kg)': 0.5}\namounts = {'전기(kWh)': 6, '버스(km)': 12, '소고기(kg)': 0.15, '채소(kg)': 0.3}\n\ntotal = 0\nfor activity, factor in factors.items():\n    amount = amounts[___]\n    co2 = ___\n    total += co2\n    print(f'{activity}: {amount} × {factor} = {co2:.2f}kg CO2')\n\nprint(f'오늘의 탄소 발자국: {total:.2f}kg CO2')\n",
+      "expect": "전기(kWh): 6 × 0.474 = 2.84kg CO2\n버스(km): 12 × 0.1 = 1.20kg CO2\n소고기(kg): 0.15 × 27 = 4.05kg CO2\n채소(kg): 0.3 × 0.5 = 0.15kg CO2\n오늘의 탄소 발자국: 8.24kg CO2",
+      "hint": "amounts에서 꺼낼 키는 지금 반복 중인 activity이고, co2는 amount * factor예요.",
+      "answer": "factors = {'전기(kWh)': 0.474, '버스(km)': 0.1, '소고기(kg)': 27, '채소(kg)': 0.5}\namounts = {'전기(kWh)': 6, '버스(km)': 12, '소고기(kg)': 0.15, '채소(kg)': 0.3}\n\ntotal = 0\nfor activity, factor in factors.items():\n    amount = amounts[activity]\n    co2 = amount * factor\n    total += co2\n    print(f'{activity}: {amount} × {factor} = {co2:.2f}kg CO2')\n\nprint(f'오늘의 탄소 발자국: {total:.2f}kg CO2')\n"
+    },
+    {
+      "kind": "만들기",
+      "title": "가장 큰 배출원 찾고 줄이기 목표 세우기",
+      "prompt": "어디서 줄여야 효과가 클까요? 활동별 배출량을 계산해 딕셔너리 <code>result</code>에 담고, <b>배출량이 가장 큰 활동</b>을 찾으세요. 그 활동을 <b>절반</b>으로 줄이면 하루 합계가 얼마가 되는지도 출력해요. 이것이 ‘분석해서 줄일 목표 정하기’예요.",
+      "starter": "factors = {'전기(kWh)': 0.474, '버스(km)': 0.1, '소고기(kg)': 27, '채소(kg)': 0.5}\namounts = {'전기(kWh)': 6, '버스(km)': 12, '소고기(kg)': 0.15, '채소(kg)': 0.3}\n\nresult = {}\n# 1) result[활동] = 사용량 × 배출 계수 를 채우세요\n\nbig = ''\n# 2) result에서 값이 가장 큰 활동 이름을 big에 담으세요\n\ntotal = sum(result.values())\nprint(f'가장 큰 배출원: {big}')\nprint(f'지금 합계: {total:.2f}kg')\n# 3) big을 절반으로 줄였을 때의 합계를 출력하세요\n",
+      "expect": "가장 큰 배출원: 소고기(kg)\n지금 합계: 8.24kg\n소고기(kg)을(를) 절반으로 줄이면: 6.22kg",
+      "hint": "for a in factors: result[a] = amounts[a] * factors[a]. 최대 찾기는 big이 ''이거나 result[a] > result[big]일 때 big = a. 줄인 합계는 total - result[big] / 2.",
+      "answer": "factors = {'전기(kWh)': 0.474, '버스(km)': 0.1, '소고기(kg)': 27, '채소(kg)': 0.5}\namounts = {'전기(kWh)': 6, '버스(km)': 12, '소고기(kg)': 0.15, '채소(kg)': 0.3}\n\nresult = {}\nfor a in factors:\n    result[a] = amounts[a] * factors[a]\n\nbig = ''\nfor a in result:\n    if big == '' or result[a] > result[big]:\n        big = a\n\ntotal = sum(result.values())\nprint(f'가장 큰 배출원: {big}')\nprint(f'지금 합계: {total:.2f}kg')\nprint(f'{big}을(를) 절반으로 줄이면: {total - result[big] / 2:.2f}kg')\n"
+    },
+    {
+      "kind": "생각",
+      "title": "생활 속 탄소 발자국 조사",
+      "prompt": "일회용 컵 1개는 약 11g이에요. 노트북 4시간, 샤워 15분, TV 2시간, 헤어드라이어 5분, 냉장고 24시간, 세탁기 1시간, 교실 형광등 10시간 중 <b>세 가지</b>를 검색해 탄소 발자국과 <b>출처</b>를 적으세요. 그리고 내가 실천할 수 있는 줄이기 목표 하나를 숫자로 적어 보세요.",
+      "placeholder": "노트북 4시간: 약 ○○g (출처: ○○○)\n샤워 15분: 약 ○○g (출처: ○○○)\n형광등 10시간: 약 ○○g (출처: ○○○)\n나의 목표: 샤워를 15분 → 10분으로 줄여 하루 ○○g 줄이기"
+    }
+  ],
+  "check": [
+    {
+      "q": "버스를 5km 탔어요. 배출 계수가 1km에 0.1kg이면 탄소 발자국은?",
+      "options": [
+        "0.5kg",
+        "5.1kg",
+        "0.02kg",
+        "50kg"
+      ],
+      "answer": 0,
+      "why": "활동량 × 배출 계수 = 5 × 0.1 = 0.5kg이에요."
+    },
+    {
+      "q": "‘탄소 중립’의 뜻으로 알맞은 것은?",
+      "options": [
+        "이산화탄소를 전혀 내보내지 않는다",
+        "탄소를 많이 내보내는 나라와 적게 내보내는 나라의 평균을 맞춘다",
+        "탄소 배출량을 매년 조금씩 늘린다",
+        "내보낸 만큼 흡수해 실제로 늘어나는 양을 0으로 만든다"
+      ],
+      "answer": 3,
+      "why": "탄소 중립은 배출을 0으로 만드는 게 아니라, 배출한 만큼 숲 가꾸기 등으로 흡수해 ‘순 배출’을 0으로 하는 거예요."
+    }
+  ],
+  "exit": "오늘 계산해 보니 나의 하루 탄소 발자국에서 가장 큰 부분은 무엇이었는지, 어떻게 줄일지 한 줄로 적어 보세요."
+}
