@@ -1,0 +1,61 @@
+{
+  "n": 46,
+  "goal": [
+    "자리 배치 요구 사항을 모으고 우선순위를 정할 수 있다",
+    "교실을 2차원 격자로, 자리를 (행, 열)로 나타낼 수 있다",
+    "자리 배치 문제를 작은 문제로 나누고 백트래킹으로 푸는 방법을 설명할 수 있다"
+  ],
+  "hook": "자리 바꾸는 날, 제비뽑기로 정하면 공평할까요? 눈이 나쁜 친구, 지난달과 같은 자리가 나온 친구의 사정까지 들어주려면 컴퓨터에게 무엇을 알려 줘야 할까요?",
+  "code_notes": {},
+  "tasks": [
+    {
+      "kind": "생각",
+      "title": "우리 반 요구 사항과 우선순위",
+      "prompt": "우리 반 자리 배치에서 지켜야 할 요구 사항을 <b>네 가지 이상</b> 적고, 중요한 순서대로 번호를 매기세요. 그리고 두 요구가 <b>부딪치는 상황</b>을 하나 떠올려, 그때 무엇을 먼저 지킬지와 그 까닭을 적어요.",
+      "placeholder": "1. 시력이 나쁜 학생은 앞자리 고정 (건강과 관련되니까)\n2. 지난번 자리에는 앉지 않기\n3. 앞·뒤 선호 들어주기\n4. 나머지는 무작위\n부딪치는 상황: 앞자리 4칸에 6명이 원하면 → 고정 자리 학생 먼저, 그다음 선호 정도가 큰 학생부터"
+    },
+    {
+      "kind": "빈칸",
+      "title": "CSV 자리 글자를 (행, 열)로 바꾸기",
+      "prompt": "students.csv에는 자리가 <code>'1_3'</code>처럼 글자로 적혀 있어요. 이것을 프로그램이 쓰기 좋은 튜플 <code>(1, 3)</code>으로 바꾸는 함수를 완성하세요. 비어 있는 칸(<code>''</code>)은 ‘자리 없음’이라는 뜻으로 None을 돌려줘요.",
+      "starter": "def parse_seat(seat_str):\n    if seat_str == '':\n        return ___\n    r, c = seat_str.split(___)        # '1_3' → ['1', '3']\n    return (int(r), int(c))\n\nfor s in ['0_0', '1_3', '', '3_2']:\n    print(repr(s), '→', parse_seat(s))\n",
+      "expect": "'0_0' → (0, 0)\n'1_3' → (1, 3)\n'' → None\n'3_2' → (3, 2)",
+      "hint": "빈 칸이면 None, 나누는 기준 글자는 밑줄 '_'이에요.",
+      "answer": "def parse_seat(seat_str):\n    if seat_str == '':\n        return None\n    r, c = seat_str.split('_')        # '1_3' → ['1', '3']\n    return (int(r), int(c))\n\nfor s in ['0_0', '1_3', '', '3_2']:\n    print(repr(s), '→', parse_seat(s))\n"
+    },
+    {
+      "kind": "만들기",
+      "title": "2차원 교실에서 앞자리 후보 모으기",
+      "prompt": "4행 4열 교실을 2차원 리스트로 만들고, 고정 자리 (0, 0), (0, 1)에 학생을 앉혔어요. 이제 앞자리 선호 학생 3명에게 줄 <b>빈자리 후보 3개</b>를 앞줄부터, 왼쪽부터 차례로 모으세요. 이 후보 목록이 다음 시간 백트래킹이 시도할 자리들이에요.",
+      "starter": "rows, cols = 4, 4\nseats = [[None for _ in range(cols)] for _ in range(rows)]\nseats[0][0] = '민지'\nseats[0][1] = '지영'\n\nneed = 3\npositions = []\n# 0행부터, 각 행은 0열부터 보면서 빈자리(None)이면 positions에 (행, 열)을 넣으세요.\n# 단, need개가 모이면 더 넣지 않아요.\n\nprint('앞자리 후보:', positions)\nfor row in seats:\n    print([s if s else '__' for s in row])\n",
+      "expect": "앞자리 후보: [(0, 2), (0, 3), (1, 0)]\n['민지', '지영', '__', '__']\n['__', '__', '__', '__']\n['__', '__', '__', '__']\n['__', '__', '__', '__']",
+      "hint": "for i in range(rows): for j in range(cols): 안에서 len(positions) < need and seats[i][j] is None 이면 positions.append((i, j)).",
+      "answer": "rows, cols = 4, 4\nseats = [[None for _ in range(cols)] for _ in range(rows)]\nseats[0][0] = '민지'\nseats[0][1] = '지영'\n\nneed = 3\npositions = []\nfor i in range(rows):\n    for j in range(cols):\n        if len(positions) < need and seats[i][j] is None:\n            positions.append((i, j))\n\nprint('앞자리 후보:', positions)\nfor row in seats:\n    print([s if s else '__' for s in row])\n"
+    }
+  ],
+  "check": [
+    {
+      "q": "4행 4열 교실에서 교탁에 가장 가까운 줄의 맨 오른쪽 자리를 (행, 열)로 나타내면?",
+      "options": [
+        "(0, 3)",
+        "(3, 0)",
+        "(1, 4)",
+        "(4, 4)"
+      ],
+      "answer": 0,
+      "why": "컴퓨터는 0부터 세고 교탁 쪽이 0행이에요. 열은 0~3이니 맨 오른쪽은 3열이에요."
+    },
+    {
+      "q": "자리 배치 요구 사항 가운데 가장 먼저 처리하는 것과 그 까닭으로 알맞은 것은?",
+      "options": [
+        "무작위 배정 — 가장 공평해서",
+        "선호 자리 — 학생들이 가장 많이 원해서",
+        "고정 자리 — 나중에 하면 다른 학생이 먼저 앉아 충돌할 수 있어서",
+        "이전 자리 피하기 — 계산이 가장 쉬워서"
+      ],
+      "answer": 2,
+      "why": "꼭 그 자리에 앉아야 하는 학생을 먼저 앉혀야 다른 배정과 부딪치지 않아요."
+    }
+  ],
+  "exit": "백트래킹을 ‘미로’에 빗대어, 자리 배치에서 언제 되돌아가는지 한 줄로 적어 보세요."
+}

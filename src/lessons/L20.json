@@ -1,0 +1,142 @@
+{
+  "n": 20,
+  "goal": [
+    "큐를 이용해 대기 줄과 피보나치수열 계산 프로그램을 만들 수 있다",
+    "덱과 우선순위 큐가 일반 큐와 어떻게 다른지 설명할 수 있다"
+  ],
+  "hook": "맛집 줄서기 앱은 '앞에 3팀, 예상 15분'처럼 알려 줘요. 앱은 어떤 정보만 있으면 이 숫자를 계산할 수 있을까요?",
+  "code_notes": {
+    "C1": {
+      "say": "큐에 학생을 줄 세우고, 인원수로 대기 시간을 계산하며, 맨 앞 학생부터 입장시키는 프로그램이에요.",
+      "lines": [
+        [
+          2,
+          "줄에 선 사람 수(len)에 5분을 곱해요. 큐에 몇 개가 들어 있는지가 곧 대기 인원이에요."
+        ],
+        [
+          6,
+          "' → '.join으로 이름들을 화살표로 이어요. end=' '라서 다음 print가 같은 줄에 이어 나와요."
+        ],
+        [
+          11,
+          "dequeue로 맨 앞 학생을 꺼내요. 가장 먼저 온 지원이가 가장 먼저 입장해요."
+        ],
+        [
+          15,
+          "세미콜론(;)으로 두 문장을 한 줄에 썼어요. 넣고 바로 상태를 출력해요."
+        ],
+        [
+          18,
+          "입장하면 큐에서 빠지니 len이 줄고, 예상 시간도 자동으로 5분 줄어요."
+        ]
+      ],
+      "blanks": [
+        [
+          2,
+          "len(Queue.que) * 5"
+        ],
+        [
+          11,
+          "Queue.dequeue()"
+        ]
+      ],
+      "predict": {
+        "q": "실행하기 전에 예측해 보세요: 18번 줄을 실행하면 어떤 두 줄이 출력될까요?",
+        "a": "'지원 이(가) 급식실에 입장했습니다.' 다음에 '▶현재 대기 상태: 수현 → 채원 ▶현재 예상 대기 시간: 10 분' — 맨 앞의 지원이가 빠져서 2명 × 5분이에요."
+      }
+    },
+    "C2": {
+      "say": "큐에 앞의 두 항만 남겨 두고, 하나 꺼내고 하나 넣기를 반복하며 피보나치수열을 계산해요.",
+      "lines": [
+        [
+          4,
+          "가장 오래된 항은 이번 계산에만 쓰고 버려요. 그래서 dequeue로 꺼내면서 지워요."
+        ],
+        [
+          5,
+          "두 번째 항은 다음 계산에서도 '앞의 항'이 돼요. 지우면 안 되니 peek으로 보기만 해요."
+        ],
+        [
+          7,
+          "새 항을 뒤에 넣어요. 그래서 큐에는 언제나 딱 두 개의 항만 남아요."
+        ],
+        [
+          11,
+          "F(0)=0과 F(1)=1을 미리 넣어 두어야 첫 계산을 할 수 있어요."
+        ]
+      ],
+      "blanks": [
+        [
+          4,
+          "q.dequeue()"
+        ],
+        [
+          5,
+          "q.peek()"
+        ],
+        [
+          7,
+          "q.enqueue(new_value)"
+        ]
+      ],
+      "predict": {
+        "q": "실행하기 전에 예측해 보세요: fibo(10)의 마지막 줄은 무엇일까요? 그때 큐 안에는 어떤 두 수가 남아 있을까요?",
+        "a": "F(10) = 55 — 큐에는 34와 55가 남아요. 매번 하나 빼고 하나 넣으니 항상 두 개예요."
+      }
+    }
+  },
+  "tasks": [
+    {
+      "kind": "빈칸",
+      "title": "큐 변화 따라가기",
+      "prompt": "교과서 '스스로 해결하기'의 연산 enqueue(3) → enqueue(4) → enqueue(5) → dequeue() → dequeue() → enqueue(6) → enqueue(1) → dequeue() → dequeue()를 리스트로 실행해 보세요. 빈칸을 채우고, 결과를 손으로 그린 그림과 비교하세요.",
+      "starter": "q = []\nout = []\nops = ['in 3', 'in 4', 'in 5', 'out', 'out', 'in 6', 'in 1', 'out', 'out']\nfor op in ops:\n    if op == 'out':\n        out.append(q.___)\n    else:\n        q.___(int(op.split()[1]))\nprint('꺼낸 값:', out)\nprint('남은 큐:', q)\n",
+      "expect": "꺼낸 값: [3, 4, 5, 6]\n남은 큐: [1]",
+      "hint": "큐에서 꺼낼 때는 pop(0), 넣을 때는 append예요.",
+      "answer": "q = []\nout = []\nops = ['in 3', 'in 4', 'in 5', 'out', 'out', 'in 6', 'in 1', 'out', 'out']\nfor op in ops:\n    if op == 'out':\n        out.append(q.pop(0))\n    else:\n        q.append(int(op.split()[1]))\nprint('꺼낸 값:', out)\nprint('남은 큐:', q)\n"
+    },
+    {
+      "kind": "고치기",
+      "title": "피보나치 큐 고치기",
+      "prompt": "아래 코드는 실행하면 오류가 나요. F(7) = 13까지 출력되게 한 줄만 고치세요. 왜 그 줄에서 dequeue를 쓰면 안 되는지도 생각해 보세요.",
+      "starter": "class Queue:\n    def __init__(self):\n        self.que = []\n    def isEmpty(self):\n        return len(self.que) == 0\n    def enqueue(self, data):\n        self.que.append(data)\n    def dequeue(self):\n        if not self.isEmpty():\n            return self.que.pop(0)\n    def peek(self):\n        if not self.isEmpty():\n            return self.que[0]\n\ndef fibo(n):\n    print('F(1) = 1')\n    for i in range(2, n + 1):\n        first = q.dequeue()\n        second = q.dequeue()\n        new_value = first + second\n        q.enqueue(new_value)\n        print(f'F({i}) = {new_value}')\n\nq = Queue()\nq.enqueue(0)\nq.enqueue(1)\nfibo(7)\n",
+      "expect": "F(1) = 1\nF(2) = 1\nF(3) = 2\nF(4) = 3\nF(5) = 5\nF(6) = 8\nF(7) = 13",
+      "hint": "두 번째 항은 다음 계산에도 써야 하니 지우지 말고 peek으로 보기만 해야 해요.",
+      "answer": "class Queue:\n    def __init__(self):\n        self.que = []\n    def isEmpty(self):\n        return len(self.que) == 0\n    def enqueue(self, data):\n        self.que.append(data)\n    def dequeue(self):\n        if not self.isEmpty():\n            return self.que.pop(0)\n    def peek(self):\n        if not self.isEmpty():\n            return self.que[0]\n\ndef fibo(n):\n    print('F(1) = 1')\n    for i in range(2, n + 1):\n        first = q.dequeue()\n        second = q.peek()\n        new_value = first + second\n        q.enqueue(new_value)\n        print(f'F({i}) = {new_value}')\n\nq = Queue()\nq.enqueue(0)\nq.enqueue(1)\nfibo(7)\n"
+    },
+    {
+      "kind": "만들기",
+      "title": "돌아가며 인쇄하는 프린터",
+      "prompt": "프린터는 한 번에 <b>최대 3쪽</b>만 인쇄하고, 다 못 끝낸 문서는 남은 쪽수와 함께 <b>줄 맨 뒤로</b> 보내요. 1쪽에 1분이 걸릴 때, 문서가 끝날 때마다 <code>수학 완료 (5분)</code>처럼 출력하세요.",
+      "starter": "jobs = [['국어', 4], ['수학', 2], ['영어', 5]]   # [문서 이름, 남은 쪽수]\ntime = 0\nwhile jobs:\n    name, pages = jobs.pop(0)     # 맨 앞 문서를 꺼냄\n    # 이번에 인쇄할 쪽수를 정하고 time을 늘리세요\n    # 남은 쪽이 있으면 줄 뒤로, 없으면 완료 메시지\n",
+      "expect": "수학 완료 (5분)\n국어 완료 (9분)\n영어 완료 (11분)",
+      "hint": "printed = min(pages, 3)으로 이번 쪽수를 정하고, time += printed, pages -= printed 한 뒤 pages > 0이면 jobs.append([name, pages])를 하세요.",
+      "answer": "jobs = [['국어', 4], ['수학', 2], ['영어', 5]]   # [문서 이름, 남은 쪽수]\ntime = 0\nwhile jobs:\n    name, pages = jobs.pop(0)     # 맨 앞 문서를 꺼냄\n    printed = min(pages, 3)\n    time += printed\n    pages -= printed\n    if pages > 0:\n        jobs.append([name, pages])\n    else:\n        print(f'{name} 완료 ({time}분)')\n"
+    }
+  ],
+  "check": [
+    {
+      "q": "피보나치 큐 코드에서 두 번째 값을 dequeue()가 아니라 peek()으로 가져오는 이유는 무엇일까요?",
+      "options": [
+        "peek()이 더 빨라서",
+        "그 값은 다음 계산에서도 써야 하므로 지우면 안 되어서",
+        "dequeue()는 두 번 쓸 수 없어서",
+        "peek()은 맨 뒤 값을 보여 주어서"
+      ],
+      "answer": 1,
+      "why": "peek은 보기만 하고 지우지 않아요. 두 번째 항은 다음 차례에서 '앞의 항'이 되므로 큐에 남아 있어야 해요."
+    },
+    {
+      "q": "앞과 뒤 양쪽에서 모두 삽입·삭제할 수 있어서 스택처럼도 큐처럼도 쓸 수 있는 구조는 무엇일까요?",
+      "options": [
+        "우선순위 큐",
+        "트리",
+        "배열",
+        "덱(deque)"
+      ],
+      "answer": 3,
+      "why": "덱은 양쪽 끝이 모두 열려 있어요. 우선순위 큐는 들어온 순서가 아니라 우선순위가 높은 것부터 나가요."
+    }
+  ],
+  "exit": "우리 생활에서 큐로 처리하면 좋은 상황을 하나 찾고, 그때 enqueue와 dequeue가 각각 무엇에 해당하는지 적어 보세요."
+}

@@ -1,0 +1,145 @@
+{
+  "n": 25,
+  "goal": [
+    "토너먼트 대진표를 이진 트리로 보고 i // 2로 부모를 따라 올라가는 원리를 설명할 수 있다",
+    "재귀로 이진 트리의 높이를 구하고, 이진 탐색 트리의 중위 순회로 값을 정렬할 수 있다"
+  ],
+  "hook": "128개 동아리가 겨루는 토너먼트에서 우리 동아리(1번)와 라이벌 동아리(100번)는 언제 만날까요? 대진표를 하나하나 따라가지 않고 계산으로 알아낼 방법이 있을까요?",
+  "code_notes": {
+    "C1": {
+      "say": "토너먼트 대진표를 리스트 이진 트리로 보고, 두 팀이 같은 노드에서 만날 때까지 부모로 올라가며 이겨야 하는 횟수를 세요.",
+      "lines": [
+        [
+          2,
+          "공백으로 나눈 두 글자를 map(int, …)으로 한꺼번에 정수로 바꿔요."
+        ],
+        [
+          3,
+          "128팀은 맨 아래 단말 노드예요. 루트가 1번이면 단말은 128~255번이라 1번 팀은 1+127=128번 칸이에요."
+        ],
+        [
+          6,
+          "두 팀이 같은 노드에 도착했다는 건 그 경기에서 만난다는 뜻이에요. 그때까지 반복해요."
+        ],
+        [
+          7,
+          "i // 2는 부모 노드예요. 한 번 이길 때마다 대진표에서 한 칸 위로 올라가요."
+        ],
+        [
+          10,
+          "cnt를 −1에서 시작했으니 +1 하면 반복한 횟수, 즉 이겨야 하는 경기 수예요."
+        ]
+      ],
+      "blanks": [
+        [
+          3,
+          "num1 += 127"
+        ],
+        [
+          7,
+          "num1 //= 2"
+        ],
+        [
+          8,
+          "num2 //= 2"
+        ]
+      ],
+      "predict": {
+        "q": "실행하기 전에 예측해 보세요: 1 128을 입력하면 몇 번 이겨야 만날까요? 1 2라면요?",
+        "a": "1 128은 7번, 1 2는 1번 — 1번과 128번은 양 끝이라 결승(루트)에서야 만나요. 128팀 토너먼트는 7라운드라 최대 7이에요."
+      }
+    },
+    "C3": {
+      "say": "'내 높이 = 더 깊은 자식 쪽 높이 + 1'을 재귀로 계산하는 정답 코드예요.",
+      "lines": [
+        [
+          2,
+          "리스트 범위를 넘거나 0인 칸은 노드가 없다는 뜻이라 높이 0이에요. 재귀를 멈추는 기본 단계예요."
+        ],
+        [
+          4,
+          "왼쪽 서브 트리의 높이를 같은 함수로 구해요. 큰 문제를 작은 트리 문제로 나눈 거예요."
+        ],
+        [
+          6,
+          "두 쪽 중 더 깊은 쪽에 나 자신(1)을 더해요."
+        ]
+      ]
+    },
+    "C5": {
+      "say": "딕셔너리를 노드로 써서 이진 탐색 트리를 만들고, 중위 순회로 꺼내 저절로 정렬되는지 확인하는 정답 코드예요.",
+      "lines": [
+        [
+          3,
+          "빈자리에 도착하면 값과 빈 왼쪽·오른쪽을 가진 새 노드를 만들어 돌려줘요."
+        ],
+        [
+          5,
+          "작으면 왼쪽 서브 트리에 넣고, 바뀐 서브 트리를 다시 연결해요."
+        ],
+        [
+          13,
+          "왼쪽(작은 값들)을 먼저 모두 방문해요."
+        ],
+        [
+          14,
+          "그다음 자기 값을 넣고, 15번 줄에서 오른쪽(큰 값들)을 방문해요. 그래서 작은 것부터 순서대로 쌓여요."
+        ]
+      ]
+    }
+  },
+  "tasks": [
+    {
+      "kind": "빈칸",
+      "title": "토너먼트 계산 함수",
+      "prompt": "input 대신 두 번호를 받는 <code>meet(a, b)</code>를 완성하세요. 두 팀이 만날 때까지 둘 다 부모 칸으로 올라가며 횟수를 세요.",
+      "starter": "def meet(a, b):\n    a += 127\n    b += 127\n    cnt = 0\n    while a != b:\n        a ___\n        b ___\n        cnt += 1\n    return cnt\n\nfor x, y in [(1, 2), (1, 3), (5, 8), (1, 128)]:\n    print(f'{x}번과 {y}번: {meet(x, y)}번 이기면 만나요')\n",
+      "expect": "1번과 2번: 1번 이기면 만나요\n1번과 3번: 2번 이기면 만나요\n5번과 8번: 2번 이기면 만나요\n1번과 128번: 7번 이기면 만나요",
+      "hint": "부모 노드 번호는 i // 2예요. 그래서 a //= 2, b //= 2를 써요.",
+      "answer": "def meet(a, b):\n    a += 127\n    b += 127\n    cnt = 0\n    while a != b:\n        a //= 2\n        b //= 2\n        cnt += 1\n    return cnt\n\nfor x, y in [(1, 2), (1, 3), (5, 8), (1, 128)]:\n    print(f'{x}번과 {y}번: {meet(x, y)}번 이기면 만나요')\n"
+    },
+    {
+      "kind": "고치기",
+      "title": "높이 함수의 버그 두 개",
+      "prompt": "세 트리의 높이는 3, 3, 1이어야 해요. 지금 코드는 오류가 나요. 고쳐도 0만 나온다면 버그가 하나 더 있는 거예요.",
+      "starter": "def height(tree, i):\n    if tree[i] == 0:\n        return 0\n    left = height(tree, i * 2)\n    right = height(tree, i * 2 + 1)\n    return max(left, right)\n\nprint(height([0, 'A', 'B', 'C', 'D', 0, 0, 'E'], 1))\nprint(height([0, 'A', 'B', 0, 'C'], 1))\nprint(height([0, 'A'], 1))\n",
+      "expect": "3\n3\n1",
+      "hint": "① i가 리스트 길이 이상이면 tree[i]에서 오류가 나요. i >= len(tree)를 먼저 검사하세요. ② 자기 자신의 층 1을 더해야 해요.",
+      "answer": "def height(tree, i):\n    if i >= len(tree) or tree[i] == 0:\n        return 0\n    left = height(tree, i * 2)\n    right = height(tree, i * 2 + 1)\n    return max(left, right) + 1\n\nprint(height([0, 'A', 'B', 'C', 'D', 0, 0, 'E'], 1))\nprint(height([0, 'A', 'B', 0, 'C'], 1))\nprint(height([0, 'A'], 1))\n"
+    },
+    {
+      "kind": "만들기",
+      "title": "중위 순회로 시험 점수 정렬하기",
+      "prompt": "<code>insert</code>는 주어져 있어요. 왼쪽 → 자기 → 오른쪽 순서로 방문하는 <code>inorder(node, out)</code>를 직접 작성해 점수를 오름차순으로 출력하세요. sort()는 쓰지 마세요!",
+      "starter": "def insert(node, value):\n    if node is None:\n        return {'val': value, 'left': None, 'right': None}\n    if value < node['val']:\n        node['left'] = insert(node['left'], value)\n    else:\n        node['right'] = insert(node['right'], value)\n    return node\n\ndef inorder(node, out):\n    pass   # 여기를 완성하세요\n\nroot = None\nfor v in [72, 45, 88, 30, 60, 95, 51]:\n    root = insert(root, v)\nresult = []\ninorder(root, result)\nprint(result)\n",
+      "expect": "[30, 45, 51, 60, 72, 88, 95]",
+      "hint": "node가 None이면 return. 아니면 inorder(node['left'], out) → out.append(node['val']) → inorder(node['right'], out) 순서예요.",
+      "answer": "def insert(node, value):\n    if node is None:\n        return {'val': value, 'left': None, 'right': None}\n    if value < node['val']:\n        node['left'] = insert(node['left'], value)\n    else:\n        node['right'] = insert(node['right'], value)\n    return node\n\ndef inorder(node, out):\n    if node is None:\n        return\n    inorder(node['left'], out)\n    out.append(node['val'])\n    inorder(node['right'], out)\n\nroot = None\nfor v in [72, 45, 88, 30, 60, 95, 51]:\n    root = insert(root, v)\nresult = []\ninorder(root, result)\nprint(result)\n"
+    }
+  ],
+  "check": [
+    {
+      "q": "128팀 토너먼트를 리스트 이진 트리(루트 1번)로 나타낼 때, 신청 번호 10번 팀의 노드 번호는 무엇일까요?",
+      "options": [
+        "10",
+        "127",
+        "137",
+        "138"
+      ],
+      "answer": 2,
+      "why": "단말 노드는 128번부터 시작하므로 10 + 127 = 137번이에요."
+    },
+    {
+      "q": "이진 탐색 트리를 중위 순회(왼쪽 → 자기 → 오른쪽)하면 값이 오름차순으로 나오는 이유는 무엇일까요?",
+      "options": [
+        "값을 넣을 때 정렬했기 때문에",
+        "왼쪽 서브 트리는 모두 작고 오른쪽은 모두 크기 때문에",
+        "루트가 항상 가장 작은 값이기 때문에",
+        "단말 노드만 출력하기 때문에"
+      ],
+      "answer": 1,
+      "why": "모든 노드에서 '왼쪽 < 자기 < 오른쪽'이 성립하므로, 왼쪽부터 훑으면 작은 값부터 차례로 나와요."
+    }
+  ],
+  "exit": "height 함수에서 '기본 단계'와 '재귀 단계'가 각각 어느 줄인지 찾고, 왜 기본 단계가 꼭 필요한지 한 문장으로 적어 보세요."
+}

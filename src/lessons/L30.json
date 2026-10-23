@@ -1,0 +1,199 @@
+{
+ "n": 30,
+ "goal": [
+  "빅오 표기법으로 알고리즘의 빠르기를 나타낼 수 있다",
+  "반복문의 겹 수를 보고 O(1), O(n), O(n²)을 구별할 수 있다",
+  "비교 횟수를 세어 시간 복잡도를 실험으로 확인할 수 있다"
+ ],
+ "hook": "반 친구 30명이 모두 서로 한 번씩 악수하면 악수는 몇 번일까요? 90명이 되면 3배일까요, 9배일까요?",
+ "code_notes": {
+  "C1": {
+   "say": "반복문으로 0부터 n까지 하나씩 더해 1부터 n까지의 합을 구해요.",
+   "lines": [
+    [
+     3,
+     "range(n + 1)은 0, 1, …, n이에요. n이 2배가 되면 더하는 횟수도 2배 → O(n)."
+    ],
+    [
+     4,
+     "반복할 때마다 한 번씩 실행되는 ‘일’이에요. 시간 복잡도는 바로 이 줄이 몇 번 실행되는지 세는 거예요."
+    ]
+   ],
+   "predict": {
+    "q": "n에 100을 넣으면 4번 줄(total += num)은 몇 번 실행될까요?",
+    "a": "101번이에요(0부터 100까지). 대략 n번이라서 O(n)이에요."
+   }
+  },
+  "C2": {
+   "say": "가우스의 공식 n(n+1)/2로 반복 없이 합을 바로 구해요.",
+   "lines": [
+    [
+     2,
+     "n이 10이든 1억이든 곱셈·나눗셈 몇 번이면 끝나요. 입력 크기와 상관없으니 O(1)이에요."
+    ]
+   ],
+   "predict": {
+    "q": "n에 100을 넣으면 무엇이 출력될까요?",
+    "a": "1부터 100까지의 합은 5050입니다. — 프로그램 1과 답이 같아요. 방법만 달라요."
+   }
+  },
+  "C3": {
+   "say": "앞에서부터 한 자리씩, 남은 값 중 가장 작은 값을 찾아 그 자리에 놓는 선택 정렬이에요.",
+   "lines": [
+    [
+     5,
+     "바깥 반복문: i번째 자리를 채워요. n번 돌아요."
+    ],
+    [
+     7,
+     "안쪽 반복문: i번째부터 끝까지 훑으며 가장 작은 값을 찾아요. 처음엔 n번, 다음엔 n−1번 … 이렇게 겹치니 전체는 약 n²/2번 → O(n²)."
+    ],
+    [
+     8,
+     "더 작은 값을 만나면 smallest와 그 위치 k를 바꿔 기억해요."
+    ],
+    [
+     11,
+     "찾은 최솟값을 원래 자리에서 빼서(del) i번째 자리에 끼워 넣어요(insert)."
+    ]
+   ],
+   "blanks": [
+    [
+     7,
+     "range(i, n)"
+    ],
+    [
+     8,
+     "smallest > nums[j]"
+    ]
+   ],
+   "predict": {
+    "q": "5를 입력하면 ‘크기순 값’으로 무엇이 출력될까요?",
+    "a": "[2, 5, 8, 11, 26] — 앞의 5개 [8, 2, 5, 11, 26]만 정렬해요."
+   }
+  },
+  "C4": {
+   "say": "sum_r(k) = sum_r(k−1) + k 라는 관계로 합을 구하는 재귀 함수예요.",
+   "lines": [
+    [
+     2,
+     "k가 1이면 더 부르지 않고 1을 돌려줘요. 재귀가 멈추는 곳이에요."
+    ],
+    [
+     4,
+     "자기 자신을 k−1로 한 번 불러요. n에서 1까지 한 번씩, 모두 n번 불리니 O(n)이에요."
+    ]
+   ],
+   "predict": {
+    "q": "n에 10을 넣으면 sum_r는 모두 몇 번 호출될까요?",
+    "a": "10번이에요(sum_r(10), sum_r(9), …, sum_r(1)). 합은 55."
+   }
+  },
+  "C5": {
+   "say": "같은 최댓값을 두 방법으로 찾아요. 방법 1은 이중 반복문, 방법 2는 반복문 하나예요.",
+   "lines": [
+    [
+     3,
+     "방법 1: 후보 arr[i]를 하나씩 정해요."
+    ],
+    [
+     6,
+     "후보보다 큰 값이 하나라도 있으면 그 후보는 최댓값이 아니에요. 원소마다 전체와 비교하니 최악에는 n × n → O(n²)."
+    ],
+    [
+     14,
+     "방법 2: 한 번만 훑어요. 지금까지 본 값 중 가장 큰 값을 max_val에 기억해 두니 다시 볼 필요가 없어요 → O(n)."
+    ],
+    [
+     15,
+     "더 큰 값을 만나면 max_val을 바꿔요."
+    ]
+   ],
+   "blanks": [
+    [
+     15,
+     "num > max_val"
+    ],
+    [
+     16,
+     "max_val = num"
+    ]
+   ],
+   "predict": {
+    "q": "실행하면 무엇이 출력될까요?",
+    "a": "88 88 — 두 방법의 답은 같아요. 다른 것은 일하는 횟수예요."
+   }
+  },
+  "C7": {
+   "say": "정렬된 1~1000에서 1000을 찾을 때 순차 탐색과 이진 탐색의 비교 횟수를 세요.",
+   "lines": [
+    [
+     5,
+     "순차 탐색: 처음부터 하나씩 비교하니 맨 끝 값은 1000번째에야 찾아요."
+    ],
+    [
+     14,
+     "이진 탐색: 범위의 가운데를 보고, 절반을 버려요."
+    ],
+    [
+     18,
+     "찾는 값이 더 크면 왼쪽 절반(lo~mid)을 통째로 버려요. 매번 절반이 되니 약 log₂1000 ≈ 10번이면 끝나요."
+    ]
+   ]
+  }
+ },
+ "tasks": [
+  {
+   "kind": "빈칸",
+   "title": "반복문 겹 수와 실행 횟수",
+   "prompt": "가장 안쪽 문장이 몇 번 실행되는지 세요. 반복문 1개와 이중 반복문에 알맞은 범위를 <code>___</code>에 채우고, n이 10배가 될 때 횟수가 각각 몇 배가 되는지 보세요.",
+   "starter": "for n in (10, 100):\n    one = 0\n    for i in range(n):\n        one += 1\n    two = 0\n    for i in range(n):\n        for j in range(___):\n            two += 1\n    print(f'n={n}: 반복문 1개 {one}번, 이중 반복문 {two}번')",
+   "expect": "n=10: 반복문 1개 10번, 이중 반복문 100번\nn=100: 반복문 1개 100번, 이중 반복문 10000번",
+   "hint": "이중 반복문의 안쪽도 바깥쪽처럼 n번 돌아야 n × n번이 돼요.",
+   "answer": "for n in (10, 100):\n    one = 0\n    for i in range(n):\n        one += 1\n    two = 0\n    for i in range(n):\n        for j in range(n):\n            two += 1\n    print(f'n={n}: 반복문 1개 {one}번, 이중 반복문 {two}번')"
+  },
+  {
+   "kind": "고치기",
+   "title": "선택 정렬의 비교 횟수 세기",
+   "prompt": "교과서의 선택 정렬(프로그램 3)이 n개를 정렬할 때 <code>smallest > arr[j]</code> 비교를 몇 번 하는지 세려고 해요. 그런데 <code>count += 1</code>이 엉뚱한 곳에 있어서 n번밖에 안 세져요. 위치를 고쳐 보세요. n이 2배가 되면 비교는 약 몇 배가 되나요?",
+   "starter": "nums = [8, 2, 5, 11, 26, 33, 1, 88, 52, 7, 19, 75, 26, 44, 11, 62, 9, 15, 21, 30]\n\ndef selection_count(n):\n    arr = nums[:n]\n    count = 0\n    for i in range(n):\n        smallest, k = arr[i], i\n        for j in range(i, n):\n\n            if smallest > arr[j]:\n                smallest, k = arr[j], j\n        count += 1\n        del arr[k]\n        arr.insert(i, smallest)\n    return count\n\nfor n in (5, 10, 20):\n    print(f'n={n}: 비교 {selection_count(n)}번')",
+   "expect": "n=5: 비교 15번\nn=10: 비교 55번\nn=20: 비교 210번",
+   "hint": "비교는 안쪽 for 문이 한 번 돌 때마다 한 번씩 해요. count += 1도 안쪽 for 문 안으로 들여 써야 해요.",
+   "answer": "nums = [8, 2, 5, 11, 26, 33, 1, 88, 52, 7, 19, 75, 26, 44, 11, 62, 9, 15, 21, 30]\n\ndef selection_count(n):\n    arr = nums[:n]\n    count = 0\n    for i in range(n):\n        smallest, k = arr[i], i\n        for j in range(i, n):\n            count += 1\n            if smallest > arr[j]:\n                smallest, k = arr[j], j\n\n        del arr[k]\n        arr.insert(i, smallest)\n    return count\n\nfor n in (5, 10, 20):\n    print(f'n={n}: 비교 {selection_count(n)}번')"
+  },
+  {
+   "kind": "만들기",
+   "title": "최댓값 찾기 두 방법 대결",
+   "prompt": "문제 2의 두 방법에 비교 횟수를 세는 코드를 직접 넣어 보세요. <code>#여기</code> 자리에 한 줄씩 쓰면 돼요. 최댓값이 맨 뒤에 있는 최악의 경우, n이 10에서 100이 될 때 방법 1과 방법 2는 각각 몇 배가 될까요?",
+   "starter": "def find_max_1(arr):\n    count = 0\n    for i in range(len(arr)):\n        is_max = True\n        for j in range(len(arr)):\n            # 여기\n            if arr[j] > arr[i]:\n                is_max = False\n                break\n        if is_max:\n            return arr[i], count\n\ndef find_max_2(arr):\n    count = 0\n    max_val = arr[0]\n    for num in arr:\n        # 여기\n        if num > max_val:\n            max_val = num\n    return max_val, count\n\nfor n in (10, 100):\n    data = list(range(1, n + 1))        # 최댓값이 맨 뒤에 있는 최악의 경우\n    print(f'n={n}: 방법1 {find_max_1(data)[1]}번, 방법2 {find_max_2(data)[1]}번')",
+   "expect": "n=10: 방법1 64번, 방법2 10번\nn=100: 방법1 5149번, 방법2 100번",
+   "hint": "두 함수 모두 if 바로 위에 count += 1 을 넣으면 비교할 때마다 1씩 늘어요.",
+   "answer": "def find_max_1(arr):\n    count = 0\n    for i in range(len(arr)):\n        is_max = True\n        for j in range(len(arr)):\n            count += 1\n            if arr[j] > arr[i]:\n                is_max = False\n                break\n        if is_max:\n            return arr[i], count\n\ndef find_max_2(arr):\n    count = 0\n    max_val = arr[0]\n    for num in arr:\n        count += 1\n        if num > max_val:\n            max_val = num\n    return max_val, count\n\nfor n in (10, 100):\n    data = list(range(1, n + 1))        # 최댓값이 맨 뒤에 있는 최악의 경우\n    print(f'n={n}: 방법1 {find_max_1(data)[1]}번, 방법2 {find_max_2(data)[1]}번')"
+  }
+ ],
+ "check": [
+  {
+   "q": "어떤 알고리즘이 일을 2n² + 100n + 7번 한다면 빅오로는?",
+   "options": [
+    "O(n)",
+    "O(2n²)",
+    "O(n²)",
+    "O(100n)"
+   ],
+   "answer": 2,
+   "why": "가장 빨리 커지는 항 2n²만 남기고 계수 2를 지우면 O(n²)이에요."
+  },
+  {
+   "q": "다음 중 시간 복잡도가 가장 낮은(가장 빠른) 것은?",
+   "options": [
+    "O(log n)",
+    "O(n)",
+    "O(n log n)",
+    "O(2ⁿ)"
+   ],
+   "answer": 0,
+   "why": "n이 1000일 때 log n은 약 10이에요. 범위를 절반씩 줄이는 이진 탐색이 여기에 해당해요."
+  }
+ ],
+ "exit": "오늘 센 숫자로 설명해 보세요: n이 10배가 될 때 O(n)과 O(n²) 알고리즘의 일은 각각 몇 배가 되나요?"
+}

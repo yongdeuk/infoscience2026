@@ -1,0 +1,106 @@
+{
+  "n": 21,
+  "goal": [
+    "스택으로 괄호 검사와 후위 표기식 계산을 할 수 있다",
+    "큐로 원형 순서 문제(요세푸스)를 해결할 수 있다"
+  ],
+  "hook": "계산기에 3 + 4 × 2를 누르면 11이 나와요. 그런데 계산기는 곱셈을 먼저 해야 한다는 걸 어떻게 알까요? 괄호 없이도 순서가 정해지는 표기법이 있다면 어떨까요?",
+  "code_notes": {
+    "C2": {
+      "say": "숫자는 스택에 쌓고, 연산자를 만나면 맨 위 두 수를 꺼내 계산한 뒤 결과를 다시 넣는 후위 표기식 계산기예요.",
+      "lines": [
+        [
+          3,
+          "split()으로 공백마다 잘라 '3', '4', '+' 같은 토큰 하나씩 처리해요."
+        ],
+        [
+          5,
+          "나중에 넣은 수가 먼저 나와요. 그래서 먼저 꺼낸 b가 오른쪽 피연산자예요. 빼기·나누기에서는 순서가 바뀌면 답이 달라져요."
+        ],
+        [
+          7,
+          "계산 결과를 다시 쌓아요. 이 결과가 다음 연산의 피연산자가 될 수 있어요."
+        ],
+        [
+          12,
+          "토큰은 글자이므로 int()로 숫자로 바꿔 쌓아요."
+        ],
+        [
+          13,
+          "식이 올바르면 마지막에 스택에는 최종 결과 하나만 남아요."
+        ]
+      ]
+    },
+    "C4": {
+      "say": "앞사람을 꺼내 뒤로 보내기를 k−1번 하고 k번째 사람을 빼는 방식으로, 원형 자리를 큐 하나로 표현해요.",
+      "lines": [
+        [
+          2,
+          "1번부터 n번까지를 큐에 넣어요. 맨 앞이 지금 셀 차례인 사람이에요."
+        ],
+        [
+          6,
+          "앞사람을 꺼내 바로 뒤에 넣으면 원을 한 칸 도는 것과 같아요."
+        ],
+        [
+          7,
+          "k−1명을 뒤로 보낸 뒤 맨 앞에 온 사람이 k번째예요. 이 사람은 다시 넣지 않고 빠져요."
+        ]
+      ]
+    }
+  },
+  "tasks": [
+    {
+      "kind": "빈칸",
+      "title": "요세푸스 순서 구하기",
+      "prompt": "큐를 써서 k번째 사람마다 빠지는 순서를 구하는 <code>josephus</code>를 완성하세요. (7, 3)이면 [3, 6, 2, 7, 5, 1, 4]가 나와야 해요.",
+      "starter": "def josephus(n, k):\n    queue = list(range(1, n + 1))\n    order = []\n    while queue:\n        for _ in range(k - 1):\n            queue.append(___)\n        order.append(___)\n    return order\n\nprint(josephus(7, 3))\nprint(josephus(5, 2))\n",
+      "expect": "[3, 6, 2, 7, 5, 1, 4]\n[2, 4, 1, 5, 3]",
+      "hint": "두 빈칸 모두 맨 앞 사람을 꺼내는 queue.pop(0)이에요. 첫 번째는 뒤로 다시 넣고, 두 번째는 탈락 명단에 넣어요.",
+      "answer": "def josephus(n, k):\n    queue = list(range(1, n + 1))\n    order = []\n    while queue:\n        for _ in range(k - 1):\n            queue.append(queue.pop(0))\n        order.append(queue.pop(0))\n    return order\n\nprint(josephus(7, 3))\nprint(josephus(5, 2))\n"
+    },
+    {
+      "kind": "고치기",
+      "title": "빼기·나누기가 틀리는 후위 계산기",
+      "prompt": "'8 2 -'는 6, '8 2 /'는 4.0이어야 하는데 -6, 0.25가 나와요. 덧셈·곱셈은 맞아서 버그를 찾기 어려워요. 고치세요.",
+      "starter": "def calc_postfix(expr):\n    stack = []\n    for token in expr.split():\n        if token in '+-*/':\n            a = stack.pop()\n            b = stack.pop()\n            if token == '+': stack.append(a + b)\n            elif token == '-': stack.append(a - b)\n            elif token == '*': stack.append(a * b)\n            else: stack.append(a / b)\n        else:\n            stack.append(int(token))\n    return stack.pop()\n\nprint(calc_postfix('8 2 -'))\nprint(calc_postfix('8 2 /'))\nprint(calc_postfix('9 3 / 2 -'))\n",
+      "expect": "6\n4.0\n1.0",
+      "hint": "스택에서 먼저 꺼낸 값은 나중에 넣은 값, 즉 오른쪽 피연산자(b)예요.",
+      "answer": "def calc_postfix(expr):\n    stack = []\n    for token in expr.split():\n        if token in '+-*/':\n            b = stack.pop()\n            a = stack.pop()\n            if token == '+': stack.append(a + b)\n            elif token == '-': stack.append(a - b)\n            elif token == '*': stack.append(a * b)\n            else: stack.append(a / b)\n        else:\n            stack.append(int(token))\n    return stack.pop()\n\nprint(calc_postfix('8 2 -'))\nprint(calc_postfix('8 2 /'))\nprint(calc_postfix('9 3 / 2 -'))\n"
+    },
+    {
+      "kind": "만들기",
+      "title": "오류 종류까지 알려 주는 괄호 검사기",
+      "prompt": "역량 키우기 표처럼 결과를 4가지로 알려 주는 <code>diagnose(s)</code>를 만드세요: <code>오류 없음</code> / <code>왼쪽 괄호가 남음</code> / <code>오른쪽 괄호가 더 많음</code> / <code>괄호의 종류가 어긋남</code>.",
+      "starter": "def diagnose(s):\n    pairs = {')': '(', '}': '{', ']': '['}\n    stack = []\n    for ch in s:\n        pass   # 여는 괄호, 닫는 괄호를 처리하며 오류면 바로 return\n    return '???'   # 끝났을 때의 판정\n\nfor t in ['A[(i+1)] = 0', 'if ((i==0) && (j==0)', 'while (i < 10) ) :', 'A[(i+1] ) = 0']:\n    print(t, '→', diagnose(t))\n",
+      "expect": "A[(i+1)] = 0 → 오류 없음\nif ((i==0) && (j==0) → 왼쪽 괄호가 남음\nwhile (i < 10) ) : → 오른쪽 괄호가 더 많음\nA[(i+1] ) = 0 → 괄호의 종류가 어긋남",
+      "hint": "닫는 괄호인데 스택이 비었으면 '오른쪽 괄호가 더 많음', 꺼낸 것이 짝이 아니면 '종류가 어긋남'. 끝나고 스택이 남아 있으면 '왼쪽 괄호가 남음'이에요.",
+      "answer": "def diagnose(s):\n    pairs = {')': '(', '}': '{', ']': '['}\n    stack = []\n    for ch in s:\n        if ch in '({[':\n            stack.append(ch)\n        elif ch in pairs:\n            if not stack:\n                return '오른쪽 괄호가 더 많음'\n            if stack.pop() != pairs[ch]:\n                return '괄호의 종류가 어긋남'\n    if stack:\n        return '왼쪽 괄호가 남음'\n    return '오류 없음'\n\nfor t in ['A[(i+1)] = 0', 'if ((i==0) && (j==0)', 'while (i < 10) ) :', 'A[(i+1] ) = 0']:\n    print(t, '→', diagnose(t))\n"
+    }
+  ],
+  "check": [
+    {
+      "q": "후위 표기식 '6 2 3 * -'를 계산한 결과는 무엇일까요?",
+      "options": [
+        "0",
+        "12",
+        "-12",
+        "1"
+      ],
+      "answer": 0,
+      "why": "6, 2, 3을 쌓고 *에서 2×3=6, -에서 6−6=0이에요. 먼저 꺼낸 값이 오른쪽 피연산자예요."
+    },
+    {
+      "q": "요세푸스 문제에서 큐의 맨 앞 사람을 꺼내 맨 뒤에 다시 넣는 동작이 뜻하는 것은 무엇일까요?",
+      "options": [
+        "그 사람이 탈락한다",
+        "원형으로 앉은 자리에서 한 칸 넘어간다",
+        "순서를 거꾸로 뒤집는다",
+        "가장 큰 번호를 찾는다"
+      ],
+      "answer": 1,
+      "why": "앞에서 빼서 뒤로 보내면 줄이 원처럼 돌아요. 그래서 원형 구조를 큐 하나로 표현할 수 있어요."
+    }
+  ],
+  "exit": "후위 표기식 계산에 스택이, 요세푸스 문제에 큐가 어울리는 이유를 각각 한 마디로 적어 보세요."
+}

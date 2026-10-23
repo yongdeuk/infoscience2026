@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>46차시 [프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계 · 정보과학</title>
+<meta name="description" content="16주차 46차시 — [프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계">
+<meta property="og:title" content="46차시 [프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계 · 정보과학">
+<meta property="og:description" content="16주차 46차시 — [프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#129513;</text></svg>">
+<script>
+(function(){try{if(localStorage.getItem('unlocked')==='yes')document.documentElement.className+=' unlocked';}catch(e){}})();
+(function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
+</script>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body class="lessonpage u4">
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <form class="gate-card" data-gate-form autocomplete="off">
+    <h1 id="gate-title">정보과학</h1>
+    <p class="gate-sub">씨마스 『정보과학』 2022 개정 교육과정 수업 자료</p>
+    <label class="gate-lab" for="gate-pw">열람 비밀번호</label>
+    <div class="gate-pwrap">
+      <input id="gate-pw" type="password" data-gate-pw autocomplete="off"
+             spellcheck="false" autocapitalize="off" placeholder="수업 시간에 안내된 비밀번호">
+      <button class="gate-eye" type="button" data-gate-eye aria-pressed="false" aria-label="비밀번호 표시">
+        <svg class="ico-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg class="ico-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18M10.6 10.6a3 3 0 0 0 4.24 4.24M9.9 5.1A10.9 10.9 0 0 1 12 5c7 0 10.5 7 10.5 7a13.6 13.6 0 0 1-3.2 4.1M6.5 6.5C3.4 8.3 1.5 12 1.5 12a13.5 13.5 0 0 0 4.2 4.9"/></svg>
+      </button>
+    </div>
+    <p class="gate-hint">한글로 입력하세요. 대소문자와 앞뒤 공백은 구분하지 않습니다.</p>
+    <p class="gate-msg" data-gate-msg role="status" aria-live="polite"></p>
+    <button class="btn btn-p gate-btn" type="submit">들어가기</button>
+    <p class="gate-note">본 자료는 학교 수업 목적으로 제작되었으며,
+      저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+  </form>
+</div>
+<a class="skip" href="#main">본문 바로가기</a>
+<header class="topbar">
+  <div class="bar-top">
+    <a class="brand" href="index.html"><span class="brand-mark">IS</span><span class="brand-name">정보과학</span></a>
+    <nav class="toolnav" aria-label="수업 도구">
+      <a href="index.html">수업 홈</a>
+      <a href="lessons.html" class="is-current">차시 수업</a>
+      <a href="course.html">수업 안내</a>
+      <a href="labs.html">실습실</a>
+      <a href="practice.html">파이썬 실습</a>
+      <a href="glossary.html">용어 사전</a>
+      <a href="my.html">내 학습</a>
+    </nav>
+    <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false" title="어두운 화면으로">
+      <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.6v2M12 19.4v2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M2.6 12h2M19.4 12h2M5.2 18.8l1.4-1.4M17.4 6.6l1.4-1.4"/></svg>
+      <span class="ico-label">어둡게</span>
+    </button>
+  </div>
+  <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
+    <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
+    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+  </div></nav>
+  <div class="progress" data-progress></div>
+</header>
+<section class="unithero lessonhero">
+  <div class="unithero-in">
+    <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 46차시</p>
+    <div class="bigr" aria-hidden="true">46</div>
+    <div>
+      <p class="kicker">46차시 · 16주차 · <a href="unit4.html">Ⅳ 정보과학 프로젝트</a></p>
+      <h1>[프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계</h1>
+      <ul class="lgoal"><li>자리 배치 요구 사항을 모으고 우선순위를 정할 수 있다</li><li>교실을 2차원 격자로, 자리를 (행, 열)로 나타낼 수 있다</li><li>자리 배치 문제를 작은 문제로 나누고 백트래킹으로 푸는 방법을 설명할 수 있다</li></ul>
+      <div class="lprog" aria-label="전체 48차시 중 46차시"><i style="width:95.8%"></i></div>
+    </div>
+  </div>
+</section>
+<main class="lpage" id="main">
+<nav class="lflow" aria-label="이 차시 순서"><a href="#l-open"><b>1</b>생각 열기</a><a href="#l-learn"><b>2</b>교과서로 배우기</a><a href="#l-try"><b>3</b>직접 해 보기</a><a href="#l-check"><b>4</b>확인 문제</a><a href="#l-wrap"><b>5</b>한 줄 정리</a></nav>
+<section class="lsec" id="l-open"><h2><span class="ln">1</span>생각 열기</h2><div class="callout hook">자리 바꾸는 날, 제비뽑기로 정하면 공평할까요? 눈이 나쁜 친구, 지난달과 같은 자리가 나온 친구의 사정까지 들어주려면 컴퓨터에게 무엇을 알려 줘야 할까요?</div><div class="board" data-board="hook" hidden><div class="board-in"><textarea data-board-in rows="2" maxlength="300" placeholder="내 생각을 짧게 적어 보드에 올려 보세요"></textarea><div class="board-bar"><button class="btn btn-p" type="button" data-board-send>보드에 올리기</button><select data-board-class aria-label="반 고르기"><option value="">모든 반</option></select><button class="btn" type="button" data-board-big>크게 보기</button><span class="muted small" data-board-msg></span></div></div><div class="board-h"><b>모두의 생각</b> <span class="muted small" data-board-count></span></div><ul class="board-list" data-board-list></ul></div></section>
+<section class="lsec" id="l-learn"><h2><span class="ln">2</span>교과서로 배우기</h2><p class="lede">코드 아래 <b>💡 코드 설명</b>을 펼쳐 보고, <b>빈칸</b>이 있으면 채운 뒤 실행해 보세요.</p><p class="lsrc">교과서 · <a href="unit4.html#t4-4">Ⅳ 2-2 프로젝트 ③ 교실 자리 배치</a></p>
+<p class="lede">제비뽑기는 공평하지만 “칠판이 잘 안 보여요”, “또 같은 자리예요” 같은 사정은 들어주지 못해요. <b>모두의 요구를 반영하는 자리 배치 프로그램</b>을 만들어요.</p>
+<div class="goalbox">
+      <span class="lbl">이 프로젝트에서 하는 일</span>
+      <p class="q">교실 자리 배치 프로그램을 설계할 때 어떤 요구 사항을 고려해야 할까?</p>
+      <ul>
+        <li>요구 사항을 모으고 <b>우선순위</b>를 정해요.</li>
+        <li>학생과 교실을 <b>클래스</b>로 만들고, <b>백트래킹</b>으로 조건에 맞게 자리를 정해요.</li>
+        <li>단위 테스트와 통합 테스트로 검증하고, 기능을 추가하며 생긴 오류를 고쳐요.</li>
+      </ul>
+    </div>
+<div class="story">
+      <span class="lbl">생활 속 이야기 · 자리 바꾸는 날</span>
+      <p>자리 바꾸는 날, 교실이 술렁여요. 눈이 나빠 앞자리에 앉아야 하는 친구, 키가 커서 뒤에 앉고 싶은 친구, 지난달과 똑같은 자리가 나와 속상한 친구…. 종이 제비뽑기나 완전 무작위 프로그램은 이런 사정을 하나도 모르지요.</p>
+      <p class="ask">모두가 받아들일 수 있는 자리 배치를 컴퓨터가 찾아 줄 수 있을까요?</p>
+    </div>
+<figure class="photo"><img src="assets/img/classroom.jpg" alt="책상과 의자가 줄지어 놓인 빈 교실" loading="lazy" width="880" height="660"><figcaption>책상이 줄(행)과 칸(열)으로 놓인 교실은 <b>2차원 격자</b>로 나타낼 수 있어요.<span class="credit">사진: Liz · <a href="https://commons.wikimedia.org/wiki/File:Elementary_classroom_in_Alaska.jpg" target="_blank" rel="noopener">CC BY 2.0</a> · Wikimedia Commons</span></figcaption></figure>
+<div class="tablewrap">
+      <table>
+        <thead><tr><th>한눈에 보기</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td>문제 정의</td><td>학생들의 다양한 요구 사항을 반영해 교실 자리를 배치한다</td></tr>
+          <tr><td>데이터 구조</td><td><b>클래스와 객체</b>(Student, Classroom) · <b>2차원 리스트</b> · 딕셔너리</td></tr>
+          <tr><td>알고리즘</td><td><b>백트래킹</b> — 앉혀 보고, 막히면 되돌아가 다른 자리를 시도</td></tr>
+          <tr><td>이어지는 단원</td><td>Ⅰ단원 클래스와 객체 · Ⅲ-2-2 분기 한정과 백트래킹 · UN 지속가능발전목표 <b>4. 양질의 교육</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+<h4>1단계 · 문제 분석 및 구조화</h4>
+<p><b>① 요구 사항 모으기.</b> 반 친구들과 선생님께 물어 요구 사항을 모으고, 중요한 순서를 정해요.</p>
+<ol class="steps">
+      <li><b>고정 자리 배정하기</b> (최우선) — 시력·건강 등으로 꼭 정해진 자리에 앉아야 하는 학생을 먼저 앉혀요.</li>
+      <li><b>선호하는 자리에 앉기</b> — 앞자리나 뒷자리를 원하는 학생의 바람을 되도록 많이 들어줘요.</li>
+      <li><b>이전 자리에 안 앉기</b> — 지난번과 같은 자리에는 앉지 않게 해요.</li>
+      <li><b>무작위로 자리 배정하기</b> — 남은 학생은 남은 자리에 공평하게 섞어 앉혀요.</li>
+    </ol>
+<div class="callout"><b>왜 우선순위가 필요할까?</b> — 요구가 서로 부딪칠 수 있기 때문이에요. 앞자리는 4칸인데 6명이 원하면 모두 들어줄 수 없어요. 무엇을 먼저 지킬지 정해 두어야 프로그램이 망설이지 않아요.</div>
+<p><b>② 데이터 구조화.</b> 프로그램에는 두 가지 데이터가 필요해요.</p>
+<figure>
+      <div class="figbody">
+        <svg viewBox="0 0 680 290" role="img" aria-label="교탁 아래로 4행 4열 격자. 0행 0열과 0행 1열은 고정 자리, 0행의 나머지 두 칸은 앞자리 선호, 3행의 오른쪽 두 칸은 뒷자리 선호로 표시되어 있다">
+          <rect x="250" y="12" width="180" height="30" rx="3" class="sv-box"/><text x="340" y="32" class="sv-t-b" text-anchor="middle">교탁 (앞)</text>
+          <g class="sv-t-s" text-anchor="middle"><text x="175" y="66">0열</text><text x="285" y="66">1열</text><text x="395" y="66">2열</text><text x="505" y="66">3열</text></g>
+          <g class="sv-t-s" text-anchor="end"><text x="108" y="100">0행</text><text x="108" y="150">1행</text><text x="108" y="200">2행</text><text x="108" y="250">3행</text></g>
+          <g>
+            <rect x="125" y="76" width="100" height="40" rx="3" class="sv-box-a"/><text x="175" y="101" class="sv-t-b" text-anchor="middle" fill="var(--accent-ink)">(0,0) 고정</text>
+            <rect x="235" y="76" width="100" height="40" rx="3" class="sv-box-a"/><text x="285" y="101" class="sv-t-b" text-anchor="middle" fill="var(--accent-ink)">(0,1) 고정</text>
+            <rect x="345" y="76" width="100" height="40" rx="3" class="sv-box"/><text x="395" y="101" class="sv-t" text-anchor="middle">(0,2) 앞 선호</text>
+            <rect x="455" y="76" width="100" height="40" rx="3" class="sv-box"/><text x="505" y="101" class="sv-t" text-anchor="middle">(0,3) 앞 선호</text>
+            <rect x="125" y="126" width="100" height="40" rx="3" class="sv-tile"/><text x="175" y="151" class="sv-t-s" text-anchor="middle">(1,0)</text>
+            <rect x="235" y="126" width="100" height="40" rx="3" class="sv-tile"/><text x="285" y="151" class="sv-t-s" text-anchor="middle">(1,1)</text>
+            <rect x="345" y="126" width="100" height="40" rx="3" class="sv-tile"/><text x="395" y="151" class="sv-t-s" text-anchor="middle">(1,2)</text>
+            <rect x="455" y="126" width="100" height="40" rx="3" class="sv-tile"/><text x="505" y="151" class="sv-t-s" text-anchor="middle">(1,3)</text>
+            <rect x="125" y="176" width="100" height="40" rx="3" class="sv-tile"/><text x="175" y="201" class="sv-t-s" text-anchor="middle">(2,0)</text>
+            <rect x="235" y="176" width="100" height="40" rx="3" class="sv-tile"/><text x="285" y="201" class="sv-t-s" text-anchor="middle">(2,1)</text>
+            <rect x="345" y="176" width="100" height="40" rx="3" class="sv-tile"/><text x="395" y="201" class="sv-t-s" text-anchor="middle">(2,2)</text>
+            <rect x="455" y="176" width="100" height="40" rx="3" class="sv-tile"/><text x="505" y="201" class="sv-t-s" text-anchor="middle">(2,3)</text>
+            <rect x="125" y="226" width="100" height="40" rx="3" class="sv-tile"/><text x="175" y="251" class="sv-t-s" text-anchor="middle">(3,0)</text>
+            <rect x="235" y="226" width="100" height="40" rx="3" class="sv-tile"/><text x="285" y="251" class="sv-t-s" text-anchor="middle">(3,1)</text>
+            <rect x="345" y="226" width="100" height="40" rx="3" class="sv-box"/><text x="395" y="251" class="sv-t" text-anchor="middle">(3,2) 뒤 선호</text>
+            <rect x="455" y="226" width="100" height="40" rx="3" class="sv-box"/><text x="505" y="251" class="sv-t" text-anchor="middle">(3,3) 뒤 선호</text>
+          </g>
+          <text x="340" y="284" class="sv-t-s" text-anchor="middle">남은 10칸은 무작위 배정</text>
+        </svg>
+      </div>
+      <figcaption><b>교실 데이터</b>는 행과 열로 이루어진 2차원 격자예요. 자리마다 <code>(행, 열)</code> 번호가 있고, 컴퓨터는 0부터 세요. 교탁에 가까운 줄이 0행이에요.</figcaption>
+    </figure>
+<div class="tablewrap">
+      <table>
+        <thead><tr><th>학생 데이터 항목</th><th>뜻</th><th>예</th></tr></thead>
+        <tbody>
+          <tr><td>학생 이름</td><td>누구인가</td><td>구민지</td></tr>
+          <tr><td>고정 자리</td><td>꼭 앉아야 하는 자리 (없으면 비움)</td><td>0_0 → 0행 0열</td></tr>
+          <tr><td>선호하는 자리(앞)</td><td>앞자리를 원하는 정도 (0이면 원하지 않음)</td><td>2</td></tr>
+          <tr><td>선호하는 자리(뒤)</td><td>뒷자리를 원하는 정도</td><td>0</td></tr>
+          <tr><td>이전 자리</td><td>지난번에 앉았던 자리</td><td>1_3 → 1행 3열</td></tr>
+        </tbody>
+      </table>
+    </div>
+<div class="analogy">
+      <span class="lbl">쉽게 말하면 · CSV 파일</span>
+      <p>CSV는 <b>쉼표로 칸을 나눈 표</b>를 글자로 적은 파일이에요. 엑셀·구글 시트 같은 스프레드시트에서 열고 고칠 수 있고, 프로그램도 쉽게 읽을 수 있어요. 교과서에서는 학생 데이터를 <code>students.csv</code> 파일에 저장해 써요.</p>
+    </div>
+<div class="walk">name,fixed_seat,preferred_front,preferred_back,previous_seat
+구민지,0_0,0,0,0_0
+구정식,,2,0,0_2
+박재호,,0,0,1_3
+윤하윤,,0,2,3_3</div>
+<p><b>③ 해결 과정 구조화.</b> 큰 문제를 다섯 개의 작은 문제로 나눠요.</p>
+<ol class="steps">
+      <li><b>데이터 입력 및 초기화</b> — 교실 데이터와 학생 데이터를 받아 다루기 쉬운 모양으로 바꿔요.</li>
+      <li><b>고정 자리 배정</b> — 고정 자리가 필요한 학생을 먼저 앉혀요.</li>
+      <li><b>선호도 반영 자리 배정</b> — 앞·뒤 선호를 되도록 많이 들어주되, 이전 자리는 피해요.</li>
+      <li><b>무작위 자리 배정</b> — 남은 학생을 빈자리에 섞어 앉혀요. 역시 이전 자리는 피해요.</li>
+      <li><b>저장 및 출력</b> — 결과를 화면에 보여 주고 파일로 저장해 다음에 써요.</li>
+    </ol>
+<h4>2단계 · 알고리즘 설계</h4>
+<div class="analogy">
+      <span class="lbl">쉽게 말하면 · 백트래킹</span>
+      <p>미로에서 길을 가다 막다른 곳이 나오면 <b>마지막 갈림길로 되돌아가</b> 다른 길로 가지요. 백트래킹도 같아요. 첫 번째 학생을 한 자리에 앉혀 보고, 다음 학생을 앉혀 보고… 누군가 앉을 자리가 없으면 <b>바로 앞 학생의 자리를 비우고</b> 다른 자리에 앉혀 다시 시도해요.</p>
+      <p>“이 자리는 이전 자리라서 안 돼”처럼 조건에 어긋나는 경우를 미리 걸러 내는 것이 <b>가지치기</b>예요. Ⅲ단원 4퀸 문제에서 쓴 방법과 똑같아요.</p>
+    </div>
+<div class="tablewrap">
+      <table>
+        <thead><tr><th>설계 항목</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td>1. 데이터 설정</td><td><b>교실 데이터</b> — 행과 열의 2차원 격자 / <b>학생 데이터</b> — 이름과 요구 사항</td></tr>
+          <tr><td>2. 알고리즘 선택</td><td>전체 탐색의 <b>백트래킹</b> 기법. 자리가 많아질수록 따져 볼 경우가 매우 빠르게 늘어나므로 가지치기가 중요해요.</td></tr>
+          <tr><td>3. 프로그래밍 순서</td><td>데이터 준비(클래스 정의, 객체 생성) → 알고리즘 구현(고정 자리 → 선호도 반영 → 무작위) → 결과 업데이트 및 저장</td></tr>
+        </tbody>
+      </table>
+    </div></section>
+<section class="lsec" id="l-try"><h2><span class="ln">3</span>직접 해 보기</h2><p class="lede">코드를 고쳐서 <b>▶ 실행</b>하면 출력이 맞는지 바로 알려 줘요. 막히면 힌트부터 열어 보세요.</p><div class="task" data-kind="생각"><div class="task-h"><span class="task-k">생각</span><h4>우리 반 요구 사항과 우선순위</h4></div><p>우리 반 자리 배치에서 지켜야 할 요구 사항을 <b>네 가지 이상</b> 적고, 중요한 순서대로 번호를 매기세요. 그리고 두 요구가 <b>부딪치는 상황</b>을 하나 떠올려, 그때 무엇을 먼저 지킬지와 그 까닭을 적어요.</p><textarea class="think" data-think="L46.0" rows="4" placeholder="1. 시력이 나쁜 학생은 앞자리 고정 (건강과 관련되니까)
+2. 지난번 자리에는 앉지 않기
+3. 앞·뒤 선호 들어주기
+4. 나머지는 무작위
+부딪치는 상황: 앞자리 4칸에 6명이 원하면 → 고정 자리 학생 먼저, 그다음 선호 정도가 큰 학생부터"></textarea><p class="muted small" data-think-saved></p></div><div class="task" data-kind="빈칸"><div class="task-h"><span class="task-k">빈칸</span><h4>CSV 자리 글자를 (행, 열)로 바꾸기</h4></div><p>students.csv에는 자리가 <code>'1_3'</code>처럼 글자로 적혀 있어요. 이것을 프로그램이 쓰기 좋은 튜플 <code>(1, 3)</code>으로 바꾸는 함수를 완성하세요. 비어 있는 칸(<code>''</code>)은 ‘자리 없음’이라는 뜻으로 None을 돌려줘요.</p><pre data-run data-editable data-task data-expect="'0_0' → (0, 0)&#10;'1_3' → (1, 3)&#10;'' → None&#10;'3_2' → (3, 2)">def parse_seat(seat_str):
+    if seat_str == '':
+        return ___
+    r, c = seat_str.split(___)        # '1_3' → ['1', '3']
+    return (int(r), int(c))
+
+for s in ['0_0', '1_3', '', '3_2']:
+    print(repr(s), '→', parse_seat(s))
+</pre><details class="hintbox"><summary>힌트</summary><p>빈 칸이면 None, 나누는 기준 글자는 밑줄 '_'이에요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>def parse_seat(seat_str):
+    if seat_str == '':
+        return None
+    r, c = seat_str.split('_')        # '1_3' → ['1', '3']
+    return (int(r), int(c))
+
+for s in ['0_0', '1_3', '', '3_2']:
+    print(repr(s), '→', parse_seat(s))
+</pre></details></div><div class="task" data-kind="만들기"><div class="task-h"><span class="task-k">만들기</span><h4>2차원 교실에서 앞자리 후보 모으기</h4></div><p>4행 4열 교실을 2차원 리스트로 만들고, 고정 자리 (0, 0), (0, 1)에 학생을 앉혔어요. 이제 앞자리 선호 학생 3명에게 줄 <b>빈자리 후보 3개</b>를 앞줄부터, 왼쪽부터 차례로 모으세요. 이 후보 목록이 다음 시간 백트래킹이 시도할 자리들이에요.</p><pre data-run data-editable data-task data-expect="앞자리 후보: [(0, 2), (0, 3), (1, 0)]&#10;['민지', '지영', '__', '__']&#10;['__', '__', '__', '__']&#10;['__', '__', '__', '__']&#10;['__', '__', '__', '__']">rows, cols = 4, 4
+seats = [[None for _ in range(cols)] for _ in range(rows)]
+seats[0][0] = '민지'
+seats[0][1] = '지영'
+
+need = 3
+positions = []
+# 0행부터, 각 행은 0열부터 보면서 빈자리(None)이면 positions에 (행, 열)을 넣으세요.
+# 단, need개가 모이면 더 넣지 않아요.
+
+print('앞자리 후보:', positions)
+for row in seats:
+    print([s if s else '__' for s in row])
+</pre><details class="hintbox"><summary>힌트</summary><p>for i in range(rows): for j in range(cols): 안에서 len(positions) < need and seats[i][j] is None 이면 positions.append((i, j)).</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>rows, cols = 4, 4
+seats = [[None for _ in range(cols)] for _ in range(rows)]
+seats[0][0] = '민지'
+seats[0][1] = '지영'
+
+need = 3
+positions = []
+for i in range(rows):
+    for j in range(cols):
+        if len(positions) &lt; need and seats[i][j] is None:
+            positions.append((i, j))
+
+print('앞자리 후보:', positions)
+for row in seats:
+    print([s if s else '__' for s in row])
+</pre></details></div></section>
+<section class="lsec" id="l-check"><h2><span class="ln">4</span>확인 문제</h2><section class="qz-set" data-qz-set="L46">
+<div class="qz" data-ans="0"><h4><span class="qnum">Q1</span><span>4행 4열 교실에서 교탁에 가장 가까운 줄의 맨 오른쪽 자리를 (행, 열)로 나타내면?</span></h4><ol class="opts"><li><button type="button" data-n="①">(0, 3)</button></li><li><button type="button" data-n="②">(3, 0)</button></li><li><button type="button" data-n="③">(1, 4)</button></li><li><button type="button" data-n="④">(4, 4)</button></li></ol><p class="why"><b>해설</b> — 컴퓨터는 0부터 세고 교탁 쪽이 0행이에요. 열은 0~3이니 맨 오른쪽은 3열이에요.</p></div>
+<div class="qz" data-ans="2"><h4><span class="qnum">Q2</span><span>자리 배치 요구 사항 가운데 가장 먼저 처리하는 것과 그 까닭으로 알맞은 것은?</span></h4><ol class="opts"><li><button type="button" data-n="①">무작위 배정 — 가장 공평해서</button></li><li><button type="button" data-n="②">선호 자리 — 학생들이 가장 많이 원해서</button></li><li><button type="button" data-n="③">고정 자리 — 나중에 하면 다른 학생이 먼저 앉아 충돌할 수 있어서</button></li><li><button type="button" data-n="④">이전 자리 피하기 — 계산이 가장 쉬워서</button></li></ol><p class="why"><b>해설</b> — 꼭 그 자리에 앉아야 하는 학생을 먼저 앉혀야 다른 배정과 부딪치지 않아요.</p></div>
+<div class="qz-score" data-qz-score><span>맞힌 문제 <b data-qz-right>0</b> / 2</span><span class="muted" data-qz-left></span><span class="muted" data-qz-best></span><button class="btn" type="button" data-qz-reset>다시 풀기</button></div></section></section>
+<section class="lsec" id="l-wrap"><h2><span class="ln">5</span>한 줄 정리</h2><p><b>백트래킹을 ‘미로’에 빗대어, 자리 배치에서 언제 되돌아가는지 한 줄로 적어 보세요.</b></p><textarea class="think" data-think="L46.exit" rows="3" placeholder="내 말로 한두 문장"></textarea><p class="muted small" data-think-saved></p><div class="board" data-board="exit" hidden><div class="board-in"><textarea data-board-in rows="2" maxlength="300" placeholder="한 줄 정리를 보드에도 올려 보세요"></textarea><div class="board-bar"><button class="btn btn-p" type="button" data-board-send>보드에 올리기</button><select data-board-class aria-label="반 고르기"><option value="">모든 반</option></select><button class="btn" type="button" data-board-big>크게 보기</button><span class="muted small" data-board-msg></span></div></div><div class="board-h"><b>모두의 생각</b> <span class="muted small" data-board-count></span></div><ul class="board-list" data-board-list></ul></div><div class="donebar"><button class="btn donebtn" type="button" data-lesson-done="46">☐ 이 차시 마쳤어요</button><span>체크하면 <a href="lessons.html">차시 수업</a> 목록에 표시돼요.</span></div><div class="submitbox" data-submit hidden><button class="btn btn-p" type="button">선생님께 제출</button> <span class="muted small" data-submit-msg>한 줄 정리 · 생각 쓰기 · 실습 코드 · 확인 문제 점수를 보내요.</span></div></section>
+</main>
+<nav class="pager" aria-label="차시 이동"><a class="prev" href="lesson45.html"><span class="dir">← 이전 · 45차시</span><span class="ttl">[프로젝트 ②] 다익스트라 알고리즘으로 구현하기</span></a><a class="next" href="lesson47.html"><span class="dir">다음 → · 47차시</span><span class="ttl">[프로젝트 ③] 백트래킹 구현과 디버깅</span></a></nav>
+<script>window.LESSON={"n":46,"notes":{}};</script>
+
+<footer>
+  <div class="foot-in">
+    <div>
+      <p><b data-teacher-tap>정보과학</b> — 씨마스 『정보과학』 (2022 개정 교육과정) 수업 자료 · <span data-term>2학기</span> · 주 3시간 · 16주</p>
+      <p>보문고등학교 <b>김용득</b> 선생님 제작.</p>
+      <p>개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
+      <p class="copyright">본 자료는 학교 수업 목적으로 제작되었으며, 저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+    </div>
+    <nav class="foot-links" aria-label="사이트 전체"><a href="index.html">수업 홈</a><a href="unit0.html">0 파이썬 기초</a><a href="unit1.html">Ⅰ 프로그래밍</a><a href="unit2.html">Ⅱ 데이터 구조</a><a href="unit3.html">Ⅲ 알고리즘</a><a href="unit4.html">Ⅳ 프로젝트</a><a href="lessons.html">차시 수업</a><a href="course.html">수업 안내</a><a href="labs.html">실습실</a><a href="practice.html">파이썬 실습</a><a href="glossary.html">용어 사전</a><a href="my.html">내 학습</a><a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz</a></nav>
+  </div>
+</footer>
+<script>window.SITE={"topics":{"0":["t0-0","t0-1","t0-2","t0-3","t0-4","t0-5","t0-6","t0-7","t0-8","t0-9","t0-10"],"1":["t1-1","t1-2","t1-3","t1-4","t1-5"],"2":["t2-1","t2-2","t2-3","t2-4","t2-5"],"3":["t3-1","t3-2","t3-3","t3-4","t3-5","t3-6","t3-8","t3-7"],"4":["t4-1","t4-2","t4-3","t4-4","t4-6","t4-5"]},"units":{"0":{"roman":"0","name":"파이썬 기초","weeks":null},"1":{"roman":"Ⅰ","name":"프로그래밍","weeks":[1,5]},"2":{"roman":"Ⅱ","name":"데이터 구조","weeks":[6,9]},"3":{"roman":"Ⅲ","name":"알고리즘","weeks":[10,13]},"4":{"roman":"Ⅳ","name":"정보과학 프로젝트","weeks":[14,16]}},"quiz":{"0":10,"1":10,"2":10,"3":10,"4":10},"weeks":[{"week":1,"lessons":["오리엔테이션 — 정보과학은 무엇을 배우는 과목인가","함수의 개념 — 내장 함수와 사용자 정의 함수","함수의 정의(<code>def</code>)와 네 가지 구성 요소"]},{"week":2,"lessons":["함수 호출 — 인수와 매개 변수의 관계","<code>return</code>의 두 역할 / 매개 변수·반환값 4가지 형태","지역 변수와 전역 변수, <code>global</code>"]},{"week":3,"lessons":["[역량] 음악 플레이 리스트 관리 프로그램","기본값 매개 변수와 가변 인수 매개 변수","여러 값 반환 / 클래스와 객체"]},{"week":4,"lessons":["모듈 만들기와 <code>import</code>","패키지·라이브러리 / 내장 함수와 표준 라이브러리","[역량] 가위바위보 게임 만들기"]},{"week":5,"lessons":["재귀 구조의 이해 — 수학적 귀납법과 재귀 관계","재귀 함수의 동작 원리 — 호출과 반환","반복 vs 재귀 / 재귀 활용 — 자릿수 합·하노이 탑"]},{"week":6,"lessons":["데이터 구조의 분류 / 스택의 개념(LIFO)","스택의 연산 — push, pop, peek, isEmpty","리스트로 스택 구현하기 · 활용 사례"]},{"week":7,"lessons":["큐의 개념(FIFO)과 연산","리스트로 큐 구현하기 / 덱·우선순위 큐","[역량] 스택·큐를 활용한 프로그램"]},{"week":8,"lessons":["트리의 개념과 구성 요소","트리의 표현 — 인접 행렬과 인접 리스트","이진 트리와 순차 데이터 구조 표현"]},{"week":9,"lessons":["이진 탐색 트리의 규칙과 활용","그래프의 개념·종류와 표현","그래프 탐색 — 깊이 우선·너비 우선 탐색"]},{"week":10,"lessons":["알고리즘의 이해와 문제 해결 전략 네 가지","알고리즘 성능 평가 — 시간·공간 복잡도","빅오 표기법과 알고리즘 성능 비교"]},{"week":11,"lessons":["문제의 세 요소와 상태 공간","탐색 공간의 구조·범위 / 전체 탐색과 순차 탐색","비선형 전체 탐색 — DFS·BFS 적용"]},{"week":12,"lessons":["탐색 공간 배제와 이진 탐색","탐욕 알고리즘 — 거스름돈·시간표 문제","분기 한정 알고리즘과 백트래킹"]},{"week":13,"lessons":["문제 분해와 전체·부분 문제의 관계식","분할 정복법 — 퀵 정렬과 합병 정렬","동적 계획법 — 메모이제이션과 상향식"]},{"week":14,"lessons":["정보과학으로 문제 해결하기 · 문제 해결 5단계","학문 분야별 문제 탐색 / 모둠 구성·주제 선정","[프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화"]},{"week":15,"lessons":["[프로젝트 ①] 알고리즘 설계와 프로그램 작성","[프로젝트 ②] 탄소 발자국 — 데이터 수집과 구조화","[프로젝트 ②] 다익스트라 알고리즘으로 구현하기"]},{"week":16,"lessons":["[프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계","[프로젝트 ③] 백트래킹 구현과 디버깅","산출물 정리 / 프로젝트 발표와 상호 평가"]}],"settings":{"year":2026,"term":"2학기","semester_start":"2026-08-13","submit_url":"","grading":[{"type":"지필","name":"1차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 중간고사","ratio":25},{"type":"지필","name":"2차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 기말고사","ratio":25},{"type":"수행","name":"1차 수행평가 · 프로그래밍 과제","what":"함수·클래스·데이터 구조를 활용한 프로그램 작성과 설명","when":"Ⅰ·Ⅱ단원 중","ratio":25},{"type":"수행","name":"2차 수행평가 · 정보과학 프로젝트","what":"문제 해결 5단계 산출물, 프로그램, 발표·상호 평가","when":"14~16주차","ratio":25,"rubric":{"head":["항목","잘함","보통","노력 필요"],"rows":[["① 문제 발견","생활 속 문제를 구체적인 수치·근거와 함께 제시함","문제를 제시했으나 근거가 부족함","문제가 막연하거나 해결할 대상이 불분명함"],["② 문제 구조화","입력·출력·제약 조건을 명확히 정하고 상태(데이터)를 정의함","입력과 출력은 정했으나 조건이 빠짐","무엇을 계산할지 정하지 못함"],["③ 알고리즘 설계","알맞은 데이터 구조·알고리즘을 고르고 그 이유와 효율(빅오)을 설명함","알고리즘은 설계했으나 선택 이유가 부족함","설계 없이 바로 코드부터 작성함"],["④ 프로그램 구현","함수로 나누어 읽기 쉽게 작성하고 오류 없이 동작함","동작하지만 구조가 정리되지 않음","실행되지 않거나 일부만 동작함"],["⑤ 검증·공유","여러 입력으로 시험하고 한계와 개선점을 발표함","한 가지 경우로만 확인함","결과를 확인하지 않음"],["협업·기여","맡은 역할을 해내고 모둠 기록에 기여가 드러남","역할을 일부 수행함","기여가 드러나지 않음"]]}}]},"settings_edit":"https://github.com/yongdeuk/infoscience2026/edit/main/settings.json","programiz":"https://www.programiz.com/python-programming/online-compiler/"};</script>
+<script src="assets/site.js"></script>
+</body>
+</html>

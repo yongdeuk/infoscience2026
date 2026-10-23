@@ -1,0 +1,190 @@
+{
+ "n": 36,
+ "goal": [
+  "분기·한정·백트래킹의 뜻을 설명할 수 있다",
+  "가지치기 조건을 넣어 탐색 횟수를 줄일 수 있다",
+  "탐욕 알고리즘과 분기 한정 알고리즘을 비교할 수 있다"
+ ],
+ "hook": "미로에서 앞에 막다른 벽이 보이는데도 끝까지 가서 손으로 만져 봐야 할까요? 막힌 길을 미리 알아채는 방법이 있다면 무엇일까요?",
+ "code_notes": {
+  "C1": {
+   "say": "세 변 a ≤ b ≤ c의 합이 9인 삼각형 화단의 수를 세되, 볼 필요 없는 경우는 처음부터 건너뛰어요.",
+   "lines": [
+    [
+     6,
+     "가지치기 ①: 가장 짧은 변 a는 둘레의 절반보다 작아야 해요. 그 이상은 아예 시도하지 않아요."
+    ],
+    [
+     7,
+     "b를 a부터 시작해서 a ≤ b 순서만 만들어요. (1,2,6)과 (2,1,6) 같은 중복이 사라져요(가지치기 ②)."
+    ],
+    [
+     9,
+     "둘레가 정해져 있으니 c는 계산으로 바로 나와요. 반복문 하나가 줄어든 셈이에요."
+    ],
+    [
+     10,
+     "c가 b보다 작아지면 b ≤ c 순서가 깨져요. b를 더 키워 봐야 c는 더 작아지니 break로 이 가지 전체를 잘라 내요."
+    ],
+    [
+     12,
+     "남은 후보에 대해서만 삼각형 조건(두 변의 합 > 나머지 한 변)을 검사해요."
+    ]
+   ],
+   "predict": {
+    "q": "실행하면 화단의 수는 몇이 나올까요?",
+    "a": "3이에요. (1, 4, 4), (2, 3, 4), (3, 3, 3) 세 가지예요."
+   }
+  },
+  "C2": {
+   "say": "C1과 같은 코드에, 찾은 삼각형의 세 변을 출력할 자리가 비어 있어요.",
+   "lines": [
+    [
+     13,
+     "count += 1 바로 아래, 같은 들여쓰기로 print(a, b, c)를 넣으면 조건을 통과한 세 변만 출력돼요."
+    ]
+   ]
+  },
+  "C3": {
+   "say": "전체 탐색(33차시)에 ‘지금 합이 이미 최솟값 이상이면 돌아간다’는 한정 조건을 더한 분기 한정 알고리즘이에요.",
+   "lines": [
+    [
+     12,
+     "함수가 불릴 때마다 1씩 세서, 가지치기로 얼마나 덜 살펴봤는지 비교할 수 있어요."
+    ],
+    [
+     13,
+     "한정: 숫자는 모두 양수라 더 내려가면 합이 커지기만 해요. 이미 찾은 최솟값 이상이면 그 아래 가지는 볼 필요가 없어요."
+    ],
+    [
+     16,
+     "끝까지 내려왔다면 13번 줄을 통과했으니 지금 합이 더 작아요. 바로 최솟값으로 바꿔요."
+    ],
+    [
+     22,
+     "백트래킹: 돌아오면 표시를 지워 다른 가지에서 이 세로줄을 쓸 수 있게 해요."
+    ]
+   ],
+   "blanks": [
+    [
+     13,
+     "current_sum >= min_solution"
+    ],
+    [
+     22,
+     "visited[col] = False"
+    ]
+   ],
+   "predict": {
+    "q": "13~14번 줄(가지치기)을 지우면 ‘살펴본 횟수’는 늘까요, 줄까요?",
+    "a": "늘어요. 가지치기를 하면 14번, 지우면 16번(시작 1 + 첫째 줄 3 + 둘째 줄 6 + 셋째 줄 6) 살펴봐요. 숫자판이 클수록 차이가 훨씬 커져요."
+   }
+  },
+  "C4": {
+   "say": "N이 1이 될 때까지 ‘K로 나누기’와 ‘1 빼기’ 중 하나를 고르는 횟수를 탐욕법으로 구해요.",
+   "lines": [
+    [
+     4,
+     "나누어떨어지면 무조건 나눠요. 나누기가 수를 훨씬 빨리 줄이니 지금 가장 좋은 선택이에요."
+    ],
+    [
+     7,
+     "나눌 수 없을 때만 1을 빼서 나누어떨어지는 수에 다가가요."
+    ],
+    [
+     8,
+     "어느 쪽을 골랐든 한 번 한 것이니 횟수를 1 늘려요."
+    ]
+   ],
+   "blanks": [
+    [
+     4,
+     "n % k == 0"
+    ],
+    [
+     5,
+     "n //= k"
+    ]
+   ],
+   "predict": {
+    "q": "n, k를 25, 5로 바꾸면 최소 횟수는?",
+    "a": "2예요. 25 ÷ 5 = 5, 5 ÷ 5 = 1."
+   }
+  },
+  "C6": {
+   "say": "한 줄씩 퀸을 놓고, 안 되면 되돌아가며 4퀸의 모든 답을 모아요.",
+   "lines": [
+    [
+     9,
+     "가로 거리와 세로 거리가 같으면 같은 대각선이에요."
+    ],
+    [
+     15,
+     "board[:]로 복사해서 저장해요. 그냥 board를 넣으면 나중에 되돌리기로 바뀐 값이 함께 바뀌어요."
+    ],
+    [
+     18,
+     "safe가 False인 칸은 그 아래 줄을 전혀 시도하지 않아요. 이것이 가지치기예요."
+    ],
+    [
+     21,
+     "다음 칸을 시도하기 전에 이 줄을 비워 둬요(백트래킹)."
+    ]
+   ]
+  }
+ },
+ "tasks": [
+  {
+   "kind": "빈칸",
+   "title": "둘레 12m 화단의 세 변",
+   "prompt": "‘스스로 해결하기’를 해 봐요. 둘레를 12로 바꾸고, 조건을 통과한 삼각형의 세 변을 출력하도록 <code>___</code>를 채우세요. 둘레를 20으로 바꾸면 몇 개가 나오는지도 직접 실행해 보세요.",
+   "starter": "perimeter = 12\ncount = 0\n\na = 1\nwhile a < (perimeter // 2):\n    b = a\n    while b <= (perimeter - a) // 2:\n        c = perimeter - a - b\n        if c < b:\n            break\n        if a + b > c and a + c > b and b + c > a:\n            count += 1\n            print(___)\n        b += 1\n    a += 1\n\nprint(f'만들 수 있는 화단의 수: {count}')",
+   "expect": "2 5 5\n3 4 5\n4 4 4\n만들 수 있는 화단의 수: 3",
+   "hint": "세 변은 a, b, c예요. print(a, b, c)",
+   "answer": "perimeter = 12\ncount = 0\n\na = 1\nwhile a < (perimeter // 2):\n    b = a\n    while b <= (perimeter - a) // 2:\n        c = perimeter - a - b\n        if c < b:\n            break\n        if a + b > c and a + c > b and b + c > a:\n            count += 1\n            print(a, b, c)\n        b += 1\n    a += 1\n\nprint(f'만들 수 있는 화단의 수: {count}')"
+  },
+  {
+   "kind": "고치기",
+   "title": "거꾸로 된 가지치기",
+   "prompt": "분기 한정 코드에서 한정 조건의 부등호가 거꾸로 되어 최소 합이 inf로 나와요. 한 곳을 고쳐 <b>최소 합 8</b>이 나오게 하고, 살펴본 횟수도 확인해 보세요.",
+   "starter": "matrix = [[1, 5, 3], [2, 5, 7], [9, 3, 5]]\nvisited = [False] * 3\nmin_solution = float('inf')\nvisit_count = 0\n\ndef find_min_sum(row, current_sum):\n    global min_solution, visit_count\n    visit_count += 1\n    if current_sum <= min_solution:          # 한정: 가망 없으면 가지치기\n        return\n    if row == 3:\n        min_solution = current_sum\n        return\n    for col in range(3):\n        if not visited[col]:\n            visited[col] = True\n            find_min_sum(row + 1, current_sum + matrix[row][col])\n            visited[col] = False\n\nfind_min_sum(0, 0)\nprint('최소 합:', min_solution, '/ 살펴본 횟수:', visit_count)",
+   "expect": "최소 합: 8 / 살펴본 횟수: 14",
+   "hint": "지금까지의 합이 이미 찾은 최솟값보다 ‘크거나 같을 때’ 더 볼 필요가 없어요.",
+   "answer": "matrix = [[1, 5, 3], [2, 5, 7], [9, 3, 5]]\nvisited = [False] * 3\nmin_solution = float('inf')\nvisit_count = 0\n\ndef find_min_sum(row, current_sum):\n    global min_solution, visit_count\n    visit_count += 1\n    if current_sum >= min_solution:          # 한정: 가망 없으면 가지치기\n        return\n    if row == 3:\n        min_solution = current_sum\n        return\n    for col in range(3):\n        if not visited[col]:\n            visited[col] = True\n            find_min_sum(row + 1, current_sum + matrix[row][col])\n            visited[col] = False\n\nfind_min_sum(0, 0)\nprint('최소 합:', min_solution, '/ 살펴본 횟수:', visit_count)"
+  },
+  {
+   "kind": "만들기",
+   "title": "N-퀸: 가지치기의 효과",
+   "prompt": "N-퀸 문제를 백트래킹으로 풀며 <b>해의 개수</b>와 <b>퀸을 놓아 본 횟수</b>를 세어 보세요. <code>solve(row)</code>를 직접 완성해요: 안전한 칸에 놓을 때마다 <code>placed</code>를 1 늘리고, 마지막 줄까지 놓으면 <code>answers</code>를 1 늘려요. 아무 칸에나 놓는 전체 탐색(Nᴺ가지)과 비교해 보세요.",
+   "starter": "def count_queens(N):\n    board = [-1] * N\n    placed = 0                       # 퀸을 놓아 본 횟수\n    answers = 0\n\n    def safe(row, col):\n        for r in range(row):\n            if board[r] == col or abs(board[r] - col) == abs(r - row):\n                return False\n        return True\n\n    def solve(row):\n        nonlocal placed, answers\n        pass    # 여기에: row == N이면 answers += 1 후 return / 아니면 각 칸 col에 대해 safe하면 놓고, 다음 줄, 되돌리기\n\n    solve(0)\n    return answers, placed\n\nfor N in (4, 5, 6):\n    a, p = count_queens(N)\n    print(f'N={N}: 해 {a}개, 퀸을 놓아 본 횟수 {p}번 (아무 칸에나 놓는 전체 탐색: {N ** N}가지)')",
+   "expect": "N=4: 해 2개, 퀸을 놓아 본 횟수 16번 (아무 칸에나 놓는 전체 탐색: 256가지)\nN=5: 해 10개, 퀸을 놓아 본 횟수 53번 (아무 칸에나 놓는 전체 탐색: 3125가지)\nN=6: 해 4개, 퀸을 놓아 본 횟수 152번 (아무 칸에나 놓는 전체 탐색: 46656가지)",
+   "hint": "C6의 solve와 같은 모양이에요. board[row] = col 바로 앞이나 뒤에 placed += 1 을 넣어요.",
+   "answer": "def count_queens(N):\n    board = [-1] * N\n    placed = 0                       # 퀸을 놓아 본 횟수\n    answers = 0\n\n    def safe(row, col):\n        for r in range(row):\n            if board[r] == col or abs(board[r] - col) == abs(r - row):\n                return False\n        return True\n\n    def solve(row):\n        nonlocal placed, answers\n        if row == N:\n            answers += 1\n            return\n        for col in range(N):\n            if safe(row, col):\n                placed += 1\n                board[row] = col\n                solve(row + 1)\n                board[row] = -1\n\n    solve(0)\n    return answers, placed\n\nfor N in (4, 5, 6):\n    a, p = count_queens(N)\n    print(f'N={N}: 해 {a}개, 퀸을 놓아 본 횟수 {p}번 (아무 칸에나 놓는 전체 탐색: {N ** N}가지)')"
+  }
+ ],
+ "check": [
+  {
+   "q": "분기 한정 알고리즘에서 ‘한정(bounding)’은 무엇을 하는 단계일까요?",
+   "options": [
+    "고를 수 있는 선택지를 모두 만든다",
+    "가장 좋은 답으로 이어질 가망이 없는 길을 더 가지 않고 뺀다",
+    "막히면 바로 앞 갈림길로 되돌아간다",
+    "답을 표에 적어 두고 다시 쓴다"
+   ],
+   "answer": 1,
+   "why": "①은 분기, ③은 백트래킹, ④는 동적 계획법이에요."
+  },
+  {
+   "q": "탐욕 알고리즘과 분기 한정 알고리즘을 비교한 것으로 옳은 것은?",
+   "options": [
+    "둘 다 최적해를 보장한다",
+    "탐욕법은 최적해를 보장하고 분기 한정법은 보장하지 않는다",
+    "둘 다 모든 경우를 빠짐없이 살핀다",
+    "분기 한정법은 최적해를 보장하지만 대체로 계산이 더 많다"
+   ],
+   "answer": 3,
+   "why": "분기 한정법은 갈림길마다 한계치를 따지느라 계산이 많지만 최적해를 놓치지 않아요. 탐욕법은 빠르지만 보장하지 않아요."
+  }
+ ],
+ "exit": "오늘 만든 N-퀸 결과에서 ‘퀸을 놓아 본 횟수’와 Nᴺ을 비교하고, 가지치기가 왜 효과적인지 한 문장으로 적어 보세요."
+}

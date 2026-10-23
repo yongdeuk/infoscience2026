@@ -1,0 +1,164 @@
+{
+ "n": 9,
+ "goal": [
+  "여러 개의 값을 반환하고 나누어 받을 수 있다",
+  "클래스로 객체를 만들고 속성과 메소드를 사용할 수 있다"
+ ],
+ "hook": "붕어빵 틀 하나로 팥붕어빵, 슈크림붕어빵을 계속 찍어 낼 수 있죠. 틀과 붕어빵 중 무엇이 ‘설계도’이고 무엇이 ‘실물’일까요?",
+ "code_notes": {
+  "C1": {
+   "say": "높이를 받아 떨어지는 데 걸리는 시간과 땅에 닿을 때의 속도를 한 번에 돌려줘요.",
+   "lines": [
+    [
+     1,
+     "제곱근 math.sqrt()를 쓰려고 math 모듈을 불러와요."
+    ],
+    [
+     5,
+     "자유 낙하 공식 h = ½gt²를 t에 대해 풀면 t = √(2h/g)예요."
+    ],
+    [
+     7,
+     "return 뒤에 쉼표로 나열하면 (time, velocity) 튜플 하나로 묶여 나가요. return은 사실 여전히 ‘한 개’를 돌려주는 거예요."
+    ],
+    [
+     9,
+     "돌아온 튜플을 t, v 두 변수에 순서대로 나눠 담아요. 변수 개수와 값 개수가 같아야 해요."
+    ]
+   ],
+   "blanks": [
+    [
+     7,
+     "return time, velocity"
+    ]
+   ],
+   "predict": {
+    "q": "마지막 줄을 result = free_fall(50)으로 바꾸고 print(type(result))를 하면 무엇이 나올까요?",
+    "a": "튜플(tuple)이라고 나와요 — 쉼표로 나열한 값들이 튜플 하나로 묶여 돌아와요."
+   }
+  },
+  "C2": {
+   "say": "Robot 설계도(클래스)를 만들고, 그 설계도로 로봇A 객체를 만들어 달리게 해요.",
+   "lines": [
+    [
+     2,
+     "__init__은 객체가 만들어지는 순간 자동으로 실행돼요. self는 ‘지금 만들어지는 이 로봇’이에요."
+    ],
+    [
+     3,
+     "self.name처럼 self.을 붙여야 객체에 저장되는 속성이 돼요. 그냥 name이면 함수가 끝날 때 사라져요."
+    ],
+    [
+     6,
+     "메소드 안에서 self.speed를 바꾸면 그 객체의 속도만 바뀌어요. 다른 로봇은 영향받지 않아요."
+    ],
+    [
+     9,
+     "Robot('로봇A')처럼 클래스를 함수처럼 부르면 객체가 생겨요. '로봇A'는 __init__의 name으로 가요(self는 자동)."
+    ],
+    [
+     10,
+     "robot1.run()을 부르면 self 자리에 robot1이 들어가요."
+    ]
+   ],
+   "blanks": [
+    [
+     3,
+     "self.name = name"
+    ],
+    [
+     9,
+     "Robot('로봇A')"
+    ]
+   ],
+   "predict": {
+    "q": "10번 줄 run()을 부르기 전에 print(robot1.speed)를 하면 무엇이 나올까요?",
+    "a": "0 — __init__에서 speed를 0으로 정했고, 10이 되는 건 run()을 부른 다음이에요."
+   }
+  },
+  "C4": {
+   "say": "최댓값·최솟값·평균을 튜플로 한 번에 돌려주는 정답 코드예요.",
+   "lines": [
+    [
+     2,
+     "세 계산 결과를 쉼표로 나열해 return 한 줄로 끝냈어요."
+    ],
+    [
+     4,
+     "받는 쪽도 순서대로 hi, lo, avg 세 변수로 풀어요."
+    ]
+   ]
+  },
+  "C6": {
+   "say": "예금·출금·잔액 상태를 가진 계좌 객체를 만드는 정답 코드예요.",
+   "lines": [
+    [
+     2,
+     "balance=0으로 기본값을 줘서 처음 잔액을 생략할 수 있어요."
+    ],
+    [
+     8,
+     "self.balance를 바꿔야 그 계좌 객체의 잔액이 바뀌어요."
+    ],
+    [
+     12,
+     "출금액이 잔액보다 크면 안내하고 return으로 빼기를 막아요."
+    ]
+   ]
+  }
+ },
+ "tasks": [
+  {
+   "kind": "빈칸",
+   "title": "몫과 나머지 한 번에",
+   "prompt": "두 수를 받아 <b>몫과 나머지를 한 번에</b> 돌려주는 <code>divide()</code>를 완성하고, 17을 5로 나눈 결과를 받아 출력하세요.",
+   "starter": "def divide(a, b):\n    return a // b, ___\n\nq, r = ___(17, 5)\nprint('몫:', q, '나머지:', r)",
+   "expect": "몫: 3 나머지: 2",
+   "hint": "나머지 연산자는 %예요. 받는 쪽은 함수 이름으로 호출하면 돼요.",
+   "answer": "def divide(a, b):\n    return a // b, a % b\n\nq, r = divide(17, 5)\nprint('몫:', q, '나머지:', r)"
+  },
+  {
+   "kind": "고치기",
+   "title": "말을 안 듣는 로봇",
+   "prompt": "로봇A는 걷고 로봇B는 달려야 하는데 오류가 나요. 버그가 <b>두 군데</b> 있어요. 고쳐서 마지막 줄에 <code>3 10</code>이 나오게 하세요.",
+   "starter": "class Robot:\n    def __init__(self, name):\n        self.name = name\n        self.speed = 0\n\n    def walk():\n        self.speed = 3\n        print(f'{self.name}가 {self.speed}km/h로 걷습니다.')\n\n    def run(self):\n        speed = 10\n        print(f'{self.name}가 {self.speed}km/h로 달립니다.')\n\nrobot1 = Robot('로봇A')\nrobot2 = Robot('로봇B')\nrobot1.walk()\nrobot2.run()\nprint(robot1.speed, robot2.speed)",
+   "expect": "로봇A가 3km/h로 걷습니다.\n로봇B가 10km/h로 달립니다.\n3 10",
+   "hint": "메소드의 첫 매개 변수는 항상 self예요. 그리고 self.을 붙이지 않은 speed는 메소드 안의 지역 변수일 뿐이에요.",
+   "answer": "class Robot:\n    def __init__(self, name):\n        self.name = name\n        self.speed = 0\n\n    def walk(self):\n        self.speed = 3\n        print(f'{self.name}가 {self.speed}km/h로 걷습니다.')\n\n    def run(self):\n        self.speed = 10\n        print(f'{self.name}가 {self.speed}km/h로 달립니다.')\n\nrobot1 = Robot('로봇A')\nrobot2 = Robot('로봇B')\nrobot1.walk()\nrobot2.run()\nprint(robot1.speed, robot2.speed)"
+  },
+  {
+   "kind": "만들기",
+   "title": "학생 클래스와 스포츠 클럽",
+   "prompt": "<code>Student</code> 클래스에 자기소개 메소드 <code>introduce()</code>와, 가입한 클럽을 개수 제한 없이 받는 <code>play_sports(*sports)</code>를 추가하세요. 출력 형식: <code>1학년 민서입니다.</code> / <code>민서의 스포츠 클럽: 농구, 축구, 탁구 (3개)</code>",
+   "starter": "class Student:\n    def __init__(self, name, grade):\n        self.name = name\n        self.grade = grade\n\n    # introduce() 메소드를 만드세요\n\n    # play_sports(*sports) 메소드를 만드세요\n\ns1 = Student('민서', 1)\ns2 = Student('지호', 2)\ns1.introduce()\ns1.play_sports('농구', '축구', '탁구')\ns2.introduce()\ns2.play_sports('배드민턴')",
+   "expect": "1학년 민서입니다.\n민서의 스포츠 클럽: 농구, 축구, 탁구 (3개)\n2학년 지호입니다.\n지호의 스포츠 클럽: 배드민턴 (1개)",
+   "hint": "메소드는 def 이름(self, …): 형태예요. 튜플을 쉼표로 이어 붙일 때는 ', '.join(sports)를 써요.",
+   "answer": "class Student:\n    def __init__(self, name, grade):\n        self.name = name\n        self.grade = grade\n\n    def introduce(self):\n        print(f'{self.grade}학년 {self.name}입니다.')\n\n    def play_sports(self, *sports):\n        print(f\"{self.name}의 스포츠 클럽: {', '.join(sports)} ({len(sports)}개)\")\n\ns1 = Student('민서', 1)\ns2 = Student('지호', 2)\ns1.introduce()\ns1.play_sports('농구', '축구', '탁구')\ns2.introduce()\ns2.play_sports('배드민턴')"
+  }
+ ],
+ "check": [
+  {
+   "q": "return a, b처럼 두 값을 반환하면 실제로 돌아오는 것은?",
+   "options": [
+    "값 두 개가 따로따로",
+    "두 값을 담은 리스트",
+    "두 값을 담은 튜플 하나",
+    "마지막 값 b 하나"
+   ],
+   "answer": 2,
+   "why": "쉼표로 나열한 값은 튜플 하나로 묶여 반환돼요. 받는 쪽에서 변수 두 개로 풀 수 있어요."
+  },
+  {
+   "q": "클래스의 메소드에서 첫 매개 변수 self가 가리키는 것은?",
+   "options": [
+    "그 메소드를 부른 객체 자기 자신",
+    "클래스 이름",
+    "전역 변수",
+    "가장 처음 만든 객체"
+   ],
+   "answer": 0,
+   "why": "robot2.run()이면 self는 robot2예요. 그래서 각 객체가 서로 독립적인 상태를 가질 수 있어요."
+  }
+ ],
+ "exit": "오늘 고친 Robot 코드에서 speed = 10과 self.speed = 10의 차이를 한 줄로 설명해 보세요."
+}

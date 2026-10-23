@@ -1,0 +1,61 @@
+{
+ "n": 31,
+ "goal": [
+  "문제를 초기 상태·목표 상태·행동으로 나누어 말할 수 있다",
+  "상태 공간을 가지 그림(트리)으로 나타낼 수 있다",
+  "프로그램으로 상태 공간을 빠짐없이 돌아볼 수 있다"
+ ],
+ "hook": "길 찾기 앱에 ‘학교’를 치면 몇 초 만에 길을 알려 줘요. 앱은 머릿속에 어떤 ‘지도’를 그려 놓고 길을 찾는 걸까요?",
+ "code_notes": {},
+ "tasks": [
+  {
+   "kind": "생각",
+   "title": "내 문제를 세 조각으로",
+   "prompt": "생활 속 문제 하나(예: 루빅스 큐브 맞추기, 엘리베이터로 7층 가기, 방 정리하기)를 골라 <b>초기 상태 · 목표 상태 · 행동</b>으로 나누어 적어 보세요. 행동은 실제로 할 수 있는 일로 2개 이상 적어요.",
+   "placeholder": "문제: 엘리베이터로 7층 가기\n초기 상태: 1층에 있다\n목표 상태: 7층에 있다\n행동: 한 층 올라가기, 한 층 내려가기"
+  },
+  {
+   "kind": "빈칸",
+   "title": "8-퍼즐: 빈칸은 어디로 갈 수 있을까",
+   "prompt": "8-퍼즐 판을 길이 9인 리스트로 나타냈어요(0이 빈칸). 위치 i(0~8)를 <b>줄 r</b>과 <b>칸 c</b>로 바꾸는 식을 <code>___</code>에 채우면, 지금 상태에서 할 수 있는 행동이 출력돼요. 구석에 있으면 행동이 몇 개로 줄어드나요?",
+   "starter": "def moves(state):\n    i = state.index(0)              # 빈칸(0)의 위치 0~8\n    r, c = ___, ___                   # 몇째 줄, 몇째 칸인지 (0부터)\n    result = []\n    if r > 0: result.append('UP')\n    if r < 2: result.append('DOWN')\n    if c > 0: result.append('LEFT')\n    if c < 2: result.append('RIGHT')\n    return result\n\nprint(moves([1, 2, 3, 4, 0, 5, 7, 8, 6]))   # 빈칸이 가운데\nprint(moves([1, 2, 3, 4, 5, 6, 7, 8, 0]))   # 빈칸이 오른쪽 아래 구석\nprint(moves([1, 0, 3, 4, 2, 5, 7, 8, 6]))   # 빈칸이 윗줄 가운데",
+   "expect": "['UP', 'DOWN', 'LEFT', 'RIGHT']\n['UP', 'LEFT']\n['DOWN', 'LEFT', 'RIGHT']",
+   "hint": "한 줄에 3칸이에요. 줄 번호는 3으로 나눈 몫(//), 칸 번호는 3으로 나눈 나머지(%)예요.",
+   "answer": "def moves(state):\n    i = state.index(0)              # 빈칸(0)의 위치 0~8\n    r, c = i // 3, i % 3                   # 몇째 줄, 몇째 칸인지 (0부터)\n    result = []\n    if r > 0: result.append('UP')\n    if r < 2: result.append('DOWN')\n    if c > 0: result.append('LEFT')\n    if c < 2: result.append('RIGHT')\n    return result\n\nprint(moves([1, 2, 3, 4, 0, 5, 7, 8, 6]))   # 빈칸이 가운데\nprint(moves([1, 2, 3, 4, 5, 6, 7, 8, 0]))   # 빈칸이 오른쪽 아래 구석\nprint(moves([1, 0, 3, 4, 2, 5, 7, 8, 6]))   # 빈칸이 윗줄 가운데"
+  },
+  {
+   "kind": "만들기",
+   "title": "집에서 학교까지 모든 길",
+   "prompt": "교과서의 길 그림을 딕셔너리로 옮겼어요. <b>같은 곳을 두 번 지나지 않으면서</b> 집에서 학교까지 가는 모든 길을 출력하도록 for 문 안을 완성해 보세요. 손으로 그린 상태 공간(4가지)과 같은지 확인해요.",
+   "starter": "road = {\n    '집': ['A', 'C'],\n    'A': ['집', '학교', 'B'],\n    'B': ['A', 'C', '학교'],\n    'C': ['집', 'B'],\n    '학교': ['A', 'B'],\n}\ncount = 0\n\ndef go(now, path):\n    global count\n    if now == '학교':                 # 목표 상태에 닿으면\n        count += 1\n        print(' ─ '.join(path))\n        return\n    for nxt in road[now]:             # 할 수 있는 행동: 이어진 곳으로 한 칸\n        pass                          # 여기에: 아직 안 간 곳이면 그곳으로 이동\n\ngo('집', ['집'])\nprint('모두', count, '가지')",
+   "expect": "집 ─ A ─ 학교\n집 ─ A ─ B ─ 학교\n집 ─ C ─ B ─ A ─ 학교\n집 ─ C ─ B ─ 학교\n모두 4 가지",
+   "hint": "if nxt not in path: 일 때만 go(nxt, path + [nxt]) 를 불러 보세요. path + [nxt]는 지금까지의 길에 nxt를 붙인 새 길이에요.",
+   "answer": "road = {\n    '집': ['A', 'C'],\n    'A': ['집', '학교', 'B'],\n    'B': ['A', 'C', '학교'],\n    'C': ['집', 'B'],\n    '학교': ['A', 'B'],\n}\ncount = 0\n\ndef go(now, path):\n    global count\n    if now == '학교':                 # 목표 상태에 닿으면\n        count += 1\n        print(' ─ '.join(path))\n        return\n    for nxt in road[now]:             # 할 수 있는 행동: 이어진 곳으로 한 칸\n        if nxt not in path:           # 같은 곳은 두 번 지나지 않기\n            go(nxt, path + [nxt])\n\ngo('집', ['집'])\nprint('모두', count, '가지')"
+  }
+ ],
+ "check": [
+  {
+   "q": "8-퍼즐에서 ‘빈칸을 위·아래·왼쪽·오른쪽으로 한 칸 옮기기’는 문제의 세 요소 중 무엇일까요?",
+   "options": [
+    "초기 상태",
+    "목표 상태",
+    "상태 공간",
+    "행동(연산자)"
+   ],
+   "answer": 3,
+   "why": "행동(연산자)은 지금 상태를 다른 상태로 바꾸는 일이에요."
+  },
+  {
+   "q": "상태 공간에 대한 설명으로 옳은 것은?",
+   "options": [
+    "초기 상태에서 목표 상태까지 거칠 수 있는 모든 상태의 모음이다",
+    "목표 상태 하나만을 뜻한다",
+    "행동을 한 번만 했을 때의 상태이다",
+    "항상 한 줄로 늘어선 모양이다"
+   ],
+   "answer": 0,
+   "why": "상태 공간은 갈림길까지 모두 그려 넣은 지도와 같아요. 보통 가지를 치는 트리 모양이에요."
+  }
+ ],
+ "exit": "탐색이란 무엇인지 ‘상태 공간’이라는 말을 넣어 한 문장으로 적어 보세요."
+}

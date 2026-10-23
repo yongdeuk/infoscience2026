@@ -1,0 +1,138 @@
+{
+ "n": 4,
+ "goal": [
+  "인수와 매개 변수의 관계를 설명할 수 있다",
+  "return의 두 역할(값 반환, 즉시 종료)을 활용할 수 있다"
+ ],
+ "hook": "택배를 보낼 때 받는 사람 주소 칸이 3개인데 주소를 2개만 쓰면 어떻게 될까요? 함수에 값을 보낼 때도 비슷한 일이 생겨요.",
+ "code_notes": {
+  "C1": {
+   "say": "세 수를 받아 정렬한 뒤 가운데 값을 돌려주는 함수예요.",
+   "lines": [
+    [
+     1,
+     "a, b, c는 매개 변수예요. 6번 줄에서 보낸 인수 5, 7, 3이 순서대로 a=5, b=7, c=3에 들어가요."
+    ],
+    [
+     2,
+     "세 값을 리스트로 묶어야 sort()로 한 번에 정렬할 수 있어요."
+    ],
+    [
+     3,
+     "sort()는 리스트 자체를 작은 순서로 바꿔요. [5, 7, 3] → [3, 5, 7]"
+    ],
+    [
+     4,
+     "정렬된 리스트의 1번 칸(두 번째 값)이 바로 중간값이에요. 인덱스는 0부터 세요."
+    ]
+   ],
+   "blanks": [
+    [
+     3,
+     "numbers.sort()"
+    ],
+    [
+     4,
+     "numbers[1]"
+    ]
+   ],
+   "predict": {
+    "q": "실행하기 전에 예측해 보세요: print(find_middle_number(9, 1, 4))는 무엇을 출력할까요?",
+    "a": "4 — 정렬하면 [1, 4, 9]이고, 1번 칸이 4예요."
+   }
+  },
+  "C2": {
+   "say": "문자열이 회문인지 검사하되, 비었거나 너무 길면 return으로 바로 빠져나오는 함수예요.",
+   "lines": [
+    [
+     4,
+     "값 없는 return은 ‘여기서 함수 끝!’이라는 뜻이에요. 그래서 아래 8번 줄 이후는 실행되지 않아요."
+    ],
+    [
+     5,
+     "elif로 두 번째 문지기를 세워요. 20자가 넘으면 역시 안내만 하고 끝내요."
+    ],
+    [
+     8,
+     "s[::-1]은 끝에서부터 한 글자씩 거꾸로 읽어 새 문자열을 만들어요."
+    ],
+    [
+     9,
+     "end=''는 줄을 바꾸지 말라는 뜻이에요. 그래서 11번이나 13번 줄의 문장이 같은 줄에 이어 붙어요."
+    ],
+    [
+     10,
+     "원래 문자열과 뒤집은 문자열이 같으면 회문이에요."
+    ]
+   ],
+   "blanks": [
+    [
+     4,
+     "return"
+    ],
+    [
+     8,
+     "s[::-1]"
+    ]
+   ],
+   "predict": {
+    "q": "reverse('토마토')를 실행하면 어떤 줄이 출력될까요?",
+    "a": "기존: 토마토, 역순: 토마토 ==> 회문입니다. — 뒤집어도 ‘토마토’라서 회문이에요."
+   }
+  }
+ },
+ "tasks": [
+  {
+   "kind": "빈칸",
+   "title": "세 과목 평균",
+   "prompt": "세 점수를 받아 평균을 돌려주는 함수예요. 빈칸을 채우고, 마지막 줄에서 <b>70, 85, 91</b>을 인수로 보내 평균을 출력하세요.",
+   "starter": "def average_of_three(a, b, c):\n    return (___) / 3\n\nprint(average_of_three(80, 90, 100))\nprint(average_of_three(___))",
+   "expect": "90.0\n82.0",
+   "hint": "평균은 세 매개 변수를 모두 더한 뒤 3으로 나눠요. 인수는 쉼표로 구분해 3개를 보내요.",
+   "answer": "def average_of_three(a, b, c):\n    return (a + b + c) / 3\n\nprint(average_of_three(80, 90, 100))\nprint(average_of_three(70, 85, 91))"
+  },
+  {
+   "kind": "고치기",
+   "title": "인수 개수 맞추기",
+   "prompt": "실행하면 <code>TypeError</code>가 나요. 매개 변수는 3개인데 인수 개수가 맞지 않거든요. 첫 호출은 <code>5, 7, 3</code>, 둘째 호출은 <code>10, 30, 20</code>으로 고쳐 중간값 5와 20이 나오게 하세요.",
+   "starter": "def find_middle_number(a, b, c):\n    numbers = [a, b, c]\n    numbers.sort()\n    return numbers[1]\n\nprint(find_middle_number(5, 7))\nprint(find_middle_number(10, 30, 20, 40))",
+   "expect": "5\n20",
+   "hint": "오류 메시지의 ‘missing 1 required’와 ‘takes 3 … but 4 were given’을 읽어 보세요.",
+   "answer": "def find_middle_number(a, b, c):\n    numbers = [a, b, c]\n    numbers.sort()\n    return numbers[1]\n\nprint(find_middle_number(5, 7, 3))\nprint(find_middle_number(10, 30, 20))"
+  },
+  {
+   "kind": "만들기",
+   "title": "0으로 나누기 막기",
+   "prompt": "<code>reverse()</code>처럼 문제가 있으면 <b>안내하고 return으로 바로 끝내는</b> 함수를 만들어요. <code>safe_divide(a, b)</code>는 b가 0이면 <code>0으로 나눌 수 없어요.</code>를 출력하고 끝내고, 아니면 <code>10 ÷ 4 = 2.5</code>처럼 출력해요.",
+   "starter": "def safe_divide(a, b):\n    # ① b가 0이면 안내문을 출력하고 return으로 끝내기\n\n    # ② 아니면 나눗셈 결과를 출력하기\n    pass\n\nsafe_divide(10, 4)\nsafe_divide(7, 0)\nsafe_divide(9, 3)",
+   "expect": "10 ÷ 4 = 2.5\n0으로 나눌 수 없어요.\n9 ÷ 3 = 3.0",
+   "hint": "if b == 0: 안에서 print한 뒤 return을 쓰면 아래 나눗셈 줄은 실행되지 않아요. else가 없어도 돼요.",
+   "answer": "def safe_divide(a, b):\n    if b == 0:\n        print('0으로 나눌 수 없어요.')\n        return\n    print(f'{a} ÷ {b} = {a / b}')\n\nsafe_divide(10, 4)\nsafe_divide(7, 0)\nsafe_divide(9, 3)"
+  }
+ ],
+ "check": [
+  {
+   "q": "m = find_middle_number(5, 7, 3)에서 5, 7, 3을 무엇이라고 부를까요?",
+   "options": [
+    "매개 변수",
+    "인수",
+    "반환값",
+    "지역 변수"
+   ],
+   "answer": 1,
+   "why": "호출하는 쪽에서 보내는 값이 인수, 함수 정의에서 그 값을 받는 변수(a, b, c)가 매개 변수예요."
+  },
+  {
+   "q": "함수 안에서 값 없이 return만 실행되면 어떻게 될까요?",
+   "options": [
+    "오류가 난다",
+    "0을 반환하고 다음 줄을 계속 실행한다",
+    "함수를 처음부터 다시 실행한다",
+    "그 자리에서 함수가 끝나고 None을 반환한다"
+   ],
+   "answer": 3,
+   "why": "return은 함수를 즉시 끝내요. 돌려줄 값을 적지 않으면 None이 돌아가요."
+  }
+ ],
+ "exit": "오늘 만든 safe_divide()에서 return이 없었다면 어떤 일이 생겼을지 한 줄로 적어 보세요."
+}

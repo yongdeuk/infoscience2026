@@ -1,0 +1,111 @@
+{
+  "n": 24,
+  "goal": [
+    "리스트로 표현한 이진 트리에서 부모·자식 인덱스를 계산할 수 있다",
+    "이진 탐색 트리의 규칙에 따라 값을 넣고 찾는 과정을 설명하고 코드로 확인할 수 있다"
+  ],
+  "hook": "1부터 100 사이 숫자 맞히기 게임에서 '더 커요/더 작아요'만 알려 준다면, 처음에 몇을 부르는 게 가장 좋을까요? 최대 몇 번이면 반드시 맞힐 수 있을까요?",
+  "code_notes": {
+    "C2": {
+      "say": "리스트를 이진 탐색 트리로 써서, 작으면 왼쪽(2i)·크면 오른쪽(2i+1) 자리로 내려가며 값을 저장하고 찾아요.",
+      "lines": [
+        [
+          2,
+          "그 자리가 0이면 빈자리라는 뜻이에요. 여기에 저장하고 멈춰요. 재귀의 기본 단계예요."
+        ],
+        [
+          5,
+          "저장할 값이 더 작으면 왼쪽 자식 자리 idx*2로 내려가 같은 일을 다시 해요(재귀 호출)."
+        ],
+        [
+          7,
+          "더 크면 오른쪽 자식 자리 idx*2+1로 내려가요."
+        ],
+        [
+          11,
+          "빈자리까지 내려왔다면 그 값은 트리에 없다는 뜻이에요."
+        ],
+        [
+          15,
+          "찾는 값이 작으면 왼쪽으로만 가요. 오른쪽 서브 트리 전체는 볼 필요가 없어 한 번에 절반을 버려요. cnt를 1 늘려 비교 횟수를 세요."
+        ],
+        [
+          21,
+          "인덱스 0은 비워 두고 루트를 1번에 둬요. 그래야 2i, 2i+1, i//2 공식이 딱 맞아요."
+        ]
+      ],
+      "blanks": [
+        [
+          5,
+          "insert(idx * 2, num)"
+        ],
+        [
+          7,
+          "insert(idx * 2 + 1, num)"
+        ],
+        [
+          14,
+          "num < bst[idx]"
+        ]
+      ],
+      "predict": {
+        "q": "실행하기 전에 예측해 보세요: 12를 찾을 때 비교는 몇 번 할까요? 어떤 값들과 비교할까요?",
+        "a": "3회 — 루트 10보다 커서 오른쪽 13으로, 13보다 작아서 왼쪽으로 가면 12를 찾아요. 10개 중 3개만 봐요."
+      }
+    }
+  },
+  "tasks": [
+    {
+      "kind": "빈칸",
+      "title": "인덱스로 가족 찾기",
+      "prompt": "리스트로 저장한 이진 트리에서 i번 노드의 부모·왼쪽 자식·오른쪽 자식을 출력하세요. 빈칸 세 곳은 본문 표의 계산식이에요.",
+      "starter": "tree = [0, 'A', 'B', 'C', 'D', 'E', 'F', 'G']   # 0번 칸은 비워 둠\n\nfor i in [2, 3]:\n    print(tree[i], '의 부모:', tree[___])\n    print(tree[i], '의 왼쪽 자식:', tree[___])\n    print(tree[i], '의 오른쪽 자식:', tree[___])\n",
+      "expect": "B 의 부모: A\nB 의 왼쪽 자식: D\nB 의 오른쪽 자식: E\nC 의 부모: A\nC 의 왼쪽 자식: F\nC 의 오른쪽 자식: G",
+      "hint": "부모는 i // 2, 왼쪽 자식은 2 * i, 오른쪽 자식은 2 * i + 1이에요.",
+      "answer": "tree = [0, 'A', 'B', 'C', 'D', 'E', 'F', 'G']   # 0번 칸은 비워 둠\n\nfor i in [2, 3]:\n    print(tree[i], '의 부모:', tree[i // 2])\n    print(tree[i], '의 왼쪽 자식:', tree[2 * i])\n    print(tree[i], '의 오른쪽 자식:', tree[2 * i + 1])\n"
+    },
+    {
+      "kind": "고치기",
+      "title": "거꾸로 저장하는 이진 탐색 트리",
+      "prompt": "8, 3, 5, 14, 2, 10을 넣으면 본문 C1처럼 3은 왼쪽(2번 칸), 14는 오른쪽(3번 칸)에 있어야 해요. 그런데 결과가 좌우 반대예요. 고치세요.",
+      "starter": "def insert(idx, num):\n    if bst[idx] == 0:\n        bst[idx] = num\n    elif num > bst[idx]:\n        insert(idx * 2, num)\n    else:\n        insert(idx * 2 + 1, num)\n\nbst = [0] * 16\nfor v in [8, 3, 5, 14, 2, 10]:\n    insert(1, v)\nfor i in range(1, 8):\n    print(i, '번 칸:', bst[i])\n",
+      "expect": "1 번 칸: 8\n2 번 칸: 3\n3 번 칸: 14\n4 번 칸: 2\n5 번 칸: 5\n6 번 칸: 10\n7 번 칸: 0",
+      "hint": "작은 값이 왼쪽(idx*2)으로 가야 해요. 비교 기호를 확인하세요.",
+      "answer": "def insert(idx, num):\n    if bst[idx] == 0:\n        bst[idx] = num\n    elif num < bst[idx]:\n        insert(idx * 2, num)\n    else:\n        insert(idx * 2 + 1, num)\n\nbst = [0] * 16\nfor v in [8, 3, 5, 14, 2, 10]:\n    insert(1, v)\nfor i in range(1, 8):\n    print(i, '번 칸:', bst[i])\n"
+    },
+    {
+      "kind": "만들기",
+      "title": "트리 탐색 vs 처음부터 찾기",
+      "prompt": "본문과 같은 값을 넣은 이진 탐색 트리에서 값을 찾을 때의 비교 횟수를 돌려주는 <code>count(num)</code>을 반복문으로 만드세요. 리스트를 처음부터 찾는 횟수와 나란히 출력해 '절반씩 버리기'의 효과를 확인해요.",
+      "starter": "input_num = [10, 5, 3, 13, 2, 14, 7, 9, 4, 12]\nbst = [0] * 30\n\ndef insert(idx, num):\n    if bst[idx] == 0:\n        bst[idx] = num\n    elif num < bst[idx]:\n        insert(idx * 2, num)\n    else:\n        insert(idx * 2 + 1, num)\n\nfor v in input_num:\n    insert(1, v)\n\ndef count(num):\n    idx, cnt = 1, 1\n    # bst[idx]가 num이 될 때까지 왼쪽/오른쪽으로 내려가며 cnt를 세세요\n    return cnt\n\nfor x in [5, 2, 7, 12]:\n    print(f'{x}: 트리 {count(x)}회, 처음부터 {input_num.index(x) + 1}회')\n",
+      "expect": "5: 트리 2회, 처음부터 2회\n2: 트리 4회, 처음부터 5회\n7: 트리 3회, 처음부터 7회\n12: 트리 3회, 처음부터 10회",
+      "hint": "while bst[idx] != num: 안에서 작으면 idx = idx * 2, 크면 idx = idx * 2 + 1로 바꾸고 cnt += 1을 하세요.",
+      "answer": "input_num = [10, 5, 3, 13, 2, 14, 7, 9, 4, 12]\nbst = [0] * 30\n\ndef insert(idx, num):\n    if bst[idx] == 0:\n        bst[idx] = num\n    elif num < bst[idx]:\n        insert(idx * 2, num)\n    else:\n        insert(idx * 2 + 1, num)\n\nfor v in input_num:\n    insert(1, v)\n\ndef count(num):\n    idx, cnt = 1, 1\n    while bst[idx] != num:\n        if num < bst[idx]:\n            idx = idx * 2\n        else:\n            idx = idx * 2 + 1\n        cnt += 1\n    return cnt\n\nfor x in [5, 2, 7, 12]:\n    print(f'{x}: 트리 {count(x)}회, 처음부터 {input_num.index(x) + 1}회')\n"
+    }
+  ],
+  "check": [
+    {
+      "q": "루트를 1번에 둔 리스트 이진 트리에서 6번 노드의 부모와 오른쪽 자식은 각각 몇 번일까요?",
+      "options": [
+        "부모 3번, 오른쪽 자식 13번",
+        "부모 2번, 오른쪽 자식 12번",
+        "부모 3번, 오른쪽 자식 12번",
+        "부모 5번, 오른쪽 자식 7번"
+      ],
+      "answer": 0,
+      "why": "부모는 6 // 2 = 3, 오른쪽 자식은 2 × 6 + 1 = 13이에요. 12번은 왼쪽 자식이에요."
+    },
+    {
+      "q": "빈 이진 탐색 트리에 5, 8, 2, 7을 차례로 넣었을 때 7의 위치로 옳은 것은 무엇일까요?",
+      "options": [
+        "5의 왼쪽 자식",
+        "2의 오른쪽 자식",
+        "8의 오른쪽 자식",
+        "8의 왼쪽 자식"
+      ],
+      "answer": 3,
+      "why": "7은 5보다 커서 오른쪽 8로, 8보다 작아서 8의 왼쪽 자식이 돼요."
+    }
+  ],
+  "exit": "이진 탐색 트리에서 '한 번 비교할 때마다 절반을 버릴 수 있는' 이유를 왼쪽·오른쪽 규칙으로 설명해 보세요."
+}

@@ -1,0 +1,135 @@
+{
+ "n": 32,
+ "goal": [
+  "탐색 공간의 구조(선형/비선형)와 탐색 범위(전체/부분)를 구별할 수 있다",
+  "전체 탐색(브루트 포스)의 다섯 단계로 문제를 풀 수 있다",
+  "순차 탐색을 구현하고 비교 횟수로 O(n)을 확인할 수 있다"
+ ],
+ "hook": "열쇠 꾸러미에 열쇠가 10개 있는데 어느 것이 현관 열쇠인지 몰라요. 가장 확실한 방법은 무엇이고, 최악의 경우 몇 번 꽂아 봐야 할까요?",
+ "code_notes": {
+  "C1": {
+   "say": "리스트의 0번 칸부터 하나씩 비교해 찾는 값의 위치를 돌려주는 순차 탐색이에요.",
+   "lines": [
+    [
+     2,
+     "0번 칸부터 마지막 칸까지 차례로 봐요. 할 수 있는 행동은 ‘오른쪽으로 한 칸’ 하나뿐인 선형 탐색이에요."
+    ],
+    [
+     3,
+     "유효성 검사: 지금 칸의 값이 찾는 값과 같은지 확인해요."
+    ],
+    [
+     4,
+     "찾자마자 return으로 함수를 끝내요. 그래서 뒤의 칸은 보지 않아요."
+    ],
+    [
+     5,
+     "for 문이 끝까지 돌았다는 것은 어디에도 없다는 뜻이라 -1을 돌려줘요. 이 줄은 for 문 바깥에 있어야 해요."
+    ]
+   ],
+   "blanks": [
+    [
+     3,
+     "arr[i] == target"
+    ],
+    [
+     5,
+     "return -1"
+    ]
+   ],
+   "predict": {
+    "q": "target을 6으로 바꾸면 무엇이 출력될까요?",
+    "a": "Target found at index: -1 — 리스트에 6이 없어서 5칸을 모두 비교한 뒤 -1을 돌려줘요."
+   }
+  },
+  "C2": {
+   "say": "1부터 N까지 모든 수를 하나씩 검사해 한수의 개수를 세는 전체 탐색이에요.",
+   "lines": [
+    [
+     2,
+     "한·두 자리 수는 비교할 간격이 하나 이하라서 모두 한수예요. 검사 없이 True."
+    ],
+    [
+     4,
+     "숫자를 글자로 바꾸면 str_num[0], str_num[1]처럼 각 자리를 꺼내기 쉬워요."
+    ],
+    [
+     7,
+     "두 간격이 같으면 등차수열이니 한수예요. 비교식 자체가 True/False라서 바로 돌려줘요."
+    ],
+    [
+     11,
+     "상태 공간(1~N)을 빠짐없이 도는 부분이에요. N개를 다 보니 O(N)."
+    ]
+   ],
+   "blanks": [
+    [
+     7,
+     "diff1 == diff2"
+    ],
+    [
+     11,
+     "range(1, N + 1)"
+    ]
+   ],
+   "predict": {
+    "q": "N에 110을 넣으면 몇이 출력될까요?",
+    "a": "99예요. 1~99는 99개 모두 한수지만, 100~110 사이에는 한수가 하나도 없어요(111이 첫 번째 세 자리 한수)."
+   }
+  }
+ },
+ "tasks": [
+  {
+   "kind": "빈칸",
+   "title": "없는 값은 몇 번 만에 알까",
+   "prompt": "순차 탐색에 비교 횟수를 세는 기능을 넣었어요. 끝까지 못 찾았을 때 돌려줄 값을 <code>___</code>에 채워 보세요(위치는 -1). 맨 앞의 값, 맨 뒤의 값, 없는 값을 찾을 때 비교 횟수를 비교해 보세요.",
+   "starter": "def linear_search(arr, target):\n    count = 0\n    for i in range(len(arr)):\n        count += 1                  # 비교 한 번\n        if arr[i] == target:\n            return i, count\n    return ___\n\narr = [9, 5, 8, 3, 7]\nfor t in (9, 8, 7, 6):\n    print(f'{t} 찾기 → 위치 {linear_search(arr, t)[0]}, 비교 {linear_search(arr, t)[1]}번')",
+   "expect": "9 찾기 → 위치 0, 비교 1번\n8 찾기 → 위치 2, 비교 3번\n7 찾기 → 위치 4, 비교 5번\n6 찾기 → 위치 -1, 비교 5번",
+   "hint": "찾았을 때처럼 (위치, 비교 횟수) 두 값을 돌려줘야 해요. 위치는 -1이에요.",
+   "answer": "def linear_search(arr, target):\n    count = 0\n    for i in range(len(arr)):\n        count += 1                  # 비교 한 번\n        if arr[i] == target:\n            return i, count\n    return -1, count\n\narr = [9, 5, 8, 3, 7]\nfor t in (9, 8, 7, 6):\n    print(f'{t} 찾기 → 위치 {linear_search(arr, t)[0]}, 비교 {linear_search(arr, t)[1]}번')"
+  },
+  {
+   "kind": "고치기",
+   "title": "가짜 한수가 섞였어요",
+   "prompt": "100~300 사이의 한수를 모두 찾는 전체 탐색이에요. 그런데 101, 121 같은 한수가 아닌 수가 섞여 나와요. <code>diff2</code>를 구하는 식의 실수를 찾아 고쳐 보세요.",
+   "starter": "def is_hansu(number):\n    if number < 100:\n        return True\n    s = str(number)\n    diff1 = int(s[0]) - int(s[1])\n    diff2 = int(s[2]) - int(s[1])\n    return diff1 == diff2\n\nresult = []\nfor i in range(100, 301):           # 100 ~ 300을 하나씩 다 살펴보기\n    if is_hansu(i):\n        result.append(i)\nprint(result)\nprint(len(result), '개')",
+   "expect": "[111, 123, 135, 147, 159, 210, 222, 234, 246, 258]\n10 개",
+   "hint": "diff1은 (첫째 − 둘째)예요. diff2도 같은 방향으로 (둘째 − 셋째)여야 비교가 맞아요.",
+   "answer": "def is_hansu(number):\n    if number < 100:\n        return True\n    s = str(number)\n    diff1 = int(s[0]) - int(s[1])\n    diff2 = int(s[1]) - int(s[2])\n    return diff1 == diff2\n\nresult = []\nfor i in range(100, 301):           # 100 ~ 300을 하나씩 다 살펴보기\n    if is_hansu(i):\n        result.append(i)\nprint(result)\nprint(len(result), '개')"
+  },
+  {
+   "kind": "만들기",
+   "title": "합이 10인 카드 짝 찾기",
+   "prompt": "카드 6장 중 두 장을 골라 합이 10이 되는 짝을 <b>전체 탐색</b>으로 모두 찾아요. ① 상태 공간: 서로 다른 두 장의 모든 짝 ② 유효성 검사: 합이 10인가? 짝을 하나 볼 때마다 <code>checked</code>를 1씩 늘리고, 맞는 짝은 리스트에서 앞에 있는 카드를 먼저 써서 <code>(앞 카드, 뒤 카드)</code> 모양의 튜플로 <code>found</code>에 넣어요.",
+   "starter": "cards = [3, 7, 1, 9, 4, 6]\nchecked = 0\nfound = []\n# 여기에: 이중 반복문으로 i < j 인 모든 짝 (cards[i], cards[j]) 살펴보기\nprint('합이 10인 짝:', found)\nprint('살펴본 짝의 수:', checked)",
+   "expect": "합이 10인 짝: [(3, 7), (1, 9), (4, 6)]\n살펴본 짝의 수: 15",
+   "hint": "for i in range(len(cards)): 안에 for j in range(i + 1, len(cards)): 를 쓰면 같은 짝을 두 번 보지 않아요.",
+   "answer": "cards = [3, 7, 1, 9, 4, 6]\nchecked = 0\nfound = []\nfor i in range(len(cards)):\n    for j in range(i + 1, len(cards)):\n        checked += 1\n        if cards[i] + cards[j] == 10:\n            found.append((cards[i], cards[j]))\nprint('합이 10인 짝:', found)\nprint('살펴본 짝의 수:', checked)"
+  }
+ ],
+ "check": [
+  {
+   "q": "회사 조직도(트리)에서 어느 부서인지 모르는 직원을 찾는 탐색은?",
+   "options": [
+    "선형 · 부분 탐색",
+    "선형 · 전체 탐색",
+    "비선형 · 전체 탐색",
+    "비선형 · 부분 탐색"
+   ],
+   "answer": 2,
+   "why": "조직도는 가지가 갈라지는 트리(비선형)이고, 단서가 없으니 모두 살펴야(전체 탐색) 해요."
+  },
+  {
+   "q": "전체 탐색(브루트 포스)에 대한 설명으로 옳지 않은 것은?",
+   "options": [
+    "모든 경우를 살피므로 최적해를 반드시 찾는다",
+    "경우의 수가 많아도 언제나 빠르다",
+    "생각하기 쉽고 만들기 쉽다",
+    "무정보 탐색이라고도 한다"
+   ],
+   "answer": 1,
+   "why": "경우가 많아지면 시간과 메모리를 엄청나게 써요. 그래서 작은 문제에 써요."
+  }
+ ],
+ "exit": "순차 탐색의 시간 복잡도가 O(n)인 이유를 ‘최악의 경우’라는 말을 넣어 적어 보세요."
+}

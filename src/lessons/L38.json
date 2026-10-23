@@ -1,0 +1,156 @@
+{
+ "n": 38,
+ "goal": [
+  "분할 정복법의 세 단계(분할·정복·병합)를 설명할 수 있다",
+  "퀵 정렬과 합병 정렬이 리스트를 나누고 합치는 과정을 따라갈 수 있다",
+  "비교 횟수로 퀵 정렬의 최선·최악을 확인할 수 있다"
+ ],
+ "hook": "뒤섞인 시험지 100장을 번호순으로 정리해야 해요. 혼자 다 하는 것보다 친구 넷이 25장씩 나눠 정리한 뒤 합치면 왜 빠를까요? 합칠 때는 어떻게 하면 될까요?",
+ "code_notes": {
+  "C1": {
+   "say": "맨 앞 값을 피벗으로 작은 값·큰 값을 나누고, 양쪽을 다시 같은 방법으로 정렬해 이어 붙여요.",
+   "lines": [
+    [
+     2,
+     "길이가 0이나 1이면 이미 정렬된 거예요. 재귀가 멈추는 곳이에요."
+    ],
+    [
+     4,
+     "가장 왼쪽 값을 기준(피벗)으로 삼아요."
+    ],
+    [
+     5,
+     "분할: 피벗 이하인 값만 left에 모아요. arr[1:]은 피벗 자신을 빼고 둘째 값부터예요."
+    ],
+    [
+     7,
+     "정복 + 병합: left와 right를 각각 퀵 정렬(재귀)한 뒤 left + [pivot] + right로 붙여요. 피벗은 가운데에서 자리가 확정돼요."
+    ]
+   ],
+   "blanks": [
+    [
+     5,
+     "x <= pivot"
+    ],
+    [
+     7,
+     "quicksort(left) + [pivot] + quicksort(right)"
+    ]
+   ],
+   "predict": {
+    "q": "첫 번째 분할에서 left와 right는 각각 무엇일까요?",
+    "a": "피벗 7 → left [5, 4, 1], right [9]. 최종 결과는 [1, 4, 5, 7, 9]."
+   }
+  },
+  "C2": {
+   "say": "리스트를 반으로 계속 나눈 뒤, 정렬된 두 줄을 맨 앞끼리 비교하며 합쳐요.",
+   "lines": [
+    [
+     4,
+     "언제나 정확히 절반으로 나눠요. 그래서 피벗 운에 좌우되지 않고 항상 O(n log n)이에요."
+    ],
+    [
+     5,
+     "왼쪽 절반을 merge_sort로 정렬해 와요. 정렬하는 방법은 ‘나도 똑같이 반으로 나눠서’예요."
+    ],
+    [
+     7,
+     "정렬된 두 줄을 합쳐요. 실제로 순서가 맞춰지는 일은 이 merge에서 일어나요."
+    ],
+    [
+     14,
+     "두 줄의 맨 앞 사람끼리만 비교하면 돼요. 각 줄이 이미 정렬되어 있어서 맨 앞이 그 줄의 가장 작은 값이거든요."
+    ],
+    [
+     20,
+     "한 줄이 먼저 비면 다른 줄에 남은 값은 이미 정렬된 채로 모두 더 크니 그대로 이어 붙여요."
+    ]
+   ],
+   "blanks": [
+    [
+     7,
+     "merge(g1, g2)"
+    ],
+    [
+     14,
+     "arr1[i1] < arr2[i2]"
+    ]
+   ],
+   "predict": {
+    "q": "merge_sort([7, 5, 9, 4, 1])에서 처음 반으로 나눈 두 부분은 무엇일까요?",
+    "a": "mid = 5 // 2 = 2라서 [7, 5]와 [9, 4, 1]이에요. 결과는 [1, 4, 5, 7, 9]."
+   }
+  },
+  "C4": {
+   "say": "합병 정렬을 하면서 분할과 병합 과정을 들여쓰기로 보여 줘요.",
+   "lines": [
+    [
+     5,
+     "depth만큼 들여 써서 몇 번째 깊이에서 나눈 것인지 보여 줘요."
+    ],
+    [
+     9,
+     "아래에서 정렬되어 돌아온 두 줄을 합친 결과를 출력해요."
+    ],
+    [
+     19,
+     "while이 끝나면 한쪽만 남아요. a[i:] + b[j:]로 남은 값을 한꺼번에 붙여요."
+    ]
+   ]
+  }
+ },
+ "tasks": [
+  {
+   "kind": "빈칸",
+   "title": "퀵 정렬을 한 단계씩 보기",
+   "prompt": "교과서 그림의 학생 8명 [5, 3, 8, 1, 7, 2, 6, 4]를 퀵 정렬하며 나눌 때마다 출력해요. left와 right에 들어갈 조건을 <code>___</code>에 채우세요. 들여쓰기가 깊어질수록 더 작은 무리를 나누고 있다는 뜻이에요.",
+   "starter": "def quicksort(arr, depth=0):\n    if len(arr) <= 1:\n        return arr\n    pivot = arr[0]\n    left  = [x for x in arr[1:] if ___]\n    right = [x for x in arr[1:] if ___]\n    print('  ' * depth + f'피벗 {pivot}: {left} | {right}')\n    return quicksort(left, depth + 1) + [pivot] + quicksort(right, depth + 1)\n\nprint('결과:', quicksort([5, 3, 8, 1, 7, 2, 6, 4]))",
+   "expect": "피벗 5: [3, 1, 2, 4] | [8, 7, 6]\n  피벗 3: [1, 2] | [4]\n    피벗 1: [] | [2]\n  피벗 8: [7, 6] | []\n    피벗 7: [6] | []\n결과: [1, 2, 3, 4, 5, 6, 7, 8]",
+   "hint": "left는 피벗과 같거나 작은 값(x <= pivot), right는 피벗보다 큰 값이에요.",
+   "answer": "def quicksort(arr, depth=0):\n    if len(arr) <= 1:\n        return arr\n    pivot = arr[0]\n    left  = [x for x in arr[1:] if x <= pivot]\n    right = [x for x in arr[1:] if x > pivot]\n    print('  ' * depth + f'피벗 {pivot}: {left} | {right}')\n    return quicksort(left, depth + 1) + [pivot] + quicksort(right, depth + 1)\n\nprint('결과:', quicksort([5, 3, 8, 1, 7, 2, 6, 4]))"
+  },
+  {
+   "kind": "고치기",
+   "title": "합병했더니 사람이 사라졌어요",
+   "prompt": "정렬된 두 줄을 합치는 merge 함수인데, 결과에서 몇 개가 빠져요. 예를 들어 [1, 2, 4, 5]와 [3, 6, 7, 8]을 합치면 6, 7, 8이 없어요. 무엇을 빠뜨렸는지 찾아 고쳐 보세요.",
+   "starter": "def merge(arr1, arr2):\n    result = []\n    i1, i2 = 0, 0\n    while i1 < len(arr1) and i2 < len(arr2):\n        if arr1[i1] < arr2[i2]:\n            result.append(arr1[i1])\n            i1 += 1\n        else:\n            result.append(arr2[i2])\n            i2 += 1\n    return result\n\nprint(merge([1, 2, 4, 5], [3, 6, 7, 8]))\nprint(merge([8, 20], [9, 10]))\nprint(merge([3, 15, 17, 23], [8, 9, 10, 20]))",
+   "expect": "[1, 2, 3, 4, 5, 6, 7, 8]\n[8, 9, 10, 20]\n[3, 8, 9, 10, 15, 17, 20, 23]",
+   "hint": "한쪽 줄이 먼저 비면 반복이 끝나요. 다른 줄에 남은 값을 그대로 붙여야 해요: result += arr1[i1:] + arr2[i2:]",
+   "answer": "def merge(arr1, arr2):\n    result = []\n    i1, i2 = 0, 0\n    while i1 < len(arr1) and i2 < len(arr2):\n        if arr1[i1] < arr2[i2]:\n            result.append(arr1[i1])\n            i1 += 1\n        else:\n            result.append(arr2[i2])\n            i2 += 1\n    result += arr1[i1:] + arr2[i2:]   # 남은 사람은 그대로 이어 붙이기\n    return result\n\nprint(merge([1, 2, 4, 5], [3, 6, 7, 8]))\nprint(merge([8, 20], [9, 10]))\nprint(merge([3, 15, 17, 23], [8, 9, 10, 20]))"
+  },
+  {
+   "kind": "만들기",
+   "title": "퀵 정렬의 운: 비교 횟수 세기",
+   "prompt": "퀵 정렬은 한 번 나눌 때 피벗을 나머지 값과 한 번씩 비교해요(len(arr) − 1번). 이 횟수를 <code>compares</code>에 더하는 한 줄을 직접 넣고, 섞인 16개와 이미 정렬된 16개를 비교해 보세요. 정렬된 줄은 왜 선택 정렬과 똑같아질까요?",
+   "starter": "def selection_compares(n):\n    return n * (n - 1) // 2          # (n-1) + (n-2) + ... + 1\n\ncompares = 0\ndef quicksort(arr):\n    global compares\n    if len(arr) <= 1:\n        return arr\n    pivot = arr[0]\n    # 여기에: 이번 분할에서 하는 비교 횟수를 compares에 더하기\n    left  = [x for x in arr[1:] if x <= pivot]\n    right = [x for x in arr[1:] if x >  pivot]\n    return quicksort(left) + [pivot] + quicksort(right)\n\nmixed = [9, 3, 14, 1, 12, 6, 16, 4, 11, 2, 8, 15, 5, 13, 7, 10]\nordered = sorted(mixed)\nfor name, data in (('섞인 줄', mixed), ('이미 정렬된 줄', ordered)):\n    compares = 0\n    quicksort(data)\n    print(f'{name}: 퀵 정렬 {compares}번 / 선택 정렬 {selection_compares(len(data))}번')",
+   "expect": "섞인 줄: 퀵 정렬 40번 / 선택 정렬 120번\n이미 정렬된 줄: 퀵 정렬 120번 / 선택 정렬 120번",
+   "hint": "compares += len(arr) - 1",
+   "answer": "def selection_compares(n):\n    return n * (n - 1) // 2          # (n-1) + (n-2) + ... + 1\n\ncompares = 0\ndef quicksort(arr):\n    global compares\n    if len(arr) <= 1:\n        return arr\n    pivot = arr[0]\n    compares += len(arr) - 1\n    left  = [x for x in arr[1:] if x <= pivot]\n    right = [x for x in arr[1:] if x >  pivot]\n    return quicksort(left) + [pivot] + quicksort(right)\n\nmixed = [9, 3, 14, 1, 12, 6, 16, 4, 11, 2, 8, 15, 5, 13, 7, 10]\nordered = sorted(mixed)\nfor name, data in (('섞인 줄', mixed), ('이미 정렬된 줄', ordered)):\n    compares = 0\n    quicksort(data)\n    print(f'{name}: 퀵 정렬 {compares}번 / 선택 정렬 {selection_compares(len(data))}번')"
+  }
+ ],
+ "check": [
+  {
+   "q": "퀵 정렬이 최악의 경우 O(n²)이 되는 때는?",
+   "options": [
+    "피벗이 매번 가운데 값일 때",
+    "리스트에 같은 값이 많을 때",
+    "피벗이 매번 가장 작은(또는 가장 큰) 값일 때",
+    "리스트 길이가 짝수일 때"
+   ],
+   "answer": 2,
+   "why": "피벗이 매번 최솟값이면 한 번에 하나씩만 떨어져 나가 n번을 나눠야 해요. 정렬된 줄에서 맨 앞을 피벗으로 쓰면 이렇게 돼요."
+  },
+  {
+   "q": "합병 정렬에 대한 설명으로 옳지 않은 것은?",
+   "options": [
+    "언제나 정확히 절반으로 나눈다",
+    "최선·평균·최악이 모두 O(n log n)이다",
+    "합칠 새 리스트를 만들 공간이 따로 필요하다",
+    "피벗을 기준으로 작은 값과 큰 값을 나눈다"
+   ],
+   "answer": 3,
+   "why": "피벗으로 나누는 것은 퀵 정렬이에요. 합병 정렬은 위치로 반을 나누고 합칠 때 정렬해요."
+  }
+ ],
+ "exit": "퀵 정렬과 합병 정렬에서 ‘분할·정복·병합’ 중 실제 정렬(순서 맞추기)이 주로 일어나는 단계는 각각 어디인지 적어 보세요."
+}

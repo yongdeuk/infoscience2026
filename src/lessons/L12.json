@@ -1,0 +1,103 @@
+{
+ "n": 12,
+ "goal": [
+  "게임의 기능을 함수로 나누고 전역 변수로 점수를 관리할 수 있다",
+  "입력을 검사하고 승패를 판정하는 함수를 작성할 수 있다"
+ ],
+ "hook": "가위바위보를 컴퓨터에게 가르친다면 ‘누가 이겼는지’를 어떤 규칙으로 알려 줘야 할까요? 경우의 수가 몇 가지인지 세어 보세요.",
+ "code_notes": {
+  "C1": {
+   "say": "가위바위보 게임의 뼈대예요. 입력받기, 컴퓨터 선택, 결과 처리를 각각 함수로 나눴어요.",
+   "lines": [
+    [
+     3,
+     "colorama를 쓰기 전에 init()으로 초기화해요. 결과를 색으로 보여 줄 때 써요."
+    ],
+    [
+     5,
+     "총점은 여러 판에 걸쳐 남아 있어야 해서 전역 변수로 둬요. 점수를 바꾸는 함수 안에서는 global score가 필요해요."
+    ],
+    [
+     8,
+     ".strip()은 앞뒤 공백을 지워요. ' 보 '처럼 실수로 띄어 써도 '보'로 인식하게 해요."
+    ],
+    [
+     11,
+     "random.choice()가 세 개 중 하나를 무작위로 골라요. 그래서 실행할 때마다 컴퓨터의 선택이 달라요."
+    ],
+    [
+     13,
+     "여기에 승패를 판정하는 함수(print_result 등)를 직접 만들어 넣어요."
+    ]
+   ],
+   "blanks": [
+    [
+     8,
+     ".strip()"
+    ],
+    [
+     11,
+     "random.choice(['가위', '바위', '보'])"
+    ]
+   ],
+   "predict": {
+    "q": "get_user_input()에서 ‘  바위 ’처럼 앞뒤에 공백을 넣어 입력하면 무엇이 반환될까요?",
+    "a": "'바위' — strip()이 앞뒤 공백을 지워 줘요. 가운데 공백은 지우지 않아요."
+   }
+  }
+ },
+ "tasks": [
+  {
+   "kind": "빈칸",
+   "title": "승패 판정 함수",
+   "prompt": "딕셔너리 <code>wins</code>는 ‘내가 낸 것 → 내가 이기는 상대’를 적어 둔 표예요. 이 표로 승패를 판정하도록 빈칸을 채우세요.",
+   "starter": "def get_result(user, comp):\n    wins = {'가위': '보', '바위': '가위', '보': '바위'}   # 내가 이기는 상대\n    if user == comp:\n        return '비김'\n    elif wins[user] == ___:\n        return '이김'\n    else:\n        return ___\n\nprint(get_result('가위', '보'))\nprint(get_result('바위', '보'))\nprint(get_result('보', '보'))",
+   "expect": "이김\n짐\n비김",
+   "hint": "wins[user]는 내가 이길 수 있는 상대예요. 그게 컴퓨터가 낸 것(comp)과 같으면 이긴 거예요. 나머지 경우는 ‘짐’이에요.",
+   "answer": "def get_result(user, comp):\n    wins = {'가위': '보', '바위': '가위', '보': '바위'}   # 내가 이기는 상대\n    if user == comp:\n        return '비김'\n    elif wins[user] == comp:\n        return '이김'\n    else:\n        return '짐'\n\nprint(get_result('가위', '보'))\nprint(get_result('바위', '보'))\nprint(get_result('보', '보'))"
+  },
+  {
+   "kind": "고치기",
+   "title": "잘못된 입력 걸러 내기",
+   "prompt": "입력이 가위·바위·보 중 하나인지 검사하는 함수인데, <code>'주먹'</code>을 넣어도 통과해요. 조건식을 고쳐 <code>True</code>, <code>True</code>, <code>False</code>가 나오게 하세요.",
+   "starter": "def is_valid(choice):\n    choice = choice.strip()\n    return choice == '가위' or '바위' or '보'\n\nprint(is_valid('가위'))\nprint(is_valid(' 보 '))\nprint(is_valid('주먹'))",
+   "expect": "True\nTrue\nFalse",
+   "hint": "or 뒤의 '바위'는 비교가 아니라 그냥 문자열이라 항상 참으로 취급돼요. in으로 목록 안에 있는지 검사해 보세요.",
+   "answer": "def is_valid(choice):\n    choice = choice.strip()\n    return choice in ['가위', '바위', '보']\n\nprint(is_valid('가위'))\nprint(is_valid(' 보 '))\nprint(is_valid('주먹'))"
+  },
+  {
+   "kind": "만들기",
+   "title": "다섯 판 게임 진행하기",
+   "prompt": "실제 게임은 input()과 random을 쓰지만, 여기서는 정해진 선택으로 진행해요. <code>play_game()</code>이 판마다 <code>1판: 나 가위 vs 컴퓨터 보 → 이김</code>처럼 출력하고, 이기면 전역 변수 <code>score</code>를 1 올린 뒤 마지막에 <code>총점: …점</code>을 출력하게 하세요.",
+   "starter": "def get_result(user, comp):\n    wins = {'가위': '보', '바위': '가위', '보': '바위'}   # 내가 이기는 상대\n    if user == comp:\n        return '비김'\n    elif wins[user] == comp:\n        return '이김'\n    else:\n        return '짐'\n\nscore = 0\nusers = ['가위', '보', '바위', '보', '가위']\ncomps = ['보', '보', '보', '가위', '바위']\n\ndef play_game():\n    # 전역 변수 score를 바꾸려면?\n    # for문으로 판마다 get_result()를 부르고 출력하기\n    pass\n\nplay_game()",
+   "expect": "1판: 나 가위 vs 컴퓨터 보 → 이김\n2판: 나 보 vs 컴퓨터 보 → 비김\n3판: 나 바위 vs 컴퓨터 보 → 짐\n4판: 나 보 vs 컴퓨터 가위 → 짐\n5판: 나 가위 vs 컴퓨터 바위 → 짐\n총점: 1점",
+   "hint": "for i in range(len(users)):로 i번째 판의 users[i], comps[i]를 꺼내요. score를 바꾸니 global score가 필요해요.",
+   "answer": "def get_result(user, comp):\n    wins = {'가위': '보', '바위': '가위', '보': '바위'}   # 내가 이기는 상대\n    if user == comp:\n        return '비김'\n    elif wins[user] == comp:\n        return '이김'\n    else:\n        return '짐'\n\nscore = 0\nusers = ['가위', '보', '바위', '보', '가위']\ncomps = ['보', '보', '보', '가위', '바위']\n\ndef play_game():\n    global score\n    for i in range(len(users)):\n        result = get_result(users[i], comps[i])\n        print(f'{i + 1}판: 나 {users[i]} vs 컴퓨터 {comps[i]} → {result}')\n        if result == '이김':\n            score += 1\n    print(f'총점: {score}점')\n\nplay_game()"
+  }
+ ],
+ "check": [
+  {
+   "q": "get_result('바위', '가위')의 반환값은?",
+   "options": [
+    "'비김'",
+    "'이김'",
+    "'짐'",
+    "None"
+   ],
+   "answer": 1,
+   "why": "wins['바위']는 '가위'예요. 컴퓨터가 가위를 냈으니 내가 이겨요."
+  },
+  {
+   "q": "점수 score를 전역 변수로 둔 이유로 가장 알맞은 것은?",
+   "options": [
+    "전역 변수가 계산이 더 빨라서",
+    "함수 안에서는 숫자를 쓸 수 없어서",
+    "random 모듈이 전역 변수만 읽을 수 있어서",
+    "여러 판에 걸쳐 점수가 사라지지 않고 쌓여야 해서"
+   ],
+   "answer": 3,
+   "why": "지역 변수는 함수가 끝나면 사라져요. 판이 바뀌어도 남아야 하는 총점은 전역 변수로 둬요."
+  }
+ ],
+ "exit": "내 가위바위보 게임에 기능을 하나 더한다면(예: 다시 하기, 3판 2선승) 어떤 함수를 추가할지 이름과 역할을 적어 보세요."
+}

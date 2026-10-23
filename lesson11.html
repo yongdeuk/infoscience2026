@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>11차시 패키지·라이브러리 / 내장 함수와 표준 라이브러리 · 정보과학</title>
+<meta name="description" content="4주차 11차시 — 패키지·라이브러리 / 내장 함수와 표준 라이브러리">
+<meta property="og:title" content="11차시 패키지·라이브러리 / 내장 함수와 표준 라이브러리 · 정보과학">
+<meta property="og:description" content="4주차 11차시 — 패키지·라이브러리 / 내장 함수와 표준 라이브러리">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#129513;</text></svg>">
+<script>
+(function(){try{if(localStorage.getItem('unlocked')==='yes')document.documentElement.className+=' unlocked';}catch(e){}})();
+(function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
+</script>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body class="lessonpage u1">
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <form class="gate-card" data-gate-form autocomplete="off">
+    <h1 id="gate-title">정보과학</h1>
+    <p class="gate-sub">씨마스 『정보과학』 2022 개정 교육과정 수업 자료</p>
+    <label class="gate-lab" for="gate-pw">열람 비밀번호</label>
+    <div class="gate-pwrap">
+      <input id="gate-pw" type="password" data-gate-pw autocomplete="off"
+             spellcheck="false" autocapitalize="off" placeholder="수업 시간에 안내된 비밀번호">
+      <button class="gate-eye" type="button" data-gate-eye aria-pressed="false" aria-label="비밀번호 표시">
+        <svg class="ico-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg class="ico-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18M10.6 10.6a3 3 0 0 0 4.24 4.24M9.9 5.1A10.9 10.9 0 0 1 12 5c7 0 10.5 7 10.5 7a13.6 13.6 0 0 1-3.2 4.1M6.5 6.5C3.4 8.3 1.5 12 1.5 12a13.5 13.5 0 0 0 4.2 4.9"/></svg>
+      </button>
+    </div>
+    <p class="gate-hint">한글로 입력하세요. 대소문자와 앞뒤 공백은 구분하지 않습니다.</p>
+    <p class="gate-msg" data-gate-msg role="status" aria-live="polite"></p>
+    <button class="btn btn-p gate-btn" type="submit">들어가기</button>
+    <p class="gate-note">본 자료는 학교 수업 목적으로 제작되었으며,
+      저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+  </form>
+</div>
+<a class="skip" href="#main">본문 바로가기</a>
+<header class="topbar">
+  <div class="bar-top">
+    <a class="brand" href="index.html"><span class="brand-mark">IS</span><span class="brand-name">정보과학</span></a>
+    <nav class="toolnav" aria-label="수업 도구">
+      <a href="index.html">수업 홈</a>
+      <a href="lessons.html" class="is-current">차시 수업</a>
+      <a href="course.html">수업 안내</a>
+      <a href="labs.html">실습실</a>
+      <a href="practice.html">파이썬 실습</a>
+      <a href="glossary.html">용어 사전</a>
+      <a href="my.html">내 학습</a>
+    </nav>
+    <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false" title="어두운 화면으로">
+      <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.6v2M12 19.4v2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M2.6 12h2M19.4 12h2M5.2 18.8l1.4-1.4M17.4 6.6l1.4-1.4"/></svg>
+      <span class="ico-label">어둡게</span>
+    </button>
+  </div>
+  <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
+    <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
+    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+  </div></nav>
+  <div class="progress" data-progress></div>
+</header>
+<section class="unithero lessonhero">
+  <div class="unithero-in">
+    <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 11차시</p>
+    <div class="bigr" aria-hidden="true">11</div>
+    <div>
+      <p class="kicker">11차시 · 4주차 · <a href="unit1.html">Ⅰ 프로그래밍</a></p>
+      <h1>패키지·라이브러리 / 내장 함수와 표준 라이브러리</h1>
+      <ul class="lgoal"><li>자주 쓰는 내장 함수와 표준 라이브러리 함수를 골라 쓸 수 있다</li><li>함수를 값처럼 다른 함수에 넘겨 활용할 수 있다</li><li>외부 라이브러리가 무엇이고 어떻게 설치하는지 설명할 수 있다</li></ul>
+      <div class="lprog" aria-label="전체 48차시 중 11차시"><i style="width:22.9%"></i></div>
+    </div>
+  </div>
+</section>
+<main class="lpage" id="main">
+<nav class="lflow" aria-label="이 차시 순서"><a href="#l-open"><b>1</b>생각 열기</a><a href="#l-learn"><b>2</b>교과서로 배우기</a><a href="#l-try"><b>3</b>직접 해 보기</a><a href="#l-check"><b>4</b>확인 문제</a><a href="#l-wrap"><b>5</b>한 줄 정리</a></nav>
+<section class="lsec" id="l-open"><h2><span class="ln">1</span>생각 열기</h2><div class="callout hook">학급 회장 선거에서 투표지 20장을 손으로 세면 시간이 꽤 걸려요. 파이썬의 내장 함수 몇 개만 쓰면 몇 줄로 끝낼 수 있다면, 어떤 함수가 필요할까요?</div><div class="board" data-board="hook" hidden><div class="board-in"><textarea data-board-in rows="2" maxlength="300" placeholder="내 생각을 짧게 적어 보드에 올려 보세요"></textarea><div class="board-bar"><button class="btn btn-p" type="button" data-board-send>보드에 올리기</button><select data-board-class aria-label="반 고르기"><option value="">모든 반</option></select><button class="btn" type="button" data-board-big>크게 보기</button><span class="muted small" data-board-msg></span></div></div><div class="board-h"><b>모두의 생각</b> <span class="muted small" data-board-count></span></div><ul class="board-list" data-board-list></ul></div></section>
+<section class="lsec" id="l-learn"><h2><span class="ln">2</span>교과서로 배우기</h2><p class="lede">코드 아래 <b>💡 코드 설명</b>을 펼쳐 보고, <b>빈칸</b>이 있으면 채운 뒤 실행해 보세요.</p><p class="lsrc">교과서 · <a href="unit1.html#t1-2">Ⅰ 1-2 함수의 활용</a></p>
+<h4>자주 쓰는 내장 함수와 표준 라이브러리</h4>
+<div class="tablewrap">
+      <table>
+        <thead><tr><th>분류</th><th>함수</th><th>하는 일</th></tr></thead>
+        <tbody>
+          <tr><td>수학</td><td><code>abs len max min pow sum divmod round</code></td><td>절댓값·길이·최대·최소·거듭제곱·합·몫과나머지·반올림</td></tr>
+          <tr><td>형 변환</td><td><code>bool int float str list tuple set dict</code></td><td>자료형을 서로 바꾸기 (<code>set</code>은 중복 제거에 유용)</td></tr>
+          <tr><td>반복·실행</td><td><code>range enumerate sorted reversed zip map filter eval</code></td><td>반복 가능한 자료를 만들고·정렬하고·묶고·변환하기</td></tr>
+          <tr><td><code>math</code> 모듈</td><td><code>sqrt sin cos log factorial</code></td><td>제곱근·삼각함수·로그·팩토리얼 (import 필요)</td></tr>
+          <tr><td><code>random</code> 모듈</td><td><code>random randint uniform choice shuffle</code></td><td>난수 생성, 무작위 선택·섞기 (import 필요)</td></tr>
+        </tbody>
+      </table>
+    </div>
+<p class="codecap">함수도 값이다 — 함수를 매개 변수로 넘기기</p>
+<pre data-c="1" data-run data-blanks>def process_list(items, func):
+    return <input class="blank" data-ans="func(items)" size="12" spellcheck="false" autocomplete="off" aria-label="빈칸">
+
+items = [10, 20, 30, 40, 50, 60, 70, 80, 90]
+funcs = [sum, max, min]
+print('총합계:', process_list(items, funcs[0]))   # 450
+print('최댓값:', process_list(items, funcs[1]))   # 90
+print('최솟값:', process_list(items, funcs[2]))   # 10</pre>
+<div class="callout">함수도 <b>객체</b>이므로 다른 객체처럼 매개 변수로 전달할 수 있습니다. 이를 이용하면 코드를 훨씬 간결하게 쓸 수 있습니다.</div>
+<p class="codecap">예제 — 요세푸스 문제: 매번 4번째 학생을 뽑아 발표 순서 정하기</p>
+<pre data-c="2" data-run data-blanks>def get_order(n, k):
+    students = list(range(1, n + 1))
+    index = 0
+    order = []
+    while len(students) &gt; 1:
+        index = <input class="blank" data-ans="(index + k - 1) % len(students)" size="32" spellcheck="false" autocomplete="off" aria-label="빈칸">   # n명 중 k번째 선택
+        order.append(<input class="blank" data-ans="students.pop(index)" size="20" spellcheck="false" autocomplete="off" aria-label="빈칸">)         # 기록하고 목록에서 제거
+    order.append(students[0])                     # 마지막 1명
+    return order
+
+print('발표 순서:', get_order(12, 4))
+# [4, 8, 12, 5, 10, 3, 11, 7, 6, 9, 2, 1]</pre>
+<div class="callout"><b>요세푸스 문제</b>는 사람들이 원형으로 앉아 있을 때 특정 규칙으로 한 명씩 제거해 나가며 마지막에 남는 사람을 찾는 문제입니다.</div>
+<p class="codecap">예제 — 학급 회장 선거 개표 (형 변환 함수 활용)</p>
+<pre data-c="3" data-run data-editable>def find_winner(votes):
+    votes = votes.split()                                  # 문자열 → 리스트
+    unique = set(votes)                                    # ❶ 집합으로 중복 제거
+    counts = [(c, votes.count(c)) for c in unique]         # ❷ (후보, 득표수)
+    results = dict(counts)                                 #    리스트 → 딕셔너리
+    win = max(results, key=results.get)                    # ❸ 최다 득표 후보
+    return win, results[win]                               # ❹
+
+votes = 'A A C C B A D A D C B A D B C B A C A D'
+winner, count = find_winner(votes)
+print('당선자: 기호', winner)   # A
+print('득표수:', count)         # 7</pre>
+<p class="codecap">예제 — map과 enumerate로 정사각형 넓이 구하기</p>
+<pre data-c="4" data-run data-editable data-needs-stdin>def square_area(x):
+    return x ** 2
+
+values = input('입력(공백으로 구분): ')      # 예: 2 3 4
+lengths = map(int, values.split())          # 각각 int로 형 변환
+result_list = list(map(square_area, lengths))
+
+for i, val in enumerate(result_list):
+    print(f'{i+1}번째 정사각형의 넓이: {val}')
+# 1번째 정사각형의 넓이: 4
+# 2번째 정사각형의 넓이: 9
+# 3번째 정사각형의 넓이: 16</pre>
+<div class="callout"><code>enumerate()</code>는 반복문에서 <b>인덱스와 값을 동시에</b> 가져옵니다. <code>for i, val in enumerate(리스트, start=0):</code> 형태로 쓰며 시작값을 바꿀 수 있습니다.</div>
+<p class="codecap">예제 — math 모듈로 두 수의 기하 평균 구하기</p>
+<pre data-c="5" data-run data-editable data-needs-stdin>import math
+
+a = float(input('첫 번째 숫자: '))   # float(): 형 변환 내장 함수
+b = float(input('두 번째 숫자: '))
+a, b = abs(a), abs(b)                # abs(): 절댓값
+a, b = round(a), round(b)            # round(): 반올림
+gm = math.sqrt(a * b)                # math.sqrt(): 제곱근
+print('두 숫자의 기하 평균:', round(gm, 2))
+# 첫 번째 숫자: 33 / 두 번째 숫자: 50 → 40.62</pre>
+<p class="codecap">예제 — random 모듈로 주사위 세 번 굴리기</p>
+<pre data-c="6" data-run data-editable>import random
+
+print(int(random.random() * 6) + 1)      # 0.0 이상 1.0 미만 실수 → 1~6
+print(random.randint(1, 6))              # 1 이상 6 이하 정수
+print(random.choice(range(1, 7)))        # 목록에서 임의 선택</pre>
+<h4>외부 라이브러리</h4>
+<p>파이썬을 설치할 때 포함되지 않아 <b>따로 설치해서 쓰는</b> 라이브러리입니다. 파이썬의 패키지 관리 시스템 <code>pip</code>로 설치합니다.</p>
+<pre data-c="7">pip install 라이브러리명      # 설치
+pip uninstall 라이브러리명    # 삭제
+pip list                      # 설치된 목록 확인</pre>
+<div class="tablewrap">
+      <table>
+        <thead><tr><th>분야</th><th>라이브러리</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="4">데이터 분석</td><td>NumPy</td><td>수치 계산과 배열 연산을 빠르게 수행</td></tr>
+          <tr><td>Pandas</td><td>데이터 분석과 조작</td></tr>
+          <tr><td>Matplotlib</td><td>다양한 차트와 그래프 시각화</td></tr>
+          <tr><td>Seaborn</td><td>통계 데이터 시각화에 강점</td></tr>
+          <tr><td rowspan="3">인공지능</td><td>TensorFlow</td><td>딥러닝 모델 설계와 훈련</td></tr>
+          <tr><td>PyTorch</td><td>동적 계산 그래프 기반 딥러닝</td></tr>
+          <tr><td>Scikit-learn</td><td>다양한 기계학습 알고리즘</td></tr>
+          <tr><td rowspan="3">웹 개발</td><td>Django</td><td>보안성·확장성이 뛰어난 웹 프레임워크</td></tr>
+          <tr><td>Flask</td><td>간단한 웹 앱을 빠르게 개발</td></tr>
+          <tr><td>Requests</td><td>HTTP 요청을 간편하게 처리</td></tr>
+          <tr><td rowspan="2">웹 스크래핑</td><td>BeautifulSoup</td><td>HTML·XML 데이터 파싱</td></tr>
+          <tr><td>Scrapy</td><td>대규모 웹 크롤링·스크래핑</td></tr>
+          <tr><td>컴퓨터 비전</td><td>OpenCV</td><td>이미지·비디오 처리</td></tr>
+        </tbody>
+      </table>
+    </div>
+<p class="codecap">numpy — 행렬의 곱셈</p>
+<pre data-c="8" data-run data-editable>import numpy as np
+
+x = np.array([[1, 2], [3, 4]])
+y = np.array([[5, 6], [7, 8]])
+print(np.dot(x, y))
+# [[19 22]
+#  [43 50]]</pre>
+<p class="codecap">colorama — 콘솔 창에 색깔 넣기</p>
+<pre data-c="9" data-run data-editable>from colorama import init, deinit, Fore, Style
+
+def print_message():
+    print(Style.BRIGHT + Fore.BLUE + 'Merry Christmas!')
+    print('&amp; Happy new year!')
+
+def print_christmas_tree():
+    tree = [(Fore.YELLOW, '    ★    '),
+            (Fore.GREEN,  '    *    '),
+            (Fore.GREEN,  '   ***   '),
+            (Fore.GREEN,  '  *****  '),
+            (Fore.GREEN,  ' ******* '),
+            (Fore.GREEN,  '*********'),
+            (Fore.RED,    '   ***   '),
+            (Fore.RED,    '   ***   ')]
+    for color, line in tree:
+        print(color + line)
+
+init()                    # colorama 초기화
+print_message()
+print_christmas_tree()
+deinit()                  # 초기화 해제</pre>
+<div class="tablewrap">
+      <table>
+        <thead><tr><th>함수</th><th>의미</th></tr></thead>
+        <tbody>
+          <tr><td><code>init()</code> / <code>deinit()</code></td><td>colorama 초기화 / 비활성화하고 원래 콘솔 상태로 되돌림</td></tr>
+          <tr><td><code>Fore</code> / <code>Back</code> / <code>Style</code></td><td>글자색 / 배경색 / 스타일 설정</td></tr>
+        </tbody>
+      </table>
+    </div>
+<div class="callout"><b>외부 라이브러리의 장점</b> — 표준 라이브러리에 없는 풍부한 기능을 제공하고, 활발한 커뮤니티가 업데이트와 버그 수정을 이어 갑니다.</div>
+<div class="drill">
+      <span class="lbl">스스로 해결하기</span>
+      <ol>
+        <li>이름과 학년을 출력하되, 학년을 입력하지 않으면 <b>1학년</b>을 기본으로 하는 <code>greet()</code>를 완성해 보자. → <code>greet('홍길동')</code> ⇒ <code>홍길동님은 1학년입니다.</code></li>
+        <li>여러 과목의 점수를 <b>개수 제한 없이</b> 받아 오름차순으로 출력하는 <code>sort_scores()</code>를 완성해 보자. → <code>sort_scores(85, 92, 78, 100, 95)</code> ⇒ <code>[78, 85, 92, 95, 100]</code></li>
+        <li>학생이 가입한 스포츠 클럽을 출력하는 메소드 <code>play_sports()</code>를 <code>Student</code> 클래스에 추가해 보자. → <code>s1.play_sports('농구','축구','탁구')</code></li>
+        <li><code>print(*objects, sep=' ', end='\\n', file=None, flush=False)</code>에서 기본값 매개 변수와 가변 인수 매개 변수를 각각 찾아보자. <code>print(sep='1', end='2')</code>의 출력 결과는?</li>
+        <li>난수로 고른 과일 이름을 5번 안에 맞히는 게임을 완성해 보자. (힌트로 글자 수를 알려 준다)</li>
+      </ol>
+    </div>
+<div class="drill">
+      <span class="lbl">중단원 정리 · 수행 활동</span>
+      <p><code>turtle</code> 모듈로 <b>삼각형·사각형·오각형을 순서대로 그리는 프로그램</b>을 작성해 보자.</p>
+      <pre data-c="10">• ColabTurtle과 random 임포트 → initializeTurtle()
+• move_turtle(distance): 펜 올리고 이동 후 내리기
+• draw_shape(sides, size):
+    - 랜덤 색상, angle = 360 / sides
+    - sides만큼 반복: 앞으로 size, 왼쪽 angle 회전
+    - move_turtle(150) 호출
+• 펜 굵기 3 설정 → 삼각형·사각형·오각형 순서대로 그리기</pre>
+    </div>
+<div class="points">
+      <span class="lbl">핵심 포인트</span>
+      <ul>
+        <li><b>기본값 매개 변수</b>는 뒤쪽에, <b>가변 인수(*)</b>는 한 개만 맨 뒤에.</li>
+        <li>여러 값을 <code>return</code>하면 <b>튜플 하나</b>로 묶여 돌아온다.</li>
+        <li>클래스는 설계도, 객체는 실물. 속성은 변수, 메소드는 함수, <code>self</code>는 자기 자신.</li>
+        <li><b>모듈 ⊂ 패키지 ⊂ 라이브러리</b>. 모듈은 호출 파일과 같은 위치에 있어야 한다.</li>
+        <li>내장 함수는 바로 사용, 표준 라이브러리는 <code>import</code>가 필요하다.</li>
+      </ul>
+    </div></section>
+<section class="lsec" id="l-try"><h2><span class="ln">3</span>직접 해 보기</h2><p class="lede">코드를 고쳐서 <b>▶ 실행</b>하면 출력이 맞는지 바로 알려 줘요. 막히면 힌트부터 열어 보세요.</p><div class="task" data-kind="빈칸"><div class="task-h"><span class="task-k">빈칸</span><h4>함수를 넘겨 보기</h4></div><p><code>process_list()</code>에 어떤 함수를 넘기느냐에 따라 결과가 달라져요. 점수의 <b>개수</b>와 <b>정렬된 목록</b>이 나오도록 내장 함수 이름을 넣으세요.</p><pre data-run data-editable data-task data-expect="개수: 4&#10;정렬: [64, 72, 88, 95]&#10;합계: 319">def process_list(items, func):
+    return func(items)
+
+scores = [72, 95, 88, 64]
+print('개수:', process_list(scores, ___))
+print('정렬:', process_list(scores, ___))
+print('합계:', process_list(scores, sum))</pre><details class="hintbox"><summary>힌트</summary><p>괄호 없이 함수 이름만 넘겨요. 개수는 len, 정렬된 리스트는 sorted예요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>def process_list(items, func):
+    return func(items)
+
+scores = [72, 95, 88, 64]
+print('개수:', process_list(scores, len))
+print('정렬:', process_list(scores, sorted))
+print('합계:', process_list(scores, sum))</pre></details></div><div class="task" data-kind="고치기"><div class="task-h"><span class="task-k">고치기</span><h4>정사각형 넓이 (입력 없이)</h4></div><p>교과서 예제에서 input() 대신 문자열을 직접 넣었어요. 그런데 <code>TypeError</code>가 나고, 고쳐도 번호가 0번째부터 나와요. 두 군데를 고쳐 <code>1번째</code>부터 넓이가 나오게 하세요.</p><pre data-run data-editable data-task data-expect="1번째 정사각형의 넓이: 4&#10;2번째 정사각형의 넓이: 9&#10;3번째 정사각형의 넓이: 16">def square_area(x):
+    return x ** 2
+
+values = '2 3 4'
+lengths = values.split()
+result_list = list(map(square_area, lengths))
+
+for i, val in enumerate(result_list):
+    print(f'{i}번째 정사각형의 넓이: {val}')</pre><details class="hintbox"><summary>힌트</summary><p>split()의 결과는 문자열 '2', '3', '4'예요. 문자열은 거듭제곱할 수 없으니 int로 바꿔야 해요. enumerate는 0부터 세요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>def square_area(x):
+    return x ** 2
+
+values = '2 3 4'
+lengths = map(int, values.split())
+result_list = list(map(square_area, lengths))
+
+for i, val in enumerate(result_list):
+    print(f'{i + 1}번째 정사각형의 넓이: {val}')</pre></details></div><div class="task" data-kind="만들기"><div class="task-h"><span class="task-k">만들기</span><h4>동아리 투표 개표기</h4></div><p>투표 문자열을 받아 후보별 득표수를 <b>이름 순서로</b> 출력하고, 마지막에 1위를 출력하는 <code>count_votes()</code>를 만드세요. split(), set(), sorted(), count(), max()를 활용해요.</p><pre data-run data-editable data-task data-expect="댄스: 1표&#10;독서: 1표&#10;밴드: 3표&#10;코딩: 4표&#10;1위: 코딩 (4표)">def count_votes(votes):
+    votes = votes.split()
+    # ① 후보 목록을 중복 없이, 이름 순서로 만들어 득표수 출력
+    # ② 가장 많이 득표한 후보와 득표수 출력
+    pass
+
+count_votes('코딩 밴드 코딩 댄스 밴드 코딩 독서 코딩 밴드')</pre><details class="hintbox"><summary>힌트</summary><p>sorted(set(votes))로 후보를 정렬하고, max(…, key=votes.count)는 득표수가 가장 큰 후보를 골라 줘요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>def count_votes(votes):
+    votes = votes.split()
+    for c in sorted(set(votes)):
+        print(f'{c}: {votes.count(c)}표')
+    win = max(set(votes), key=votes.count)
+    print(f'1위: {win} ({votes.count(win)}표)')
+
+count_votes('코딩 밴드 코딩 댄스 밴드 코딩 독서 코딩 밴드')</pre></details></div></section>
+<section class="lsec" id="l-check"><h2><span class="ln">4</span>확인 문제</h2><section class="qz-set" data-qz-set="L11">
+<div class="qz" data-ans="3"><h4><span class="qnum">Q1</span><span>다음 중 import 없이는 쓸 수 없는 함수는?</span></h4><ol class="opts"><li><button type="button" data-n="①">len()</button></li><li><button type="button" data-n="②">sorted()</button></li><li><button type="button" data-n="③">abs()</button></li><li><button type="button" data-n="④">sqrt()</button></li></ol><p class="why"><b>해설</b> — sqrt()는 math 모듈(표준 라이브러리) 함수라 import math가 필요해요. 나머지는 내장 함수예요.</p></div>
+<div class="qz" data-ans="0"><h4><span class="qnum">Q2</span><span>set()을 투표 개표에 쓴 이유로 알맞은 것은?</span></h4><ol class="opts"><li><button type="button" data-n="①">중복을 없애 후보 목록만 남기려고</button></li><li><button type="button" data-n="②">투표를 이름 순서로 정렬하려고</button></li><li><button type="button" data-n="③">문자열을 숫자로 바꾸려고</button></li><li><button type="button" data-n="④">투표 수를 세려고</button></li></ol><p class="why"><b>해설</b> — 집합은 같은 값을 하나만 남겨요. 후보마다 한 번씩만 세기 위해 썼어요.</p></div>
+<div class="qz-score" data-qz-score><span>맞힌 문제 <b data-qz-right>0</b> / 2</span><span class="muted" data-qz-left></span><span class="muted" data-qz-best></span><button class="btn" type="button" data-qz-reset>다시 풀기</button></div></section></section>
+<section class="lsec" id="l-wrap"><h2><span class="ln">5</span>한 줄 정리</h2><p><b>오늘 쓴 함수 중 가장 편리했던 것 하나를 골라, 그 함수가 없었다면 어떤 코드를 더 써야 했을지 적어 보세요.</b></p><textarea class="think" data-think="L11.exit" rows="3" placeholder="내 말로 한두 문장"></textarea><p class="muted small" data-think-saved></p><div class="board" data-board="exit" hidden><div class="board-in"><textarea data-board-in rows="2" maxlength="300" placeholder="한 줄 정리를 보드에도 올려 보세요"></textarea><div class="board-bar"><button class="btn btn-p" type="button" data-board-send>보드에 올리기</button><select data-board-class aria-label="반 고르기"><option value="">모든 반</option></select><button class="btn" type="button" data-board-big>크게 보기</button><span class="muted small" data-board-msg></span></div></div><div class="board-h"><b>모두의 생각</b> <span class="muted small" data-board-count></span></div><ul class="board-list" data-board-list></ul></div><div class="donebar"><button class="btn donebtn" type="button" data-lesson-done="11">☐ 이 차시 마쳤어요</button><span>체크하면 <a href="lessons.html">차시 수업</a> 목록에 표시돼요.</span></div><div class="submitbox" data-submit hidden><button class="btn btn-p" type="button">선생님께 제출</button> <span class="muted small" data-submit-msg>한 줄 정리 · 생각 쓰기 · 실습 코드 · 확인 문제 점수를 보내요.</span></div></section>
+</main>
+<nav class="pager" aria-label="차시 이동"><a class="prev" href="lesson10.html"><span class="dir">← 이전 · 10차시</span><span class="ttl">모듈 만들기와 import</span></a><a class="next" href="lesson12.html"><span class="dir">다음 → · 12차시</span><span class="ttl">[역량] 가위바위보 게임 만들기</span></a></nav>
+<script>window.LESSON={"n":11,"notes":{"C1":{"say":"어떤 계산을 할지(함수)를 매개 변수로 받아, 같은 목록에 다른 계산을 적용해요.","lines":[[1,"func에는 값이 아니라 함수 자체가 들어와요. sum, max처럼 괄호 없이 이름만 넘기면 돼요."],[2,"받은 함수를 여기서 괄호를 붙여 실행해요. func가 sum이면 sum(items)가 돼요."],[5,"함수도 객체라서 리스트에 담을 수 있어요."],[6,"funcs[0]은 sum이에요. 같은 process_list가 넘긴 함수에 따라 다른 일을 해요."]],"blanks":[[2,"func(items)"]],"predict":{"q":"print(process_list(items, len))을 추가하면 무엇이 출력될까요?","a":"9 — len도 함수라서 넘길 수 있고, items에는 값이 9개 있어요."}},"C2":{"say":"원형으로 앉은 n명 중 k번째 사람을 차례로 뽑아 발표 순서를 정하는 요세푸스 문제예요.","lines":[[2,"list(range(1, n + 1))로 1번부터 n번까지 학생 번호 목록을 만들어요."],[5,"한 명이 남을 때까지 반복해요."],[6,"% len(students)가 핵심이에요. 끝을 넘어가면 다시 앞으로 돌아와서 ‘원형’으로 앉은 효과를 내요."],[7,"pop(index)는 그 자리의 학생을 목록에서 빼면서 그 값을 돌려줘요. 뺀 값을 바로 order에 기록해요."],[8,"마지막에 남은 한 명도 순서에 넣어요."]],"blanks":[[6,"(index + k - 1) % len(students)"],[7,"students.pop(index)"]],"predict":{"q":"get_order(5, 2)라면 처음 두 명은 누구일까요? (5명, 2번째마다 뽑기)","a":"2, 4 — 전체 순서는 [2, 4, 1, 5, 3]이에요. 4를 뽑은 뒤 끝을 넘어가 다시 1부터 세요."}},"C3":{"say":"투표 문자열에서 후보별 득표수를 세고 최다 득표자를 찾아요. 형 변환 함수가 줄줄이 쓰여요.","lines":[[2,"split()은 공백으로 잘라 리스트를 만들어요. 문자열 → 리스트 형 변환이에요."],[3,"set()으로 바꾸면 중복이 사라져 후보 목록만 남아요. 후보마다 한 번씩만 세기 위해서예요."],[4,"votes.count(c)는 리스트에서 c가 몇 번 나오는지 세요."],[6,"key=results.get은 ‘값(득표수)을 기준으로 비교하라’는 뜻이에요. 그래서 득표수가 가장 많은 후보 이름이 나와요."]]},"C4":{"say":"입력한 길이들을 정수로 바꾸고, 각각의 정사각형 넓이를 번호와 함께 출력해요.","lines":[[5,"input()은 항상 문자열을 돌려줘요. map(int, …)이 각 조각에 int()를 적용해 정수로 바꿔요."],[6,"map(square_area, …)은 각 길이에 square_area를 적용해요. list()로 감싸야 결과를 리스트로 볼 수 있어요."],[8,"enumerate()는 (번호, 값)을 함께 줘요. 번호가 0부터라서 출력할 때 i+1을 해요."]],"predict":{"q":"실행해서 5 6을 입력하면 무엇이 출력될까요?","a":"1번째 정사각형의 넓이: 25, 2번째 정사각형의 넓이: 36 — 두 줄이 나와요."}},"C5":{"say":"두 수를 입력받아 기하 평균(√(a×b))을 구해요. 내장 함수와 math 모듈을 함께 써요.","lines":[[3,"float()로 문자열을 실수로 바꿔야 계산할 수 있어요."],[5,"abs()로 음수를 양수로 바꿔요. 음수끼리 곱하면 제곱근이 이상해질 수 있어서예요."],[7,"math.sqrt()는 표준 라이브러리 함수라 1번 줄의 import가 꼭 필요해요."]]},"C6":{"say":"random 모듈의 세 가지 방법으로 주사위를 굴려요. 실행할 때마다 결과가 달라요.","lines":[[3,"random()은 0.0 이상 1.0 미만 실수예요. 6을 곱하고 int()로 자르면 0~5, 1을 더하면 1~6이에요."],[4,"randint(1, 6)은 1과 6을 모두 포함해요. range(1, 6)과 다르니 조심해요."],[5,"choice()는 주어진 목록에서 하나를 무작위로 골라요."]]},"C8":{"say":"외부 라이브러리 numpy로 2×2 행렬을 곱해요.","lines":[[1,"numpy는 설치해야 쓸 수 있는 외부 라이브러리예요. 관례적으로 np라는 별명을 붙여요."],[5,"np.dot()이 행렬 곱셈을 해요. 반복문 없이 한 줄로 끝나요."]],"predict":{"q":"결과의 왼쪽 위 숫자 19는 어떻게 나온 걸까요?","a":"1×5 + 2×7 = 19 — x의 첫 행과 y의 첫 열을 짝지어 곱해 더해요."}},"C9":{"say":"외부 라이브러리 colorama로 콘솔 글자에 색을 입혀 크리스마스트리를 그려요.","lines":[[1,"필요한 것만 골라 from … import로 가져와요."],[4,"Style.BRIGHT + Fore.BLUE처럼 색 코드를 문자열 앞에 붙이면 그 뒤 글자에 색이 입혀져요."],[16,"(색, 줄) 튜플을 두 변수로 나눠 받으며 한 줄씩 출력해요."],[22,"deinit()으로 콘솔을 원래 상태로 되돌려요."]]}}};</script>
+
+<footer>
+  <div class="foot-in">
+    <div>
+      <p><b data-teacher-tap>정보과학</b> — 씨마스 『정보과학』 (2022 개정 교육과정) 수업 자료 · <span data-term>2학기</span> · 주 3시간 · 16주</p>
+      <p>보문고등학교 <b>김용득</b> 선생님 제작.</p>
+      <p>개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
+      <p class="copyright">본 자료는 학교 수업 목적으로 제작되었으며, 저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+    </div>
+    <nav class="foot-links" aria-label="사이트 전체"><a href="index.html">수업 홈</a><a href="unit0.html">0 파이썬 기초</a><a href="unit1.html">Ⅰ 프로그래밍</a><a href="unit2.html">Ⅱ 데이터 구조</a><a href="unit3.html">Ⅲ 알고리즘</a><a href="unit4.html">Ⅳ 프로젝트</a><a href="lessons.html">차시 수업</a><a href="course.html">수업 안내</a><a href="labs.html">실습실</a><a href="practice.html">파이썬 실습</a><a href="glossary.html">용어 사전</a><a href="my.html">내 학습</a><a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz</a></nav>
+  </div>
+</footer>
+<script>window.SITE={"topics":{"0":["t0-0","t0-1","t0-2","t0-3","t0-4","t0-5","t0-6","t0-7","t0-8","t0-9","t0-10"],"1":["t1-1","t1-2","t1-3","t1-4","t1-5"],"2":["t2-1","t2-2","t2-3","t2-4","t2-5"],"3":["t3-1","t3-2","t3-3","t3-4","t3-5","t3-6","t3-8","t3-7"],"4":["t4-1","t4-2","t4-3","t4-4","t4-6","t4-5"]},"units":{"0":{"roman":"0","name":"파이썬 기초","weeks":null},"1":{"roman":"Ⅰ","name":"프로그래밍","weeks":[1,5]},"2":{"roman":"Ⅱ","name":"데이터 구조","weeks":[6,9]},"3":{"roman":"Ⅲ","name":"알고리즘","weeks":[10,13]},"4":{"roman":"Ⅳ","name":"정보과학 프로젝트","weeks":[14,16]}},"quiz":{"0":10,"1":10,"2":10,"3":10,"4":10},"weeks":[{"week":1,"lessons":["오리엔테이션 — 정보과학은 무엇을 배우는 과목인가","함수의 개념 — 내장 함수와 사용자 정의 함수","함수의 정의(<code>def</code>)와 네 가지 구성 요소"]},{"week":2,"lessons":["함수 호출 — 인수와 매개 변수의 관계","<code>return</code>의 두 역할 / 매개 변수·반환값 4가지 형태","지역 변수와 전역 변수, <code>global</code>"]},{"week":3,"lessons":["[역량] 음악 플레이 리스트 관리 프로그램","기본값 매개 변수와 가변 인수 매개 변수","여러 값 반환 / 클래스와 객체"]},{"week":4,"lessons":["모듈 만들기와 <code>import</code>","패키지·라이브러리 / 내장 함수와 표준 라이브러리","[역량] 가위바위보 게임 만들기"]},{"week":5,"lessons":["재귀 구조의 이해 — 수학적 귀납법과 재귀 관계","재귀 함수의 동작 원리 — 호출과 반환","반복 vs 재귀 / 재귀 활용 — 자릿수 합·하노이 탑"]},{"week":6,"lessons":["데이터 구조의 분류 / 스택의 개념(LIFO)","스택의 연산 — push, pop, peek, isEmpty","리스트로 스택 구현하기 · 활용 사례"]},{"week":7,"lessons":["큐의 개념(FIFO)과 연산","리스트로 큐 구현하기 / 덱·우선순위 큐","[역량] 스택·큐를 활용한 프로그램"]},{"week":8,"lessons":["트리의 개념과 구성 요소","트리의 표현 — 인접 행렬과 인접 리스트","이진 트리와 순차 데이터 구조 표현"]},{"week":9,"lessons":["이진 탐색 트리의 규칙과 활용","그래프의 개념·종류와 표현","그래프 탐색 — 깊이 우선·너비 우선 탐색"]},{"week":10,"lessons":["알고리즘의 이해와 문제 해결 전략 네 가지","알고리즘 성능 평가 — 시간·공간 복잡도","빅오 표기법과 알고리즘 성능 비교"]},{"week":11,"lessons":["문제의 세 요소와 상태 공간","탐색 공간의 구조·범위 / 전체 탐색과 순차 탐색","비선형 전체 탐색 — DFS·BFS 적용"]},{"week":12,"lessons":["탐색 공간 배제와 이진 탐색","탐욕 알고리즘 — 거스름돈·시간표 문제","분기 한정 알고리즘과 백트래킹"]},{"week":13,"lessons":["문제 분해와 전체·부분 문제의 관계식","분할 정복법 — 퀵 정렬과 합병 정렬","동적 계획법 — 메모이제이션과 상향식"]},{"week":14,"lessons":["정보과학으로 문제 해결하기 · 문제 해결 5단계","학문 분야별 문제 탐색 / 모둠 구성·주제 선정","[프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화"]},{"week":15,"lessons":["[프로젝트 ①] 알고리즘 설계와 프로그램 작성","[프로젝트 ②] 탄소 발자국 — 데이터 수집과 구조화","[프로젝트 ②] 다익스트라 알고리즘으로 구현하기"]},{"week":16,"lessons":["[프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계","[프로젝트 ③] 백트래킹 구현과 디버깅","산출물 정리 / 프로젝트 발표와 상호 평가"]}],"settings":{"year":2026,"term":"2학기","semester_start":"2026-08-13","submit_url":"","grading":[{"type":"지필","name":"1차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 중간고사","ratio":25},{"type":"지필","name":"2차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 기말고사","ratio":25},{"type":"수행","name":"1차 수행평가 · 프로그래밍 과제","what":"함수·클래스·데이터 구조를 활용한 프로그램 작성과 설명","when":"Ⅰ·Ⅱ단원 중","ratio":25},{"type":"수행","name":"2차 수행평가 · 정보과학 프로젝트","what":"문제 해결 5단계 산출물, 프로그램, 발표·상호 평가","when":"14~16주차","ratio":25,"rubric":{"head":["항목","잘함","보통","노력 필요"],"rows":[["① 문제 발견","생활 속 문제를 구체적인 수치·근거와 함께 제시함","문제를 제시했으나 근거가 부족함","문제가 막연하거나 해결할 대상이 불분명함"],["② 문제 구조화","입력·출력·제약 조건을 명확히 정하고 상태(데이터)를 정의함","입력과 출력은 정했으나 조건이 빠짐","무엇을 계산할지 정하지 못함"],["③ 알고리즘 설계","알맞은 데이터 구조·알고리즘을 고르고 그 이유와 효율(빅오)을 설명함","알고리즘은 설계했으나 선택 이유가 부족함","설계 없이 바로 코드부터 작성함"],["④ 프로그램 구현","함수로 나누어 읽기 쉽게 작성하고 오류 없이 동작함","동작하지만 구조가 정리되지 않음","실행되지 않거나 일부만 동작함"],["⑤ 검증·공유","여러 입력으로 시험하고 한계와 개선점을 발표함","한 가지 경우로만 확인함","결과를 확인하지 않음"],["협업·기여","맡은 역할을 해내고 모둠 기록에 기여가 드러남","역할을 일부 수행함","기여가 드러나지 않음"]]}}]},"settings_edit":"https://github.com/yongdeuk/infoscience2026/edit/main/settings.json","programiz":"https://www.programiz.com/python-programming/online-compiler/"};</script>
+<script src="assets/site.js"></script>
+</body>
+</html>

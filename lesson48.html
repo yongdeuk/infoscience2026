@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>48차시 산출물 정리 / 프로젝트 발표와 상호 평가 · 정보과학</title>
+<meta name="description" content="16주차 48차시 — 산출물 정리 / 프로젝트 발표와 상호 평가">
+<meta property="og:title" content="48차시 산출물 정리 / 프로젝트 발표와 상호 평가 · 정보과학">
+<meta property="og:description" content="16주차 48차시 — 산출물 정리 / 프로젝트 발표와 상호 평가">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#129513;</text></svg>">
+<script>
+(function(){try{if(localStorage.getItem('unlocked')==='yes')document.documentElement.className+=' unlocked';}catch(e){}})();
+(function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
+</script>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body class="lessonpage u4">
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <form class="gate-card" data-gate-form autocomplete="off">
+    <h1 id="gate-title">정보과학</h1>
+    <p class="gate-sub">씨마스 『정보과학』 2022 개정 교육과정 수업 자료</p>
+    <label class="gate-lab" for="gate-pw">열람 비밀번호</label>
+    <div class="gate-pwrap">
+      <input id="gate-pw" type="password" data-gate-pw autocomplete="off"
+             spellcheck="false" autocapitalize="off" placeholder="수업 시간에 안내된 비밀번호">
+      <button class="gate-eye" type="button" data-gate-eye aria-pressed="false" aria-label="비밀번호 표시">
+        <svg class="ico-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg class="ico-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18M10.6 10.6a3 3 0 0 0 4.24 4.24M9.9 5.1A10.9 10.9 0 0 1 12 5c7 0 10.5 7 10.5 7a13.6 13.6 0 0 1-3.2 4.1M6.5 6.5C3.4 8.3 1.5 12 1.5 12a13.5 13.5 0 0 0 4.2 4.9"/></svg>
+      </button>
+    </div>
+    <p class="gate-hint">한글로 입력하세요. 대소문자와 앞뒤 공백은 구분하지 않습니다.</p>
+    <p class="gate-msg" data-gate-msg role="status" aria-live="polite"></p>
+    <button class="btn btn-p gate-btn" type="submit">들어가기</button>
+    <p class="gate-note">본 자료는 학교 수업 목적으로 제작되었으며,
+      저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+  </form>
+</div>
+<a class="skip" href="#main">본문 바로가기</a>
+<header class="topbar">
+  <div class="bar-top">
+    <a class="brand" href="index.html"><span class="brand-mark">IS</span><span class="brand-name">정보과학</span></a>
+    <nav class="toolnav" aria-label="수업 도구">
+      <a href="index.html">수업 홈</a>
+      <a href="lessons.html" class="is-current">차시 수업</a>
+      <a href="course.html">수업 안내</a>
+      <a href="labs.html">실습실</a>
+      <a href="practice.html">파이썬 실습</a>
+      <a href="glossary.html">용어 사전</a>
+      <a href="my.html">내 학습</a>
+    </nav>
+    <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false" title="어두운 화면으로">
+      <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.6v2M12 19.4v2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M2.6 12h2M19.4 12h2M5.2 18.8l1.4-1.4M17.4 6.6l1.4-1.4"/></svg>
+      <span class="ico-label">어둡게</span>
+    </button>
+  </div>
+  <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
+    <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
+    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+  </div></nav>
+  <div class="progress" data-progress></div>
+</header>
+<section class="unithero lessonhero">
+  <div class="unithero-in">
+    <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 48차시</p>
+    <div class="bigr" aria-hidden="true">48</div>
+    <div>
+      <p class="kicker">48차시 · 16주차 · <a href="unit4.html">Ⅳ 정보과학 프로젝트</a></p>
+      <h1>산출물 정리 / 프로젝트 발표와 상호 평가</h1>
+      <ul class="lgoal"><li>배포와 유지 보수에서 하는 일을 설명할 수 있다</li><li>세 프로젝트의 데이터 구조·알고리즘·오류를 비교해 정리할 수 있다</li><li>모둠 프로젝트를 발표하고, 상호 평가 결과를 데이터로 정리해 되돌아볼 수 있다</li></ul>
+      <div class="lprog" aria-label="전체 48차시 중 48차시"><i style="width:100.0%"></i></div>
+    </div>
+  </div>
+</section>
+<main class="lpage" id="main">
+<nav class="lflow" aria-label="이 차시 순서"><a href="#l-open"><b>1</b>생각 열기</a><a href="#l-learn"><b>2</b>교과서로 배우기</a><a href="#l-try"><b>3</b>직접 해 보기</a><a href="#l-check"><b>4</b>확인 문제</a><a href="#l-wrap"><b>5</b>한 줄 정리</a></nav>
+<section class="lsec" id="l-open"><h2><span class="ln">1</span>생각 열기</h2><div class="callout hook">프로그램이 내 컴퓨터에서만 돌아간다면 문제를 해결한 걸까요? 친구들과 선생님이 실제로 쓰고, 불편한 점을 듣고 고쳐 나가야 진짜 해결이에요. 오늘은 그 마지막 단계와 발표를 해요.</div><div class="board" data-board="hook" hidden><div class="board-in"><textarea data-board-in rows="2" maxlength="300" placeholder="내 생각을 짧게 적어 보드에 올려 보세요"></textarea><div class="board-bar"><button class="btn btn-p" type="button" data-board-send>보드에 올리기</button><select data-board-class aria-label="반 고르기"><option value="">모든 반</option></select><button class="btn" type="button" data-board-big>크게 보기</button><span class="muted small" data-board-msg></span></div></div><div class="board-h"><b>모두의 생각</b> <span class="muted small" data-board-count></span></div><ul class="board-list" data-board-list></ul></div></section>
+<section class="lsec" id="l-learn"><h2><span class="ln">2</span>교과서로 배우기</h2><p class="lede">코드 아래 <b>💡 코드 설명</b>을 펼쳐 보고, <b>빈칸</b>이 있으면 채운 뒤 실행해 보세요.</p><p class="lsrc">교과서 · <a href="unit4.html#t4-6">Ⅳ 정리 단원 마무리 · 배포와 우리 모둠 프로젝트</a></p>
+<h4>배포 및 유지 보수</h4>
+<div class="analogy">
+      <span class="lbl">쉽게 말하면</span>
+      <p>맛있는 떡볶이 조리법을 완성했다면, 이제 <b>가게를 열어 손님에게 파는 일</b>(배포)과 <b>손님 말을 듣고 맛을 고치고 가게를 관리하는 일</b>(유지 보수)이 남아요. 프로그램도 똑같아요.</p>
+    </div>
+<div class="cards">
+      <div class="card"><span class="tag2">배포할 때</span><h5>쓸 수 있게 내놓기</h5><ul><li><b>배포 환경 준비</b> — 프로그램이 돌아갈 컴퓨터, 운영체제, 필요한 라이브러리 갖추기</li><li><b>설치 파일 만들기</b> — 누구나 쉽게 설치하도록 실행 파일·라이브러리·설정을 묶기</li><li><b>사용 설명서 쓰기</b> — 글이나 영상으로 사용법 알려 주기</li><li><b>배포 방법 고르기</b> — 웹 사이트, 클라우드, 학교 내부망 등</li></ul></div>
+      <div class="card"><span class="tag2">유지 보수할 때</span><h5>계속 돌보기</h5><ul><li><b>버그 수정</b> — 사용자가 찾은 오류를 빨리 고치기</li><li><b>기능 업데이트</b> — 의견을 듣고 기능을 더하거나 고치기</li><li><b>성능 최적화</b> — 더 빠르고 가볍게 만들기</li><li><b>문서 최신화</b> — 설명서를 늘 지금 상태에 맞게</li><li><b>지원 제공</b> — 질문과 어려움에 답해 주기</li></ul></div>
+    </div>
+<div class="callout">배포 전에는 여러 환경에서 미리 써 보는 <b>베타 테스트</b>를 하고, 사용자 의견(피드백)을 모아 고쳐요. 이 과정이 있어야 프로그램이 오랫동안 안정적으로 쓰여요.</div>
+<div class="drill">
+      <span class="lbl">해 보기 · 자리 배치 결과 배포하기</span>
+      <p>자리 배치 프로그램의 결과는 이름만 나열된 표예요. 실제로 교실에 붙일 수 있도록 <b>‘○학년 ○반 교실 자리 배치표’</b>를 만들어 보자. 교탁의 위치를 표시하고, 누가 보아도 헷갈리지 않게 꾸며요.</p>
+    </div>
+<h4>세 프로젝트 한눈에 비교하기</h4>
+<div class="tablewrap">
+      <table>
+        <thead><tr><th></th><th>① 급식 잔반 최소화</th><th>② 탄소 발자국 계산</th><th>③ 교실 자리 배치</th></tr></thead>
+        <tbody>
+          <tr><td>풀려는 문제</td><td>잔반이 가장 적은 메뉴 조합</td><td>탄소가 가장 적게 나오는 길</td><td>모두의 조건에 맞는 자리</td></tr>
+          <tr><td>데이터 구조</td><td>딕셔너리</td><td>딕셔너리 · 그래프 · 우선순위 큐</td><td>클래스와 객체 · 2차원 리스트</td></tr>
+          <tr><td>알고리즘</td><td>동적 계획법</td><td>다익스트라 알고리즘</td><td>백트래킹</td></tr>
+          <tr><td>핵심 생각</td><td>계산한 답을 적어 두고 다시 쓴다</td><td>가장 적은 곳부터 확정해 나간다</td><td>해 보고 막히면 되돌아간다</td></tr>
+          <tr><td>만난 오류</td><td>KeyError (없는 키)</td><td>IndentationError (들여쓰기)</td><td>기능 추가 뒤 배정 실패</td></tr>
+          <tr><td>지속가능발전목표</td><td>12. 책임 있는 소비와 생산</td><td>13. 기후 행동</td><td>4. 양질의 교육</td></tr>
+        </tbody>
+      </table>
+    </div>
+<div class="callout">문제는 달라도 걸어간 길은 같아요. <b>문제 발견 및 구조화 → 알고리즘 설계 → 프로그램 작성 → 검증 및 디버깅 → 배포 및 유지 보수.</b> 그리고 Ⅰ단원의 함수·클래스, Ⅱ단원의 데이터 구조, Ⅲ단원의 알고리즘이 모두 쓰였어요.</div>
+<h4>프로젝트 되돌아보기</h4>
+<div class="cards">
+      <div class="card"><span class="tag2">질문 1</span><h5>목표</h5><p>프로젝트의 목표는 무엇이었고, 얼마나 이루었나요? (별 다섯 개 가운데 몇 개?)</p></div>
+      <div class="card"><span class="tag2">질문 2</span><h5>어려웠던 점</h5><p>무엇이 어려웠고, 어떻게 넘어섰나요?</p></div>
+      <div class="card"><span class="tag2">질문 3</span><h5>고칠 점</h5><p>다음에는 무엇을 다르게 하고 싶나요? 어떻게 고칠 수 있을까요?</p></div>
+    </div>
+<h4>대단원 평가 맛보기</h4>
+<details class="check"><summary>정보과학 프로젝트의 수행 단계를 순서대로 말해 보세요.</summary><div class="ans"><p><b>문제 발견 및 구조화 → 알고리즘 설계 → 프로그램 작성 → 프로그램 검증 및 디버깅 → 배포 및 유지 보수</b></p></div></details>
+<details class="check"><summary>탄소 중립을 위한 기후 행동으로 알맞지 <u>않은</u> 것은? ① 재생 에너지 비율 늘리기 ② 숲을 보호하고 나무 심기 ③ 기후 변화 대응 기술 연구 지원 ④ 화석 연료 사용을 법으로 전부 금지</summary><div class="ans"><p><b>④</b>. 화석 연료를 한꺼번에 전부 금지하는 것은 현실적으로 실행할 수 없어요. 의존도를 <b>차츰 낮춰 가는</b> 전략이 필요해요.</p></div></details>
+<details class="check"><summary>(○/×) 다익스트라 알고리즘은 간선의 가중치가 음수여도 언제나 올바른 답을 낸다.</summary><div class="ans"><p><b>×</b>. 다익스트라 알고리즘은 “한 번 확정한 값은 더 줄어들지 않는다”는 것을 전제로 해요. 음수 가중치가 있으면 이 전제가 깨져요. 그래서 데이터 검증에서 모든 값이 양수인지 확인해요.</p></div></details>
+<details class="check"><summary>급식 잔반 프로그램에서 딕셔너리 <code>dp</code>는 어떤 일을 하나요?</summary><div class="ans"><p>이미 계산한 “어디까지 골랐을 때의 최소 잔반량과 조합”을 <b>저장</b>해 두었다가, 같은 상태가 다시 나오면 계산하지 않고 꺼내 써요. 동적 계획법의 메모이제이션이에요.</p></div></details>
+<details class="check"><summary>자리 배치 프로그램에서 <code>is_safe()</code> 함수가 하는 역할을 알고리즘 용어로 말하면?</summary><div class="ans"><p><b>가지치기</b>. 조건에 맞지 않는 자리(이전 자리 등)를 미리 걸러 내어 살펴볼 경우의 수를 줄여요.</p></div></details>
+<details class="check"><summary>단위 테스트와 통합 테스트는 어떻게 다른가요?</summary><div class="ans"><p>단위 테스트는 함수나 메소드 <b>하나</b>가 기대대로 움직이는지 확인하고, 통합 테스트는 여러 함수가 <b>함께</b> 움직일 때의 상호 작용을 확인해요.</p></div></details>
+<details class="check"><summary>프로젝트 수업으로 기를 수 있는 역량을 세 가지 이상 말해 보세요.</summary><div class="ans"><p>문제 해결력, 프로그래밍 능력, 협업 능력, 컴퓨팅 사고력 등. 프로젝트의 성격과 목표에 따라 필요한 역량은 달라질 수 있어요.</p></div></details>
+<h4>단원 정리</h4>
+<div class="points">
+      <span class="lbl">꼭 기억하기</span>
+      <ul>
+        <li>정보과학은 문제를 깊이 이해하고 데이터 분석·알고리즘 설계·시스템 구현으로 효과적인 해결책을 만들어요.</li>
+        <li><b>1단계 문제 발견 및 구조화</b> — 문제를 분명히 정의하고, 데이터를 모아 작은 문제로 나눠요.</li>
+        <li><b>2단계 알고리즘 설계</b> — 여러 방법 가운데 가장 알맞은 알고리즘을 고르거나 새로 만들어요.</li>
+        <li><b>3단계 프로그램 작성</b> — 읽기 쉽고 고치기 쉬운 코드로 구현해요.</li>
+        <li><b>4단계 프로그램 검증 및 디버깅</b> — 올바르게 동작하는지 확인하고 오류를 고쳐요.</li>
+        <li><b>5단계 배포 및 유지 보수</b> — 사람들이 쓸 수 있게 내놓고 계속 고쳐 나가요.</li>
+      </ul>
+    </div>
+<details class="check credits"><summary>이 단원에 쓴 사진의 출처</summary><div class="ans">
+      <ul class="credit-list">
+      <li><a href="https://commons.wikimedia.org/wiki/File:Huge_fire_flames_from_forest_fire.jpg" target="_blank" rel="noopener">Huge fire flames from forest fire.jpg</a> — Murphy Karen, U.S. Fish and Wildlife Service, 퍼블릭 도메인</li>
+      <li><a href="https://commons.wikimedia.org/wiki/File:Hydroponic_Greenhouse_in_Armenia.jpg" target="_blank" rel="noopener">Hydroponic Greenhouse in Armenia.jpg</a> — Narek75, CC BY-SA 4.0</li>
+      <li><a href="https://commons.wikimedia.org/wiki/File:Night_view_of_Downtown_Seoul_along_Jongno_Street_in_2020.jpg" target="_blank" rel="noopener">Night view of Downtown Seoul along Jongno Street in 2020.jpg</a> — 서울연구원, CC BY 4.0</li>
+      <li><a href="https://commons.wikimedia.org/wiki/File:Mobile_air_quality_monitoring_station_in_Z%C3%BCrich.jpg" target="_blank" rel="noopener">Mobile air quality monitoring station in Zürich.jpg</a> — Balise42, CC BY 4.0</li>
+      <li><a href="https://commons.wikimedia.org/wiki/File:Ocado_warehouse_bots.jpg" target="_blank" rel="noopener">Ocado warehouse bots.jpg</a> — Techwords, CC BY-SA 4.0</li>
+      <li><a href="https://commons.wikimedia.org/wiki/File:LIGO_Hanford_aerial_05.jpg" target="_blank" rel="noopener">LIGO Hanford aerial 05.jpg</a> — LIGO Laboratory, 퍼블릭 도메인</li>
+      <li><a href="https://commons.wikimedia.org/wiki/File:TMEM253_AlphaFold_Predicted_Structure.jpg" target="_blank" rel="noopener">TMEM253 AlphaFold Predicted Structure.jpg</a> — Liu02511, CC0</li>
+      <li><a href="https://commons.wikimedia.org/wiki/File:The_Earth_seen_from_Apollo_17.jpg" target="_blank" rel="noopener">The Earth seen from Apollo 17.jpg</a> — NASA/Apollo 17 crew; taken by either Harrison Schmitt or Ron Evans, 퍼블릭 도메인</li>
+      <li><a href="https://commons.wikimedia.org/wiki/File:School_lunch_(4196393696).jpg" target="_blank" rel="noopener">School lunch (4196393696).jpg</a> — Chris Harber from Fukuoka, Japan, CC BY-SA 2.0</li>
+      <li><a href="https://commons.wikimedia.org/wiki/File:Jeju_community_food_waste_disposal_bins.jpg" target="_blank" rel="noopener">Jeju community food waste disposal bins.jpg</a> — Sgroey, CC BY-SA 4.0</li>
+      <li><a href="https://commons.wikimedia.org/wiki/File:Elementary_classroom_in_Alaska.jpg" target="_blank" rel="noopener">Elementary classroom in Alaska.jpg</a> — Liz, CC BY 2.0</li>
+      </ul>
+      <p>모두 Wikimedia Commons에서 가져온 자유 이용 사진이며, 원본을 가로 880픽셀 이하로 축소했어요. 그 밖의 그림과 표는 이 사이트에서 직접 그렸어요.</p>
+    </div></details></section>
+<section class="lsec" id="l-try"><h2><span class="ln">3</span>직접 해 보기</h2><p class="lede">코드를 고쳐서 <b>▶ 실행</b>하면 출력이 맞는지 바로 알려 줘요. 막히면 힌트부터 열어 보세요.</p><div class="task" data-kind="빈칸"><div class="task-h"><span class="task-k">빈칸</span><h4>교실에 붙일 자리 배치표 만들기 (배포)</h4></div><p>자리 배치 결과를 누구나 알아보게 출력해요. 맨 위에 교탁을 표시하고, 줄마다 ‘1분단 2분단…’처럼 사람이 읽는 번호(1부터)를 붙이도록 ___를 채우세요. 컴퓨터는 0부터, 사람은 1부터 센다는 점을 잊지 마세요.</p><pre data-run data-editable data-task data-expect="2학년 3반 자리 배치표&#10;[ 교탁 ]&#10;1줄: 민지 | 지영 | 민재 | 정식&#10;2줄: 영환 | 명숙 | 지우 | 영호&#10;3줄: 지훈 | 영숙 | 하윤 | 정순">seats = [['민지', '지영', '민재', '정식'],
+         ['영환', '명숙', '지우', '영호'],
+         ['지훈', '영숙', '하윤', '정순']]
+
+print('2학년 3반 자리 배치표')
+print('[ 교탁 ]')
+for i in range(len(seats)):
+    names = ' | '.join(seats[___])
+    print(f"{i + ___}줄: {names}")
+</pre><details class="hintbox"><summary>힌트</summary><p>i번째 줄은 seats[i]이고, 사람에게 보여 줄 줄 번호는 i + 1이에요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>seats = [['민지', '지영', '민재', '정식'],
+         ['영환', '명숙', '지우', '영호'],
+         ['지훈', '영숙', '하윤', '정순']]
+
+print('2학년 3반 자리 배치표')
+print('[ 교탁 ]')
+for i in range(len(seats)):
+    names = ' | '.join(seats[i])
+    print(f"{i + 1}줄: {names}")
+</pre></details></div><div class="task" data-kind="만들기"><div class="task-h"><span class="task-k">만들기</span><h4>상호 평가 점수 정리하기</h4></div><p>모둠 발표를 듣고 친구들이 준 점수(5점 만점)를 딕셔너리에 모았어요. 모둠마다 <b>평균</b>을 계산해 <code>avg</code>에 담고, 평균이 높은 순서로 출력하세요. 점수를 데이터로 정리하면 ‘좋았던 점·아쉬운 점’을 이야기할 근거가 생겨요.</p><pre data-run data-editable data-task data-expect="1위 자리 요정 4.60점&#10;2위 초록 코드 4.50점&#10;3위 잔반 제로 4.00점">scores = {
+    '초록 코드': [5, 4, 4, 5],
+    '잔반 제로': [4, 4, 3, 5],
+    '자리 요정': [5, 5, 4, 4, 5],
+}
+
+avg = {}
+# 1) 모둠마다 평균(합계 ÷ 개수)을 avg[모둠] 에 담으세요
+
+# 2) 평균이 높은 순서로 '1위 모둠이름 4.60점' 꼴로 출력하세요
+#    (힌트: sorted(avg, key=avg.get, reverse=True))
+</pre><details class="hintbox"><summary>힌트</summary><p>for team, s in scores.items(): avg[team] = sum(s) / len(s). 순위는 enumerate(…, 1)로 매기고 f'{avg[team]:.2f}'로 소수 둘째 자리까지 써요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>scores = {
+    '초록 코드': [5, 4, 4, 5],
+    '잔반 제로': [4, 4, 3, 5],
+    '자리 요정': [5, 5, 4, 4, 5],
+}
+
+avg = {}
+for team, s in scores.items():
+    avg[team] = sum(s) / len(s)
+
+for rank, team in enumerate(sorted(avg, key=avg.get, reverse=True), 1):
+    print(f"{rank}위 {team} {avg[team]:.2f}점")
+</pre></details></div><div class="task" data-kind="생각"><div class="task-h"><span class="task-k">생각</span><h4>프로젝트 되돌아보기와 유지 보수 계획</h4></div><p>① 목표를 얼마나 이루었는지 별 다섯 개 중 몇 개인지와 까닭 ② 가장 어려웠던 점과 어떻게 넘어섰는지 ③ 친구들의 평가에서 나온 의견 하나를 골라, 우리 프로그램을 <b>어떻게 고칠지(유지 보수)</b> 구체적으로 적어 보세요.</p><textarea class="think" data-think="L48.2" rows="4" placeholder="① ★★★★☆ — 최소 잔반 조합은 찾았지만 우리 학교 실제 데이터는 일부만 모았다
+② 재귀 함수의 흐름이 헷갈렸다 → 메뉴를 2개씩만 넣은 작은 데이터로 손 계산과 비교했다
+③ 의견: “선호도도 함께 보면 좋겠다” → menu_data에 preference를 더하고 점수 = 선호도×10 − 잔반으로 바꿔 보기"></textarea><p class="muted small" data-think-saved></p></div></section>
+<section class="lsec" id="l-check"><h2><span class="ln">4</span>확인 문제</h2><section class="qz-set" data-qz-set="L48">
+<div class="qz" data-ans="3"><h4><span class="qnum">Q1</span><span>다음 중 ‘유지 보수’에 해당하지 않는 것은?</span></h4><ol class="opts"><li><button type="button" data-n="①">사용자가 찾은 오류를 고친다</button></li><li><button type="button" data-n="②">의견을 듣고 기능을 더한다</button></li><li><button type="button" data-n="③">설명서를 지금 상태에 맞게 고친다</button></li><li><button type="button" data-n="④">문제를 초기 상태와 목표 상태로 정의한다</button></li></ol><p class="why"><b>해설</b> — 문제 정의는 1단계(문제 발견 및 구조화)에서 해요. 나머지는 배포 뒤 계속 돌보는 유지 보수예요.</p></div>
+<div class="qz" data-ans="1"><h4><span class="qnum">Q2</span><span>세 프로젝트와 알고리즘을 바르게 짝지은 것은?</span></h4><ol class="opts"><li><button type="button" data-n="①">급식 잔반 – 백트래킹</button></li><li><button type="button" data-n="②">급식 잔반 – 동적 계획법 / 탄소 발자국 – 다익스트라 / 자리 배치 – 백트래킹</button></li><li><button type="button" data-n="③">탄소 발자국 – 동적 계획법</button></li><li><button type="button" data-n="④">자리 배치 – 다익스트라</button></li></ol><p class="why"><b>해설</b> — 잔반은 계산한 답을 적어 두고 다시 쓰는 동적 계획법, 탄소 길은 가장 적은 곳부터 확정하는 다익스트라, 자리는 해 보고 막히면 되돌아가는 백트래킹이에요.</p></div>
+<div class="qz-score" data-qz-score><span>맞힌 문제 <b data-qz-right>0</b> / 2</span><span class="muted" data-qz-left></span><span class="muted" data-qz-best></span><button class="btn" type="button" data-qz-reset>다시 풀기</button></div></section></section>
+<section class="lsec" id="l-wrap"><h2><span class="ln">5</span>한 줄 정리</h2><p><b>이번 단원 프로젝트에서 내가 기른 역량 한 가지를, 그것을 보여 주는 장면과 함께 한 줄로 적어 보세요.</b></p><textarea class="think" data-think="L48.exit" rows="3" placeholder="내 말로 한두 문장"></textarea><p class="muted small" data-think-saved></p><div class="board" data-board="exit" hidden><div class="board-in"><textarea data-board-in rows="2" maxlength="300" placeholder="한 줄 정리를 보드에도 올려 보세요"></textarea><div class="board-bar"><button class="btn btn-p" type="button" data-board-send>보드에 올리기</button><select data-board-class aria-label="반 고르기"><option value="">모든 반</option></select><button class="btn" type="button" data-board-big>크게 보기</button><span class="muted small" data-board-msg></span></div></div><div class="board-h"><b>모두의 생각</b> <span class="muted small" data-board-count></span></div><ul class="board-list" data-board-list></ul></div><div class="donebar"><button class="btn donebtn" type="button" data-lesson-done="48">☐ 이 차시 마쳤어요</button><span>체크하면 <a href="lessons.html">차시 수업</a> 목록에 표시돼요.</span></div><div class="submitbox" data-submit hidden><button class="btn btn-p" type="button">선생님께 제출</button> <span class="muted small" data-submit-msg>한 줄 정리 · 생각 쓰기 · 실습 코드 · 확인 문제 점수를 보내요.</span></div></section>
+</main>
+<nav class="pager" aria-label="차시 이동"><a class="prev" href="lesson47.html"><span class="dir">← 이전 · 47차시</span><span class="ttl">[프로젝트 ③] 백트래킹 구현과 디버깅</span></a><a class="next" href="lessons.html"><span class="dir">다음 →</span><span class="ttl">차시 목록</span></a></nav>
+<script>window.LESSON={"n":48,"notes":{}};</script>
+
+<footer>
+  <div class="foot-in">
+    <div>
+      <p><b data-teacher-tap>정보과학</b> — 씨마스 『정보과학』 (2022 개정 교육과정) 수업 자료 · <span data-term>2학기</span> · 주 3시간 · 16주</p>
+      <p>보문고등학교 <b>김용득</b> 선생님 제작.</p>
+      <p>개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
+      <p class="copyright">본 자료는 학교 수업 목적으로 제작되었으며, 저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+    </div>
+    <nav class="foot-links" aria-label="사이트 전체"><a href="index.html">수업 홈</a><a href="unit0.html">0 파이썬 기초</a><a href="unit1.html">Ⅰ 프로그래밍</a><a href="unit2.html">Ⅱ 데이터 구조</a><a href="unit3.html">Ⅲ 알고리즘</a><a href="unit4.html">Ⅳ 프로젝트</a><a href="lessons.html">차시 수업</a><a href="course.html">수업 안내</a><a href="labs.html">실습실</a><a href="practice.html">파이썬 실습</a><a href="glossary.html">용어 사전</a><a href="my.html">내 학습</a><a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz</a></nav>
+  </div>
+</footer>
+<script>window.SITE={"topics":{"0":["t0-0","t0-1","t0-2","t0-3","t0-4","t0-5","t0-6","t0-7","t0-8","t0-9","t0-10"],"1":["t1-1","t1-2","t1-3","t1-4","t1-5"],"2":["t2-1","t2-2","t2-3","t2-4","t2-5"],"3":["t3-1","t3-2","t3-3","t3-4","t3-5","t3-6","t3-8","t3-7"],"4":["t4-1","t4-2","t4-3","t4-4","t4-6","t4-5"]},"units":{"0":{"roman":"0","name":"파이썬 기초","weeks":null},"1":{"roman":"Ⅰ","name":"프로그래밍","weeks":[1,5]},"2":{"roman":"Ⅱ","name":"데이터 구조","weeks":[6,9]},"3":{"roman":"Ⅲ","name":"알고리즘","weeks":[10,13]},"4":{"roman":"Ⅳ","name":"정보과학 프로젝트","weeks":[14,16]}},"quiz":{"0":10,"1":10,"2":10,"3":10,"4":10},"weeks":[{"week":1,"lessons":["오리엔테이션 — 정보과학은 무엇을 배우는 과목인가","함수의 개념 — 내장 함수와 사용자 정의 함수","함수의 정의(<code>def</code>)와 네 가지 구성 요소"]},{"week":2,"lessons":["함수 호출 — 인수와 매개 변수의 관계","<code>return</code>의 두 역할 / 매개 변수·반환값 4가지 형태","지역 변수와 전역 변수, <code>global</code>"]},{"week":3,"lessons":["[역량] 음악 플레이 리스트 관리 프로그램","기본값 매개 변수와 가변 인수 매개 변수","여러 값 반환 / 클래스와 객체"]},{"week":4,"lessons":["모듈 만들기와 <code>import</code>","패키지·라이브러리 / 내장 함수와 표준 라이브러리","[역량] 가위바위보 게임 만들기"]},{"week":5,"lessons":["재귀 구조의 이해 — 수학적 귀납법과 재귀 관계","재귀 함수의 동작 원리 — 호출과 반환","반복 vs 재귀 / 재귀 활용 — 자릿수 합·하노이 탑"]},{"week":6,"lessons":["데이터 구조의 분류 / 스택의 개념(LIFO)","스택의 연산 — push, pop, peek, isEmpty","리스트로 스택 구현하기 · 활용 사례"]},{"week":7,"lessons":["큐의 개념(FIFO)과 연산","리스트로 큐 구현하기 / 덱·우선순위 큐","[역량] 스택·큐를 활용한 프로그램"]},{"week":8,"lessons":["트리의 개념과 구성 요소","트리의 표현 — 인접 행렬과 인접 리스트","이진 트리와 순차 데이터 구조 표현"]},{"week":9,"lessons":["이진 탐색 트리의 규칙과 활용","그래프의 개념·종류와 표현","그래프 탐색 — 깊이 우선·너비 우선 탐색"]},{"week":10,"lessons":["알고리즘의 이해와 문제 해결 전략 네 가지","알고리즘 성능 평가 — 시간·공간 복잡도","빅오 표기법과 알고리즘 성능 비교"]},{"week":11,"lessons":["문제의 세 요소와 상태 공간","탐색 공간의 구조·범위 / 전체 탐색과 순차 탐색","비선형 전체 탐색 — DFS·BFS 적용"]},{"week":12,"lessons":["탐색 공간 배제와 이진 탐색","탐욕 알고리즘 — 거스름돈·시간표 문제","분기 한정 알고리즘과 백트래킹"]},{"week":13,"lessons":["문제 분해와 전체·부분 문제의 관계식","분할 정복법 — 퀵 정렬과 합병 정렬","동적 계획법 — 메모이제이션과 상향식"]},{"week":14,"lessons":["정보과학으로 문제 해결하기 · 문제 해결 5단계","학문 분야별 문제 탐색 / 모둠 구성·주제 선정","[프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화"]},{"week":15,"lessons":["[프로젝트 ①] 알고리즘 설계와 프로그램 작성","[프로젝트 ②] 탄소 발자국 — 데이터 수집과 구조화","[프로젝트 ②] 다익스트라 알고리즘으로 구현하기"]},{"week":16,"lessons":["[프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계","[프로젝트 ③] 백트래킹 구현과 디버깅","산출물 정리 / 프로젝트 발표와 상호 평가"]}],"settings":{"year":2026,"term":"2학기","semester_start":"2026-08-13","submit_url":"","grading":[{"type":"지필","name":"1차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 중간고사","ratio":25},{"type":"지필","name":"2차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 기말고사","ratio":25},{"type":"수행","name":"1차 수행평가 · 프로그래밍 과제","what":"함수·클래스·데이터 구조를 활용한 프로그램 작성과 설명","when":"Ⅰ·Ⅱ단원 중","ratio":25},{"type":"수행","name":"2차 수행평가 · 정보과학 프로젝트","what":"문제 해결 5단계 산출물, 프로그램, 발표·상호 평가","when":"14~16주차","ratio":25,"rubric":{"head":["항목","잘함","보통","노력 필요"],"rows":[["① 문제 발견","생활 속 문제를 구체적인 수치·근거와 함께 제시함","문제를 제시했으나 근거가 부족함","문제가 막연하거나 해결할 대상이 불분명함"],["② 문제 구조화","입력·출력·제약 조건을 명확히 정하고 상태(데이터)를 정의함","입력과 출력은 정했으나 조건이 빠짐","무엇을 계산할지 정하지 못함"],["③ 알고리즘 설계","알맞은 데이터 구조·알고리즘을 고르고 그 이유와 효율(빅오)을 설명함","알고리즘은 설계했으나 선택 이유가 부족함","설계 없이 바로 코드부터 작성함"],["④ 프로그램 구현","함수로 나누어 읽기 쉽게 작성하고 오류 없이 동작함","동작하지만 구조가 정리되지 않음","실행되지 않거나 일부만 동작함"],["⑤ 검증·공유","여러 입력으로 시험하고 한계와 개선점을 발표함","한 가지 경우로만 확인함","결과를 확인하지 않음"],["협업·기여","맡은 역할을 해내고 모둠 기록에 기여가 드러남","역할을 일부 수행함","기여가 드러나지 않음"]]}}]},"settings_edit":"https://github.com/yongdeuk/infoscience2026/edit/main/settings.json","programiz":"https://www.programiz.com/python-programming/online-compiler/"};</script>
+<script src="assets/site.js"></script>
+</body>
+</html>

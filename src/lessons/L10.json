@@ -1,0 +1,60 @@
+{
+ "n": 10,
+ "goal": [
+  "모듈·패키지·라이브러리의 관계를 설명할 수 있다",
+  "여러 가지 import 방법에 맞게 함수를 호출할 수 있다"
+ ],
+ "hook": "필통(모듈) 안에 펜이 있고, 필통들이 사물함(패키지)에, 사물함들이 교실(라이브러리)에 있다면, 친구에게 펜을 빌려 달라고 할 때 어디까지 말해야 할까요?",
+ "code_notes": {},
+ "tasks": [
+  {
+   "kind": "빈칸",
+   "title": "import 세 가지 방법",
+   "prompt": "표준 라이브러리 <code>math</code>를 세 가지 방법으로 불러와 써 봐요. 호출하는 모양을 보고 빈칸에 알맞은 것을 넣으세요.",
+   "starter": "import math\nprint(math.sqrt(16))\n\nimport math as ___\nprint(m.factorial(5))\n\nfrom math import ___\nprint(gcd(48, 18))",
+   "expect": "4.0\n120\n6",
+   "hint": "as 뒤의 이름이 별명이 돼요. from … import 이름으로 가져오면 모듈 이름 없이 바로 불러요.",
+   "answer": "import math\nprint(math.sqrt(16))\n\nimport math as m\nprint(m.factorial(5))\n\nfrom math import gcd\nprint(gcd(48, 18))"
+  },
+  {
+   "kind": "고치기",
+   "title": "NameError 고치기",
+   "prompt": "import 방법과 호출 방법이 맞지 않아 <code>NameError</code>가 나요. <b>import 줄은 그대로 두고</b> 호출하는 두 줄만 고쳐서 <code>5.0</code>과 <code>24</code>가 나오게 하세요.",
+   "starter": "import math as m\nprint(math.sqrt(25))\n\nfrom math import factorial\nprint(math.factorial(4))",
+   "expect": "5.0\n24",
+   "hint": "as m으로 불러오면 이 파일에서 math라는 이름은 없어요. from으로 가져온 함수는 이름만 써서 불러요.",
+   "answer": "import math as m\nprint(m.sqrt(25))\n\nfrom math import factorial\nprint(factorial(4))"
+  },
+  {
+   "kind": "생각",
+   "title": "나만의 모듈 설계하기",
+   "prompt": "내가 <code>mytools.py</code>라는 모듈을 만든다면 어떤 함수 2개를 넣고 싶은지 적고, 다른 파일에서 그 함수를 불러 쓰는 import 문과 호출 문을 써 보세요. (모듈 파일은 호출하는 파일과 같은 위치에 있어야 해요.)",
+   "placeholder": "함수 1: average(*scores) — 점수 평균 구하기\n함수 2: …\nimport mytools as mt\nprint(mt.average(80, 90))"
+  }
+ ],
+ "check": [
+  {
+   "q": "from spirograph import draw as d 로 불러왔을 때 draw 함수를 호출하는 올바른 방법은?",
+   "options": [
+    "spirograph.draw(60, 20)",
+    "sp.draw(60, 20)",
+    "draw(60, 20)",
+    "d(60, 20)"
+   ],
+   "answer": 3,
+   "why": "as d로 별명을 붙였으니 d라는 이름으로 불러요."
+  },
+  {
+   "q": "모듈, 패키지, 라이브러리에 대한 설명으로 옳은 것은?",
+   "options": [
+    "모듈은 여러 패키지를 담은 폴더이다",
+    "패키지는 모듈들이 들어 있는 폴더이다",
+    "라이브러리는 하나의 .py 파일이다",
+    "모듈은 import 없이 바로 쓸 수 있다"
+   ],
+   "answer": 1,
+   "why": "모듈 = .py 파일 하나, 패키지 = 모듈이 든 폴더, 라이브러리 = 그 전체 도구 모음이에요."
+  }
+ ],
+ "exit": "import math와 from math import sqrt 중 어느 쪽이 ‘이 함수가 어디서 왔는지’ 알아보기 쉬운지, 이유와 함께 적어 보세요."
+}

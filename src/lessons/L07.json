@@ -1,0 +1,99 @@
+{
+ "n": 7,
+ "goal": [
+  "프로그램의 기능을 여러 함수로 나누어 설계할 수 있다",
+  "전역 리스트를 여러 함수에서 함께 다루는 프로그램을 완성할 수 있다"
+ ],
+ "hook": "학교 방송실에서 점심시간에 틀 노래 목록을 관리한다고 해 봐요. 어떤 기능이 꼭 있어야 할까요? 3가지만 떠올려 보세요.",
+ "code_notes": {
+  "C1": {
+   "say": "플레이 리스트를 전역 리스트로 두고, 기능마다 함수를 하나씩 만드는 프로그램의 시작 부분이에요.",
+   "lines": [
+    [
+     1,
+     "모든 함수가 같은 목록을 써야 하므로 전역 변수로 둬요."
+    ],
+    [
+     4,
+     "기능 하나 = 함수 하나. 곡 추가는 add_song()이 맡아요."
+    ],
+    [
+     5,
+     "append()는 리스트 ‘안의 내용’을 바꾸는 것이라 global 없이도 돼요. playlist = …처럼 변수 자체를 새로 대입할 때만 global이 필요해요."
+    ],
+    [
+     6,
+     "\\'는 작은따옴표 안에서 작은따옴표를 글자로 쓰는 방법이에요. 곡 이름이 따옴표로 감싸져 출력돼요."
+    ],
+    [
+     9,
+     "...은 ‘아직 비어 있음’ 표시예요. 여기부터 나머지 함수를 직접 채워요."
+    ]
+   ],
+   "blanks": [
+    [
+     5,
+     "playlist.append(song)"
+    ]
+   ],
+   "predict": {
+    "q": "add_song('봄날')을 호출하면 어떤 문장이 출력될까요?",
+    "a": "'봄날'이(가) 'My Playlist'에 추가되었습니다."
+   }
+  }
+ },
+ "tasks": [
+  {
+   "kind": "빈칸",
+   "title": "곡 삭제와 목록 출력",
+   "prompt": "<code>remove_song()</code>은 곡이 목록에 <b>있을 때만</b> 지우고, <code>show_playlist()</code>는 번호를 붙여 출력해요. 빈칸 세 곳을 채우세요.",
+   "starter": "playlist = []                      # 전역 변수\nplaylist_name = 'My Playlist'\n\ndef add_song(song):\n    playlist.append(song)\n    print(f\"'{song}'이(가) '{playlist_name}'에 추가되었습니다.\")\n\ndef remove_song(song):\n    if song ___ playlist:\n        playlist.___(song)\n        print(f\"'{song}'이(가) 삭제되었습니다.\")\n    else:\n        print(f\"'{song}'은(는) 목록에 없습니다.\")\n\ndef show_playlist():\n    print(f'[{playlist_name}]')\n    for i in range(len(playlist)):\n        print(f'{i + 1}. {___}')\n\nadd_song('Dynamite')\nadd_song('봄날')\nremove_song('Butter')\nshow_playlist()",
+   "expect": "'Dynamite'이(가) 'My Playlist'에 추가되었습니다.\n'봄날'이(가) 'My Playlist'에 추가되었습니다.\n'Butter'은(는) 목록에 없습니다.\n[My Playlist]\n1. Dynamite\n2. 봄날",
+   "hint": "‘목록 안에 있는가’는 in, 값으로 지우는 리스트 메소드는 remove()예요. i번째 곡은 playlist[i]예요.",
+   "answer": "playlist = []                      # 전역 변수\nplaylist_name = 'My Playlist'\n\ndef add_song(song):\n    playlist.append(song)\n    print(f\"'{song}'이(가) '{playlist_name}'에 추가되었습니다.\")\n\ndef remove_song(song):\n    if song in playlist:\n        playlist.remove(song)\n        print(f\"'{song}'이(가) 삭제되었습니다.\")\n    else:\n        print(f\"'{song}'은(는) 목록에 없습니다.\")\n\ndef show_playlist():\n    print(f'[{playlist_name}]')\n    for i in range(len(playlist)):\n        print(f'{i + 1}. {playlist[i]}')\n\nadd_song('Dynamite')\nadd_song('봄날')\nremove_song('Butter')\nshow_playlist()"
+  },
+  {
+   "kind": "고치기",
+   "title": "초기화가 안 돼요",
+   "prompt": "<code>reset_playlist()</code>를 불렀는데도 곡 수가 그대로 3곡이에요. 함수 안의 <code>playlist = []</code>가 무엇을 만들고 있는지 생각해 보고 고쳐서 두 번째 곡 수가 <b>0곡</b>이 되게 하세요.",
+   "starter": "playlist = ['Dynamite', '봄날', 'Butter']\n\ndef print_song_count():\n    print(f'현재 곡 수: {len(playlist)}곡')\n\ndef reset_playlist():\n    playlist = []\n    print('플레이 리스트를 초기화했습니다.')\n\nprint_song_count()\nreset_playlist()\nprint_song_count()",
+   "expect": "현재 곡 수: 3곡\n플레이 리스트를 초기화했습니다.\n현재 곡 수: 0곡",
+   "hint": "global 없이 대입하면 함수 안에만 있는 새 빈 리스트(지역 변수)가 생겨요. global playlist를 쓰거나 playlist.clear()로 바꿔 보세요.",
+   "answer": "playlist = ['Dynamite', '봄날', 'Butter']\n\ndef print_song_count():\n    print(f'현재 곡 수: {len(playlist)}곡')\n\ndef reset_playlist():\n    global playlist\n    playlist = []\n    print('플레이 리스트를 초기화했습니다.')\n\nprint_song_count()\nreset_playlist()\nprint_song_count()"
+  },
+  {
+   "kind": "만들기",
+   "title": "플레이 리스트 관리 프로그램 완성",
+   "prompt": "표의 다섯 함수를 모두 완성해 아래 호출 순서대로 실행되게 하세요. 앞의 두 실습에서 만든 코드를 다시 써도 좋아요. 출력 문장은 앞 실습과 같은 형식이에요(삭제할 곡은 목록에 있다고 가정해요).",
+   "starter": "playlist = []                      # 전역 변수\nplaylist_name = 'My Playlist'\n\ndef add_song(song):\n    playlist.append(song)\n    print(f\"'{song}'이(가) '{playlist_name}'에 추가되었습니다.\")\n\ndef remove_song(song):\n    pass\n\ndef reset_playlist():\n    pass\n\ndef show_playlist():\n    pass\n\ndef print_song_count():\n    pass\n\nadd_song('Dynamite')\nadd_song('봄날')\nadd_song('Butter')\nremove_song('봄날')\nshow_playlist()\nprint_song_count()\nreset_playlist()\nprint_song_count()",
+   "expect": "'Dynamite'이(가) 'My Playlist'에 추가되었습니다.\n'봄날'이(가) 'My Playlist'에 추가되었습니다.\n'Butter'이(가) 'My Playlist'에 추가되었습니다.\n'봄날'이(가) 삭제되었습니다.\n[My Playlist]\n1. Dynamite\n2. Butter\n현재 곡 수: 2곡\n플레이 리스트를 초기화했습니다.\n현재 곡 수: 0곡",
+   "hint": "함수 하나씩 채우고 바로 실행해 확인하세요. 초기화는 고치기 실습에서 배운 방법을 써요.",
+   "answer": "playlist = []                      # 전역 변수\nplaylist_name = 'My Playlist'\n\ndef add_song(song):\n    playlist.append(song)\n    print(f\"'{song}'이(가) '{playlist_name}'에 추가되었습니다.\")\n\ndef remove_song(song):\n    playlist.remove(song)\n    print(f\"'{song}'이(가) 삭제되었습니다.\")\n\ndef reset_playlist():\n    global playlist\n    playlist = []\n    print('플레이 리스트를 초기화했습니다.')\n\ndef show_playlist():\n    print(f'[{playlist_name}]')\n    for i in range(len(playlist)):\n        print(f'{i + 1}. {playlist[i]}')\n\ndef print_song_count():\n    print(f'현재 곡 수: {len(playlist)}곡')\n\nadd_song('Dynamite')\nadd_song('봄날')\nadd_song('Butter')\nremove_song('봄날')\nshow_playlist()\nprint_song_count()\nreset_playlist()\nprint_song_count()"
+  }
+ ],
+ "check": [
+  {
+   "q": "함수 안에서 playlist.append(song)은 global 없이 되는데 playlist = []는 global이 필요한 이유는?",
+   "options": [
+    "append()는 내장 함수라서",
+    "append()는 리스트의 내용을 바꾸지만, playlist = []는 변수에 새 값을 대입하기 때문에",
+    "빈 리스트는 전역 변수가 될 수 없어서",
+    "append()는 함수 밖에서만 쓸 수 있어서"
+   ],
+   "answer": 1,
+   "why": "대입문이 있어야 파이썬이 그 이름을 지역 변수로 봐요. 내용만 바꾸는 메소드 호출은 바깥 리스트를 그대로 써요."
+  },
+  {
+   "q": "기능별로 함수를 나누어 프로그램을 만들 때의 장점이 아닌 것은?",
+   "options": [
+    "기능을 고칠 때 해당 함수만 고치면 된다",
+    "함수 이름만 보고도 무슨 일을 하는지 알 수 있다",
+    "같은 기능을 여러 번 다시 쓸 수 있다",
+    "함수를 나누면 반드시 실행 속도가 빨라진다"
+   ],
+   "answer": 3,
+   "why": "함수로 나누는 목적은 가독성·재사용성·유지 보수예요. 속도가 빨라지는 것과는 관계가 없어요."
+  }
+ ],
+ "exit": "내가 이 프로그램에 기능을 하나 더 추가한다면 어떤 함수 이름으로, 무슨 일을 하게 할지 적어 보세요."
+}

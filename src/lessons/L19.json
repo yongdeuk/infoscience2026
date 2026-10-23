@@ -1,0 +1,103 @@
+{
+  "n": 19,
+  "goal": [
+    "큐가 선입 선출(FIFO) 구조임을 스택과 비교해 설명할 수 있다",
+    "파이썬 리스트로 만든 Queue 클래스의 enqueue·dequeue·peek·isEmpty를 사용할 수 있다"
+  ],
+  "hook": "급식실 줄에서 맨 뒤에 선 사람이 가장 먼저 밥을 먹는다면 어떤 일이 벌어질까요? 줄서기는 왜 '먼저 온 사람 먼저'일까요?",
+  "code_notes": {
+    "C1": {
+      "say": "리스트 뒤쪽(rear)에 넣고 앞쪽(front)에서 빼는 큐 클래스예요. 스택과 다른 곳은 꺼내는 위치 하나뿐이에요.",
+      "lines": [
+        [
+          3,
+          "큐 데이터를 담을 빈 리스트예요. 인덱스 0이 front, 맨 뒤가 rear예요."
+        ],
+        [
+          7,
+          "새 데이터는 줄의 맨 뒤에 서요. 스택의 push와 똑같이 append를 써요."
+        ],
+        [
+          10,
+          "pop(0)은 인덱스 0, 즉 가장 먼저 들어온 데이터를 꺼내요. 스택의 pop()과 바로 이 부분이 달라요. 앞을 빼면 나머지가 한 칸씩 당겨지는 일이 생겨요."
+        ],
+        [
+          13,
+          "[0]은 맨 앞 칸을 보기만 해요. 다음에 나갈 사람이 누구인지 확인하는 셈이에요."
+        ]
+      ],
+      "blanks": [
+        [
+          7,
+          "self.que.append(data)"
+        ],
+        [
+          10,
+          "self.que.pop(0)"
+        ],
+        [
+          13,
+          "self.que[0]"
+        ]
+      ],
+      "predict": {
+        "q": "실행하기 전에 예측해 보세요: 이 큐에 A, B, C를 차례로 enqueue한 뒤 dequeue()와 peek()을 한 번씩 하면 각각 무엇을 돌려줄까요? 같은 일을 스택으로 하면요?",
+        "a": "큐는 A, B / 스택은 C, B — 큐는 가장 먼저 온 A가 나가고 다음 차례 B가 맨 앞에 서요. 스택은 마지막에 넣은 C가 나가고 B가 맨 위가 돼요."
+      }
+    }
+  },
+  "tasks": [
+    {
+      "kind": "빈칸",
+      "title": "큐 클래스 완성하기",
+      "prompt": "빈칸 세 곳을 채워 뒤에 넣고(<code>enqueue</code>), 앞에서 빼고(<code>dequeue</code>), 앞을 보기만 하는(<code>peek</code>) 큐를 완성하세요.",
+      "starter": "class Queue:\n    def __init__(self):\n        self.que = []\n    def isEmpty(self):\n        return len(self.que) == 0\n    def enqueue(self, data):\n        self.que.___(data)\n    def dequeue(self):\n        if not self.isEmpty():\n            return self.que.pop(___)\n    def peek(self):\n        if not self.isEmpty():\n            return self.que[___]\n\nq = Queue()\nfor ch in ['A', 'B', 'C']:\n    q.enqueue(ch)\nprint(q.peek())\nprint(q.dequeue())\nprint(q.dequeue())\nprint(q.isEmpty())\n",
+      "expect": "A\nA\nB\nFalse",
+      "hint": "front는 인덱스 0이에요. 넣기는 append, 빼기는 pop(0), 보기는 que[0]이에요.",
+      "answer": "class Queue:\n    def __init__(self):\n        self.que = []\n    def isEmpty(self):\n        return len(self.que) == 0\n    def enqueue(self, data):\n        self.que.append(data)\n    def dequeue(self):\n        if not self.isEmpty():\n            return self.que.pop(0)\n    def peek(self):\n        if not self.isEmpty():\n            return self.que[0]\n\nq = Queue()\nfor ch in ['A', 'B', 'C']:\n    q.enqueue(ch)\nprint(q.peek())\nprint(q.dequeue())\nprint(q.dequeue())\nprint(q.isEmpty())\n"
+    },
+    {
+      "kind": "고치기",
+      "title": "스택 vs 큐 비교 코드 고치기",
+      "prompt": "같은 순서로 A, B, C, D를 넣었는데 큐와 스택이 똑같이 <b>D C B A</b>를 내놓아요. 큐는 <b>A B C D</b>가 나와야 해요. 한 줄을 고치세요.",
+      "starter": "queue = []\nstack = []\nfor ch in 'ABCD':\n    queue.append(ch)\n    stack.append(ch)\n\nq_out = []\ns_out = []\nwhile queue:\n    q_out.append(queue.pop())\nwhile stack:\n    s_out.append(stack.pop())\nprint('큐:', ' '.join(q_out))\nprint('스택:', ' '.join(s_out))\n",
+      "expect": "큐: A B C D\n스택: D C B A",
+      "hint": "큐는 가장 먼저 넣은 것, 즉 맨 앞(인덱스 0)에서 꺼내야 해요.",
+      "answer": "queue = []\nstack = []\nfor ch in 'ABCD':\n    queue.append(ch)\n    stack.append(ch)\n\nq_out = []\ns_out = []\nwhile queue:\n    q_out.append(queue.pop(0))\nwhile stack:\n    s_out.append(stack.pop())\nprint('큐:', ' '.join(q_out))\nprint('스택:', ' '.join(s_out))\n"
+    },
+    {
+      "kind": "만들기",
+      "title": "놀이기구 탑승 시뮬레이션",
+      "prompt": "놀이기구는 한 번에 <b>최대 2명</b>씩 태워요. 줄(큐)이 빌 때까지 앞에서부터 2명씩 꺼내 <code>1회차 탑승: 민수, 지아</code>처럼 출력하세요. 마지막 회차에는 1명만 탈 수도 있어요.",
+      "starter": "line = ['민수', '지아', '하준', '서연', '도윤']\nturn = 0\nwhile line:\n    turn += 1\n    riders = []\n    for _ in range(2):        # 최대 2명\n        if ___:               # 줄에 사람이 남아 있으면\n            riders.append(___)   # 맨 앞 사람을 꺼내 태우기\n    print(f'{turn}회차 탑승:', ', '.join(riders))\n",
+      "expect": "1회차 탑승: 민수, 지아\n2회차 탑승: 하준, 서연\n3회차 탑승: 도윤",
+      "hint": "빈 리스트는 거짓이라 if line:으로 사람이 남았는지 알 수 있어요. 맨 앞 사람은 line.pop(0)으로 꺼내요. 꺼내지 않으면 줄이 줄지 않아 끝나지 않아요!",
+      "answer": "line = ['민수', '지아', '하준', '서연', '도윤']\nturn = 0\nwhile line:\n    turn += 1\n    riders = []\n    for _ in range(2):\n        if line:\n            riders.append(line.pop(0))\n    print(f'{turn}회차 탑승:', ', '.join(riders))\n"
+    }
+  ],
+  "check": [
+    {
+      "q": "큐에 대한 설명으로 옳은 것은 무엇일까요?",
+      "options": [
+        "삽입과 삭제가 한쪽 끝에서만 일어난다",
+        "가장 나중에 들어온 데이터가 먼저 나간다",
+        "rear에서 삽입하고 front에서 삭제한다",
+        "중간에 있는 데이터를 바로 꺼낼 수 있다"
+      ],
+      "answer": 2,
+      "why": "큐는 입구(rear)와 출구(front)가 달라요. 한쪽 끝에서만 넣고 빼는 것은 스택이에요."
+    },
+    {
+      "q": "파이썬 리스트 q를 큐로 쓸 때, 데이터를 꺼내는 코드로 알맞은 것은 무엇일까요?",
+      "options": [
+        "q.pop()",
+        "q[-1]",
+        "q.append(0)",
+        "q.pop(0)"
+      ],
+      "answer": 3,
+      "why": "front는 인덱스 0이라 pop(0)으로 꺼내요. q.pop()은 맨 뒤를 꺼내서 스택처럼 동작해요."
+    }
+  ],
+  "exit": "스택과 큐를 '입구와 출구'라는 말을 써서 한 문장으로 비교해 보세요."
+}

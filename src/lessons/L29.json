@@ -1,0 +1,104 @@
+{
+ "n": 29,
+ "goal": [
+  "시간 복잡도와 공간 복잡도가 무엇인지 말할 수 있다",
+  "실행 시간을 직접 재는 방법의 약점을 설명할 수 있다",
+  "연산 횟수를 세어 두 알고리즘의 효율을 비교할 수 있다"
+ ],
+ "hook": "친구와 같은 숙제를 했는데 친구는 10분, 나는 1시간이 걸렸어요. 친구 컴퓨터가 더 좋아서일까요, 푸는 방법이 달라서일까요? 어떻게 하면 공평하게 비교할 수 있을까요?",
+ "code_notes": {
+  "C1": {
+   "say": "소수를 판정하는 두 방법으로 2~n의 소수를 세고, 걸린 시간을 비교해요.",
+   "lines": [
+    [
+     6,
+     "프로그램 1은 2부터 k−1까지 전부 나눠 봐요. k가 97이면 95번이나 나눠요."
+    ],
+    [
+     7,
+     "한 번이라도 나누어떨어지면 소수가 아니니 0을 돌려주고 바로 끝내요. 그래서 짝수는 금방 끝나요."
+    ],
+    [
+     12,
+     "프로그램 2는 √k까지만 나눠요. 97 = a × b라면 a와 b 중 하나는 반드시 √97(약 9.8) 이하라서, 작은 쪽만 확인해도 충분해요."
+    ],
+    [
+     18,
+     "함수 이름 두 개를 차례로 chk에 넣어 같은 실험을 두 번 해요. 함수도 값처럼 변수에 담을 수 있어요."
+    ],
+    [
+     19,
+     "time.time()은 지금 시각(초)이에요. 끝난 시각 e에서 시작 시각 s를 빼면 걸린 시간이에요."
+    ]
+   ],
+   "blanks": [
+    [
+     12,
+     "int(k**0.5) + 1"
+    ],
+    [
+     7,
+     "k % v == 0"
+    ]
+   ],
+   "predict": {
+    "q": "실행하기 전에 예측해 보세요: 두 프로그램이 출력하는 ‘소수 개수’는 같을까요, 다를까요?",
+    "a": "같아요(n = 5000이면 669개). 답은 똑같고 걸린 시간만 달라요. 둘 다 맞는 알고리즘이지만 효율이 다른 거예요."
+   }
+  }
+ },
+ "tasks": [
+  {
+   "kind": "빈칸",
+   "title": "97을 판정할 때 나눗셈 몇 번?",
+   "prompt": "시간을 재는 대신 <b>나눗셈 횟수</b>를 세면 컴퓨터가 달라도 똑같은 값이 나와요. 프로그램 2가 √k까지만 나눠 보도록 <code>___</code>를 채우고, 97을 판정할 때 각각 몇 번 나누는지 확인해 보세요.",
+   "starter": "def chkPrime1(k):                   # 2 ~ k-1 까지 나눠 보기\n    count = 0                       # 나눗셈 횟수\n    for v in range(2, k):\n        count += 1\n        if k % v == 0:\n            return 0, count\n    return 1, count\n\ndef chkPrime2(k):                   # 2 ~ √k 까지만 나눠 보기\n    count = 0\n    for v in range(2, ___):\n        count += 1\n        if k % v == 0:\n            return 0, count\n    return 1, count\n\nprint('프로그램1:', chkPrime1(97)[1], '번')\nprint('프로그램2:', chkPrime2(97)[1], '번')",
+   "expect": "프로그램1: 95 번\n프로그램2: 8 번",
+   "hint": "√k는 k**0.5예요. range의 끝 값은 포함되지 않으니 정수로 바꾼 뒤 1을 더해요.",
+   "answer": "def chkPrime1(k):                   # 2 ~ k-1 까지 나눠 보기\n    count = 0                       # 나눗셈 횟수\n    for v in range(2, k):\n        count += 1\n        if k % v == 0:\n            return 0, count\n    return 1, count\n\ndef chkPrime2(k):                   # 2 ~ √k 까지만 나눠 보기\n    count = 0\n    for v in range(2, int(k**0.5) + 1):\n        count += 1\n        if k % v == 0:\n            return 0, count\n    return 1, count\n\nprint('프로그램1:', chkPrime1(97)[1], '번')\nprint('프로그램2:', chkPrime2(97)[1], '번')"
+  },
+  {
+   "kind": "고치기",
+   "title": "나눗셈 횟수 모두 더하기",
+   "prompt": "2부터 1000까지 모든 수를 판정할 때 나눗셈을 <b>모두 합쳐</b> 몇 번 하는지 세려고 해요. 그런데 결과가 너무 작게 나와요. 한 곳을 고쳐 보세요.",
+   "starter": "def chkPrime1(k):                   # 2 ~ k-1 까지 나눠 보기\n    count = 0                       # 나눗셈 횟수\n    for v in range(2, k):\n        count += 1\n        if k % v == 0:\n            return 0, count\n    return 1, count\n\ndef chkPrime2(k):                   # 2 ~ √k 까지만 나눠 보기\n    count = 0\n    for v in range(2, int(k**0.5) + 1):\n        count += 1\n        if k % v == 0:\n            return 0, count\n    return 1, count\n\nfor chk in (chkPrime1, chkPrime2):\n    ops = 0\n    for num in range(2, 1001):\n        prime, c = chk(num)\n        ops = c                     # 이 수를 판정할 때 한 나눗셈 횟수\n    print(chk.__name__, '나눗셈:', ops, '번')",
+   "expect": "chkPrime1 나눗셈: 78022 번\nchkPrime2 나눗셈: 5288 번",
+   "hint": "ops = c 는 덮어쓰기예요. 지금까지의 합에 ‘더하려면’ 어떤 연산자를 써야 할까요?",
+   "answer": "def chkPrime1(k):                   # 2 ~ k-1 까지 나눠 보기\n    count = 0                       # 나눗셈 횟수\n    for v in range(2, k):\n        count += 1\n        if k % v == 0:\n            return 0, count\n    return 1, count\n\ndef chkPrime2(k):                   # 2 ~ √k 까지만 나눠 보기\n    count = 0\n    for v in range(2, int(k**0.5) + 1):\n        count += 1\n        if k % v == 0:\n            return 0, count\n    return 1, count\n\nfor chk in (chkPrime1, chkPrime2):\n    ops = 0\n    for num in range(2, 1001):\n        prime, c = chk(num)\n        ops += c                    # 이 수를 판정할 때 한 나눗셈 횟수\n    print(chk.__name__, '나눗셈:', ops, '번')"
+  },
+  {
+   "kind": "만들기",
+   "title": "n을 2배씩 키우면?",
+   "prompt": "n을 100, 200, 400으로 2배씩 키우며 두 프로그램의 나눗셈 총횟수를 표처럼 출력해 보세요. 출력 형식: <code>n=100  프로그램1: 1133  프로그램2: 236</code><br>n이 2배가 될 때 프로그램 1은 약 몇 배, 프로그램 2는 약 몇 배로 늘어나나요?",
+   "starter": "def chkPrime1(k):                   # 2 ~ k-1 까지 나눠 보기\n    count = 0                       # 나눗셈 횟수\n    for v in range(2, k):\n        count += 1\n        if k % v == 0:\n            return 0, count\n    return 1, count\n\ndef chkPrime2(k):                   # 2 ~ √k 까지만 나눠 보기\n    count = 0\n    for v in range(2, int(k**0.5) + 1):\n        count += 1\n        if k % v == 0:\n            return 0, count\n    return 1, count\n\ndef total_ops(chk, n):\n    # 여기에: 2부터 n까지 chk로 판정하며 나눗셈 횟수를 모두 더해 돌려주기\n    return 0\n\nfor n in (100, 200, 400):\n    print(f'n={n}  프로그램1: {total_ops(chkPrime1, n)}  프로그램2: {total_ops(chkPrime2, n)}')",
+   "expect": "n=100  프로그램1: 1133  프로그램2: 236\nn=200  프로그램1: 4424  프로그램2: 628\nn=400  프로그램1: 14446  프로그램2: 1559",
+   "hint": "과제 2의 반복문을 함수 안으로 옮기고, range의 끝을 n + 1로 바꿔 보세요.",
+   "answer": "def chkPrime1(k):                   # 2 ~ k-1 까지 나눠 보기\n    count = 0                       # 나눗셈 횟수\n    for v in range(2, k):\n        count += 1\n        if k % v == 0:\n            return 0, count\n    return 1, count\n\ndef chkPrime2(k):                   # 2 ~ √k 까지만 나눠 보기\n    count = 0\n    for v in range(2, int(k**0.5) + 1):\n        count += 1\n        if k % v == 0:\n            return 0, count\n    return 1, count\n\ndef total_ops(chk, n):\n    ops = 0\n    for num in range(2, n + 1):\n        ops += chk(num)[1]\n    return ops\n\nfor n in (100, 200, 400):\n    print(f'n={n}  프로그램1: {total_ops(chkPrime1, n)}  프로그램2: {total_ops(chkPrime2, n)}')"
+  }
+ ],
+ "check": [
+  {
+   "q": "알고리즘의 성능을 실행 시간(초)으로 직접 잴 때의 약점이 아닌 것은?",
+   "options": [
+    "컴퓨터 성능에 따라 값이 달라진다",
+    "프로그래밍 언어에 따라 값이 달라진다",
+    "입력이 아주 크면 재기 어렵다",
+    "답이 맞는지 확인할 수 없다"
+   ],
+   "answer": 3,
+   "why": "시간 측정과 답의 정확성은 상관없어요. 나머지 셋이 직접 재는 방법의 약점이라서 연산 횟수를 세는 방법을 써요."
+  },
+  {
+   "q": "알고리즘이 일하는 동안 쓰는 메모리의 양을 무엇이라고 할까요?",
+   "options": [
+    "시간 복잡도",
+    "공간 복잡도",
+    "유한성",
+    "입력값"
+   ],
+   "answer": 1,
+   "why": "공간 복잡도는 메모리 사용량, 시간 복잡도는 연산 횟수예요."
+  }
+ ],
+ "exit": "프로그램 2가 √k까지만 나눠도 되는 까닭을 친구에게 설명하듯 한 문장으로 적어 보세요."
+}

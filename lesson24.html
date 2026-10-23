@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>24차시 이진 트리와 순차 데이터 구조 표현 · 정보과학</title>
+<meta name="description" content="8주차 24차시 — 이진 트리와 순차 데이터 구조 표현">
+<meta property="og:title" content="24차시 이진 트리와 순차 데이터 구조 표현 · 정보과학">
+<meta property="og:description" content="8주차 24차시 — 이진 트리와 순차 데이터 구조 표현">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#129513;</text></svg>">
+<script>
+(function(){try{if(localStorage.getItem('unlocked')==='yes')document.documentElement.className+=' unlocked';}catch(e){}})();
+(function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
+</script>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body class="lessonpage u2">
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <form class="gate-card" data-gate-form autocomplete="off">
+    <h1 id="gate-title">정보과학</h1>
+    <p class="gate-sub">씨마스 『정보과학』 2022 개정 교육과정 수업 자료</p>
+    <label class="gate-lab" for="gate-pw">열람 비밀번호</label>
+    <div class="gate-pwrap">
+      <input id="gate-pw" type="password" data-gate-pw autocomplete="off"
+             spellcheck="false" autocapitalize="off" placeholder="수업 시간에 안내된 비밀번호">
+      <button class="gate-eye" type="button" data-gate-eye aria-pressed="false" aria-label="비밀번호 표시">
+        <svg class="ico-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg class="ico-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18M10.6 10.6a3 3 0 0 0 4.24 4.24M9.9 5.1A10.9 10.9 0 0 1 12 5c7 0 10.5 7 10.5 7a13.6 13.6 0 0 1-3.2 4.1M6.5 6.5C3.4 8.3 1.5 12 1.5 12a13.5 13.5 0 0 0 4.2 4.9"/></svg>
+      </button>
+    </div>
+    <p class="gate-hint">한글로 입력하세요. 대소문자와 앞뒤 공백은 구분하지 않습니다.</p>
+    <p class="gate-msg" data-gate-msg role="status" aria-live="polite"></p>
+    <button class="btn btn-p gate-btn" type="submit">들어가기</button>
+    <p class="gate-note">본 자료는 학교 수업 목적으로 제작되었으며,
+      저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+  </form>
+</div>
+<a class="skip" href="#main">본문 바로가기</a>
+<header class="topbar">
+  <div class="bar-top">
+    <a class="brand" href="index.html"><span class="brand-mark">IS</span><span class="brand-name">정보과학</span></a>
+    <nav class="toolnav" aria-label="수업 도구">
+      <a href="index.html">수업 홈</a>
+      <a href="lessons.html" class="is-current">차시 수업</a>
+      <a href="course.html">수업 안내</a>
+      <a href="labs.html">실습실</a>
+      <a href="practice.html">파이썬 실습</a>
+      <a href="glossary.html">용어 사전</a>
+      <a href="my.html">내 학습</a>
+    </nav>
+    <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false" title="어두운 화면으로">
+      <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.6v2M12 19.4v2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M2.6 12h2M19.4 12h2M5.2 18.8l1.4-1.4M17.4 6.6l1.4-1.4"/></svg>
+      <span class="ico-label">어둡게</span>
+    </button>
+  </div>
+  <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
+    <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
+    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+  </div></nav>
+  <div class="progress" data-progress></div>
+</header>
+<section class="unithero lessonhero">
+  <div class="unithero-in">
+    <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 24차시</p>
+    <div class="bigr" aria-hidden="true">24</div>
+    <div>
+      <p class="kicker">24차시 · 8주차 · <a href="unit2.html">Ⅱ 데이터 구조</a></p>
+      <h1>이진 트리와 순차 데이터 구조 표현</h1>
+      <ul class="lgoal"><li>리스트로 표현한 이진 트리에서 부모·자식 인덱스를 계산할 수 있다</li><li>이진 탐색 트리의 규칙에 따라 값을 넣고 찾는 과정을 설명하고 코드로 확인할 수 있다</li></ul>
+      <div class="lprog" aria-label="전체 48차시 중 24차시"><i style="width:50.0%"></i></div>
+    </div>
+  </div>
+</section>
+<main class="lpage" id="main">
+<nav class="lflow" aria-label="이 차시 순서"><a href="#l-open"><b>1</b>생각 열기</a><a href="#l-learn"><b>2</b>교과서로 배우기</a><a href="#l-try"><b>3</b>직접 해 보기</a><a href="#l-check"><b>4</b>확인 문제</a><a href="#l-wrap"><b>5</b>한 줄 정리</a></nav>
+<section class="lsec" id="l-open"><h2><span class="ln">1</span>생각 열기</h2><div class="callout hook">1부터 100 사이 숫자 맞히기 게임에서 '더 커요/더 작아요'만 알려 준다면, 처음에 몇을 부르는 게 가장 좋을까요? 최대 몇 번이면 반드시 맞힐 수 있을까요?</div><div class="board" data-board="hook" hidden><div class="board-in"><textarea data-board-in rows="2" maxlength="300" placeholder="내 생각을 짧게 적어 보드에 올려 보세요"></textarea><div class="board-bar"><button class="btn btn-p" type="button" data-board-send>보드에 올리기</button><select data-board-class aria-label="반 고르기"><option value="">모든 반</option></select><button class="btn" type="button" data-board-big>크게 보기</button><span class="muted small" data-board-msg></span></div></div><div class="board-h"><b>모두의 생각</b> <span class="muted small" data-board-count></span></div><ul class="board-list" data-board-list></ul></div><div class="simlinks"><b>함께 보는 시뮬레이터</b><a href="https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/cs/tree.html" target="_blank" rel="noopener">트리 ↗</a></div></section>
+<section class="lsec" id="l-learn"><h2><span class="ln">2</span>교과서로 배우기</h2><p class="lede">코드 아래 <b>💡 코드 설명</b>을 펼쳐 보고, <b>빈칸</b>이 있으면 채운 뒤 실행해 보세요.</p><p class="lsrc">교과서 · <a href="unit2.html#t2-3">Ⅱ 2-1 트리 — 계층을 표현하는 구조</a></p>
+<h4>이진 트리와 이진 탐색 트리</h4>
+<p><span class="kw">이진 트리</span>는 자식이 <b>최대 2개</b>(왼쪽·오른쪽)인 트리입니다. 리스트에 순서대로 담으면 인덱스 계산만으로 가족 관계를 알 수 있습니다.</p>
+<div class="tablewrap">
+      <table>
+        <thead><tr><th>찾는 노드</th><th>계산</th></tr></thead>
+        <tbody>
+          <tr><td>부모 노드</td><td><code>i // 2</code></td></tr>
+          <tr><td>왼쪽 자식</td><td><code>2 * i</code></td></tr>
+          <tr><td>오른쪽 자식</td><td><code>2 * i + 1</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+<figure>
+      <div class="figbody">
+        <svg viewBox="0 0 660 270" role="img" aria-label="이진 탐색 트리에서 8을 찾을 때 9보다 작으므로 왼쪽 6보다 크므로 오른쪽으로 세 번 비교해 찾는다">
+          <g class="sv-line" stroke-width="1.2">
+            <line x1="330" y1="46" x2="200" y2="96"/><line x1="330" y1="46" x2="470" y2="96"/>
+            <line x1="200" y1="126" x2="130" y2="176"/><line x1="200" y1="126" x2="272" y2="176"/>
+            <line x1="470" y1="126" x2="410" y2="176"/><line x1="470" y1="126" x2="540" y2="176"/>
+            <line x1="130" y1="206" x2="90" y2="240"/><line x1="130" y1="206" x2="172" y2="240"/>
+          </g>
+          <circle cx="330" cy="34" r="20" class="sv-box-a"/><text x="330" y="39" class="sv-t-a" text-anchor="middle">9</text>
+          <circle cx="200" cy="112" r="20" class="sv-box-a"/><text x="200" y="117" class="sv-t-a" text-anchor="middle">6</text>
+          <circle cx="470" cy="112" r="20" class="sv-box"/><text x="470" y="117" class="sv-t" text-anchor="middle">17</text>
+          <circle cx="130" cy="192" r="20" class="sv-box"/><text x="130" y="197" class="sv-t" text-anchor="middle">4</text>
+          <circle cx="272" cy="192" r="20" class="sv-box-a"/><text x="272" y="197" class="sv-t-a" text-anchor="middle">8</text>
+          <circle cx="410" cy="192" r="20" class="sv-box"/><text x="410" y="197" class="sv-t" text-anchor="middle">12</text>
+          <circle cx="540" cy="192" r="20" class="sv-box"/><text x="540" y="197" class="sv-t" text-anchor="middle">19</text>
+          <circle cx="90" cy="252" r="15" class="sv-box"/><text x="90" y="257" class="sv-t" text-anchor="middle">2</text>
+          <circle cx="172" cy="252" r="15" class="sv-box"/><text x="172" y="257" class="sv-t" text-anchor="middle">5</text>
+
+          <text x="386" y="66" class="sv-t-a">8 &lt; 9 → 왼쪽</text>
+          <text x="150" y="152" class="sv-t-a" text-anchor="end">8 &gt; 6 → 오른쪽</text>
+          <text x="330" y="240" class="sv-t-a" text-anchor="middle">8 = 8 → 찾음! 비교 단 3번</text>
+        </svg>
+      </div>
+      <figcaption><b>왼쪽 서브 트리는 모두 작은 값, 오른쪽 서브 트리는 모두 큰 값.</b> 이 규칙이 모든 노드에 재귀적으로 적용되기 때문에 한 번 비교할 때마다 절반을 버릴 수 있습니다.</figcaption>
+    </figure>
+<div class="callout"><b>이진 탐색 트리의 3가지 규칙</b> — ① 모든 노드는 서로 다른 값을 가진다 ② 왼쪽 서브 트리에는 그 노드보다 <b>작은</b> 값만 있다 ③ 오른쪽 서브 트리에는 그 노드보다 <b>큰</b> 값만 있다. 이 규칙은 <b>모든 서브 트리에 재귀적으로</b> 적용됩니다.</div>
+<p class="codecap">데이터를 넣는 과정 — 8, 3, 5, 14, 2, 10 순서로 입력</p>
+<pre data-c="1">8  입력 → 루트가 된다
+3  입력 → 8보다 작으므로 왼쪽
+5  입력 → 8보다 작아 왼쪽, 3보다 크므로 3의 오른쪽
+14 입력 → 8보다 크므로 오른쪽
+2  입력 → 8보다 작아 왼쪽, 3보다 작으므로 3의 왼쪽
+10 입력 → 8보다 커서 오른쪽, 14보다 작으므로 14의 왼쪽</pre>
+<p class="codecap">리스트로 표현한 이진 탐색 트리에 저장하고 탐색하기</p>
+<pre data-c="2" data-run data-blanks>def insert(idx, num):                 # idx: 저장 위치, num: 저장할 값
+    if bst[idx] == 0:                 # 빈자리면 저장
+        bst[idx] = num
+    elif num &lt; bst[idx]:
+        <input class="blank" data-ans="insert(idx * 2, num)" size="21" spellcheck="false" autocomplete="off" aria-label="빈칸">          # 작으면 왼쪽 자식으로
+    else:
+        <input class="blank" data-ans="insert(idx * 2 + 1, num)" size="25" spellcheck="false" autocomplete="off" aria-label="빈칸">      # 크면 오른쪽 자식으로
+
+def search(idx, num, cnt):            # cnt: 비교 횟수
+    if bst[idx] == 0:
+        print(f'{num} 탐색 실패 (비교 {cnt}회)');  return
+    if bst[idx] == num:
+        print(f'{num} 탐색 성공 (비교 {cnt}회)');  return
+    if <input class="blank" data-ans="num &lt; bst[idx]" size="15" spellcheck="false" autocomplete="off" aria-label="빈칸">:
+        search(idx * 2, num, cnt + 1)
+    else:
+        search(idx * 2 + 1, num, cnt + 1)
+
+input_num  = [10, 5, 3, 13, 2, 14, 7, 9, 4, 12]
+search_num = [5, 2, 7, 12, 1]
+bst = [0] * 30                        # 순차 표현용 리스트(루트 인덱스는 1)
+
+for v in input_num:
+    insert(1, v)
+for v in search_num:
+    search(1, v, 1)</pre>
+<div class="callout"><b>균형이 중요합니다.</b> 한쪽으로 치우친 트리는 탐색이 느려집니다. 이를 자동으로 맞춰 주는 <b>AVL 트리</b>, <b>레드-블랙 트리</b> 같은 구조도 있습니다.</div>
+<div class="drill">
+      <span class="lbl">스스로 해결하기</span>
+      <ol>
+        <li>주어진 트리에서 <b>루트 노드 · E의 부모 노드 · D의 자식 노드 · F의 형제 노드 · 단말 노드</b>를 각각 찾아보자.</li>
+        <li>같은 트리를 <b>인접 행렬</b>과 <b>인접 리스트</b> 두 가지로 표현해 보고, 사용한 칸 수를 비교해 보자.</li>
+        <li>이진 트리를 순차 데이터 구조로 저장하고, 특정 노드의 부모·왼쪽 자식·오른쪽 자식 인덱스를 계산해 확인해 보자.</li>
+      </ol>
+    </div></section>
+<section class="lsec" id="l-try"><h2><span class="ln">3</span>직접 해 보기</h2><p class="lede">코드를 고쳐서 <b>▶ 실행</b>하면 출력이 맞는지 바로 알려 줘요. 막히면 힌트부터 열어 보세요.</p><div class="task" data-kind="빈칸"><div class="task-h"><span class="task-k">빈칸</span><h4>인덱스로 가족 찾기</h4></div><p>리스트로 저장한 이진 트리에서 i번 노드의 부모·왼쪽 자식·오른쪽 자식을 출력하세요. 빈칸 세 곳은 본문 표의 계산식이에요.</p><pre data-run data-editable data-task data-expect="B 의 부모: A&#10;B 의 왼쪽 자식: D&#10;B 의 오른쪽 자식: E&#10;C 의 부모: A&#10;C 의 왼쪽 자식: F&#10;C 의 오른쪽 자식: G">tree = [0, 'A', 'B', 'C', 'D', 'E', 'F', 'G']   # 0번 칸은 비워 둠
+
+for i in [2, 3]:
+    print(tree[i], '의 부모:', tree[___])
+    print(tree[i], '의 왼쪽 자식:', tree[___])
+    print(tree[i], '의 오른쪽 자식:', tree[___])
+</pre><details class="hintbox"><summary>힌트</summary><p>부모는 i // 2, 왼쪽 자식은 2 * i, 오른쪽 자식은 2 * i + 1이에요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>tree = [0, 'A', 'B', 'C', 'D', 'E', 'F', 'G']   # 0번 칸은 비워 둠
+
+for i in [2, 3]:
+    print(tree[i], '의 부모:', tree[i // 2])
+    print(tree[i], '의 왼쪽 자식:', tree[2 * i])
+    print(tree[i], '의 오른쪽 자식:', tree[2 * i + 1])
+</pre></details></div><div class="task" data-kind="고치기"><div class="task-h"><span class="task-k">고치기</span><h4>거꾸로 저장하는 이진 탐색 트리</h4></div><p>8, 3, 5, 14, 2, 10을 넣으면 본문 C1처럼 3은 왼쪽(2번 칸), 14는 오른쪽(3번 칸)에 있어야 해요. 그런데 결과가 좌우 반대예요. 고치세요.</p><pre data-run data-editable data-task data-expect="1 번 칸: 8&#10;2 번 칸: 3&#10;3 번 칸: 14&#10;4 번 칸: 2&#10;5 번 칸: 5&#10;6 번 칸: 10&#10;7 번 칸: 0">def insert(idx, num):
+    if bst[idx] == 0:
+        bst[idx] = num
+    elif num &gt; bst[idx]:
+        insert(idx * 2, num)
+    else:
+        insert(idx * 2 + 1, num)
+
+bst = [0] * 16
+for v in [8, 3, 5, 14, 2, 10]:
+    insert(1, v)
+for i in range(1, 8):
+    print(i, '번 칸:', bst[i])
+</pre><details class="hintbox"><summary>힌트</summary><p>작은 값이 왼쪽(idx*2)으로 가야 해요. 비교 기호를 확인하세요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>def insert(idx, num):
+    if bst[idx] == 0:
+        bst[idx] = num
+    elif num &lt; bst[idx]:
+        insert(idx * 2, num)
+    else:
+        insert(idx * 2 + 1, num)
+
+bst = [0] * 16
+for v in [8, 3, 5, 14, 2, 10]:
+    insert(1, v)
+for i in range(1, 8):
+    print(i, '번 칸:', bst[i])
+</pre></details></div><div class="task" data-kind="만들기"><div class="task-h"><span class="task-k">만들기</span><h4>트리 탐색 vs 처음부터 찾기</h4></div><p>본문과 같은 값을 넣은 이진 탐색 트리에서 값을 찾을 때의 비교 횟수를 돌려주는 <code>count(num)</code>을 반복문으로 만드세요. 리스트를 처음부터 찾는 횟수와 나란히 출력해 '절반씩 버리기'의 효과를 확인해요.</p><pre data-run data-editable data-task data-expect="5: 트리 2회, 처음부터 2회&#10;2: 트리 4회, 처음부터 5회&#10;7: 트리 3회, 처음부터 7회&#10;12: 트리 3회, 처음부터 10회">input_num = [10, 5, 3, 13, 2, 14, 7, 9, 4, 12]
+bst = [0] * 30
+
+def insert(idx, num):
+    if bst[idx] == 0:
+        bst[idx] = num
+    elif num &lt; bst[idx]:
+        insert(idx * 2, num)
+    else:
+        insert(idx * 2 + 1, num)
+
+for v in input_num:
+    insert(1, v)
+
+def count(num):
+    idx, cnt = 1, 1
+    # bst[idx]가 num이 될 때까지 왼쪽/오른쪽으로 내려가며 cnt를 세세요
+    return cnt
+
+for x in [5, 2, 7, 12]:
+    print(f'{x}: 트리 {count(x)}회, 처음부터 {input_num.index(x) + 1}회')
+</pre><details class="hintbox"><summary>힌트</summary><p>while bst[idx] != num: 안에서 작으면 idx = idx * 2, 크면 idx = idx * 2 + 1로 바꾸고 cnt += 1을 하세요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>input_num = [10, 5, 3, 13, 2, 14, 7, 9, 4, 12]
+bst = [0] * 30
+
+def insert(idx, num):
+    if bst[idx] == 0:
+        bst[idx] = num
+    elif num &lt; bst[idx]:
+        insert(idx * 2, num)
+    else:
+        insert(idx * 2 + 1, num)
+
+for v in input_num:
+    insert(1, v)
+
+def count(num):
+    idx, cnt = 1, 1
+    while bst[idx] != num:
+        if num &lt; bst[idx]:
+            idx = idx * 2
+        else:
+            idx = idx * 2 + 1
+        cnt += 1
+    return cnt
+
+for x in [5, 2, 7, 12]:
+    print(f'{x}: 트리 {count(x)}회, 처음부터 {input_num.index(x) + 1}회')
+</pre></details></div></section>
+<section class="lsec" id="l-check"><h2><span class="ln">4</span>확인 문제</h2><section class="qz-set" data-qz-set="L24">
+<div class="qz" data-ans="0"><h4><span class="qnum">Q1</span><span>루트를 1번에 둔 리스트 이진 트리에서 6번 노드의 부모와 오른쪽 자식은 각각 몇 번일까요?</span></h4><ol class="opts"><li><button type="button" data-n="①">부모 3번, 오른쪽 자식 13번</button></li><li><button type="button" data-n="②">부모 2번, 오른쪽 자식 12번</button></li><li><button type="button" data-n="③">부모 3번, 오른쪽 자식 12번</button></li><li><button type="button" data-n="④">부모 5번, 오른쪽 자식 7번</button></li></ol><p class="why"><b>해설</b> — 부모는 6 // 2 = 3, 오른쪽 자식은 2 × 6 + 1 = 13이에요. 12번은 왼쪽 자식이에요.</p></div>
+<div class="qz" data-ans="3"><h4><span class="qnum">Q2</span><span>빈 이진 탐색 트리에 5, 8, 2, 7을 차례로 넣었을 때 7의 위치로 옳은 것은 무엇일까요?</span></h4><ol class="opts"><li><button type="button" data-n="①">5의 왼쪽 자식</button></li><li><button type="button" data-n="②">2의 오른쪽 자식</button></li><li><button type="button" data-n="③">8의 오른쪽 자식</button></li><li><button type="button" data-n="④">8의 왼쪽 자식</button></li></ol><p class="why"><b>해설</b> — 7은 5보다 커서 오른쪽 8로, 8보다 작아서 8의 왼쪽 자식이 돼요.</p></div>
+<div class="qz-score" data-qz-score><span>맞힌 문제 <b data-qz-right>0</b> / 2</span><span class="muted" data-qz-left></span><span class="muted" data-qz-best></span><button class="btn" type="button" data-qz-reset>다시 풀기</button></div></section></section>
+<section class="lsec" id="l-wrap"><h2><span class="ln">5</span>한 줄 정리</h2><p><b>이진 탐색 트리에서 '한 번 비교할 때마다 절반을 버릴 수 있는' 이유를 왼쪽·오른쪽 규칙으로 설명해 보세요.</b></p><textarea class="think" data-think="L24.exit" rows="3" placeholder="내 말로 한두 문장"></textarea><p class="muted small" data-think-saved></p><div class="board" data-board="exit" hidden><div class="board-in"><textarea data-board-in rows="2" maxlength="300" placeholder="한 줄 정리를 보드에도 올려 보세요"></textarea><div class="board-bar"><button class="btn btn-p" type="button" data-board-send>보드에 올리기</button><select data-board-class aria-label="반 고르기"><option value="">모든 반</option></select><button class="btn" type="button" data-board-big>크게 보기</button><span class="muted small" data-board-msg></span></div></div><div class="board-h"><b>모두의 생각</b> <span class="muted small" data-board-count></span></div><ul class="board-list" data-board-list></ul></div><div class="donebar"><button class="btn donebtn" type="button" data-lesson-done="24">☐ 이 차시 마쳤어요</button><span>체크하면 <a href="lessons.html">차시 수업</a> 목록에 표시돼요.</span></div><div class="submitbox" data-submit hidden><button class="btn btn-p" type="button">선생님께 제출</button> <span class="muted small" data-submit-msg>한 줄 정리 · 생각 쓰기 · 실습 코드 · 확인 문제 점수를 보내요.</span></div></section>
+</main>
+<nav class="pager" aria-label="차시 이동"><a class="prev" href="lesson23.html"><span class="dir">← 이전 · 23차시</span><span class="ttl">트리의 표현 — 인접 행렬과 인접 리스트</span></a><a class="next" href="lesson25.html"><span class="dir">다음 → · 25차시</span><span class="ttl">이진 탐색 트리의 규칙과 활용</span></a></nav>
+<script>window.LESSON={"n":24,"notes":{"C2":{"say":"리스트를 이진 탐색 트리로 써서, 작으면 왼쪽(2i)·크면 오른쪽(2i+1) 자리로 내려가며 값을 저장하고 찾아요.","lines":[[2,"그 자리가 0이면 빈자리라는 뜻이에요. 여기에 저장하고 멈춰요. 재귀의 기본 단계예요."],[5,"저장할 값이 더 작으면 왼쪽 자식 자리 idx*2로 내려가 같은 일을 다시 해요(재귀 호출)."],[7,"더 크면 오른쪽 자식 자리 idx*2+1로 내려가요."],[11,"빈자리까지 내려왔다면 그 값은 트리에 없다는 뜻이에요."],[15,"찾는 값이 작으면 왼쪽으로만 가요. 오른쪽 서브 트리 전체는 볼 필요가 없어 한 번에 절반을 버려요. cnt를 1 늘려 비교 횟수를 세요."],[21,"인덱스 0은 비워 두고 루트를 1번에 둬요. 그래야 2i, 2i+1, i//2 공식이 딱 맞아요."]],"blanks":[[5,"insert(idx * 2, num)"],[7,"insert(idx * 2 + 1, num)"],[14,"num < bst[idx]"]],"predict":{"q":"실행하기 전에 예측해 보세요: 12를 찾을 때 비교는 몇 번 할까요? 어떤 값들과 비교할까요?","a":"3회 — 루트 10보다 커서 오른쪽 13으로, 13보다 작아서 왼쪽으로 가면 12를 찾아요. 10개 중 3개만 봐요."}}}};</script>
+
+<footer>
+  <div class="foot-in">
+    <div>
+      <p><b data-teacher-tap>정보과학</b> — 씨마스 『정보과학』 (2022 개정 교육과정) 수업 자료 · <span data-term>2학기</span> · 주 3시간 · 16주</p>
+      <p>보문고등학교 <b>김용득</b> 선생님 제작.</p>
+      <p>개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
+      <p class="copyright">본 자료는 학교 수업 목적으로 제작되었으며, 저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+    </div>
+    <nav class="foot-links" aria-label="사이트 전체"><a href="index.html">수업 홈</a><a href="unit0.html">0 파이썬 기초</a><a href="unit1.html">Ⅰ 프로그래밍</a><a href="unit2.html">Ⅱ 데이터 구조</a><a href="unit3.html">Ⅲ 알고리즘</a><a href="unit4.html">Ⅳ 프로젝트</a><a href="lessons.html">차시 수업</a><a href="course.html">수업 안내</a><a href="labs.html">실습실</a><a href="practice.html">파이썬 실습</a><a href="glossary.html">용어 사전</a><a href="my.html">내 학습</a><a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz</a></nav>
+  </div>
+</footer>
+<script>window.SITE={"topics":{"0":["t0-0","t0-1","t0-2","t0-3","t0-4","t0-5","t0-6","t0-7","t0-8","t0-9","t0-10"],"1":["t1-1","t1-2","t1-3","t1-4","t1-5"],"2":["t2-1","t2-2","t2-3","t2-4","t2-5"],"3":["t3-1","t3-2","t3-3","t3-4","t3-5","t3-6","t3-8","t3-7"],"4":["t4-1","t4-2","t4-3","t4-4","t4-6","t4-5"]},"units":{"0":{"roman":"0","name":"파이썬 기초","weeks":null},"1":{"roman":"Ⅰ","name":"프로그래밍","weeks":[1,5]},"2":{"roman":"Ⅱ","name":"데이터 구조","weeks":[6,9]},"3":{"roman":"Ⅲ","name":"알고리즘","weeks":[10,13]},"4":{"roman":"Ⅳ","name":"정보과학 프로젝트","weeks":[14,16]}},"quiz":{"0":10,"1":10,"2":10,"3":10,"4":10},"weeks":[{"week":1,"lessons":["오리엔테이션 — 정보과학은 무엇을 배우는 과목인가","함수의 개념 — 내장 함수와 사용자 정의 함수","함수의 정의(<code>def</code>)와 네 가지 구성 요소"]},{"week":2,"lessons":["함수 호출 — 인수와 매개 변수의 관계","<code>return</code>의 두 역할 / 매개 변수·반환값 4가지 형태","지역 변수와 전역 변수, <code>global</code>"]},{"week":3,"lessons":["[역량] 음악 플레이 리스트 관리 프로그램","기본값 매개 변수와 가변 인수 매개 변수","여러 값 반환 / 클래스와 객체"]},{"week":4,"lessons":["모듈 만들기와 <code>import</code>","패키지·라이브러리 / 내장 함수와 표준 라이브러리","[역량] 가위바위보 게임 만들기"]},{"week":5,"lessons":["재귀 구조의 이해 — 수학적 귀납법과 재귀 관계","재귀 함수의 동작 원리 — 호출과 반환","반복 vs 재귀 / 재귀 활용 — 자릿수 합·하노이 탑"]},{"week":6,"lessons":["데이터 구조의 분류 / 스택의 개념(LIFO)","스택의 연산 — push, pop, peek, isEmpty","리스트로 스택 구현하기 · 활용 사례"]},{"week":7,"lessons":["큐의 개념(FIFO)과 연산","리스트로 큐 구현하기 / 덱·우선순위 큐","[역량] 스택·큐를 활용한 프로그램"]},{"week":8,"lessons":["트리의 개념과 구성 요소","트리의 표현 — 인접 행렬과 인접 리스트","이진 트리와 순차 데이터 구조 표현"]},{"week":9,"lessons":["이진 탐색 트리의 규칙과 활용","그래프의 개념·종류와 표현","그래프 탐색 — 깊이 우선·너비 우선 탐색"]},{"week":10,"lessons":["알고리즘의 이해와 문제 해결 전략 네 가지","알고리즘 성능 평가 — 시간·공간 복잡도","빅오 표기법과 알고리즘 성능 비교"]},{"week":11,"lessons":["문제의 세 요소와 상태 공간","탐색 공간의 구조·범위 / 전체 탐색과 순차 탐색","비선형 전체 탐색 — DFS·BFS 적용"]},{"week":12,"lessons":["탐색 공간 배제와 이진 탐색","탐욕 알고리즘 — 거스름돈·시간표 문제","분기 한정 알고리즘과 백트래킹"]},{"week":13,"lessons":["문제 분해와 전체·부분 문제의 관계식","분할 정복법 — 퀵 정렬과 합병 정렬","동적 계획법 — 메모이제이션과 상향식"]},{"week":14,"lessons":["정보과학으로 문제 해결하기 · 문제 해결 5단계","학문 분야별 문제 탐색 / 모둠 구성·주제 선정","[프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화"]},{"week":15,"lessons":["[프로젝트 ①] 알고리즘 설계와 프로그램 작성","[프로젝트 ②] 탄소 발자국 — 데이터 수집과 구조화","[프로젝트 ②] 다익스트라 알고리즘으로 구현하기"]},{"week":16,"lessons":["[프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계","[프로젝트 ③] 백트래킹 구현과 디버깅","산출물 정리 / 프로젝트 발표와 상호 평가"]}],"settings":{"year":2026,"term":"2학기","semester_start":"2026-08-13","submit_url":"","grading":[{"type":"지필","name":"1차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 중간고사","ratio":25},{"type":"지필","name":"2차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 기말고사","ratio":25},{"type":"수행","name":"1차 수행평가 · 프로그래밍 과제","what":"함수·클래스·데이터 구조를 활용한 프로그램 작성과 설명","when":"Ⅰ·Ⅱ단원 중","ratio":25},{"type":"수행","name":"2차 수행평가 · 정보과학 프로젝트","what":"문제 해결 5단계 산출물, 프로그램, 발표·상호 평가","when":"14~16주차","ratio":25,"rubric":{"head":["항목","잘함","보통","노력 필요"],"rows":[["① 문제 발견","생활 속 문제를 구체적인 수치·근거와 함께 제시함","문제를 제시했으나 근거가 부족함","문제가 막연하거나 해결할 대상이 불분명함"],["② 문제 구조화","입력·출력·제약 조건을 명확히 정하고 상태(데이터)를 정의함","입력과 출력은 정했으나 조건이 빠짐","무엇을 계산할지 정하지 못함"],["③ 알고리즘 설계","알맞은 데이터 구조·알고리즘을 고르고 그 이유와 효율(빅오)을 설명함","알고리즘은 설계했으나 선택 이유가 부족함","설계 없이 바로 코드부터 작성함"],["④ 프로그램 구현","함수로 나누어 읽기 쉽게 작성하고 오류 없이 동작함","동작하지만 구조가 정리되지 않음","실행되지 않거나 일부만 동작함"],["⑤ 검증·공유","여러 입력으로 시험하고 한계와 개선점을 발표함","한 가지 경우로만 확인함","결과를 확인하지 않음"],["협업·기여","맡은 역할을 해내고 모둠 기록에 기여가 드러남","역할을 일부 수행함","기여가 드러나지 않음"]]}}]},"settings_edit":"https://github.com/yongdeuk/infoscience2026/edit/main/settings.json","programiz":"https://www.programiz.com/python-programming/online-compiler/"};</script>
+<script src="assets/site.js"></script>
+</body>
+</html>

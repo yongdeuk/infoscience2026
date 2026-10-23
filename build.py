@@ -11,7 +11,7 @@
   src/pages/*.html        도구 페이지 본문(수업 안내·실습실·파이썬 실습·내 학습)
   src/css/*.css, src/js/*.js  스타일과 스크립트(이어 붙여 하나로 만든다)
 """
-import io, os, re, json, html
+import io, os, re, sys, json, html
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 def P(*a): return os.path.join(ROOT, *a)
@@ -34,6 +34,7 @@ SETTINGS_EDIT = "https://github.com/%s/edit/%s/settings.json" % (COURSE["repo"],
 
 # 도구 페이지: (파일 이름, 이름, 아이콘, 설명)
 TOOLS = [
+    ("lessons",  "차시 수업",   "🗓️", "48차시를 한 차시씩 — 목표, 교과서, 빈칸 코드, 실습, 확인 문제"),
     ("course",   "수업 안내",   "📋", "평가 · 수행평가 채점 기준 · 수업 약속 · AI 사용 신호등"),
     ("labs",     "실습실",      "🧪", "그래프 탐색 · 이진 탐색 트리 · 정렬 경주 등 직접 조작하는 시뮬레이터"),
     ("practice", "파이썬 실습", "🐍", "단원별 실습 세트를 Programiz로 실행 · 자주 나는 오류 해결표"),
@@ -200,8 +201,9 @@ def weeks_of(n):
     return [w for w in COURSE["weeks"] if a <= w["week"] <= b]
 
 def week_row(w):
+    base = (w["week"] - 1) * 3
     return ('<div class="wk" data-week="%d"><span class="n">%d주</span><ol>%s</ol></div>'
-            % (w["week"], w["week"], "".join("<li>%s</li>" % l for l in w["lessons"])))
+            % (w["week"], w["week"], "".join('<li><a href="lesson%02d.html">%s</a></li>' % (base + i + 1, l) for i, l in enumerate(w["lessons"]))))
 
 def quiz_html(n):
     qs = [q for q in QUIZ if q["unit"] == n]
@@ -531,6 +533,198 @@ def glossary_page():
     return page("용어 사전 · 정보과학", TOOL["glossary"][2], "tool tool-glossary", "glossary",
                 pagehead("glossary", inner) + '<main class="xp" id="main">\n' + body + "</main>\n")
 
+
+# ---------- 차시(1~48) ----------
+# src/data/lessons.json: 차시마다 단원 본문의 어느 부분을 가져올지. src/lessons/LNN.json: 차시 목표·코드 설명·빈칸·실습·확인 문제.
+sys.path.insert(0, P("tools"))
+import lessonlib
+LESSONS = json.loads(rd("src/data/lessons.json"))
+LMAP = {int(k): v for k, v in LESSONS["map"].items()}
+LTITLE = {}
+for w in COURSE["weeks"]:
+    for i, l in enumerate(w["lessons"]):
+        LTITLE[(w["week"] - 1) * 3 + i + 1] = (w["week"], l)
+NL = len(LMAP)
+RAW_TOPICS = {}
+for n in UNIT_NS:
+    RAW_TOPICS.update(lessonlib.topic_bodies(rd("src/units/unit%d.html" % n)))
+
+def ldata(k):
+    p = P("src/lessons/L%02d.json" % k)
+    return json.loads(rd("src/lessons/L%02d.json" % k)) if os.path.exists(p) else {}
+
+def lunit(k):
+    wk = LTITLE[k][0]
+    for n in UNIT_NS:
+        if n and UNITS[n]["weeks"][0] <= wk <= UNITS[n]["weeks"][1]:
+            return n
+    return 1
+
+def lfile(k): return "lesson%02d.html" % k
+
+def ltitle(k): return re.sub(r"<[^>]+>", "", LTITLE[k][1])
+
+def src_label(ref):
+    tid = re.match(r"t\d-\d+", ref).group(0)
+    h3 = RAW_TOPICS[tid][0]
+    idx = re.search(r'<span class="idx">(.*?)</span>', h3)
+    name = re.sub(r"<[^>]+>", "", re.sub(r'<span class="(?:lesson|idx)">.*?</span>', "", h3)).strip()
+    n = int(tid[1])
+    return '<a href="unit%d.html#%s">%s %s %s</a>' % (n, tid, UNITS[n]["roman"] if n else "", idx.group(1) if idx else "", name)
+
+def apply_blanks(html_pre, blanks):
+    """교과서 코드의 핵심 부분을 입력 칸으로 바꾼다. 실행기는 칸에 쓴 값으로 코드를 만든다."""
+    m = re.match(r"(<pre[^>]*>)(.*)(</pre>)$", html_pre, re.S)
+    open_tag, inner, close = m.groups()
+    lines = inner.split("\n")
+    for ln, frag in blanks:
+        f = esc(frag)
+        if 1 <= ln <= len(lines) and f in lines[ln - 1]:
+            w = max(3, len(frag) + 1)
+            lines[ln - 1] = lines[ln - 1].replace(
+                f, '<input class="blank" data-ans="%s" size="%d" spellcheck="false" autocomplete="off" aria-label="빈칸">' % (esc(frag).replace('"', "&quot;"), w), 1)
+    open_tag = open_tag.replace(" data-editable", "") + ""
+    open_tag = open_tag[:-1] + " data-blanks>"
+    return open_tag + "\n".join(lines) + close
+
+def lesson_content(k, d):
+    secs, last = [], None
+    for ref in LMAP[k]:
+        tid = re.match(r"t\d-\d+", ref).group(0)
+        h = lessonlib.section(RAW_TOPICS, ref)
+        if tid != last:
+            secs.append('<p class="lsrc">교과서 · %s</p>' % src_label(ref))
+            last = tid
+        secs.append(h)
+    body = "\n".join(secs)
+    body, _ = mark_editable_drill(body)
+    body, _ = mark_runnable(body)
+    body = mark_quiz_blank(body)
+    notes = d.get("code_notes", {})
+    cnt = [0]
+    def number(m):
+        cnt[0] += 1
+        pre = m.group(0)
+        pre = pre.replace("<pre", '<pre data-c="%d"' % cnt[0], 1)
+        bl = notes.get("C%d" % cnt[0], {}).get("blanks")
+        before = body[:m.start()]
+        if bl and before.count("<details") > before.count("</details>"):
+            print("  · L%02d C%d: 풀이(details) 안의 코드라 빈칸을 건너뜀" % (k, cnt[0]))
+            bl = None
+        return apply_blanks(pre, bl) if bl else pre
+    return re.sub(r"<pre[ >].*?</pre>", number, body, flags=re.S)
+
+def task_html(k, i, t):
+    kind = t.get("kind", "실습")
+    head = '<div class="task" data-kind="%s"><div class="task-h"><span class="task-k">%s</span><h4>%s</h4></div><p>%s</p>' % (
+        esc(kind), esc(kind), esc(t.get("title", "")), t.get("prompt", ""))
+    if kind == "생각":
+        return head + ('<textarea class="think" data-think="L%02d.%d" rows="4" placeholder="%s"></textarea><p class="muted small" data-think-saved></p></div>'
+                       % (k, i, esc(t.get("placeholder", "여기에 써 보세요")).replace('"', "&quot;")))
+    return head + ('<pre data-run data-editable data-task data-expect="%s">%s</pre>'
+                   '<details class="hintbox"><summary>힌트</summary><p>%s</p></details>'
+                   '<details class="hintbox"><summary>정답 코드 보기</summary><pre>%s</pre></details></div>'
+                   % (esc(t.get("expect", "")).replace('"', "&quot;").replace("\n", "&#10;"), esc(t.get("starter", "")),
+                      t.get("hint", ""), esc(t.get("answer", ""))))
+
+def check_html(k, d):
+    qs = d.get("check", [])
+    if not qs:
+        return ""
+    out = ['<section class="qz-set" data-qz-set="L%02d">' % k]
+    for i, q in enumerate(qs):
+        out.append('<div class="qz" data-ans="%d"><h4><span class="qnum">Q%d</span><span>%s</span></h4><ol class="opts">%s</ol><p class="why"><b>해설</b> — %s</p></div>'
+                   % (q["answer"], i + 1, q["q"], "".join('<li><button type="button" data-n="%s">%s</button></li>' % ("①②③④"[j], o) for j, o in enumerate(q["options"])), q["why"]))
+    out.append('<div class="qz-score" data-qz-score><span>맞힌 문제 <b data-qz-right>0</b> / %d</span><span class="muted" data-qz-left></span><span class="muted" data-qz-best></span>'
+               '<button class="btn" type="button" data-qz-reset>다시 풀기</button></div></section>' % len(qs))
+    return "\n".join(out)
+
+def board_html(slot, label):
+    # 교사 설정에 Apps Script 주소가 있을 때만 JS가 보여 준다
+    return ('<div class="board" data-board="%s" hidden><div class="board-in"><textarea data-board-in rows="2" maxlength="300" placeholder="%s"></textarea>'
+            '<div class="board-bar"><button class="btn btn-p" type="button" data-board-send>보드에 올리기</button>'
+            '<select data-board-class aria-label="반 고르기"><option value="">모든 반</option></select>'
+            '<button class="btn" type="button" data-board-big>크게 보기</button><span class="muted small" data-board-msg></span></div></div>'
+            '<div class="board-h"><b>모두의 생각</b> <span class="muted small" data-board-count></span></div>'
+            '<ul class="board-list" data-board-list></ul></div>' % (slot, label))
+
+def lesson_page(k):
+    d = ldata(k)
+    wk, _ = LTITLE[k]
+    n = lunit(k) if k > 1 else 0
+    u = UNITS[n]
+    title = ltitle(k)
+    sims = [LESSONS["sims"][s] for s in LESSONS.get("lesson_sims", {}).get(str(k), [])]
+    goal = "".join("<li>%s</li>" % g for g in d.get("goal", []))
+    hero = """<section class="unithero lessonhero">
+  <div class="unithero-in">
+    <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / %d차시</p>
+    <div class="bigr" aria-hidden="true">%d</div>
+    <div>
+      <p class="kicker">%d차시 · %d주차 · <a href="unit%d.html">%s %s</a></p>
+      <h1>%s</h1>
+      %s
+      <div class="lprog" aria-label="전체 %d차시 중 %d차시"><i style="width:%.1f%%"></i></div>
+    </div>
+  </div>
+</section>
+""" % (k, k, k, wk, n, u["roman"] if n else "", u["name"], title,
+       ('<ul class="lgoal">%s</ul>' % goal) if goal else "", NL, k, k / NL * 100)
+    steps = [("l-open", "생각 열기"), ("l-learn", "교과서로 배우기")]
+    if d.get("tasks"): steps.append(("l-try", "직접 해 보기"))
+    if d.get("check"): steps.append(("l-check", "확인 문제"))
+    steps.append(("l-wrap", "한 줄 정리"))
+    flow = '<nav class="lflow" aria-label="이 차시 순서">%s</nav>' % "".join(
+        '<a href="#%s"><b>%d</b>%s</a>' % (a, i + 1, t) for i, (a, t) in enumerate(steps))
+    parts = [flow]
+    parts.append('<section class="lsec" id="l-open"><h2><span class="ln">1</span>생각 열기</h2><div class="callout hook">%s</div>%s%s</section>'
+                 % (d.get("hook", "오늘 배울 내용을 떠올려 보세요."), board_html("hook", "내 생각을 짧게 적어 보드에 올려 보세요"),
+                    ('<div class="simlinks"><b>함께 보는 시뮬레이터</b>%s</div>' % "".join(
+                        '<a href="%s%s" target="_blank" rel="noopener">%s ↗</a>' % (LESSONS["sims_base"], s[0], s[1]) for s in sims)) if sims else ""))
+    parts.append('<section class="lsec" id="l-learn"><h2><span class="ln">2</span>교과서로 배우기</h2>'
+                 '<p class="lede">코드 아래 <b>💡 코드 설명</b>을 펼쳐 보고, <b>빈칸</b>이 있으면 채운 뒤 실행해 보세요.</p>%s</section>'
+                 % lesson_content(k, d))
+    num = 3
+    if d.get("tasks"):
+        parts.append('<section class="lsec" id="l-try"><h2><span class="ln">%d</span>직접 해 보기</h2>'
+                     '<p class="lede">코드를 고쳐서 <b>▶ 실행</b>하면 출력이 맞는지 바로 알려 줘요. 막히면 힌트부터 열어 보세요.</p>%s</section>'
+                     % (num, "".join(task_html(k, i, t) for i, t in enumerate(d["tasks"]))))
+        num += 1
+    if d.get("check"):
+        parts.append('<section class="lsec" id="l-check"><h2><span class="ln">%d</span>확인 문제</h2>%s</section>' % (num, check_html(k, d)))
+        num += 1
+    parts.append('<section class="lsec" id="l-wrap"><h2><span class="ln">%d</span>한 줄 정리</h2><p><b>%s</b></p>'
+                 '<textarea class="think" data-think="L%02d.exit" rows="3" placeholder="내 말로 한두 문장"></textarea><p class="muted small" data-think-saved></p>'
+                 '%s<div class="donebar"><button class="btn donebtn" type="button" data-lesson-done="%d">☐ 이 차시 마쳤어요</button><span>체크하면 <a href="lessons.html">차시 수업</a> 목록에 표시돼요.</span></div>'
+                 '<div class="submitbox" data-submit hidden><button class="btn btn-p" type="button">선생님께 제출</button> <span class="muted small" data-submit-msg>한 줄 정리 · 생각 쓰기 · 실습 코드 · 확인 문제 점수를 보내요.</span></div></section>'
+                 % (num, d.get("exit", "오늘 배운 것을 한 문장으로 정리해 보세요."), k, board_html("exit", "한 줄 정리를 보드에도 올려 보세요"), k))
+    def plink(cls, dr, j):
+        if j < 1 or j > NL:
+            return '<a class="%s" href="lessons.html"><span class="dir">%s</span><span class="ttl">차시 목록</span></a>' % (cls, dr)
+        return '<a class="%s" href="%s"><span class="dir">%s · %d차시</span><span class="ttl">%s</span></a>' % (cls, lfile(j), dr, j, ltitle(j))
+    pager = '<nav class="pager" aria-label="차시 이동">%s%s</nav>\n' % (plink("prev", "← 이전", k - 1), plink("next", "다음 →", k + 1))
+    data = '<script>window.LESSON=%s;</script>\n' % json.dumps({"n": k, "notes": d.get("code_notes", {})}, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+    body = hero + '<main class="lpage" id="main">\n' + "\n".join(parts) + "\n</main>\n" + pager + data
+    return page("%d차시 %s · 정보과학" % (k, title), "%d주차 %d차시 — %s" % (wk, k, title), "lessonpage " + ucls(n), "lessons", body)
+
+def lessons_index():
+    cols = []
+    for n in UNIT_NS:
+        if not n: continue
+        u = UNITS[n]
+        rows = []
+        for k in range(1, NL + 1):
+            if lunit(k) != n: continue
+            rows.append('<a class="lrow" href="%s" data-lesson="%d"><span class="lk">%d</span><span class="lt">%s</span><span class="lw">%d주</span></a>'
+                        % (lfile(k), k, k, ltitle(k), LTITLE[k][0]))
+        cols.append('<section class="lcol %s"><h3><a href="unit%d.html">%s %s</a><span>%s</span></h3>%s</section>'
+                    % (ucls(n), n, u["roman"], u["name"], wklabel(u), "".join(rows)))
+    inner = ('<p class="kicker">LESSONS</p><h1>차시 수업</h1><p class="sub">한 차시(50분)씩 진행해요. 차시마다 <b>목표 → 교과서 → 빈칸 코드·실습 → 확인 문제 → 한 줄 정리</b> 순서예요. '
+             '마친 차시에는 ✓가 붙어요.</p>')
+    body = '<div class="lnow" data-lnow hidden></div><div class="lcols">%s</div>' % "".join(cols)
+    return page("차시 수업 · 정보과학", TOOL["lessons"][2], "tool tool-lessons", "lessons",
+                pagehead("lessons", inner) + '<main class="xp" id="main">\n' + body + "</main>\n")
+
 # ---------- 출력 ----------
 CSS = ["base.css", "content.css", "tools.css"]
 JS = ["widgets.js", "tools.js"]
@@ -542,9 +736,13 @@ for n in UNIT_NS:
 for k, n, i, d in TOOLS:
     if k == "glossary":
         wr("glossary.html", glossary_page())
+    elif k == "lessons":
+        wr("lessons.html", lessons_index())
     else:
         wr("%s.html" % k, tool_page(k))
 wr("settings.html", tool_page("settings"))
+for k in range(1, NL + 1):
+    wr(lfile(k), lesson_page(k))
 
 print("built: index.html, %s, %s" % (", ".join("unit%d.html" % n for n in UNIT_NS), ", ".join(k + ".html" for k, *_ in TOOLS)))
 print("실행 가능한 코드 블록(단원 본문):", _run_total, "개 · 용어", len(GLOSS), "개 · 퀴즈", len(QUIZ), "문제")

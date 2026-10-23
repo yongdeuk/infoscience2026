@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>26차시 그래프의 개념·종류와 표현 · 정보과학</title>
+<meta name="description" content="9주차 26차시 — 그래프의 개념·종류와 표현">
+<meta property="og:title" content="26차시 그래프의 개념·종류와 표현 · 정보과학">
+<meta property="og:description" content="9주차 26차시 — 그래프의 개념·종류와 표현">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#129513;</text></svg>">
+<script>
+(function(){try{if(localStorage.getItem('unlocked')==='yes')document.documentElement.className+=' unlocked';}catch(e){}})();
+(function(){try{var m=localStorage.getItem('theme');if(m==='dark'||m==='light')document.documentElement.setAttribute('data-theme',m);}catch(e){}})();
+</script>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body class="lessonpage u2">
+<div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <form class="gate-card" data-gate-form autocomplete="off">
+    <h1 id="gate-title">정보과학</h1>
+    <p class="gate-sub">씨마스 『정보과학』 2022 개정 교육과정 수업 자료</p>
+    <label class="gate-lab" for="gate-pw">열람 비밀번호</label>
+    <div class="gate-pwrap">
+      <input id="gate-pw" type="password" data-gate-pw autocomplete="off"
+             spellcheck="false" autocapitalize="off" placeholder="수업 시간에 안내된 비밀번호">
+      <button class="gate-eye" type="button" data-gate-eye aria-pressed="false" aria-label="비밀번호 표시">
+        <svg class="ico-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg class="ico-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18M10.6 10.6a3 3 0 0 0 4.24 4.24M9.9 5.1A10.9 10.9 0 0 1 12 5c7 0 10.5 7 10.5 7a13.6 13.6 0 0 1-3.2 4.1M6.5 6.5C3.4 8.3 1.5 12 1.5 12a13.5 13.5 0 0 0 4.2 4.9"/></svg>
+      </button>
+    </div>
+    <p class="gate-hint">한글로 입력하세요. 대소문자와 앞뒤 공백은 구분하지 않습니다.</p>
+    <p class="gate-msg" data-gate-msg role="status" aria-live="polite"></p>
+    <button class="btn btn-p gate-btn" type="submit">들어가기</button>
+    <p class="gate-note">본 자료는 학교 수업 목적으로 제작되었으며,
+      저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+  </form>
+</div>
+<a class="skip" href="#main">본문 바로가기</a>
+<header class="topbar">
+  <div class="bar-top">
+    <a class="brand" href="index.html"><span class="brand-mark">IS</span><span class="brand-name">정보과학</span></a>
+    <nav class="toolnav" aria-label="수업 도구">
+      <a href="index.html">수업 홈</a>
+      <a href="lessons.html" class="is-current">차시 수업</a>
+      <a href="course.html">수업 안내</a>
+      <a href="labs.html">실습실</a>
+      <a href="practice.html">파이썬 실습</a>
+      <a href="glossary.html">용어 사전</a>
+      <a href="my.html">내 학습</a>
+    </nav>
+    <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false" title="어두운 화면으로">
+      <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.6v2M12 19.4v2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M2.6 12h2M19.4 12h2M5.2 18.8l1.4-1.4M17.4 6.6l1.4-1.4"/></svg>
+      <span class="ico-label">어둡게</span>
+    </button>
+  </div>
+  <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
+    <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
+    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+  </div></nav>
+  <div class="progress" data-progress></div>
+</header>
+<section class="unithero lessonhero">
+  <div class="unithero-in">
+    <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 26차시</p>
+    <div class="bigr" aria-hidden="true">26</div>
+    <div>
+      <p class="kicker">26차시 · 9주차 · <a href="unit2.html">Ⅱ 데이터 구조</a></p>
+      <h1>그래프의 개념·종류와 표현</h1>
+      <ul class="lgoal"><li>무방향·방향·가중치 그래프와 경로, 사이클, 완전 그래프의 뜻을 설명할 수 있다</li><li>그래프의 종류에 따라 인접 행렬을 알맞게 채우는 코드를 작성할 수 있다</li></ul>
+      <div class="lprog" aria-label="전체 48차시 중 26차시"><i style="width:54.2%"></i></div>
+    </div>
+  </div>
+</section>
+<main class="lpage" id="main">
+<nav class="lflow" aria-label="이 차시 순서"><a href="#l-open"><b>1</b>생각 열기</a><a href="#l-learn"><b>2</b>교과서로 배우기</a><a href="#l-try"><b>3</b>직접 해 보기</a><a href="#l-check"><b>4</b>확인 문제</a><a href="#l-wrap"><b>5</b>한 줄 정리</a></nav>
+<section class="lsec" id="l-open"><h2><span class="ln">1</span>생각 열기</h2><div class="callout hook">인스타그램의 '맞팔로우'와 '팔로우'는 무엇이 다를까요? 지하철 노선도에서 '몇 분 걸리는지'까지 적으려면 그림에 무엇을 더해야 할까요?</div><div class="board" data-board="hook" hidden><div class="board-in"><textarea data-board-in rows="2" maxlength="300" placeholder="내 생각을 짧게 적어 보드에 올려 보세요"></textarea><div class="board-bar"><button class="btn btn-p" type="button" data-board-send>보드에 올리기</button><select data-board-class aria-label="반 고르기"><option value="">모든 반</option></select><button class="btn" type="button" data-board-big>크게 보기</button><span class="muted small" data-board-msg></span></div></div><div class="board-h"><b>모두의 생각</b> <span class="muted small" data-board-count></span></div><ul class="board-list" data-board-list></ul></div></section>
+<section class="lsec" id="l-learn"><h2><span class="ln">2</span>교과서로 배우기</h2><p class="lede">코드 아래 <b>💡 코드 설명</b>을 펼쳐 보고, <b>빈칸</b>이 있으면 채운 뒤 실행해 보세요.</p><p class="lsrc">교과서 · <a href="unit2.html#t2-4">Ⅱ 2-2 그래프 — 관계와 경로를 표현하는 구조</a></p>
+<p class="lede">트리보다 자유로운 구조. 사이클이 있어도 되고, 두 노드 사이에 여러 경로가 있어도 됩니다.</p>
+<div class="callout"><b>트리와 그래프의 관계</b> — 트리는 사실 그래프의 한 종류입니다. <b>사이클이 없고, 두 노드 사이 경로가 오직 하나뿐인</b> 그래프가 트리입니다.</div>
+<figure>
+      <div class="figbody">
+        <svg viewBox="0 0 660 220" role="img" aria-label="무방향 그래프 방향 그래프 가중치 그래프 세 종류의 비교">
+          <defs>
+            <marker id="ar7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+          <!-- undirected -->
+          <g class="sv-line" stroke-width="1.4">
+            <line x1="60" y1="60" x2="150" y2="60"/><line x1="60" y1="60" x2="105" y2="135"/><line x1="150" y1="60" x2="105" y2="135"/>
+          </g>
+          <circle cx="60" cy="60" r="18" class="sv-box"/><text x="60" y="65" class="sv-t" text-anchor="middle">정보</text>
+          <circle cx="150" cy="60" r="18" class="sv-box"/><text x="150" y="65" class="sv-t" text-anchor="middle">과학</text>
+          <circle cx="105" cy="135" r="18" class="sv-box"/><text x="105" y="140" class="sv-t" text-anchor="middle">예술</text>
+          <text x="105" y="185" class="sv-t" text-anchor="middle" font-weight="700">무방향 그래프</text>
+          <text x="105" y="205" class="sv-t-s" text-anchor="middle">서로 연결되어 있다</text>
+
+          <!-- directed -->
+          <g class="sv-line" stroke-width="1.4">
+            <line x1="278" y1="60" x2="352" y2="60" marker-end="url(#ar7)"/>
+            <line x1="345" y1="76" x2="315" y2="120" marker-end="url(#ar7)"/>
+            <line x1="290" y1="120" x2="268" y2="80" marker-end="url(#ar7)"/>
+          </g>
+          <circle cx="260" cy="60" r="18" class="sv-box"/><text x="260" y="65" class="sv-t" text-anchor="middle">A</text>
+          <circle cx="370" cy="60" r="18" class="sv-box"/><text x="370" y="65" class="sv-t" text-anchor="middle">B</text>
+          <circle cx="303" cy="135" r="18" class="sv-box"/><text x="303" y="140" class="sv-t" text-anchor="middle">C</text>
+          <text x="315" y="185" class="sv-t" text-anchor="middle" font-weight="700">방향 그래프</text>
+          <text x="315" y="205" class="sv-t-s" text-anchor="middle">관계에 순서가 있다</text>
+
+          <!-- weighted -->
+          <g class="sv-line" stroke-width="1.4">
+            <line x1="500" y1="60" x2="595" y2="60"/><line x1="500" y1="60" x2="548" y2="135"/><line x1="595" y1="60" x2="548" y2="135"/>
+          </g>
+          <circle cx="500" cy="60" r="18" class="sv-box"/><text x="500" y="65" class="sv-t" text-anchor="middle">서울</text>
+          <circle cx="595" cy="60" r="18" class="sv-box"/><text x="595" y="65" class="sv-t" text-anchor="middle">대구</text>
+          <circle cx="548" cy="135" r="18" class="sv-box"/><text x="548" y="140" class="sv-t" text-anchor="middle">부산</text>
+          <text x="548" y="50" class="sv-t-a" text-anchor="middle">289</text>
+          <text x="600" y="108" class="sv-t-a" text-anchor="middle">109</text>
+          <text x="490" y="108" class="sv-t-a" text-anchor="middle">362</text>
+          <text x="548" y="185" class="sv-t" text-anchor="middle" font-weight="700">가중치 그래프</text>
+          <text x="548" y="205" class="sv-t-s" text-anchor="middle">관계의 크기(거리·시간·비용)</text>
+        </svg>
+      </div>
+      <figcaption>내비게이션은 가중치 그래프에서 가중치 합이 가장 작은 경로를 찾아 안내합니다.</figcaption>
+    </figure>
+<h4>경로와 사이클</h4>
+<p><span class="kw">경로</span>는 한 노드에서 다른 노드로 가는 길입니다. 두 노드 사이에 경로가 여러 개일 수 있습니다. 출발한 노드로 <b>다시 돌아오는</b> 경로를 <span class="kw">사이클</span>이라고 합니다.</p>
+<div class="callout">예를 들어 대학 전공 과목 위계도에서 ‘컴퓨터 과학 개론 → 프로그래밍과 문제 해결 → 파이썬 프로그래밍’과 ‘컴퓨터 과학 개론 → 프로그래밍과 문제 해결 → 객체지향 프로그래밍 → 파이썬 프로그래밍’은 서로 다른 <b>두 경로</b>입니다. ‘데이터 구조 → 알고리즘 → 인공지능 개론 → 데이터 구조’처럼 제자리로 돌아오면 <b>사이클</b>입니다.</div>
+<p><b>완전 그래프</b>는 모든 노드가 자신을 뺀 나머지 전부와 연결된 그래프입니다. 노드가 n개일 때 링크 수는 무방향이면 <code>n(n−1)/2</code>, 방향이면 <code>n(n−1)</code>개입니다.</p>
+<div class="callout"><b>희소 그래프와 밀집 그래프</b> — 노드 수에 비해 링크가 적으면 <b>희소 그래프</b>, 많으면 <b>밀집 그래프</b>입니다. 희소 그래프는 인접 리스트가, 완전 그래프에 가까운 밀집 그래프는 인접 행렬이 유리합니다.</div>
+<div class="deep">
+      <span class="lbl">정보과학으로 지식 키우기 · 보충 심화</span>
+      <h5>케빈 베이컨의 6단계 법칙</h5>
+      <p>세상 모든 사람은 <b>최대 6단계</b>의 관계만 거치면 서로 연결된다는 법칙입니다. 배우들은 같은 영화에 함께 출연하며 연결되고, 이렇게 하나의 거대한 네트워크가 만들어집니다.</p>
+      <p>이 개념은 영화계 이야기로 끝나지 않고 <b>사회관계망 서비스 분석</b>의 중요한 이론으로 발전했습니다. 인터넷 구조, 바이러스 확산 등 다양한 네트워크 분석에도 쓰입니다.</p>
+    </div>
+<h4>그래프를 인접 행렬로 저장하는 프로그램</h4>
+<p>방향·가중치 여부를 함께 입력받아 한 프로그램으로 세 종류를 모두 처리합니다.</p>
+<pre data-c="1" data-run data-needs-stdin data-blanks>a1 = input('방향 그래프인가요?[Y/N]')
+a2 = input('가중치 그래프인가요?[Y/N]')
+n = int(input('노드 개수: '))
+m = int(input('링크 개수: '))
+am = [[0 for _ in range(n)] for _ in range(n)]
+
+print(f'링크 정보를 {m}개 입력하세요.')
+for i in range(m):
+    if a2 == 'Y':                          # 가중치 그래프면
+        n1, n2, w = input().split()        # 노드 2개와 가중치
+    else:
+        n1, n2 = input().split()
+        w = 1
+    if <input class="blank" data-ans="a1 != 'Y'" size="10" spellcheck="false" autocomplete="off" aria-label="빈칸">:                          # 무방향이면 양쪽에 모두 표시
+        <input class="blank" data-ans="am[ord(n2) - ord('A')][ord(n1) - ord('A')]" size="43" spellcheck="false" autocomplete="off" aria-label="빈칸"> = int(w)
+    am[ord(n1) - ord('A')][ord(n2) - ord('A')] = int(w)
+
+for i in range(n):
+    for j in range(n):
+        print(am[i][j], end=' ')
+    print()</pre>
+<div class="callout"><b>무방향 그래프는 대칭</b>입니다. A—B가 연결되면 A행-B열과 B행-A열에 모두 표시해야 합니다. 방향 그래프는 화살표 방향의 한쪽에만 표시합니다. 가중치 그래프는 1 대신 가중치 값을 적습니다.</div></section>
+<section class="lsec" id="l-try"><h2><span class="ln">3</span>직접 해 보기</h2><p class="lede">코드를 고쳐서 <b>▶ 실행</b>하면 출력이 맞는지 바로 알려 줘요. 막히면 힌트부터 열어 보세요.</p><div class="task" data-kind="빈칸"><div class="task-h"><span class="task-k">빈칸</span><h4>무방향 그래프 인접 행렬</h4></div><p>친구 관계(무방향) 링크로 인접 행렬을 만드세요. 무방향이므로 한 링크에 칸 두 개를 채워야 해요. 마지막 줄은 표가 대칭인지 스스로 검사해요.</p><pre data-run data-editable data-task data-expect="0 1 1 0&#10;1 0 1 0&#10;1 1 0 1&#10;0 0 1 0&#10;대칭인가? True">edges = [('A', 'B'), ('A', 'C'), ('B', 'C'), ('C', 'D')]
+n = 4
+am = [[0 for _ in range(n)] for _ in range(n)]
+for n1, n2 in edges:
+    i, j = ord(n1) - ord('A'), ord(n2) - ord('A')
+    am[i][j] = 1
+    ___ = 1
+
+for row in am:
+    print(*row)
+print('대칭인가?', all(am[i][j] == am[j][i] for i in range(n) for j in range(n)))
+</pre><details class="hintbox"><summary>힌트</summary><p>반대 방향 칸은 행과 열을 바꾼 am[j][i]예요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>edges = [('A', 'B'), ('A', 'C'), ('B', 'C'), ('C', 'D')]
+n = 4
+am = [[0 for _ in range(n)] for _ in range(n)]
+for n1, n2 in edges:
+    i, j = ord(n1) - ord('A'), ord(n2) - ord('A')
+    am[i][j] = 1
+    am[j][i] = 1
+
+for row in am:
+    print(*row)
+print('대칭인가?', all(am[i][j] == am[j][i] for i in range(n) for j in range(n)))
+</pre></details></div><div class="task" data-kind="고치기"><div class="task-h"><span class="task-k">고치기</span><h4>일방통행 도로 지도 고치기</h4></div><p>A→B 3분, B→C 5분, C→A 2분짜리 <b>일방통행</b> 도로예요(방향 + 가중치). 정답 표는 <code>0 3 0 / 0 0 5 / 2 0 0</code>이에요. 지금 코드의 두 가지 실수를 고치세요.</p><pre data-run data-editable data-task data-expect="0 3 0&#10;0 0 5&#10;2 0 0">roads = [('A', 'B', 3), ('B', 'C', 5), ('C', 'A', 2)]
+n = 3
+am = [[0 for _ in range(n)] for _ in range(n)]
+for n1, n2, w in roads:
+    i, j = ord(n1) - ord('A'), ord(n2) - ord('A')
+    am[i][j] = 1
+    am[j][i] = 1
+
+for row in am:
+    print(*row)
+</pre><details class="hintbox"><summary>힌트</summary><p>방향 그래프는 화살표 방향 한 칸에만 적어요. 가중치 그래프는 1 대신 가중치 w를 적어요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>roads = [('A', 'B', 3), ('B', 'C', 5), ('C', 'A', 2)]
+n = 3
+am = [[0 for _ in range(n)] for _ in range(n)]
+for n1, n2, w in roads:
+    i, j = ord(n1) - ord('A'), ord(n2) - ord('A')
+    am[i][j] = w
+
+for row in am:
+    print(*row)
+</pre></details></div><div class="task" data-kind="만들기"><div class="task-h"><span class="task-k">만들기</span><h4>희소 그래프일까, 밀집 그래프일까?</h4></div><p>무방향 그래프의 인접 행렬을 받아 링크 수를 세는 <code>analyze(am)</code>를 만드세요. 같은 노드 수의 완전 그래프 링크 수 n(n−1)/2와 비교해, 절반보다 많으면 <code>밀집</code>, 아니면 <code>희소</code>로 판정해 출력해요.</p><pre data-run data-editable data-task data-expect="노드 4개, 링크 5개 / 완전 그래프 6개 → 밀집&#10;노드 5개, 링크 3개 / 완전 그래프 10개 → 희소">def analyze(am):
+    n = len(am)
+    links = 0       # 1의 개수를 세고, 무방향이니 2로 나누세요
+    full = 0        # 완전 그래프의 링크 수
+    kind = '?'      # '밀집' 또는 '희소'
+    print(f'노드 {n}개, 링크 {links}개 / 완전 그래프 {full}개 → {kind}')
+
+g1 = [[0,1,1,1], [1,0,1,1], [1,1,0,0], [1,1,0,0]]
+g2 = [[0,1,0,0,0], [1,0,1,0,0], [0,1,0,0,0], [0,0,0,0,1], [0,0,0,1,0]]
+analyze(g1)
+analyze(g2)
+</pre><details class="hintbox"><summary>힌트</summary><p>for row in am: links += sum(row) 뒤에 links //= 2를 하세요. full = n * (n - 1) // 2이고, links > full / 2이면 밀집이에요.</p></details><details class="hintbox"><summary>정답 코드 보기</summary><pre>def analyze(am):
+    n = len(am)
+    links = 0
+    for row in am:
+        links += sum(row)
+    links //= 2
+    full = n * (n - 1) // 2
+    kind = '밀집' if links &gt; full / 2 else '희소'
+    print(f'노드 {n}개, 링크 {links}개 / 완전 그래프 {full}개 → {kind}')
+
+g1 = [[0,1,1,1], [1,0,1,1], [1,1,0,0], [1,1,0,0]]
+g2 = [[0,1,0,0,0], [1,0,1,0,0], [0,1,0,0,0], [0,0,0,0,1], [0,0,0,1,0]]
+analyze(g1)
+analyze(g2)
+</pre></details></div></section>
+<section class="lsec" id="l-check"><h2><span class="ln">4</span>확인 문제</h2><section class="qz-set" data-qz-set="L26">
+<div class="qz" data-ans="2"><h4><span class="qnum">Q1</span><span>노드가 6개인 무방향 완전 그래프의 링크는 몇 개일까요?</span></h4><ol class="opts"><li><button type="button" data-n="①">6개</button></li><li><button type="button" data-n="②">12개</button></li><li><button type="button" data-n="③">15개</button></li><li><button type="button" data-n="④">30개</button></li></ol><p class="why"><b>해설</b> — 무방향 완전 그래프는 n(n−1)/2 = 6×5/2 = 15개예요. 방향 그래프라면 30개예요.</p></div>
+<div class="qz" data-ans="1"><h4><span class="qnum">Q2</span><span>그래프와 트리의 관계로 옳은 것은 무엇일까요?</span></h4><ol class="opts"><li><button type="button" data-n="①">그래프는 트리의 한 종류이다</button></li><li><button type="button" data-n="②">트리는 사이클이 없고 두 노드 사이 경로가 하나뿐인 그래프이다</button></li><li><button type="button" data-n="③">트리에는 사이클이 반드시 있다</button></li><li><button type="button" data-n="④">그래프의 두 노드 사이 경로는 항상 하나이다</button></li></ol><p class="why"><b>해설</b> — 트리는 그래프 중 사이클이 없고 경로가 유일한 특별한 경우예요. 일반 그래프는 경로가 여러 개일 수 있어요.</p></div>
+<div class="qz-score" data-qz-score><span>맞힌 문제 <b data-qz-right>0</b> / 2</span><span class="muted" data-qz-left></span><span class="muted" data-qz-best></span><button class="btn" type="button" data-qz-reset>다시 풀기</button></div></section></section>
+<section class="lsec" id="l-wrap"><h2><span class="ln">5</span>한 줄 정리</h2><p><b>SNS의 '팔로우' 관계는 어떤 종류의 그래프일까요? 인접 행렬이 대칭이 되는지와 함께 이유를 적어 보세요.</b></p><textarea class="think" data-think="L26.exit" rows="3" placeholder="내 말로 한두 문장"></textarea><p class="muted small" data-think-saved></p><div class="board" data-board="exit" hidden><div class="board-in"><textarea data-board-in rows="2" maxlength="300" placeholder="한 줄 정리를 보드에도 올려 보세요"></textarea><div class="board-bar"><button class="btn btn-p" type="button" data-board-send>보드에 올리기</button><select data-board-class aria-label="반 고르기"><option value="">모든 반</option></select><button class="btn" type="button" data-board-big>크게 보기</button><span class="muted small" data-board-msg></span></div></div><div class="board-h"><b>모두의 생각</b> <span class="muted small" data-board-count></span></div><ul class="board-list" data-board-list></ul></div><div class="donebar"><button class="btn donebtn" type="button" data-lesson-done="26">☐ 이 차시 마쳤어요</button><span>체크하면 <a href="lessons.html">차시 수업</a> 목록에 표시돼요.</span></div><div class="submitbox" data-submit hidden><button class="btn btn-p" type="button">선생님께 제출</button> <span class="muted small" data-submit-msg>한 줄 정리 · 생각 쓰기 · 실습 코드 · 확인 문제 점수를 보내요.</span></div></section>
+</main>
+<nav class="pager" aria-label="차시 이동"><a class="prev" href="lesson25.html"><span class="dir">← 이전 · 25차시</span><span class="ttl">이진 탐색 트리의 규칙과 활용</span></a><a class="next" href="lesson27.html"><span class="dir">다음 → · 27차시</span><span class="ttl">그래프 탐색 — 깊이 우선·너비 우선 탐색</span></a></nav>
+<script>window.LESSON={"n":26,"notes":{"C1":{"say":"방향·가중치 여부를 입력받아 한 프로그램으로 세 종류 그래프의 인접 행렬을 모두 만들어요.","lines":[[5,"노드 n개면 n×n 표를 0으로 채워 시작해요. 트리와 달리 링크 수 m은 따로 입력받아요."],[10,"가중치 그래프면 한 줄에 '노드 노드 가중치' 세 개를 입력받아요."],[13,"가중치가 없으면 연결 표시로 1을 써요. 그래서 아래 코드는 두 경우 모두 w를 적으면 돼요."],[15,"무방향이면 A—B가 B—A이기도 해요. 그래서 반대 칸(n2행 n1열)에도 적어 표가 대각선 기준으로 대칭이 돼요."],[16,"방향이든 아니든 n1행 n2열에는 항상 적어요. 방향 그래프는 이 칸에만 적혀요."]],"blanks":[[14,"a1 != 'Y'"],[15,"am[ord(n2) - ord('A')][ord(n1) - ord('A')]"]],"predict":{"q":"실행하기 전에 예측해 보세요: N, N, 노드 3, 링크 2, 'A B', 'B C'를 입력하면 출력되는 3줄은? 첫 질문에 Y라고 답하면 어떻게 바뀔까요?","a":"0 1 0 / 1 0 1 / 0 1 0 — 무방향이라 대칭이에요. 방향(Y)이면 반대 칸이 빠져 0 1 0 / 0 0 1 / 0 0 0이 돼요."}}}};</script>
+
+<footer>
+  <div class="foot-in">
+    <div>
+      <p><b data-teacher-tap>정보과학</b> — 씨마스 『정보과학』 (2022 개정 교육과정) 수업 자료 · <span data-term>2학기</span> · 주 3시간 · 16주</p>
+      <p>보문고등학교 <b>김용득</b> 선생님 제작.</p>
+      <p>개념·예제 코드·수치는 교과서 본문을 근거로 정리했으며, 그림은 이해를 돕기 위해 새로 그렸습니다. 자세한 예제와 ‘스스로 해결하기’ 활동은 교과서를 함께 보세요.</p>
+      <p class="copyright">본 자료는 학교 수업 목적으로 제작되었으며, 저작권법에 의해 무단 전재 및 배포를 금합니다.</p>
+    </div>
+    <nav class="foot-links" aria-label="사이트 전체"><a href="index.html">수업 홈</a><a href="unit0.html">0 파이썬 기초</a><a href="unit1.html">Ⅰ 프로그래밍</a><a href="unit2.html">Ⅱ 데이터 구조</a><a href="unit3.html">Ⅲ 알고리즘</a><a href="unit4.html">Ⅳ 프로젝트</a><a href="lessons.html">차시 수업</a><a href="course.html">수업 안내</a><a href="labs.html">실습실</a><a href="practice.html">파이썬 실습</a><a href="glossary.html">용어 사전</a><a href="my.html">내 학습</a><a href="https://www.programiz.com/python-programming/online-compiler/" target="_blank" rel="noopener">Programiz</a></nav>
+  </div>
+</footer>
+<script>window.SITE={"topics":{"0":["t0-0","t0-1","t0-2","t0-3","t0-4","t0-5","t0-6","t0-7","t0-8","t0-9","t0-10"],"1":["t1-1","t1-2","t1-3","t1-4","t1-5"],"2":["t2-1","t2-2","t2-3","t2-4","t2-5"],"3":["t3-1","t3-2","t3-3","t3-4","t3-5","t3-6","t3-8","t3-7"],"4":["t4-1","t4-2","t4-3","t4-4","t4-6","t4-5"]},"units":{"0":{"roman":"0","name":"파이썬 기초","weeks":null},"1":{"roman":"Ⅰ","name":"프로그래밍","weeks":[1,5]},"2":{"roman":"Ⅱ","name":"데이터 구조","weeks":[6,9]},"3":{"roman":"Ⅲ","name":"알고리즘","weeks":[10,13]},"4":{"roman":"Ⅳ","name":"정보과학 프로젝트","weeks":[14,16]}},"quiz":{"0":10,"1":10,"2":10,"3":10,"4":10},"weeks":[{"week":1,"lessons":["오리엔테이션 — 정보과학은 무엇을 배우는 과목인가","함수의 개념 — 내장 함수와 사용자 정의 함수","함수의 정의(<code>def</code>)와 네 가지 구성 요소"]},{"week":2,"lessons":["함수 호출 — 인수와 매개 변수의 관계","<code>return</code>의 두 역할 / 매개 변수·반환값 4가지 형태","지역 변수와 전역 변수, <code>global</code>"]},{"week":3,"lessons":["[역량] 음악 플레이 리스트 관리 프로그램","기본값 매개 변수와 가변 인수 매개 변수","여러 값 반환 / 클래스와 객체"]},{"week":4,"lessons":["모듈 만들기와 <code>import</code>","패키지·라이브러리 / 내장 함수와 표준 라이브러리","[역량] 가위바위보 게임 만들기"]},{"week":5,"lessons":["재귀 구조의 이해 — 수학적 귀납법과 재귀 관계","재귀 함수의 동작 원리 — 호출과 반환","반복 vs 재귀 / 재귀 활용 — 자릿수 합·하노이 탑"]},{"week":6,"lessons":["데이터 구조의 분류 / 스택의 개념(LIFO)","스택의 연산 — push, pop, peek, isEmpty","리스트로 스택 구현하기 · 활용 사례"]},{"week":7,"lessons":["큐의 개념(FIFO)과 연산","리스트로 큐 구현하기 / 덱·우선순위 큐","[역량] 스택·큐를 활용한 프로그램"]},{"week":8,"lessons":["트리의 개념과 구성 요소","트리의 표현 — 인접 행렬과 인접 리스트","이진 트리와 순차 데이터 구조 표현"]},{"week":9,"lessons":["이진 탐색 트리의 규칙과 활용","그래프의 개념·종류와 표현","그래프 탐색 — 깊이 우선·너비 우선 탐색"]},{"week":10,"lessons":["알고리즘의 이해와 문제 해결 전략 네 가지","알고리즘 성능 평가 — 시간·공간 복잡도","빅오 표기법과 알고리즘 성능 비교"]},{"week":11,"lessons":["문제의 세 요소와 상태 공간","탐색 공간의 구조·범위 / 전체 탐색과 순차 탐색","비선형 전체 탐색 — DFS·BFS 적용"]},{"week":12,"lessons":["탐색 공간 배제와 이진 탐색","탐욕 알고리즘 — 거스름돈·시간표 문제","분기 한정 알고리즘과 백트래킹"]},{"week":13,"lessons":["문제 분해와 전체·부분 문제의 관계식","분할 정복법 — 퀵 정렬과 합병 정렬","동적 계획법 — 메모이제이션과 상향식"]},{"week":14,"lessons":["정보과학으로 문제 해결하기 · 문제 해결 5단계","학문 분야별 문제 탐색 / 모둠 구성·주제 선정","[프로젝트 ①] 급식 잔반 — 문제 발견 및 구조화"]},{"week":15,"lessons":["[프로젝트 ①] 알고리즘 설계와 프로그램 작성","[프로젝트 ②] 탄소 발자국 — 데이터 수집과 구조화","[프로젝트 ②] 다익스트라 알고리즘으로 구현하기"]},{"week":16,"lessons":["[프로젝트 ③] 교실 자리 배치 — 요구 사항 분석과 설계","[프로젝트 ③] 백트래킹 구현과 디버깅","산출물 정리 / 프로젝트 발표와 상호 평가"]}],"settings":{"year":2026,"term":"2학기","semester_start":"2026-08-13","submit_url":"","grading":[{"type":"지필","name":"1차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 중간고사","ratio":25},{"type":"지필","name":"2차 정기시험","what":"개념 이해, 코드 읽기(실행 결과 예측), 알고리즘 과정 추적","when":"1학기 기말고사","ratio":25},{"type":"수행","name":"1차 수행평가 · 프로그래밍 과제","what":"함수·클래스·데이터 구조를 활용한 프로그램 작성과 설명","when":"Ⅰ·Ⅱ단원 중","ratio":25},{"type":"수행","name":"2차 수행평가 · 정보과학 프로젝트","what":"문제 해결 5단계 산출물, 프로그램, 발표·상호 평가","when":"14~16주차","ratio":25,"rubric":{"head":["항목","잘함","보통","노력 필요"],"rows":[["① 문제 발견","생활 속 문제를 구체적인 수치·근거와 함께 제시함","문제를 제시했으나 근거가 부족함","문제가 막연하거나 해결할 대상이 불분명함"],["② 문제 구조화","입력·출력·제약 조건을 명확히 정하고 상태(데이터)를 정의함","입력과 출력은 정했으나 조건이 빠짐","무엇을 계산할지 정하지 못함"],["③ 알고리즘 설계","알맞은 데이터 구조·알고리즘을 고르고 그 이유와 효율(빅오)을 설명함","알고리즘은 설계했으나 선택 이유가 부족함","설계 없이 바로 코드부터 작성함"],["④ 프로그램 구현","함수로 나누어 읽기 쉽게 작성하고 오류 없이 동작함","동작하지만 구조가 정리되지 않음","실행되지 않거나 일부만 동작함"],["⑤ 검증·공유","여러 입력으로 시험하고 한계와 개선점을 발표함","한 가지 경우로만 확인함","결과를 확인하지 않음"],["협업·기여","맡은 역할을 해내고 모둠 기록에 기여가 드러남","역할을 일부 수행함","기여가 드러나지 않음"]]}}]},"settings_edit":"https://github.com/yongdeuk/infoscience2026/edit/main/settings.json","programiz":"https://www.programiz.com/python-programming/online-compiler/"};</script>
+<script src="assets/site.js"></script>
+</body>
+</html>

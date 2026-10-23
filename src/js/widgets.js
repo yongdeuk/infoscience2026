@@ -973,7 +973,7 @@
 /* ============ 파이썬 코드 실행기 ============ */
 (function () {
   'use strict';
-  var pres = [].slice.call(document.querySelectorAll('pre[data-run]'));
+  var pres = [].slice.call(document.querySelectorAll('pre[data-run], pre[data-blanks]'));
   if (!pres.length) return;
 
   var BASE = 'https://cdn.jsdelivr.net/pyodide/v0.27.2/full/';
@@ -995,6 +995,38 @@
     if (cls) e.className = cls;
     if (text != null) e.textContent = text;
     return e;
+  }
+  // 빈칸(<input class="blank">)이 든 코드는 학생이 채운 값으로 코드를 만든다
+  function codeText(pre) {
+    if (!pre.querySelector('input.blank')) return pre.textContent;
+    var c = pre.cloneNode(true);
+    [].forEach.call(c.querySelectorAll('input.blank'), function (inp, i) {
+      var v = pre.querySelectorAll('input.blank')[i].value;
+      inp.replaceWith(document.createTextNode(v === '' ? '___' : v));
+    });
+    return c.textContent;
+  }
+  window.codeText = codeText;
+  function norm(t) { return String(t).replace(/\r/g, '').split('\n').map(function (l) { return l.replace(/\s+$/, ''); }).join('\n').replace(/^\n+|\n+$/g, ''); }
+  // 무한 반복 막기: 줄 실행 수가 너무 많으면 TimeoutError로 멈춘다
+  // (메인 스레드에서 돌기 때문에 멈추지 않으면 탭 전체가 얼어 버린다)
+  var guardFns = null;
+  function guard(py, on) {
+    if (!guardFns) guardFns = py.runPython([
+      'import sys',
+      'def _is_guard(on, limit=3000000):',
+      '    if not on:',
+      '        sys.settrace(None); return',
+      '    n = [0]',
+      '    def tr(frame, ev, arg):',
+      '        n[0] += 1',
+      '        if n[0] > limit:',
+      '            sys.settrace(None)',
+      '            raise TimeoutError("코드가 너무 오래 돌아서 멈췄어요. 끝나지 않는 반복(while)이 없는지 확인해 보세요.")',
+      '        return tr',
+      '    sys.settrace(tr)',
+      '_is_guard'].join('\n'));
+    guardFns(on);
   }
   function globalsOf(py) { if (!gvars) gvars = py.toPy({}); return gvars; }
   function resetVars() { if (gvars) { gvars.destroy(); gvars = null; } }
@@ -1063,14 +1095,28 @@
     }
 
     boot().then(function (py) {
-      return ensureExtraPackages(py, pre.textContent).then(function () {
+      var code = codeText(pre);
+      return ensureExtraPackages(py, code).then(function () {
         py.setStdin({ stdin: function () { return i < lines.length ? lines[i++] : ''; } });
         py.setStdout({ batched: function (s) { buf.push(s); } });
         py.setStderr({ batched: function (s) { buf.push(s); } });
-        return py.runPythonAsync(pre.textContent, { globals: globalsOf(py) });
+        guard(py, true);
+        return py.runPythonAsync(code, { globals: globalsOf(py) })
+          .finally(function () { guard(py, false); });
       }).then(function () {
         out.className = 'runner-out';
         out.textContent = withInputSummary(buf.length ? buf.join(NL) : '(출력 없음)');
+        // 실습 과제: 기대 출력과 같으면 정답 표시
+        if (pre.hasAttribute('data-expect')) {
+          var ok = norm(buf.join(NL)) === norm(pre.getAttribute('data-expect'));
+          out.className = 'runner-out ' + (ok ? 'pass' : 'fail');
+          out.textContent += NL + NL + (ok ? '✓ 정답이에요! 출력이 기대한 결과와 같아요.' : '✗ 아직이에요. 기대한 출력:' + NL + pre.getAttribute('data-expect'));
+          var task = pre.closest('.task');
+          if (task) {
+            task.classList.toggle('is-pass', ok);
+            if (ok) task.dispatchEvent(new CustomEvent('task:pass', { bubbles: true }));
+          }
+        }
       });
     }).catch(function (e) {
       out.className = 'runner-out err';
@@ -1146,7 +1192,30 @@
       });
     }
 
-    bar.appendChild(el('span', 'hint', editable ? '직접 고쳐서 실행해 보세요' : '브라우저 안에서 실행됩니다'));
+    if (!pre.hasAttribute('data-run')) { runBtn.hidden = true; resetBtn.hidden = true; }
+    var blanks = [].slice.call(pre.querySelectorAll('input.blank'));
+    if (blanks.length) {
+      var chk = el('button', 'btn', '빈칸 확인'); chk.type = 'button';
+      var show = el('button', 'btn', '빈칸 정답'); show.type = 'button';
+      var squash = function (t) { return t.replace(/\s+/g, ''); };
+      chk.addEventListener('click', function () {
+        var right = 0;
+        blanks.forEach(function (b) {
+          var ok = squash(b.value) === squash(b.getAttribute('data-ans'));
+          b.classList.toggle('ok', ok); b.classList.toggle('ng', !ok);
+          if (ok) right++;
+        });
+        out.hidden = false;
+        out.className = 'runner-out ' + (right === blanks.length ? 'pass' : 'fail');
+        out.textContent = right === blanks.length ? '✓ 빈칸 ' + right + '개를 모두 맞혔어요. ▶ 실행으로 결과도 확인해 보세요.'
+          : '빈칸 ' + blanks.length + '개 중 ' + right + '개 맞혔어요. 빨간 칸을 다시 생각해 보세요.';
+      });
+      show.addEventListener('click', function () {
+        blanks.forEach(function (b) { b.value = b.getAttribute('data-ans'); b.classList.remove('ng'); b.classList.add('ok'); });
+      });
+      bar.appendChild(chk); bar.appendChild(show);
+    }
+    bar.appendChild(el('span', 'hint', blanks.length ? '빈칸을 채우고 실행해 보세요' : editable ? '직접 고쳐서 실행해 보세요' : '브라우저 안에서 실행됩니다'));
     wrap.appendChild(bar);
 
     var stdinEl = null;
@@ -1171,7 +1240,7 @@
       out.textContent = '지금까지 만들어진 변수와 함수를 모두 지웠습니다.';
     });
     copyBtn.addEventListener('click', function () {
-      var text = pre.textContent;
+      var text = codeText(pre);
       var done = function () {
         copyBtn.textContent = '복사됨';
         setTimeout(function () { copyBtn.textContent = '복사'; }, 1200);
