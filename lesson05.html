@@ -57,10 +57,10 @@
   </div>
   <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
     <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
-    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
-    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
-    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
-    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+    <a class="unittab u1 is-current" href="lesson02.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="lesson16.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="lesson28.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="lesson40.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
   </div></nav>
   <div class="progress" data-progress></div>
 </header>
@@ -69,7 +69,7 @@
     <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 5차시</p>
     <div class="bigr" aria-hidden="true">5</div>
     <div>
-      <p class="kicker">5차시 · 2주차 · <a href="unit1.html">Ⅰ 프로그래밍</a></p>
+      <p class="kicker">5차시 · 2주차 · <a href="unit1.html">Ⅰ 프로그래밍 전체 보기</a></p>
       <h1>return의 두 역할 / 매개 변수·반환값 4가지 형태</h1>
       <ul class="lgoal"><li>매개 변수와 반환값의 유무에 따른 함수 4가지 형태를 구별할 수 있다</li><li>print로 보여 주는 함수와 return으로 돌려주는 함수의 차이를 설명할 수 있다</li></ul>
       <div class="lprog" aria-label="전체 48차시 중 5차시"><i style="width:10.4%"></i></div>
@@ -134,7 +134,7 @@ x, y = get_position()
 print('거북이의 현재 위치 x:', x)
 print('거북이의 현재 위치 y:', y)</pre>
 <p class="codecap">④ 매개 변수와 반환값이 모두 있는 함수 — 두 점 사이의 거리</p>
-<pre data-c="4" data-run data-blanks>def get_dist(point1, point2):     # 매개 변수로 튜플을 받음
+<pre data-c="4" data-run data-blanks data-tr="220c01ec3e93">def get_dist(point1, point2):     # 매개 변수로 튜플을 받음
     x1, y1 = point1
     x2, y2 = point2
     <input class="blank" data-ans="return" size="7" spellcheck="false" autocomplete="off" aria-label="빈칸"> ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5

@@ -57,10 +57,10 @@
   </div>
   <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
     <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
-    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
-    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
-    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
-    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+    <a class="unittab u1 is-current" href="lesson02.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="lesson16.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="lesson28.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="lesson40.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
   </div></nav>
   <div class="progress" data-progress></div>
 </header>
@@ -69,7 +69,7 @@
     <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 6차시</p>
     <div class="bigr" aria-hidden="true">6</div>
     <div>
-      <p class="kicker">6차시 · 2주차 · <a href="unit1.html">Ⅰ 프로그래밍</a></p>
+      <p class="kicker">6차시 · 2주차 · <a href="unit1.html">Ⅰ 프로그래밍 전체 보기</a></p>
       <h1>지역 변수와 전역 변수, global</h1>
       <ul class="lgoal"><li>지역 변수와 전역 변수의 차이를 설명할 수 있다</li><li>global 키워드가 필요한 경우를 판단하고 사용할 수 있다</li></ul>
       <div class="lprog" aria-label="전체 48차시 중 6차시"><i style="width:12.5%"></i></div>
@@ -103,7 +103,7 @@
       </div>
       <figcaption>같은 이름이 있으면 <b>가까운 쪽(지역)이 이깁니다.</b> 함수 안에서 전역 변수 자체를 바꾸려면 <code>global</code> 키워드가 필요합니다.</figcaption>
     </figure>
-<pre data-c="1" data-run data-blanks>drink = 'coffee'          # 전역 변수
+<pre data-c="1" data-run data-blanks data-tr="b954f94eb353">drink = 'coffee'          # 전역 변수
 
 def print_global_drink():
     <input class="blank" data-ans="global drink" size="13" spellcheck="false" autocomplete="off" aria-label="빈칸">          # 전역 변수를 참조하겠다는 선언

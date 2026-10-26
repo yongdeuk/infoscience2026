@@ -57,10 +57,10 @@
   </div>
   <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
     <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
-    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
-    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
-    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
-    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+    <a class="unittab u1" href="lesson02.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="lesson16.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3 is-current" href="lesson28.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="lesson40.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
   </div></nav>
   <div class="progress" data-progress></div>
 </header>
@@ -69,7 +69,7 @@
     <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 35차시</p>
     <div class="bigr" aria-hidden="true">35</div>
     <div>
-      <p class="kicker">35차시 · 12주차 · <a href="unit3.html">Ⅲ 알고리즘</a></p>
+      <p class="kicker">35차시 · 12주차 · <a href="unit3.html">Ⅲ 알고리즘 전체 보기</a></p>
       <h1>탐욕 알고리즘 — 거스름돈·시간표 문제</h1>
       <ul class="lgoal"><li>탐욕 알고리즘이 매 순간 선택하는 방식을 설명할 수 있다</li><li>거스름돈·시간표 문제를 탐욕법으로 구현할 수 있다</li><li>탐욕법이 최적해를 내지 못하는 예를 찾아 설명할 수 있다</li></ul>
       <div class="lprog" aria-label="전체 48차시 중 35차시"><i style="width:72.9%"></i></div>
@@ -140,7 +140,7 @@
 남은 돈  3원   10원, 5원은 못 줌. 1원 → [50, 10, 1]         남은 돈  2원
 남은 돈  2원   1원                    → [50, 10, 1, 1]      남은 돈  1원
 남은 돈  1원   1원                    → [50, 10, 1, 1, 1]   남은 돈  0원  끝!</div>
-<pre data-c="1" data-run data-blanks>def greedy_coin_change(amount, coins):
+<pre data-c="1" data-run data-blanks data-tr="6c600f32f4da">def greedy_coin_change(amount, coins):
     result = []
     for coin in coins:              # 큰 동전부터 차례로
         while <input class="blank" data-ans="amount &gt;= coin" size="15" spellcheck="false" autocomplete="off" aria-label="빈칸">:       # 이 동전을 줄 수 있는 동안
@@ -187,7 +187,7 @@ print('거슬러 줄 동전:', change)</pre>
         <li>두 번째로 고른 과목이 끝난 뒤에 시작하면서 제일 빨리 끝나는 과목은?</li>
       </ol>
       <p>아래 프로그램의 <code>for</code> 문 안을 채워 완성해 보자.</p>
-      <pre data-c="2" data-run data-editable>classes = [('미술', 9, 10), ('영어', 9.5, 10.5), ('수학', 10, 11),
+      <pre data-c="2" data-run data-editable data-tr="f00aaf821f4a">classes = [('미술', 9, 10), ('영어', 9.5, 10.5), ('수학', 10, 11),
            ('컴퓨터', 10.5, 11.5), ('음악', 11, 12)]
 classes.sort(key=lambda x: x[2])      # 종료 시간 기준으로 정렬
 selected_classes = []                 # 선택된 수업 리스트

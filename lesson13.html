@@ -57,10 +57,10 @@
   </div>
   <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
     <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
-    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
-    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
-    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
-    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+    <a class="unittab u1 is-current" href="lesson02.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="lesson16.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="lesson28.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="lesson40.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
   </div></nav>
   <div class="progress" data-progress></div>
 </header>
@@ -69,7 +69,7 @@
     <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 13차시</p>
     <div class="bigr" aria-hidden="true">13</div>
     <div>
-      <p class="kicker">13차시 · 5주차 · <a href="unit1.html">Ⅰ 프로그래밍</a></p>
+      <p class="kicker">13차시 · 5주차 · <a href="unit1.html">Ⅰ 프로그래밍 전체 보기</a></p>
       <h1>재귀 구조의 이해 — 수학적 귀납법과 재귀 관계</h1>
       <ul class="lgoal"><li>재귀 구조의 의미를 생활 속 예로 설명할 수 있다</li><li>재귀 함수의 기본 단계와 재귀 단계를 찾고 작성할 수 있다</li></ul>
       <div class="lprog" aria-label="전체 48차시 중 13차시"><i style="width:27.1%"></i></div>
@@ -144,7 +144,7 @@ clean_house(rooms)
       <p><b>수학적 귀납법</b> — 이정표 ①에 도착할 수 있다. 이정표 ⓝ에 도착했다면 다음 이정표 ⓝ+1에도 도착할 수 있다. 그러므로 정상에 도착할 수 있다.<br>
       <b>재귀 함수</b> — 정상에 도착하려면 ‘바로 전 이정표까지 가는 문제’를 먼저 해결하고 한 걸음 더 가면 된다. 앞부분을 재귀 호출로 맡긴다.</p>
     </div>
-<pre data-c="3" data-run data-blanks>def reach_peak(n):
+<pre data-c="3" data-run data-blanks data-tr="d6c4a9f1ca04">def reach_peak(n):
     if n &lt;= 0:                 # 기본 단계(종료 조건)
         return
     else:                      # 재귀 단계(재귀 호출)

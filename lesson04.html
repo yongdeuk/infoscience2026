@@ -57,10 +57,10 @@
   </div>
   <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
     <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
-    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
-    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
-    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
-    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+    <a class="unittab u1 is-current" href="lesson02.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="lesson16.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="lesson28.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="lesson40.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
   </div></nav>
   <div class="progress" data-progress></div>
 </header>
@@ -69,7 +69,7 @@
     <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 4차시</p>
     <div class="bigr" aria-hidden="true">4</div>
     <div>
-      <p class="kicker">4차시 · 2주차 · <a href="unit1.html">Ⅰ 프로그래밍</a></p>
+      <p class="kicker">4차시 · 2주차 · <a href="unit1.html">Ⅰ 프로그래밍 전체 보기</a></p>
       <h1>함수 호출 — 인수와 매개 변수의 관계</h1>
       <ul class="lgoal"><li>인수와 매개 변수의 관계를 설명할 수 있다</li><li>return의 두 역할(값 반환, 즉시 종료)을 활용할 수 있다</li></ul>
       <div class="lprog" aria-label="전체 48차시 중 4차시"><i style="width:8.3%"></i></div>
@@ -116,7 +116,7 @@
       </div>
       <figcaption>인수는 호출자가 <em>보내는</em> 값, 매개 변수는 함수 안에서 그 값을 <em>받는</em> 변수입니다. 두 개수는 반드시 일치해야 합니다.</figcaption>
     </figure>
-<pre data-c="1" data-run data-blanks>def find_middle_number(a, b, c):
+<pre data-c="1" data-run data-blanks data-tr="c792806e38be">def find_middle_number(a, b, c):
     numbers = [a, b, c]
     <input class="blank" data-ans="numbers.sort()" size="15" spellcheck="false" autocomplete="off" aria-label="빈칸">
     return <input class="blank" data-ans="numbers[1]" size="11" spellcheck="false" autocomplete="off" aria-label="빈칸">
@@ -125,7 +125,7 @@ print(find_middle_number(5, 7, 3))   # 5
 print(find_middle_number(10, 20, 30))  # 20</pre>
 <div class="callout"><b>return의 두 가지 역할</b> — ① 값을 반환한다 ② 함수를 즉시 종료한다. 값 없이 <code>return</code>만 쓰면 <code>None</code>을 반환하며, 그 아래 문장은 실행되지 않습니다.</div>
 <p class="codecap">예제 — 회문 검사: 조건에 걸리면 <code>return</code>으로 즉시 빠져나온다</p>
-<pre data-c="2" data-run data-blanks>def reverse(s):
+<pre data-c="2" data-run data-blanks data-tr="1ab90b2429a6">def reverse(s):
     if len(s) == 0:                     # ❶ 빈 문자열이면
         print('문자열이 비어 있습니다.')
         <input class="blank" data-ans="return" size="7" spellcheck="false" autocomplete="off" aria-label="빈칸">                          #    값 없이 종료

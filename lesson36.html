@@ -57,10 +57,10 @@
   </div>
   <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
     <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
-    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
-    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
-    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
-    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+    <a class="unittab u1" href="lesson02.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="lesson16.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3 is-current" href="lesson28.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="lesson40.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
   </div></nav>
   <div class="progress" data-progress></div>
 </header>
@@ -69,7 +69,7 @@
     <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 36차시</p>
     <div class="bigr" aria-hidden="true">36</div>
     <div>
-      <p class="kicker">36차시 · 12주차 · <a href="unit3.html">Ⅲ 알고리즘</a></p>
+      <p class="kicker">36차시 · 12주차 · <a href="unit3.html">Ⅲ 알고리즘 전체 보기</a></p>
       <h1>분기 한정 알고리즘과 백트래킹</h1>
       <ul class="lgoal"><li>분기·한정·백트래킹의 뜻을 설명할 수 있다</li><li>가지치기 조건을 넣어 탐색 횟수를 줄일 수 있다</li><li>탐욕 알고리즘과 분기 한정 알고리즘을 비교할 수 있다</li></ul>
       <div class="lprog" aria-label="전체 48차시 중 36차시"><i style="width:75.0%"></i></div>
@@ -149,7 +149,7 @@
       <div class="card"><span class="tag2">가지치기 ①</span><h5>한 변은 둘레의 절반을 넘을 수 없다</h5><p>삼각형이 되려면 <b>가장 긴 변이 나머지 두 변의 합보다 짧아야</b> 해요. 한 변이 5m면 남은 두 변의 합은 4m라서 삼각형이 안 돼요. 그러니 5 이상은 볼 필요가 없어요.</p></div>
       <div class="card"><span class="tag2">가지치기 ②</span><h5>작은 변부터 순서대로만 센다</h5><p>세 변을 a ≤ b ≤ c 순서로만 만들면 (1, 2, 6)과 (6, 2, 1)을 따로 세지 않아요. <b>중복 검사가 사라져요.</b></p></div>
     </div>
-<pre data-c="1" data-run data-editable># 삼각형 조건: 두 변의 길이 합이 나머지 한 변보다 길어야 한다.
+<pre data-c="1" data-run data-editable data-tr="6005e707e7c7"># 삼각형 조건: 두 변의 길이 합이 나머지 한 변보다 길어야 한다.
 perimeter = 9                          # 화단 둘레
 count = 0
 
@@ -169,7 +169,7 @@ print(f'만들 수 있는 화단의 수: {count}')</pre>
 <div class="drill">
       <span class="lbl">스스로 해결하기</span>
       <p>위 프로그램을 고쳐서, 화단의 수와 함께 <b>삼각형이 되는 세 변의 길이</b>도 출력해 보자. 둘레를 12, 20으로 바꾸면 어떻게 되는지도 확인해 보자.</p>
-      <pre data-c="2" data-run data-editable>perimeter = 9
+      <pre data-c="2" data-run data-editable data-tr="b8626672328f">perimeter = 9
 count = 0
 
 a = 1
@@ -204,7 +204,7 @@ print(f'만들 수 있는 화단의 수: {count}')</pre>
       <span class="lbl">스스로 해결하기 · 숫자의 최소 합 구하기</span>
       <p>2-1에서 전체 탐색으로 풀었던 <b>3×3 숫자판 문제</b>(행과 열이 겹치지 않게 3개를 골라 합을 최소로)를 분기 한정 알고리즘으로 풀어 보자. 어디에 가지치기를 넣으면 될까?</p>
       <details class="check"><summary>풀이 예시 보기</summary><div class="ans"><p>내려가는 도중에 <b>지금까지의 합이 이미 찾아 둔 최소 합보다 크거나 같으면</b> 더 내려가도 소용없어요. 그 자리에서 돌아가면 돼요.</p>
-<pre data-c="3" data-run data-editable>matrix = [
+<pre data-c="3" data-run data-editable data-tr="64c636d231ca">matrix = [
     [1, 5, 3],
     [2, 5, 7],
     [9, 3, 5]
@@ -248,7 +248,7 @@ print('최소 합:', min_solution, '/ 살펴본 횟수:', visit_count)</pre></di
       </ol>
       <p>예) N = 17, K = 4 → 17 − 1 = 16 → 16 ÷ 4 = 4 → 4 ÷ 4 = 1 … <b>3번</b></p>
       <details class="check"><summary>어떤 알고리즘이 어울릴까요?</summary><div class="ans"><p><b>탐욕 알고리즘</b>이에요. 1을 빼는 것보다 K로 나누는 것이 수를 훨씬 빨리 줄이니까, <b>나눌 수 있으면 무조건 나누고, 안 되면 1을 빼요.</b> (K가 2 이상이면 이 선택이 언제나 가장 좋아요.)</p>
-<pre data-c="4" data-run data-editable>n, k = 17, 4
+<pre data-c="4" data-run data-editable data-tr="bd3ef2979f2c">n, k = 17, 4
 count = 0
 while n &gt; 1:
     if n % k == 0:        # 나누어떨어지면 나누기 (가장 좋아 보이는 선택)

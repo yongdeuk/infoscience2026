@@ -57,10 +57,10 @@
   </div>
   <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
     <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
-    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
-    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
-    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
-    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+    <a class="unittab u1 is-current" href="lesson02.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="lesson16.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="lesson28.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="lesson40.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
   </div></nav>
   <div class="progress" data-progress></div>
 </header>
@@ -69,7 +69,7 @@
     <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 11차시</p>
     <div class="bigr" aria-hidden="true">11</div>
     <div>
-      <p class="kicker">11차시 · 4주차 · <a href="unit1.html">Ⅰ 프로그래밍</a></p>
+      <p class="kicker">11차시 · 4주차 · <a href="unit1.html">Ⅰ 프로그래밍 전체 보기</a></p>
       <h1>패키지·라이브러리 / 내장 함수와 표준 라이브러리</h1>
       <ul class="lgoal"><li>자주 쓰는 내장 함수와 표준 라이브러리 함수를 골라 쓸 수 있다</li><li>함수를 값처럼 다른 함수에 넘겨 활용할 수 있다</li><li>외부 라이브러리가 무엇이고 어떻게 설치하는지 설명할 수 있다</li></ul>
       <div class="lprog" aria-label="전체 48차시 중 11차시"><i style="width:22.9%"></i></div>
@@ -94,7 +94,7 @@
       </table>
     </div>
 <p class="codecap">함수도 값이다 — 함수를 매개 변수로 넘기기</p>
-<pre data-c="1" data-run data-blanks>def process_list(items, func):
+<pre data-c="1" data-run data-blanks data-tr="4d760fe67cce">def process_list(items, func):
     return <input class="blank" data-ans="func(items)" size="12" spellcheck="false" autocomplete="off" aria-label="빈칸">
 
 items = [10, 20, 30, 40, 50, 60, 70, 80, 90]
@@ -104,7 +104,7 @@ print('최댓값:', process_list(items, funcs[1]))   # 90
 print('최솟값:', process_list(items, funcs[2]))   # 10</pre>
 <div class="callout">함수도 <b>객체</b>이므로 다른 객체처럼 매개 변수로 전달할 수 있습니다. 이를 이용하면 코드를 훨씬 간결하게 쓸 수 있습니다.</div>
 <p class="codecap">예제 — 요세푸스 문제: 매번 4번째 학생을 뽑아 발표 순서 정하기</p>
-<pre data-c="2" data-run data-blanks>def get_order(n, k):
+<pre data-c="2" data-run data-blanks data-tr="8c2cc5550bce">def get_order(n, k):
     students = list(range(1, n + 1))
     index = 0
     order = []
@@ -118,7 +118,7 @@ print('발표 순서:', get_order(12, 4))
 # [4, 8, 12, 5, 10, 3, 11, 7, 6, 9, 2, 1]</pre>
 <div class="callout"><b>요세푸스 문제</b>는 사람들이 원형으로 앉아 있을 때 특정 규칙으로 한 명씩 제거해 나가며 마지막에 남는 사람을 찾는 문제입니다.</div>
 <p class="codecap">예제 — 학급 회장 선거 개표 (형 변환 함수 활용)</p>
-<pre data-c="3" data-run data-editable>def find_winner(votes):
+<pre data-c="3" data-run data-editable data-tr="ebf652186c20">def find_winner(votes):
     votes = votes.split()                                  # 문자열 → 리스트
     unique = set(votes)                                    # ❶ 집합으로 중복 제거
     counts = [(c, votes.count(c)) for c in unique]         # ❷ (후보, 득표수)
@@ -155,7 +155,7 @@ gm = math.sqrt(a * b)                # math.sqrt(): 제곱근
 print('두 숫자의 기하 평균:', round(gm, 2))
 # 첫 번째 숫자: 33 / 두 번째 숫자: 50 → 40.62</pre>
 <p class="codecap">예제 — random 모듈로 주사위 세 번 굴리기</p>
-<pre data-c="6" data-run data-editable>import random
+<pre data-c="6" data-run data-editable data-tr="db6ec73993e4">import random
 
 print(int(random.random() * 6) + 1)      # 0.0 이상 1.0 미만 실수 → 1~6
 print(random.randint(1, 6))              # 1 이상 6 이하 정수

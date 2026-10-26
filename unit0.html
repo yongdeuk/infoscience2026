@@ -57,10 +57,10 @@
   </div>
   <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
     <a class="unittab u0 is-current" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
-    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
-    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
-    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
-    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+    <a class="unittab u1" href="lesson02.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="lesson16.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="lesson28.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="lesson40.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
   </div></nav>
   <div class="progress" data-progress></div>
 </header>
@@ -73,6 +73,7 @@
       <h1>파이썬 기초</h1>
       <p class="goal">정보과학 수업에 들어가기 전에 꼭 알아야 할 <b>파이썬 기초 문법</b>을 예제로 다시 정리하고, 수업에서 쓸 <b>Programiz</b> 실습 환경에 익숙해진다.</p>
       <div class="chips"><span class="chip"><b>준비</b></span><span class="chip">소단원 <b>11</b></span><span class="chip">용어 <b>16</b></span><span class="chip">퀴즈 <b>10</b></span></div>
+      
     </div>
   </div>
 </section>
@@ -128,19 +129,19 @@
   <p class="lede">값에 이름을 붙여 저장하고, print()로 원하는 모양으로 보여 주는 방법입니다.</p>
   <p class="codecap">예제 1-1</p>
   <p><b>슈팅 게임에서 플레이어 이름은 'Superman', 현재 점수는 72.5점입니다. 변수에 저장한 뒤 출력해 봅시다.</b></p>
-  <pre data-run data-editable>player = 'Superman'
+  <pre data-run data-editable data-tr="a4c7ce006e90">player = 'Superman'
 score = 72.5
 print(player, score)</pre>
   <div class="callout"><b>해설</b> — <b>변수</b>는 프로그램이 실행되는 동안 값이 바뀔 수 있는 이름표입니다. 값을 넣을 때는 대입 연산자 <code>=</code>를 쓰고, 문자열은 앞뒤에 따옴표를 붙입니다(교과서는 작은따옴표 사용).</div>
   <p class="codecap">예제 1-2</p>
   <p><b>저장된 값을 '/'로 구분하고, 마지막에 '***'를 붙여 출력해 봅시다.</b></p>
-  <pre data-run data-editable>player = 'Superman'
+  <pre data-run data-editable data-tr="f5790284184a">player = 'Superman'
 score = 72.5
 print(player, score, sep='/', end='***')</pre>
   <div class="callout"><b>해설</b> — <code>sep</code>는 값 사이에 넣을 구분자(기본값은 공백), <code>end</code>는 출력이 끝난 뒤 붙일 문자(기본값은 줄 바꿈 <code>\n</code>)입니다.</div>
   <p class="codecap">예제 1-3</p>
   <p><b>f 문자열로 점수를 소수점 둘째 자리까지 출력해 봅시다.</b></p>
-  <pre data-run data-editable>player = 'Superman'
+  <pre data-run data-editable data-tr="f749a0ae9356">player = 'Superman'
 score = 72.5
 print(f'Player: {player}, Score: {score:.2f}')</pre>
   <div class="callout"><b>해설</b> — 문자열 앞에 <code>f</code>를 붙이면 중괄호 안에 변수를 바로 넣을 수 있습니다. <code>:.2f</code>는 소수점 아래 둘째 자리까지 나타내는 형식입니다.</div>
@@ -151,7 +152,7 @@ print(f'Player: {player}, Score: {score:.2f}')</pre>
   <p class="lede">파이썬은 값에 따라 자료형을 자동으로 정합니다. type()으로 확인하고, 필요하면 바꿀 수 있습니다.</p>
   <p class="codecap">예제 2-1</p>
   <p><b>변수들의 자료형을 type()으로 확인해 봅시다.</b></p>
-  <pre data-run data-editable>subject = '정보과학'
+  <pre data-run data-editable data-tr="c568b81a56cb">subject = '정보과학'
 cnt = 25
 avg = 99.5
 isPass = True
@@ -162,7 +163,7 @@ print('isPass의 타입:', type(isPass))</pre>
   <div class="callout"><b>해설</b> — 주요 자료형은 <code>str</code>(문자열), <code>int</code>(정수), <code>float</code>(실수), <code>bool</code>(논리형)입니다. 여러 값을 담는 <code>list</code>, <code>tuple</code>, <code>dict</code>, <code>set</code>도 있습니다.</div>
   <p class="codecap">예제 2-2</p>
   <p><b>변수를 차례로 정수, 실수, 문자열로 바꿔 봅시다(형 변환).</b></p>
-  <pre data-run data-editable>a, b, c = '1', '2.5', 3
+  <pre data-run data-editable data-tr="27ffb91048d3">a, b, c = '1', '2.5', 3
 print('==== Before ====')
 print('a의 타입:', type(a))
 print('b의 타입:', type(b))
@@ -175,7 +176,7 @@ print('c의 타입:', type(c))</pre>
   <div class="callout"><b>해설</b> — <b>형 변환</b>은 값을 다른 자료형으로 바꾸는 것입니다. <code>int()</code>, <code>float()</code>, <code>str()</code>, <code>bool()</code>을 씁니다.</div>
   <p class="codecap">예제 2-3</p>
   <p><b>참·거짓 값과 비교 결과의 자료형을 출력해 봅시다.</b></p>
-  <pre data-run data-editable>a = True
+  <pre data-run data-editable data-tr="2e5b6f2fdd65">a = True
 b = False
 print(a, type(a))
 print(b, type(b))
@@ -215,7 +216,7 @@ print(f'넓이: {area:.2f}')</pre>
   <p class="lede">계산하고, 몫과 나머지를 구하고, 조건을 이어 붙이는 기호들입니다.</p>
   <p class="codecap">예제 4-1</p>
   <p><b>x가 4일 때 (x³ + 1) / (x − 2)를 계산해 봅시다.</b></p>
-  <pre data-run data-editable>x = 4
+  <pre data-run data-editable data-tr="69117b2f7bbc">x = 4
 print((x ** 3 + 1) / (x - 2))</pre>
   <div class="callout"><b>해설</b> — 곱하기는 <code>*</code>, 나누기는 <code>/</code>(결과는 실수), 거듭제곱은 <code>**</code>입니다. 괄호로 계산 순서를 정할 수 있습니다.</div>
   <p class="codecap">예제 4-2</p>
@@ -230,7 +231,7 @@ print(f'일의 자리: {z}')</pre>
   <div class="callout"><b>해설</b> — 몫은 <code>//</code>, 나머지는 <code>%</code>로 구합니다. 이 방법은 Ⅰ단원의 ‘자릿수 합’ 재귀 함수에서 다시 씁니다.</div>
   <p class="codecap">예제 4-3</p>
   <p><b>x가 셋 중 가장 크면 True를 출력해 봅시다.</b></p>
-  <pre data-run data-editable>x, y, z = 50, 20, 30
+  <pre data-run data-editable data-tr="39167b30fdc9">x, y, z = 50, 20, 30
 print(x &gt; y and x &gt; z)
 print(x &lt; y or x &lt; z)</pre>
   <div class="callout"><b>해설</b> — <code>and</code>는 둘 다 참일 때, <code>or</code>는 하나만 참이어도 True입니다. <code>not</code>은 참·거짓을 뒤집습니다. 비교 연산이 논리 연산보다 먼저 계산됩니다.</div>
@@ -247,7 +248,7 @@ if num % 7 == 0:
   <div class="callout"><b>해설</b> — <code>if</code> 문은 조건식이 True일 때만 블록을 실행합니다. 같은지 비교할 때는 <code>==</code>(등호 두 개)를 씁니다.</div>
   <p class="codecap">예제 5-2</p>
   <p><b>문장에 'Stay'가 들어 있는지, 몇 번 나오는지 알아봅시다.</b></p>
-  <pre data-run data-editable>a = 'Stay Hungry, Stay Foolish.'
+  <pre data-run data-editable data-tr="11fffb13a080">a = 'Stay Hungry, Stay Foolish.'
 if 'Stay' in a:
     print('Stay가 포함되어 있습니다.')
     print(a.count('Stay'))
@@ -279,13 +280,13 @@ else:
   <div class="callout"><b>해설</b> — <code>while True</code>는 끝없이 반복하고, <code>break</code>를 만나면 즉시 반복을 빠져나옵니다.</div>
   <p class="codecap">예제 6-2</p>
   <p><b>문자열의 글자마다 뒤에 '/'를 붙여 출력해 봅시다.</b></p>
-  <pre data-run data-editable>a = '정보과학'
+  <pre data-run data-editable data-tr="cac6eff10ca9">a = '정보과학'
 for i in a:
     print(i, end='/')</pre>
   <div class="callout"><b>해설</b> — <code>for</code> 문은 문자열·리스트 같은 <b>시퀀스</b>의 원소를 하나씩 꺼내 반복합니다.</div>
   <p class="codecap">예제 6-3</p>
   <p><b>1부터 10까지의 홀수와 짝수를 출력해 봅시다.</b></p>
-  <pre data-run data-editable>for i in range(1, 10, 2):
+  <pre data-run data-editable data-tr="6fc341c70a04">for i in range(1, 10, 2):
     print(i, end=' ')
 print()
 for i in range(0, 10, 2):
@@ -298,7 +299,7 @@ for i in range(0, 10, 2):
   <p class="lede">여러 값을 순서대로 담는 그릇입니다. 스택·큐를 만들 때도 리스트를 씁니다.</p>
   <p class="codecap">예제 7-1</p>
   <p><b>요일 리스트를 만들고 '월', '수', '일'을 꺼내 봅시다.</b></p>
-  <pre data-run data-editable>days = ['월', '화', '수', '목', '금', '토', '일']
+  <pre data-run data-editable data-tr="23d199ce7e6e">days = ['월', '화', '수', '목', '금', '토', '일']
 print(days)
 print(days[0])
 print(days[2])
@@ -306,13 +307,13 @@ print(days[-1])</pre>
   <div class="callout"><b>해설</b> — 인덱스는 <b>0부터</b> 시작하고, 마지막 원소는 <code>-1</code>로 꺼낼 수 있습니다.</div>
   <p class="codecap">예제 7-2</p>
   <p><b>두 리스트를 이어 붙이고 세 번 반복해 봅시다.</b></p>
-  <pre data-run data-editable>a = [1, 2]
+  <pre data-run data-editable data-tr="84c4fb4cfee8">a = [1, 2]
 b = [5, 7]
 print((a + b) * 3)</pre>
   <div class="callout"><b>해설</b> — 리스트끼리 더하면 이어 붙이고, 정수를 곱하면 그만큼 반복합니다.</div>
   <p class="codecap">예제 7-3</p>
   <p><b>슬라이싱으로 리스트의 일부분을 꺼내 봅시다.</b></p>
-  <pre data-run data-editable>a = [1, 2, 3, 4, 5, 6, 7]
+  <pre data-run data-editable data-tr="4cdb27996328">a = [1, 2, 3, 4, 5, 6, 7]
 print(a[:2])
 print(a[5:])
 print(a[:5:2])
@@ -321,7 +322,7 @@ print(a[::-1])</pre>
   <div class="callout"><b>해설</b> — <code>[start:stop:step]</code>에서 stop 위치는 포함하지 않습니다. <code>[::-1]</code>은 전체를 거꾸로 뒤집습니다.</div>
   <p class="codecap">예제 7-4</p>
   <p><b>원소를 추가·정렬·뒤집기·제거하며 길이와 내용을 출력해 봅시다.</b></p>
-  <pre data-run data-editable>a = ['A', 'C']
+  <pre data-run data-editable data-tr="daa34b701936">a = ['A', 'C']
 print(len(a), a)
 a.append('B')
 print(len(a), a)
@@ -339,13 +340,13 @@ print(len(a), a)</pre>
   <p class="lede">리스트처럼 순서가 있지만, 한번 만들면 값을 바꿀 수 없는 그릇입니다.</p>
   <p class="codecap">예제 8-1</p>
   <p><b>학번과 이름으로 된 튜플 두 개를 다시 튜플로 묶어 봅시다.</b></p>
-  <pre data-run data-editable>t = ((202101, '홍길동'), (202103, '이철수'))
+  <pre data-run data-editable data-tr="26040f245822">t = ((202101, '홍길동'), (202103, '이철수'))
 print(t)
 print(t[0])</pre>
   <div class="callout"><b>해설</b> — 튜플은 소괄호로 만들고 인덱스로 꺼냅니다. 원소를 바꿀 수 없어 지켜야 할 값에 알맞습니다.</div>
   <p class="codecap">예제 8-2</p>
   <p><b>1, 3, 5가 반복되는 길이 1,000짜리 튜플을 만들어 봅시다.</b></p>
-  <pre data-run data-editable>t = (1, 3, 5) * 333 + (1,)
+  <pre data-run data-editable data-tr="f0b8f9d4a01b">t = (1, 3, 5) * 333 + (1,)
 print('튜플의 길이:', len(t))
 print('원소 1의 개수:', t.count(1))
 print('앞부분:', t[:7])</pre>
@@ -357,7 +358,7 @@ print('앞부분:', t[:7])</pre>
   <p class="lede">중복을 허용하지 않고 순서가 없는 그릇입니다. 수학의 집합 연산을 그대로 쓸 수 있습니다.</p>
   <p class="codecap">예제 9-1</p>
   <p><b>두 집합의 교집합과 합집합을 구해 봅시다.</b></p>
-  <pre data-run data-editable>a = {1, 2, 3}
+  <pre data-run data-editable data-tr="29596e844c10">a = {1, 2, 3}
 b = {3, 4, 5}
 print('교집합:', a &amp; b)
 print('합집합:', a | b)
@@ -365,7 +366,7 @@ print('차집합:', a - b)</pre>
   <div class="callout"><b>해설</b> — 교집합 <code>&amp;</code>, 합집합 <code>|</code>, 차집합 <code>-</code>, 대칭 차집합 <code>^</code>. 순서가 없어 인덱스로 꺼낼 수 없습니다.</div>
   <p class="codecap">예제 9-2</p>
   <p><b>리스트에서 중복을 없애 봅시다.</b></p>
-  <pre data-run data-editable>a = [1, 2, 3] * 3
+  <pre data-run data-editable data-tr="9505a65470a0">a = [1, 2, 3] * 3
 print('수정 전:', a)
 b = list(set(a))
 print('수정 후:', b)</pre>
@@ -377,14 +378,14 @@ print('수정 후:', b)</pre>
   <p class="lede">키와 값을 짝지어 저장합니다. 이름으로 값을 바로 찾을 수 있어 그래프·메모이제이션에 자주 씁니다.</p>
   <p class="codecap">예제 10-1</p>
   <p><b>자판기 버튼 번호와 음료를 사전으로 만들어 봅시다.</b></p>
-  <pre data-run data-editable>a = {1: '커피', 2: '이온 음료', 3: '과일주스'}
+  <pre data-run data-editable data-tr="cfca529182e2">a = {1: '커피', 2: '이온 음료', 3: '과일주스'}
 print(a.keys())
 print(a.values())
 print(a[2])</pre>
   <div class="callout"><b>해설</b> — <code>{키: 값}</code> 형태이며 키는 겹치면 안 됩니다. <code>keys()</code>는 모든 키, <code>values()</code>는 모든 값을 돌려줍니다.</div>
   <p class="codecap">예제 10-2</p>
   <p><b>빈 사전에 상보적인 염기쌍(A–T, G–C)을 하나씩 추가해 봅시다.</b></p>
-  <pre data-run data-editable>a = {}
+  <pre data-run data-editable data-tr="7d076569480a">a = {}
 a['A'] = 'T'   # 아데닌과 티민
 a['T'] = 'A'
 a['G'] = 'C'   # 구아닌과 사이토신

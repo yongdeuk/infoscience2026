@@ -57,10 +57,10 @@
   </div>
   <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
     <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
-    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
-    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
-    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
-    <a class="unittab u4 is-current" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+    <a class="unittab u1" href="lesson02.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="lesson16.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="lesson28.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4 is-current" href="lesson40.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
   </div></nav>
   <div class="progress" data-progress></div>
 </header>
@@ -73,6 +73,7 @@
       <h1>정보과학 프로젝트</h1>
       <p class="goal">앞의 세 단원에서 배운 것을 모두 꺼내 써요. 급식 잔반, 탄소 발자국, 교실 자리 배치처럼 <b>우리 곁의 문제를 직접 프로그램으로 해결</b>해 보는 단원이에요.</p>
       <div class="chips"><span class="chip"><b>14~16주차</b></span><span class="chip">소단원 <b>6</b></span><span class="chip">실습 <b>4</b></span><span class="chip">용어 <b>11</b></span><span class="chip">퀴즈 <b>10</b></span></div>
+      <p class="tolessons"><a class="btn btn-p" href="lesson40.html">차시별로 공부하기 · 40차시부터</a><span>이 페이지는 단원 내용을 한 번에 모아 보는 <b>단원 전체 보기</b>예요.</span></p>
     </div>
   </div>
 </section>
@@ -793,7 +794,7 @@ carbon_network = {                             # 장소: {이웃 장소: 그 길
     <div class="callout"><b>코드 읽는 법</b> — <code>heapq.heappush(큐, 값)</code>은 큐에 넣기, <code>heapq.heappop(큐)</code>는 <b>가장 작은 값</b> 꺼내기예요. 튜플 <code>(배출량, 장소)</code>는 앞의 값(배출량)으로 크기를 비교해요. <code>continue</code>는 “이번 차례는 건너뛰고 다음 반복으로”라는 뜻이에요. 이 한 줄이 Ⅲ단원에서 배운 <b>탐색 공간 배제</b>예요.</div>
 
     <p class="codecap">전체 프로그램 — 단계별 진행 상황도 함께 출력</p>
-    <pre data-run data-editable>import heapq
+    <pre data-run data-editable data-tr="191e4da3d199">import heapq
 
 carbon_network = {
     '집':     {'학교': 300, '도서관': 450, '카페': 600},
@@ -883,7 +884,7 @@ IndentationError: unexpected indent</div>
       <li><b>테스트 2</b> — 두 길의 배출량이 똑같을 때도 최솟값을 내는가</li>
       <li><b>테스트 3</b> — 길이 끊겨 갈 수 없는 곳이 있어도 멈추지 않고 끝나는가</li>
     </ul>
-    <pre data-run data-editable>test1 = {'A': {'B': 5}, 'B': {'C': 10}, 'C': {'D': 15}, 'D': {}}             # 길이 하나뿐
+    <pre data-run data-editable data-tr="f1d4da45b2dc">test1 = {'A': {'B': 5}, 'B': {'C': 10}, 'C': {'D': 15}, 'D': {}}             # 길이 하나뿐
 print('테스트 1:', dijkstra(test1, 'A', show=False))
 
 test2 = {'A': {'B': 10, 'C': 10}, 'B': {'D': 5}, 'C': {'D': 5}, 'D': {}}     # 똑같은 두 길
@@ -899,7 +900,7 @@ print('테스트 3:', dijkstra(test3, 'A', show=False))</pre>
     <div class="drill">
       <span class="lbl">스스로 해결하기</span>
       <p>지금 프로그램은 “얼마나 나오는지”만 알려 줘요. <b>어느 길로 가야 하는지</b>도 알려 주도록 고쳐 보자. 값을 고쳐 적을 때 “어디에서 왔는지”를 함께 기억해 두면 돼요.</p>
-      <pre data-run data-editable>import heapq
+      <pre data-run data-editable data-tr="8dcd8d763536">import heapq
 
 carbon_network = {
     '집':     {'학교': 300, '도서관': 450, '카페': 600},
@@ -1359,7 +1360,7 @@ def save_students_to_csv(file_path, students):       # Student 객체 리스트 
       <div class="card"><span class="tag2">출력 검증</span><h5>이전 배치와 비교</h5><p>이전 자리 배치와 새 배치를 나란히 출력해, 선호가 반영됐는지·이전 자리에 다시 앉은 학생이 없는지 확인해요.</p></div>
     </div>
     <p class="codecap">눈으로 보는 대신 프로그램이 검사하게 하기 (위의 전체 프로그램을 먼저 실행한 다음 실행하세요)</p>
-    <pre data-run data-editable>def verify(classroom, students):
+    <pre data-run data-editable data-tr="f363590b5221">def verify(classroom, students):
     seated = [s for row in classroom.seats for s in row if s is not None]
     print('모든 학생이 한 번씩 앉았는가?', sorted(s.name for s in seated) == sorted(s.name for s in students))
     for r in range(classroom.rows):

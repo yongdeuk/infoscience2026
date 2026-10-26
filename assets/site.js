@@ -1493,8 +1493,10 @@
         if (prev && prev.l) lis[prev.l - 1].className = 'was';
         if (st.l) { lis[st.l - 1].className = st.k === 'ret' ? 'ret' : 'now'; }
         var note;
-        if (st.k === 'end') note = '<b>프로그램이 끝났어요.</b> 처음부터 다시 보거나, 다른 값으로 바꿔 생각해 보세요.';
+        if (st.k === 'end' && st.n) note = h(st.n);
+        else if (st.k === 'end') note = '<b>프로그램이 끝났어요.</b> 처음부터 다시 보거나, 다른 값으로 바꿔 생각해 보세요.';
         else if (st.k === 'ret') note = '<b>' + h(st.s[st.s.length - 1][0]) + '</b> 함수가 끝나고 <b>' + h(st.r) + '</b>을(를) 돌려줘요. 부른 곳으로 되돌아가요.';
+        else if (st.n) note = h(st.n);
         else note = (d.notes[st.l] ? h(d.notes[st.l]) : '<span class="tr-dim">' + st.l + '번 줄을 실행할 차례예요.</span>');
         if (st.k === 'line' && st.s.length > 1) note = '<span class="tr-where">' + h(st.s[st.s.length - 1][0]) + ' 안</span> ' + note;
         noteEl.innerHTML = note;
@@ -1629,6 +1631,37 @@
         }
       });
     }
+
+    /* ---- 단원·차시 본문 코드 블록의 '한 줄씩 보기' ---- */
+    setTimeout(function () {
+      [].forEach.call(document.querySelectorAll('pre[data-tr]'), function (pre) {
+        var runner = pre.nextElementSibling;
+        var bar = runner && runner.classList.contains('runner') ? runner.querySelector('.runner-bar') : null;
+        var btn = document.createElement('button');
+        btn.type = 'button'; btn.className = 'btn btn-step'; btn.textContent = '한 줄씩 보기';
+        var box = null, loaded = false;
+        btn.addEventListener('click', function () {
+          if (box) { box.hidden = !box.hidden; btn.textContent = box.hidden ? '한 줄씩 보기' : '한 줄씩 보기 닫기'; return; }
+          box = document.createElement('div');
+          box.className = 'wact w-trace w-inline';
+          box.innerHTML = '<div class="wact-head"><span class="wact-lbl">한 줄씩 보기</span><h5>이 코드가 실행되는 순서</h5></div><div class="wact-body"><p class="w-msg">불러오는 중…</p></div>';
+          (runner && runner.classList.contains('runner') ? runner : pre).insertAdjacentElement('afterend', box);
+          btn.textContent = '한 줄씩 보기 닫기';
+          fetch('assets/trace/' + pre.getAttribute('data-tr') + '.json').then(function (r) {
+            if (!r.ok) throw new Error(r.status); return r.json();
+          }).then(function (d) {
+            loaded = true; initTrace(box, d);
+            var tip = document.createElement('p'); tip.className = 'w-msg';
+            tip.textContent = '처음 실려 있던 코드를 기준으로 보여 줘요. 코드를 고쳤다면 ▶ 실행으로 결과를 확인하세요.';
+            box.querySelector('.wact-body').appendChild(tip);
+          }).catch(function () {
+            box.querySelector('.wact-body').innerHTML = '<p class="w-msg">자료를 불러오지 못했어요. 인터넷 연결을 확인해 주세요.</p>';
+          });
+        });
+        if (bar) bar.insertBefore(btn, bar.children[1] || null);
+        else pre.insertAdjacentElement('afterend', btn);
+      });
+    }, 0);
 
     [].forEach.call(document.querySelectorAll('.wact'), function (el) {
       var d = data(el); if (!d) return;

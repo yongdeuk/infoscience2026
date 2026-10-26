@@ -57,10 +57,10 @@
   </div>
   <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
     <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
-    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
-    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
-    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
-    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+    <a class="unittab u1" href="lesson02.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="lesson16.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3 is-current" href="lesson28.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="lesson40.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
   </div></nav>
   <div class="progress" data-progress></div>
 </header>
@@ -69,7 +69,7 @@
     <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 38차시</p>
     <div class="bigr" aria-hidden="true">38</div>
     <div>
-      <p class="kicker">38차시 · 13주차 · <a href="unit3.html">Ⅲ 알고리즘</a></p>
+      <p class="kicker">38차시 · 13주차 · <a href="unit3.html">Ⅲ 알고리즘 전체 보기</a></p>
       <h1>분할 정복법 — 퀵 정렬과 합병 정렬</h1>
       <ul class="lgoal"><li>분할 정복법의 세 단계(분할·정복·병합)를 설명할 수 있다</li><li>퀵 정렬과 합병 정렬이 리스트를 나누고 합치는 과정을 따라갈 수 있다</li><li>비교 횟수로 퀵 정렬의 최선·최악을 확인할 수 있다</li></ul>
       <div class="lprog" aria-label="전체 48차시 중 38차시"><i style="width:79.2%"></i></div>
@@ -236,7 +236,7 @@
       </div>
       <figcaption>피벗이 리스트를 절반씩 나누면 O(n log n), 매번 최솟값·최댓값이 피벗이 되면 O(n²)로 나빠집니다.</figcaption>
     </figure>
-<pre data-c="1" data-run data-blanks>def quicksort(arr):                            # 퀵 정렬 함수
+<pre data-c="1" data-run data-blanks data-tr="5d4def500d17">def quicksort(arr):                            # 퀵 정렬 함수
     if len(arr) &lt;= 1:                          # 길이가 1 이하이면 정렬할 필요 없음(종료 조건)
         return arr
     pivot = arr[0]                             # 가장 왼쪽 값을 피벗으로
@@ -281,7 +281,7 @@ print(quicksort(input_list))</pre>
 합병   → [4, 5]   [1, 2]         [3, 8]   [6, 7]
        → [1, 2, 4, 5]            [3, 6, 7, 8]
        → [1, 2, 3, 4, 5, 6, 7, 8]</div>
-<pre data-c="2" data-run data-blanks>def merge_sort(arr):
+<pre data-c="2" data-run data-blanks data-tr="74d20659a61e">def merge_sort(arr):
     if len(arr) &lt;= 1:              # 길이가 1 이하이면 정렬할 필요 없음(종료 조건)
         return arr
     mid = len(arr) // 2            # 반으로 나눌 가운데 위치

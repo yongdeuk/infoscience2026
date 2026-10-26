@@ -57,10 +57,10 @@
   </div>
   <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
     <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
-    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
-    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
-    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
-    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+    <a class="unittab u1" href="lesson02.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="lesson16.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3 is-current" href="lesson28.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="lesson40.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
   </div></nav>
   <div class="progress" data-progress></div>
 </header>
@@ -69,7 +69,7 @@
     <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 33차시</p>
     <div class="bigr" aria-hidden="true">33</div>
     <div>
-      <p class="kicker">33차시 · 11주차 · <a href="unit3.html">Ⅲ 알고리즘</a></p>
+      <p class="kicker">33차시 · 11주차 · <a href="unit3.html">Ⅲ 알고리즘 전체 보기</a></p>
       <h1>비선형 전체 탐색 — DFS·BFS 적용</h1>
       <ul class="lgoal"><li>DFS와 BFS가 갈림길을 도는 순서를 비교할 수 있다</li><li>재귀와 ‘되돌리기’로 비선형 전체 탐색을 구현할 수 있다</li><li>경우의 수가 n!, 10ⁿ처럼 불어나는 것을 확인할 수 있다</li></ul>
       <div class="lprog" aria-label="전체 48차시 중 33차시"><i style="width:68.8%"></i></div>
@@ -148,7 +148,7 @@
       <figcaption>위에서 아래로 한 줄씩 내려가며 고르는 모든 경우를 그린 트리예요. 맨 아래 숫자가 고른 세 수의 합이에요. 깊이 우선 탐색은 왼쪽 가지부터 끝까지 내려갔다가 되돌아오며 여섯 가지를 모두 살펴봐요.</figcaption>
     </figure>
 <p>첫째 줄에서는 3개 중 하나, 둘째 줄에서는 남은 세로줄 2개 중 하나, 셋째 줄에서는 남은 1개를 고르게 돼요. 그래서 경우의 수는 3 × 2 × 1 = <b>6가지</b>예요. 6가지를 모두 따져 보면 <b>3 + 2 + 3 = 8</b>이 가장 작아요.</p>
-<pre data-c="1" data-run data-blanks>m = [[1, 5, 3], [2, 5, 7], [9, 3, 5]]
+<pre data-c="1" data-run data-blanks data-tr="24047074a981">m = [[1, 5, 3], [2, 5, 7], [9, 3, 5]]
 visited = [False] * 3                # 세로줄(열)을 이미 썼는지 표시
 min_solution = float('inf')          # 가장 작은 합. 처음엔 '무한대'로
 

@@ -57,10 +57,10 @@
   </div>
   <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
     <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
-    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
-    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
-    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
-    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+    <a class="unittab u1 is-current" href="lesson02.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="lesson16.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="lesson28.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="lesson40.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
   </div></nav>
   <div class="progress" data-progress></div>
 </header>
@@ -69,7 +69,7 @@
     <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 14차시</p>
     <div class="bigr" aria-hidden="true">14</div>
     <div>
-      <p class="kicker">14차시 · 5주차 · <a href="unit1.html">Ⅰ 프로그래밍</a></p>
+      <p class="kicker">14차시 · 5주차 · <a href="unit1.html">Ⅰ 프로그래밍 전체 보기</a></p>
       <h1>재귀 함수의 동작 원리 — 호출과 반환</h1>
       <ul class="lgoal"><li>재귀 함수에서 호출과 반환이 반대 방향으로 일어남을 설명할 수 있다</li><li>종료 조건을 올바르게 설계해 재귀 함수를 작성할 수 있다</li></ul>
       <div class="lprog" aria-label="전체 48차시 중 14차시"><i style="width:29.2%"></i></div>
@@ -160,7 +160,7 @@ power(2, 5)   # 32</pre>
       <h5>재귀 함수가 종료되는 순간 — 종료 조건의 중요성</h5>
       <p>종료 조건이 없으면 재귀 함수는 <b>무한 루프</b>에 빠집니다. 프로그램이 끝나지 않고 메모리를 낭비하다가 비정상 종료될 수 있으므로, 재귀 함수를 설계할 때는 반드시 종료 조건을 넣어야 합니다. 방법은 두 가지가 대표적입니다.</p>
       <p><b>① 시도 횟수를 제한하여 종료</b> — 카운트다운 방식</p>
-      <pre data-c="3" data-run data-editable>def countdown(n):
+      <pre data-c="3" data-run data-editable data-tr="a3e38b02fc7f">def countdown(n):
     if n == 0:                    # 기본 단계(종료 조건)
         return '종료'
     else:
@@ -169,7 +169,7 @@ power(2, 5)   # 32</pre>
 
 print(countdown(5))               # 5 4 3 2 1 종료</pre>
       <p><b>② 특정 목표에 도달하면 종료</b> — 팩토리얼은 n이 1이 되면 멈춤</p>
-      <pre data-c="4" data-run data-blanks>def factorial(n):
+      <pre data-c="4" data-run data-blanks data-tr="af4ff1dc7e6e">def factorial(n):
     if n == 0 or n == 1:          # 기본 단계
         return 1
     else:

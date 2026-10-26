@@ -1468,3 +1468,7 @@ body.has-big{overflow:hidden}
 .lrow.is-week{background:var(--warn-soft)}
 .wk ol a{color:inherit}
 @media (max-width:720px){ .lflow{top:5.6rem; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none} .lflow a{flex:0 0 auto} }
+
+/* 단원 전체 보기 → 차시로 가는 안내 */
+.tolessons{display:flex; flex-wrap:wrap; align-items:center; gap:.5rem .9rem; margin:1rem 0 0}
+.tolessons span{font-size:.85rem; color:var(--ink2)}

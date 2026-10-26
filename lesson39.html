@@ -57,10 +57,10 @@
   </div>
   <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
     <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
-    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
-    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
-    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
-    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+    <a class="unittab u1" href="lesson02.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="lesson16.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3 is-current" href="lesson28.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="lesson40.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
   </div></nav>
   <div class="progress" data-progress></div>
 </header>
@@ -69,7 +69,7 @@
     <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 39차시</p>
     <div class="bigr" aria-hidden="true">39</div>
     <div>
-      <p class="kicker">39차시 · 13주차 · <a href="unit3.html">Ⅲ 알고리즘</a></p>
+      <p class="kicker">39차시 · 13주차 · <a href="unit3.html">Ⅲ 알고리즘 전체 보기</a></p>
       <h1>동적 계획법 — 메모이제이션과 상향식</h1>
       <ul class="lgoal"><li>동적 계획법이 분할 정복법과 어떻게 다른지 설명할 수 있다</li><li>하향식(메모이제이션)과 상향식(반복문) 방식을 구별해 구현할 수 있다</li><li>관계식으로 동적 테이블을 채워 동전·배낭 문제를 풀 수 있다</li></ul>
       <div class="lprog" aria-label="전체 48차시 중 39차시"><i style="width:81.2%"></i></div>
@@ -114,7 +114,7 @@
 f(2) = 1
 f(n) = f(n - 1) + f(n - 2)     (단, n &gt; 2)</div>
 <p class="codecap">① 재귀 함수만 쓰면 (분할 정복 방식)</p>
-<pre data-c="1" data-run data-editable>call_count = 0                  # 함수가 몇 번 불렸는지 세기
+<pre data-c="1" data-run data-editable data-tr="4da67391e6f5">call_count = 0                  # 함수가 몇 번 불렸는지 세기
 
 def f(n):
     global call_count
@@ -225,7 +225,7 @@ print(dp)</pre>
       <div class="card"><span class="tag2">상향식 · bottom-up</span><h5>작은 문제부터 쌓아 올린다</h5><p>dp[1], dp[2]에서 시작해 dp[3], dp[4] … 순서로 <b>표를 차례로 채워</b> 가요. 재귀 함수를 쓰지 않아요.</p><p class="say">도구: 반복문</p></div>
     </div>
 <p class="codecap">상향식 — 반복문으로 테이블 채우기</p>
-<pre data-c="3" data-run data-editable>n = 10
+<pre data-c="3" data-run data-editable data-tr="94055f45a8bd">n = 10
 dp = {}                         # 동적 테이블을 딕셔너리로 준비
 dp[1] = 1
 dp[2] = 1
@@ -258,7 +258,7 @@ f(3) = 2 + 1 = 3     f(4) = 3 + 2 = 5     f(5) = 5 + 3 = 8   …   f(10) = 89</d
 
 print(climbstairs(10))</pre>
 <p class="codecap">② 하향식 동적 계획법 — 계산한 값을 저장해 재사용, O(n)</p>
-<pre data-c="5" data-run data-editable>dp = {1: 1, 2: 2}
+<pre data-c="5" data-run data-editable data-tr="3c62750066bb">dp = {1: 1, 2: 2}
 
 def climbstairs(n):
     if n in dp:
@@ -268,7 +268,7 @@ def climbstairs(n):
 
 print(climbstairs(10))</pre>
 <p class="codecap">③ 상향식 동적 계획법 — 반복문으로, O(n)</p>
-<pre data-c="6" data-run data-editable>n = 10
+<pre data-c="6" data-run data-editable data-tr="7027309282f8">n = 10
 dp = {}                         # 동적 테이블
 dp[1] = 1
 dp[2] = 2
@@ -341,7 +341,7 @@ i번 물건을 넣을 수 있으면 (wi ≤ w)   → 둘 중 큰 쪽
       <li><b>i = 2 (2번 물건: 3kg, 가치 4).</b> dp[2][3]은 ‘넣는다: 4 + dp[1][0] = 4’와 ‘안 넣는다: dp[1][3] = 3’ 중 큰 <b>4</b>. dp[2][5]는 ‘넣는다: 4 + dp[1][2] = 4 + 3 = 7’과 ‘안 넣는다: 3’ 중 큰 <b>7</b>.</li>
       <li><b>같은 방법으로 끝까지.</b> 맨 오른쪽 아래 칸 <b>dp[4][5] = 7</b>이 답이에요.</li>
     </ol>
-<pre data-c="7" data-run data-blanks>def knapsack(W, wt, val, n):                 # W: 배낭 무게 한도, wt: 무게, val: 가치, n: 물건 수
+<pre data-c="7" data-run data-blanks data-tr="6c10e6062faa">def knapsack(W, wt, val, n):                 # W: 배낭 무게 한도, wt: 무게, val: 가치, n: 물건 수
     dp = [[0 for x in range(W + 1)] for x in range(n + 1)]   # (n+1)줄 × (W+1)칸 표를 0으로
     for i in range(n + 1):                   # i: 물건 번호
         for w in range(W + 1):               # w: 배낭의 무게 한도
@@ -360,7 +360,7 @@ print(knapsack(5, weights, values, 4))</pre>
 <div class="drill">
       <span class="lbl">스스로 해결하기 · 10kg 배낭</span>
       <p>배낭의 최대 용량이 <b>10kg</b>일 때, 같은 물건 네 개로 가치를 가장 크게 하려면 무엇을 담아야 할까? 위 표를 w = 10까지 늘려 채워 보고, 프로그램으로 확인해 보자.</p>
-      <pre data-c="8" data-run data-editable>def knapsack(W, wt, val, n):
+      <pre data-c="8" data-run data-editable data-tr="03b123f6a7ee">def knapsack(W, wt, val, n):
     dp = [[0 for x in range(W + 1)] for x in range(n + 1)]
     for i in range(n + 1):
         for w in range(W + 1):
@@ -403,7 +403,7 @@ print('최대 가치:', knapsack(5, [2, 3, 4, 5], [3, 4, 5, 6], 4))   # 5를 10�
 
  i     0  1  2  3  4  5  6  7  8  9  10
 dp[i]  0  1  2  1  1  2  2  2  2  3   3</div>
-<pre data-c="9" data-run data-editable>coins = [1, 3, 4]
+<pre data-c="9" data-run data-editable data-tr="964f68787935">coins = [1, 3, 4]
 target = 10
 INF = float('inf')
 dp = [0] + [INF] * target              # dp[0] = 0, 나머지는 아직 모름

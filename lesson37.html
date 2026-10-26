@@ -57,10 +57,10 @@
   </div>
   <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
     <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
-    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
-    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
-    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
-    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+    <a class="unittab u1" href="lesson02.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="lesson16.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3 is-current" href="lesson28.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="lesson40.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
   </div></nav>
   <div class="progress" data-progress></div>
 </header>
@@ -69,7 +69,7 @@
     <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 37차시</p>
     <div class="bigr" aria-hidden="true">37</div>
     <div>
-      <p class="kicker">37차시 · 13주차 · <a href="unit3.html">Ⅲ 알고리즘</a></p>
+      <p class="kicker">37차시 · 13주차 · <a href="unit3.html">Ⅲ 알고리즘 전체 보기</a></p>
       <h1>문제 분해와 전체·부분 문제의 관계식</h1>
       <ul class="lgoal"><li>큰 문제를 작은 부분 문제로 나누고 관계식으로 쓸 수 있다</li><li>관계식을 재귀 함수로 옮길 수 있다</li><li>하노이 탑의 관계식 T(n) = 2T(n−1) + 1이 나오는 까닭을 설명할 수 있다</li></ul>
       <div class="lprog" aria-label="전체 48차시 중 37차시"><i style="width:77.1%"></i></div>
@@ -113,7 +113,7 @@ f(n) = f(n - 1) + n        ← “바로 앞의 답에 n만 더하면 된다”<
       <p>계단 100칸을 오른 높이를 알고 싶다면, <b>99칸까지의 높이에 한 칸만 더하면</b> 돼요. 99칸의 높이는 98칸에 한 칸을 더한 것이고요. 이렇게 “큰 문제의 답 = 조금 작은 문제의 답 + 약간”이라는 규칙을 찾으면, 가장 작은 문제(1칸) 하나만 알아도 전체가 풀려요. 이 규칙을 <b>관계식</b>이라고 하고, 수학에서는 <b>수학적 귀납법</b>이라는 방법으로 이런 관계를 나타내요.</p>
     </div>
 <p>관계식은 Ⅰ단원에서 배운 <b>재귀 함수</b>로 그대로 옮길 수 있어요.</p>
-<pre data-c="1" data-run data-editable>def f(n):
+<pre data-c="1" data-run data-editable data-tr="85643aad304b">def f(n):
     if n == 1:              # 가장 작은 문제: f(1) = 1
         return 1
     else:
@@ -195,7 +195,7 @@ T(n) = 2 × T(n - 1) + 1
         │              └ 가장 큰 원반 1개를 목표 기둥으로 옮기는 1번
         └ 위의 n-1개를 보조 기둥으로 옮길 때 한 번, 다시 목표 기둥으로 옮길 때 한 번</div>
 <p class="codecap">관계식으로 이동 횟수 구하기</p>
-<pre data-c="2" data-run data-blanks>def hanoi_moves(n):
+<pre data-c="2" data-run data-blanks data-tr="cfb606eda3ee">def hanoi_moves(n):
     if n == 1:
         return 1                           # 원반이 1개일 때 이동 횟수는 1회
     else:
@@ -204,7 +204,7 @@ T(n) = 2 × T(n - 1) + 1
 for n in range(1, 11):
     print(f'원반 {n}개: {hanoi_moves(n)}번')</pre>
 <p class="codecap">재귀 함수로 이동 순서까지 구하기</p>
-<pre data-c="3" data-run data-blanks>def hanoi(n, source, target, aux):
+<pre data-c="3" data-run data-blanks data-tr="ad743633a54e">def hanoi(n, source, target, aux):
     if n == 1:                             # 원반이 1개일 때
         print(source, '->', target)        # 출발 기둥 → 목표 기둥
         return
@@ -219,7 +219,7 @@ hanoi(3, 'A', 'C', 'B')                    # A: 출발, B: 보조, C: 목표</pr
       <p><b>팩토리얼 계산하기</b> — <code>f(n) = 1 × 2 × 3 × … × n = n!</code> 을 부분 문제로 나누어 관계식을 세우고, 재귀 함수로 완성해 보자.</p>
       <div class="walk">부분 문제:  f(1) = 1,   f(2) = f(1) × 2,   f(3) = ?
 관계식:     f(1) = 1,   f(n) = ?</div>
-      <pre data-c="4" data-run data-editable>def f(n):
+      <pre data-c="4" data-run data-editable data-tr="fbc849383b0f">def f(n):
     if n == 1:
         return 1            # f(1) = 1
     else:

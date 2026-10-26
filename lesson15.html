@@ -57,10 +57,10 @@
   </div>
   <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
     <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
-    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
-    <a class="unittab u2" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
-    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
-    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+    <a class="unittab u1 is-current" href="lesson02.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2" href="lesson16.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="lesson28.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="lesson40.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
   </div></nav>
   <div class="progress" data-progress></div>
 </header>
@@ -69,7 +69,7 @@
     <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / 15차시</p>
     <div class="bigr" aria-hidden="true">15</div>
     <div>
-      <p class="kicker">15차시 · 5주차 · <a href="unit1.html">Ⅰ 프로그래밍</a></p>
+      <p class="kicker">15차시 · 5주차 · <a href="unit1.html">Ⅰ 프로그래밍 전체 보기</a></p>
       <h1>반복 vs 재귀 / 재귀 활용 — 자릿수 합·하노이 탑</h1>
       <ul class="lgoal"><li>같은 문제를 반복 구조와 재귀 구조로 작성하고 장단점을 비교할 수 있다</li><li>자릿수 합·진법 변환·하노이 탑을 재귀로 해결하는 원리를 설명할 수 있다</li></ul>
       <div class="lprog" aria-label="전체 48차시 중 15차시"><i style="width:31.2%"></i></div>
@@ -84,7 +84,7 @@
 <p>반복 구조는 <code>for</code>·<code>while</code>로 같은 명령을 되풀이해 문제를 해결합니다. 피보나치수열로 두 구조를 비교해 봅시다.</p>
 <div class="callout"><b>피보나치수열의 정의</b> — ① 0번째 항은 0 ② 1번째 항은 1 ③ 그 외의 항은 바로 앞 두 항의 합. → 0, 1, 1, 2, 3, 5, 8, 13 …</div>
 <p class="codecap">반복 구조로 n번째 피보나치수 구하기</p>
-<pre data-c="1" data-run data-editable>def fib(n):
+<pre data-c="1" data-run data-editable data-tr="e94221c0d547">def fib(n):
     if n &lt;= 1:
         return n
     prev, curr = 0, 1
@@ -96,7 +96,7 @@
 
 print(fib(7))   # 13</pre>
 <p class="codecap">재귀 구조로 같은 문제 풀기</p>
-<pre data-c="2" data-run data-blanks>def fib(n):
+<pre data-c="2" data-run data-blanks data-tr="c85c2af26f33">def fib(n):
     if n &lt;= 1:                       # 기본 단계
         return n
     else:                            # 재귀 단계
@@ -156,7 +156,7 @@ print(end - start)</pre></div>
 <div class="wact w-trace" data-w="{&quot;code&quot;: [&quot;def fib(n):&quot;, &quot;    if n &lt;= 1:&quot;, &quot;        return n&quot;, &quot;    return fib(n - 1) + fib(n - 2)&quot;, &quot;&quot;, &quot;print(fib(3))&quot;], &quot;notes&quot;: {&quot;2&quot;: &quot;n이 0이나 1이면 기본 단계예요.&quot;, &quot;4&quot;: &quot;앞의 두 항을 구하려고 자기 자신을 두 번 불러요.&quot;, &quot;6&quot;: &quot;fib(1)이 몇 번 계산되는지 세어 보세요.&quot;}, &quot;steps&quot;: [{&quot;l&quot;: 1, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, []]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 6, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;2&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;2&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;2&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;1&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;2&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;1&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;2&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;1&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;1&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;2&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;0&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;2&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;0&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;2&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;0&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;0&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;2&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;1&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;1&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;1&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;1&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;1&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;2&quot;}, {&quot;l&quot;: 0, &quot;k&quot;: &quot;end&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]]], &quot;o&quot;: &quot;2\n&quot;}]}"><div class="wact-head"><span class="wact-lbl">코드 따라가기</span><h5>fib(3)은 몇 번 불릴까?</h5></div><div class="wact-body"></div></div>
 <h4>어떤 구조를 선택할까</h4>
 <p class="codecap">반복 구조가 알맞은 경우 — 리스트에서 최댓값 찾기(반복 횟수가 명확)</p>
-<pre data-c="4" data-run data-editable>def find_max(data):
+<pre data-c="4" data-run data-editable data-tr="d903bdfa03ec">def find_max(data):
     if not data:              # 데이터가 비어 있으면
         return None
     max = data[0]
@@ -167,7 +167,7 @@ print(end - start)</pre></div>
 
 print(find_max([3, 5, 2, 9, 1]))   # 9</pre>
 <p class="codecap">재귀 구조가 알맞은 경우 — 유클리드 알고리즘으로 최대공약수 구하기</p>
-<pre data-c="5" data-run data-editable>def gcd_recursive(a, b):
+<pre data-c="5" data-run data-editable data-tr="9e5c0b42c8ed">def gcd_recursive(a, b):
     if b == 0:                       # 기본 단계
         return a
     else:                            # 재귀 단계
@@ -180,7 +180,7 @@ print(gcd_recursive(48, 18))   # 6</pre>
       <ol>
         <li>1~10까지의 합을 구하는 프로그램을 <b>재귀 함수</b>로 작성해 보자. (종료 조건: <code>if n &lt;= 0: return 0</code>)</li>
         <li>아래 반복 구조를 재귀 구조로 바꿔 보자.
-          <pre data-c="6" data-run data-editable>def reverse_string(s):        # 변경 전 — 반복 구조
+          <pre data-c="6" data-run data-editable data-tr="10539246dea7">def reverse_string(s):        # 변경 전 — 반복 구조
     result = ''
     for char in s:
         result = char + result
@@ -256,14 +256,14 @@ print(reverse_string('hello'))   # olleh</pre>
 digit_sum(7925)   # ((7+9)+2)+5 = 23</pre>
 <p><code>digit_sum(7925)</code>는 <code>digit_sum(792) + 5</code> → <code>(digit_sum(79) + 2) + 5</code> → <code>((digit_sum(7) + 9) + 2) + 5</code> → <code>((7 + 9) + 2) + 5 = 23</code> 순서로 계산됩니다.</p>
 <p class="codecap">같은 원리 — 10진수를 2진수로 변환하기</p>
-<pre data-c="8" data-run data-editable>def decimal_to_binary(n):
+<pre data-c="8" data-run data-editable data-tr="73e94b6b7dde">def decimal_to_binary(n):
     if n == 0 or n == 1:                  # 기본 단계
         return str(n)
     return decimal_to_binary(n // 2) + str(n % 2)   # 재귀 단계
 
 print(f'10의 2진수 변환: {decimal_to_binary(10)}')   # 1010</pre>
 <p class="codecap">거꾸로 — 2진수를 10진수로 변환하기</p>
-<pre data-c="9" data-run data-editable>def binary_to_decimal(binary_str):
+<pre data-c="9" data-run data-editable data-tr="a2d4fbc695d7">def binary_to_decimal(binary_str):
     if binary_str == '':                  # 기본 단계: 빈 문자열이면 0
         return 0
     return binary_to_decimal(binary_str[:-1]) * 2 + int(binary_str[-1])
@@ -332,7 +332,7 @@ print(f'1010의 10진수 변환: {binary_to_decimal("1010")}')   # 10</pre>
         <p class="lab-note">규칙 — ① 한 번에 원반 하나만 ② 큰 원반을 작은 원반 위에 올릴 수 없음. ‘자동 풀이 보기’는 교과서의 재귀 함수 <code>hanoi_tower()</code>가 만들어 내는 이동 순서를 그대로 재생합니다.</p>
       </div>
     </div>
-<pre data-c="10" data-run data-blanks>def hanoi_tower(n, source, target, spare):
+<pre data-c="10" data-run data-blanks data-tr="3dfe2bbc21d1">def hanoi_tower(n, source, target, spare):
     if n == 1:
         print('원반 1', source, '→', target); return
     <input class="blank" data-ans="hanoi_tower(n - 1, source, spare, target)" size="42" spellcheck="false" autocomplete="off" aria-label="빈칸">   # 위 n-1개 → 보조

@@ -262,8 +262,8 @@ def header(current):
     tabs = []
     for n in UNIT_NS:
         u = UNITS[n]
-        tabs.append('    <a class="unittab %s%s" href="unit%d.html"><span class="r">%s</span><span class="nm">%s</span><span class="uw">%s</span></a>'
-                    % (ucls(n), " is-current" if n == current else "", n, u["roman"], uname(u), wklabel(u)))
+        tabs.append('    <a class="unittab %s%s" href="%s"><span class="r">%s</span><span class="nm">%s</span><span class="uw">%s</span></a>'
+                    % (ucls(n), " is-current" if n == current else "", unit_entry(n), u["roman"], uname(u), wklabel(u)))
     return """<a class="skip" href="#main">본문 바로가기</a>
 <header class="topbar">
   <div class="bar-top">
@@ -333,10 +333,13 @@ def unit_page(n):
       <h1>%s</h1>
       <p class="goal">%s</p>
       <div class="chips">%s</div>
+      %s
     </div>
   </div>
 </section>
-""" % (label, u["roman"], "UNIT %s" % u["roman"] if n else "BEFORE UNIT Ⅰ", u["name"], u["goal"], "".join(chips))
+""" % (label, u["roman"], "UNIT %s" % u["roman"] if n else "BEFORE UNIT Ⅰ", u["name"], u["goal"], "".join(chips),
+       ('<p class="tolessons"><a class="btn btn-p" href="%s">차시별로 공부하기 · %d차시부터</a><span>이 페이지는 단원 내용을 한 번에 모아 보는 <b>단원 전체 보기</b>예요.</span></p>'
+        % (lfile(first_lesson(n)), first_lesson(n))) if n and first_lesson(n) else "")
     quick = ['<a href="#%s">%s %s<span>%s</span></a>' % (tps[0][0], "처음부터", "읽기", tps[0][1])]
     if labs: quick.append('<a href="#u-labs">실습 모음<span>%d개</span></a>' % len(labs))
     quick.append('<a href="#u-terms">핵심 용어<span>%d개</span></a>' % len(terms))
@@ -396,7 +399,7 @@ def home():
     for n in UNIT_NS:
         u = UNITS[n]
         tps = topics(n)
-        cards.append("""  <a class="unitcard %s" href="unit%d.html">
+        cards.append("""  <a class="unitcard %s" href="%s">
     <div class="band"><span class="r">%s</span><span class="wk">%s</span></div>
     <div class="body">
       <h3>%s</h3><p>%s</p>
@@ -404,7 +407,7 @@ def home():
       <div class="ubar"><i data-uprog="%d"></i></div>
       <div class="ubar-l"><span>해 봤어요</span><span data-uprog-l="%d">0 / %d</span></div>
     </div>
-  </a>""" % (ucls(n), n, u["roman"], wklabel(u), u["name"], u["summary"], len(tps), len(labs_in(n)),
+  </a>""" % (ucls(n), unit_entry(n), u["roman"], wklabel(u), u["name"], u["summary"], len(tps), len(labs_in(n)),
              sum(1 for g in GLOSS if g["unit"] == n), sum(1 for q in QUIZ if q["unit"] == n), n, n, len(tps)))
     cols = []
     for n in UNIT_NS:
@@ -562,6 +565,18 @@ def lunit(k):
 
 def lfile(k): return "lesson%02d.html" % k
 
+def first_lesson(n):
+    """단원 n의 첫 차시 번호(1차시 오리엔테이션은 빼고). 차시가 없는 단원(0)은 None."""
+    for k in range(2, NL + 1):
+        if lunit(k) == n:
+            return k
+    return None
+
+def unit_entry(n):
+    """단원 메뉴가 가리키는 곳: 첫 차시 페이지(없으면 단원 전체 페이지)."""
+    k = first_lesson(n) if n else None
+    return lfile(k) if k else "unit%d.html" % n
+
 def ltitle(k): return re.sub(r"<[^>]+>", "", LTITLE[k][1])
 
 def src_label(ref):
@@ -661,7 +676,7 @@ def lesson_page(k):
     <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / %d차시</p>
     <div class="bigr" aria-hidden="true">%d</div>
     <div>
-      <p class="kicker">%d차시 · %d주차 · <a href="unit%d.html">%s %s</a></p>
+      <p class="kicker">%d차시 · %d주차 · <a href="unit%d.html">%s %s 전체 보기</a></p>
       <h1>%s</h1>
       %s
       <div class="lprog" aria-label="전체 %d차시 중 %d차시"><i style="width:%.1f%%"></i></div>
@@ -705,7 +720,10 @@ def lesson_page(k):
     pager = '<nav class="pager" aria-label="차시 이동">%s%s</nav>\n' % (plink("prev", "← 이전", k - 1), plink("next", "다음 →", k + 1))
     data = '<script>window.LESSON=%s;</script>\n' % json.dumps({"n": k, "notes": d.get("code_notes", {})}, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     body = hero + '<main class="lpage" id="main">\n' + "\n".join(parts) + "\n</main>\n" + pager + data
-    return page("%d차시 %s · 정보과학" % (k, title), "%d주차 %d차시 — %s" % (wk, k, title), "lessonpage " + ucls(n), "lessons", body)
+    out = page("%d차시 %s · 정보과학" % (k, title), "%d주차 %d차시 — %s" % (wk, k, title), "lessonpage " + ucls(n), "lessons", body)
+    if n:
+        out = out.replace('class="unittab %s"' % ucls(n), 'class="unittab %s is-current"' % ucls(n), 1)
+    return out
 
 def lessons_index():
     cols = []
@@ -743,6 +761,13 @@ for k, n, i, d in TOOLS:
 wr("settings.html", tool_page("settings"))
 for k in range(1, NL + 1):
     wr(lfile(k), lesson_page(k))
+
+# ---------- 한 줄씩 보기 자료 ----------
+sys.path.insert(0, P("tools"))
+import tracegen
+_tr_pages = ["unit%d.html" % n for n in UNIT_NS] + [lfile(k) for k in range(1, NL + 1)]
+_tr_ok, _tr_try = tracegen.run(ROOT, _tr_pages)
+print("한 줄씩 보기: %d개 코드 블록 (시도 %d개)" % (_tr_ok, _tr_try))
 
 print("built: index.html, %s, %s" % (", ".join("unit%d.html" % n for n in UNIT_NS), ", ".join(k + ".html" for k, *_ in TOOLS)))
 print("실행 가능한 코드 블록(단원 본문):", _run_total, "개 · 용어", len(GLOSS), "개 · 퀴즈", len(QUIZ), "문제")

@@ -57,10 +57,10 @@
   </div>
   <nav class="unitbar" aria-label="단원"><div class="unitbar-in">
     <a class="unittab u0" href="unit0.html"><span class="r">0</span><span class="nm">파이썬 기초</span><span class="uw">준비</span></a>
-    <a class="unittab u1" href="unit1.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
-    <a class="unittab u2 is-current" href="unit2.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
-    <a class="unittab u3" href="unit3.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
-    <a class="unittab u4" href="unit4.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
+    <a class="unittab u1" href="lesson02.html"><span class="r">Ⅰ</span><span class="nm">프로그래밍</span><span class="uw">1~5주차</span></a>
+    <a class="unittab u2 is-current" href="lesson16.html"><span class="r">Ⅱ</span><span class="nm">데이터 구조</span><span class="uw">6~9주차</span></a>
+    <a class="unittab u3" href="lesson28.html"><span class="r">Ⅲ</span><span class="nm">알고리즘</span><span class="uw">10~13주차</span></a>
+    <a class="unittab u4" href="lesson40.html"><span class="r">Ⅳ</span><span class="nm">프로젝트</span><span class="uw">14~16주차</span></a>
   </div></nav>
   <div class="progress" data-progress></div>
 </header>
@@ -73,6 +73,7 @@
       <h1>데이터 구조</h1>
       <p class="goal">데이터를 어떤 <b>모양의 그릇</b>에 담느냐에 따라 문제 해결의 효율이 달라진다. 선형 구조(스택·큐)와 비선형 구조(트리·그래프)를 익힌다.</p>
       <div class="chips"><span class="chip"><b>6~9주차</b></span><span class="chip">소단원 <b>6</b></span><span class="chip">실습 <b>10</b></span><span class="chip">용어 <b>33</b></span><span class="chip">퀴즈 <b>10</b></span></div>
+      <p class="tolessons"><a class="btn btn-p" href="lesson16.html">차시별로 공부하기 · 16차시부터</a><span>이 페이지는 단원 내용을 한 번에 모아 보는 <b>단원 전체 보기</b>예요.</span></p>
     </div>
   </div>
 </section>
@@ -734,7 +735,7 @@ for vlist in al:
 10 입력 → 8보다 커서 오른쪽, 14보다 작으므로 14의 왼쪽</pre>
 
     <p class="codecap">리스트로 표현한 이진 탐색 트리에 저장하고 탐색하기</p>
-    <pre data-run data-editable>def insert(idx, num):                 # idx: 저장 위치, num: 저장할 값
+    <pre data-run data-editable data-tr="17adcf5ba64c">def insert(idx, num):                 # idx: 저장 위치, num: 저장할 값
     if bst[idx] == 0:                 # 빈자리면 저장
         bst[idx] = num
     elif num &lt; bst[idx]:
