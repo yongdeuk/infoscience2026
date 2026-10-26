@@ -3,9 +3,55 @@
     <h3><span class="idx">1-1</span> 함수의 이해 <span class="lesson">1~2주차</span></h3>
     <p class="lede">여러 줄짜리 작업을 이름 하나로 묶어 두고, 필요할 때마다 불러 쓰는 장치가 함수입니다.</p>
 
+    <div class="goalbox">
+      <span class="lbl">이 시간에 배울 내용</span>
+      <p class="q">프로그래밍에서 함수를 어떻게 활용할까?</p>
+      <ul>
+        <li>함수가 무엇인지 알고, <code>def</code>로 함수를 만들 수 있어요.</li>
+        <li>함수를 부르고(호출) 결과를 돌려받는(반환) 과정을 설명할 수 있어요.</li>
+        <li>지역 변수와 전역 변수가 어떻게 다른지 구분할 수 있어요.</li>
+      </ul>
+    </div>
+
+    <div class="story">
+      <span class="lbl">생활 속 이야기 · 우리 집 로봇</span>
+      <p>우리 집에 요리 로봇이 왔어요. “라면 끓여 줘!”라고 했더니 로봇이 멀뚱멀뚱 서 있어요. 로봇은 ‘라면 끓이기’가 무엇인지 몰라요. 그래서 매번 이렇게 말해 줘야 해요.</p>
+      <p>“물 550mL를 끓여. 면과 수프를 넣어. 5분 동안 끓여. 불을 꺼. 그릇에 담아.”</p>
+      <p class="ask">배고플 때마다 다섯 문장을 다 말해야 한다면 너무 귀찮겠죠? 한 번만 가르쳐 두고 “라면 끓여 줘” 한마디로 끝낼 수는 없을까요?</p>
+    </div>
+
+    <figure class="photo"><img src="assets/img/ramen.jpg" alt="냄비에서 라면이 보글보글 끓고 있는 모습" loading="lazy" width="880" height="612"><figcaption>물 끓이기 → 면과 수프 넣기 → 5분 끓이기 → 불 끄기 → 그릇에 담기. 이 다섯 단계를 <b>‘라면 끓이기’</b>라는 이름 하나로 묶으면 그것이 함수예요.<span class="credit">사진: ProjectManhattan · <a href="https://commons.wikimedia.org/wiki/File:Cooking_instant_noodles.jpg" target="_blank" rel="noopener">CC BY-SA 3.0</a> · Wikimedia Commons</span></figcaption></figure>
+
+
     <div class="analogy">
       <span class="lbl">쉽게 말하면</span>
       <p>로봇에게 “라면 끓여 줘”라고 한마디만 하면 되는 이유는, ‘물 550mL 끓이기 → 면과 수프 넣기 → 5분 끓이기 → 불 끄기 → 그릇에 담기’를 <b>‘라면 끓이기’라는 이름 하나로 묶어 두었기</b> 때문입니다. 이 묶음이 함수이고, ‘라면 3개’, ‘계란 추가’처럼 바꿔 넣는 값이 매개 변수입니다.</p>
+    </div>
+
+    <div class="photo-row">
+      <figure class="photo"><img src="assets/img/vending.jpg" alt="여러 가지 음료가 진열된 음료 자판기" loading="lazy" width="660" height="880"><figcaption><b>자판기 = 함수</b>버튼을 누르면(입력) 정해진 음료가 나와요(출력).<span class="credit">사진: Chiara Coetzee · <a href="https://commons.wikimedia.org/wiki/File:Drink_vending_machine_at_Narita_Airport.jpg" target="_blank" rel="noopener">CC0</a> · Wikimedia Commons</span></figcaption></figure>
+      <figure class="photo"><img src="assets/img/lego.jpg" alt="여러 색깔의 레고 블록이 쌓여 있는 모습" loading="lazy" width="880" height="589"><figcaption><b>블록처럼 조립하기</b>작은 함수 여러 개를 조립해 큰 프로그램을 만들어요.<span class="credit">사진: Alan Chia · <a href="https://commons.wikimedia.org/wiki/File:Lego_Color_Bricks.jpg" target="_blank" rel="noopener">CC BY-SA 2.0</a> · Wikimedia Commons</span></figcaption></figure>
+    </div>
+
+    <div class="cards">
+      <div class="card"><span class="tag2">내장 함수</span><h5>파이썬이 미리 만들어 둔 함수</h5><p><code>print()</code>, <code>sum()</code>, <code>len()</code>, <code>input()</code>처럼 바로 쓸 수 있어요. <code>sum([1, 2])</code>는 3, <code>sum([3, 4])</code>는 7을 돌려줘요.</p></div>
+      <div class="card"><span class="tag2">사용자 정의 함수</span><h5>내가 직접 만드는 함수</h5><p>내장 함수만으로 모자랄 때, 필요한 기능을 <code>def</code>로 직접 만들어요. 이 시간에 배울 내용이에요.</p></div>
+    </div>
+
+    <div class="lab" id="lab-func">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>라면 로봇 — 함수를 한 번 가르치고 여러 번 부르기</h5></div>
+      <div class="lab-body">
+        <div class="lx-code" data-code></div>
+        <div class="lx-out" data-out></div>
+        <div class="lab-ctrl">
+          <label>라면 개수 <input type="number" data-count min="1" max="5" value="1"></label>
+          <label><input type="checkbox" data-egg> 계란 추가</label>
+          <button class="btn btn-p" data-act="call">함수 호출하기</button>
+          <button class="btn" data-act="clear">출력 지우기</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite"></p>
+        <p class="lab-note">개수와 계란 옵션을 바꿔 가며 여러 번 호출해 보세요. 함수의 본문(다섯 단계)은 한 번만 적었는데, 부를 때마다 <b>넣어 준 값에 맞게</b> 다시 실행돼요.</p>
+      </div>
     </div>
 
     <h4>함수의 구조</h4>
@@ -94,6 +140,11 @@ reverse('level')  # 기존: level, 역순: level ==&gt; 회문입니다.
 reverse('cat')    # 기존: cat, 역순: tac ==&gt; 회문이 아닙니다.
 reverse('Believe you can, and you are halfway there')  # 길이가 너무 깁니다.</pre>
     <div class="callout"><b>회문</b>이란 앞에서 읽으나 뒤에서 읽으나 같은 문자열입니다. <code>s[::-1]</code>은 문자열을 통째로 뒤집습니다. <b>f-string</b>은 <code>f'…{변수}…'</code> 형태로 값을 문자열에 끼워 넣는 방법으로, 가독성이 좋습니다.</div>
+
+    <div class="wact w-trace" data-w="{&quot;code&quot;: [&quot;def find_middle_number(a, b, c):&quot;, &quot;    numbers = [a, b, c]&quot;, &quot;    numbers.sort()&quot;, &quot;    return numbers[1]&quot;, &quot;&quot;, &quot;result = find_middle_number(5, 7, 3)&quot;, &quot;print(result)&quot;], &quot;notes&quot;: {&quot;1&quot;: &quot;함수를 &#x27;정의&#x27;만 해요. 아직 실행되지 않아요. 파이썬은 이 이름을 기억해 두고 아래로 넘어가요.&quot;, &quot;2&quot;: &quot;받은 세 값을 리스트 하나에 담아요.&quot;, &quot;3&quot;: &quot;작은 수부터 차례로 정렬해요.&quot;, &quot;4&quot;: &quot;가운데(1번) 값을 돌려주고 함수를 끝내요.&quot;, &quot;6&quot;: &quot;함수 호출! 5, 7, 3이 차례로 a, b, c에 들어가요. 오른쪽 변수 표에 함수 칸이 새로 생기는지 보세요.&quot;, &quot;7&quot;: &quot;돌려받은 값 5를 출력해요.&quot;}, &quot;steps&quot;: [{&quot;l&quot;: 1, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, []]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 6, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;find_middle_number&quot;, &quot;함수&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;find_middle_number&quot;, &quot;함수&quot;]]], [&quot;find_middle_number()&quot;, [[&quot;a&quot;, &quot;5&quot;], [&quot;b&quot;, &quot;7&quot;], [&quot;c&quot;, &quot;3&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;find_middle_number&quot;, &quot;함수&quot;]]], [&quot;find_middle_number()&quot;, [[&quot;a&quot;, &quot;5&quot;], [&quot;b&quot;, &quot;7&quot;], [&quot;c&quot;, &quot;3&quot;], [&quot;numbers&quot;, &quot;[5, 7, 3]&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;find_middle_number&quot;, &quot;함수&quot;]]], [&quot;find_middle_number()&quot;, [[&quot;a&quot;, &quot;5&quot;], [&quot;b&quot;, &quot;7&quot;], [&quot;c&quot;, &quot;3&quot;], [&quot;numbers&quot;, &quot;[3, 5, 7]&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;find_middle_number&quot;, &quot;함수&quot;]]], [&quot;find_middle_number()&quot;, [[&quot;a&quot;, &quot;5&quot;], [&quot;b&quot;, &quot;7&quot;], [&quot;c&quot;, &quot;3&quot;], [&quot;numbers&quot;, &quot;[3, 5, 7]&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;5&quot;}, {&quot;l&quot;: 7, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;find_middle_number&quot;, &quot;함수&quot;], [&quot;result&quot;, &quot;5&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 0, &quot;k&quot;: &quot;end&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;find_middle_number&quot;, &quot;함수&quot;], [&quot;result&quot;, &quot;5&quot;]]]], &quot;o&quot;: &quot;5\n&quot;}]}"><div class="wact-head"><span class="wact-lbl">코드 따라가기</span><h5>함수 호출 따라가기 — 인수가 매개 변수로 들어가는 순간</h5></div><div class="wact-body"></div></div>
+
+    <div class="wact w-predict" data-w="{&quot;code&quot;: &quot;def check(x):\n    if x &gt; 0:\n        return &#x27;양수&#x27;\n        print(&#x27;여기는 실행될까?&#x27;)\n    return &#x27;0 이하&#x27;\n\nprint(check(3))\nprint(check(-1))&quot;, &quot;opts&quot;: [&quot;양수\\n여기는 실행될까?\\n0 이하&quot;, &quot;양수\\n0 이하&quot;, &quot;여기는 실행될까?\\n0 이하&quot;, &quot;양수&quot;], &quot;ans&quot;: 1, &quot;exp&quot;: &quot;return은 값을 돌려주는 동시에 함수를 그 자리에서 끝내요. 그래서 return 바로 아래의 print는 한 번도 실행되지 않아요.&quot;}"><div class="wact-head"><span class="wact-lbl">결과 예측</span><h5>return을 만나면?</h5></div><div class="wact-body"></div></div>
+<div class="wact w-fill" data-w="{&quot;code&quot;: &quot;⟦def⟧ circle_area(r):\n    area = 3.14 * r * r\n    ⟦return⟧ area\n\nprint(⟦circle_area⟧(5))      # 78.5&quot;}"><div class="wact-head"><span class="wact-lbl">빈칸 채우기</span><h5>함수 만들기 — 원의 넓이</h5></div><div class="wact-body"></div></div>
 
     <h4>매개 변수·반환값 유무에 따른 4가지 형태</h4>
     <div class="tablewrap">
@@ -193,6 +244,27 @@ def print_global_drink():
 
     <div class="callout"><b>전역 변수는 꼭 필요할 때만</b> — 전역 변수는 함수의 중요한 특징인 <b>독립성</b>을 해칩니다. 한 함수에서 값을 바꾸면 다른 함수에도 영향을 미쳐 코드가 복잡해지고, 예상치 못한 버그가 생길 수 있습니다.</div>
 
+    <div class="wact w-trace" data-w="{&quot;code&quot;: [&quot;drink = &#x27;coffee&#x27;&quot;, &quot;&quot;, &quot;def print_local_drink():&quot;, &quot;    drink = &#x27;lemonade&#x27;&quot;, &quot;    print(&#x27;음료:&#x27;, drink)&quot;, &quot;&quot;, &quot;def print_global_drink():&quot;, &quot;    global drink&quot;, &quot;    drink = &#x27;coke&#x27;&quot;, &quot;    print(&#x27;음료:&#x27;, drink)&quot;, &quot;&quot;, &quot;print_local_drink()&quot;, &quot;print_global_drink()&quot;, &quot;print(&#x27;음료:&#x27;, drink)&quot;], &quot;notes&quot;: {&quot;1&quot;: &quot;함수 바깥에서 만든 전역 변수예요.&quot;, &quot;4&quot;: &quot;같은 이름이지만 함수 안에서 새로 만든 지역 변수예요. 오른쪽 표에서 함수 칸에만 생기는 것을 보세요.&quot;, &quot;5&quot;: &quot;함수 안에서는 가까운 지역 변수가 이겨요.&quot;, &quot;8&quot;: &quot;\&quot;전역 변수 drink를 쓰겠다\&quot;고 미리 말해 둬요.&quot;, &quot;9&quot;: &quot;새 변수를 만들지 않고 전역 변수의 값을 바꿔요. &#x27;전역&#x27; 칸의 값이 바뀌는지 보세요.&quot;, &quot;12&quot;: &quot;지역 변수 함수 호출&quot;, &quot;13&quot;: &quot;global 함수 호출&quot;, &quot;14&quot;: &quot;바깥에서 보면 전역 변수는 coke로 바뀌어 있어요.&quot;}, &quot;steps&quot;: [{&quot;l&quot;: 1, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, []]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;drink&quot;, &quot;&#x27;coffee&#x27;&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 7, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;drink&quot;, &quot;&#x27;coffee&#x27;&quot;], [&quot;print_local_drink&quot;, &quot;함수&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 12, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;drink&quot;, &quot;&#x27;coffee&#x27;&quot;], [&quot;print_local_drink&quot;, &quot;함수&quot;], [&quot;print_global_drink&quot;, &quot;함수&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;drink&quot;, &quot;&#x27;coffee&#x27;&quot;], [&quot;print_local_drink&quot;, &quot;함수&quot;], [&quot;print_global_drink&quot;, &quot;함수&quot;]]], [&quot;print_local_drink()&quot;, []]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 5, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;drink&quot;, &quot;&#x27;coffee&#x27;&quot;], [&quot;print_local_drink&quot;, &quot;함수&quot;], [&quot;print_global_drink&quot;, &quot;함수&quot;]]], [&quot;print_local_drink()&quot;, [[&quot;drink&quot;, &quot;&#x27;lemonade&#x27;&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 5, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;drink&quot;, &quot;&#x27;coffee&#x27;&quot;], [&quot;print_local_drink&quot;, &quot;함수&quot;], [&quot;print_global_drink&quot;, &quot;함수&quot;]]], [&quot;print_local_drink()&quot;, [[&quot;drink&quot;, &quot;&#x27;lemonade&#x27;&quot;]]]], &quot;o&quot;: &quot;음료: lemonade\n&quot;, &quot;r&quot;: &quot;None&quot;}, {&quot;l&quot;: 13, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;drink&quot;, &quot;&#x27;coffee&#x27;&quot;], [&quot;print_local_drink&quot;, &quot;함수&quot;], [&quot;print_global_drink&quot;, &quot;함수&quot;]]]], &quot;o&quot;: &quot;음료: lemonade\n&quot;}, {&quot;l&quot;: 9, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;drink&quot;, &quot;&#x27;coffee&#x27;&quot;], [&quot;print_local_drink&quot;, &quot;함수&quot;], [&quot;print_global_drink&quot;, &quot;함수&quot;]]], [&quot;print_global_drink()&quot;, []]], &quot;o&quot;: &quot;음료: lemonade\n&quot;}, {&quot;l&quot;: 10, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;drink&quot;, &quot;&#x27;coke&#x27;&quot;], [&quot;print_local_drink&quot;, &quot;함수&quot;], [&quot;print_global_drink&quot;, &quot;함수&quot;]]], [&quot;print_global_drink()&quot;, []]], &quot;o&quot;: &quot;음료: lemonade\n&quot;}, {&quot;l&quot;: 10, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;drink&quot;, &quot;&#x27;coke&#x27;&quot;], [&quot;print_local_drink&quot;, &quot;함수&quot;], [&quot;print_global_drink&quot;, &quot;함수&quot;]]], [&quot;print_global_drink()&quot;, []]], &quot;o&quot;: &quot;음료: lemonade\n음료: coke\n&quot;, &quot;r&quot;: &quot;None&quot;}, {&quot;l&quot;: 14, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;drink&quot;, &quot;&#x27;coke&#x27;&quot;], [&quot;print_local_drink&quot;, &quot;함수&quot;], [&quot;print_global_drink&quot;, &quot;함수&quot;]]]], &quot;o&quot;: &quot;음료: lemonade\n음료: coke\n&quot;}, {&quot;l&quot;: 0, &quot;k&quot;: &quot;end&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;drink&quot;, &quot;&#x27;coke&#x27;&quot;], [&quot;print_local_drink&quot;, &quot;함수&quot;], [&quot;print_global_drink&quot;, &quot;함수&quot;]]]], &quot;o&quot;: &quot;음료: lemonade\n음료: coke\n음료: coke\n&quot;}]}"><div class="wact-head"><span class="wact-lbl">코드 따라가기</span><h5>지역 변수와 전역 변수 따라가기</h5></div><div class="wact-body"></div></div>
+
+    <div class="lab" id="lab-scope">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>변수의 영역 — 어느 drink가 바뀔까</h5></div>
+      <div class="lab-body">
+        <div class="lx-scope">
+          <div class="lx-box g"><span>전역 영역</span><b data-g>coffee</b><small>drink</small></div>
+          <div class="lx-box l" data-lbox><span>함수 안 (지역 영역)</span><b data-l>—</b><small>drink</small></div>
+        </div>
+        <div class="lx-out" data-out></div>
+        <div class="lab-ctrl">
+          <button class="btn btn-p" data-act="local">print_local_drink() 호출</button>
+          <button class="btn btn-p" data-act="global">print_global_drink() 호출</button>
+          <button class="btn" data-act="print">바깥에서 print(drink)</button>
+          <button class="btn" data-act="reset">처음부터</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite"></p>
+        <p class="lab-note">지역 변수 상자는 함수가 실행되는 동안에만 나타났다가 사라져요. <code>global</code>을 쓴 함수만 전역 상자의 값을 바꿔요.</p>
+      </div>
+    </div>
+
     <div class="deep">
       <span class="lbl">정보과학으로 지식 키우기 · 보충 심화</span>
       <h5>클린 코드(Clean Code)</h5>
@@ -258,6 +330,21 @@ def remove_song(song):
     ...</pre>
     </div>
 
+    <div class="wact w-parsons" data-w="{&quot;lines&quot;: [&quot;def get_rev(s):&quot;, &quot;    result = &#x27;&#x27;&quot;, &quot;    for ch in s:&quot;, &quot;        result = ch + result&quot;, &quot;    return result&quot;, &quot;print(get_rev(&#x27;hello&#x27;))&quot;]}"><div class="wact-head"><span class="wact-lbl">순서 맞추기</span><h5>순서 맞추기 — 문자열을 거꾸로 돌려주는 get_rev()</h5></div><div class="wact-body"></div></div>
+
+    <div class="words">
+      <span class="lbl">낱말 풀이</span>
+      <dl>
+        <dt>정의</dt><dd>함수를 만드는 것. <code>def</code>로 시작해요</dd>
+        <dt>호출</dt><dd>만들어 둔 함수를 이름으로 불러 실행하는 것</dd>
+        <dt>인수</dt><dd>함수를 부를 때 바깥에서 보내 주는 값</dd>
+        <dt>매개 변수</dt><dd>보내 준 값을 함수 안에서 받는 변수</dd>
+        <dt>반환</dt><dd>함수가 일을 마치고 결과를 부른 쪽으로 돌려주는 것</dd>
+        <dt>가독성</dt><dd>글이나 코드가 얼마나 읽기 쉬운가 하는 정도</dd>
+        <dt>유지 보수</dt><dd>만든 프로그램을 계속 고치고 돌보는 일</dd>
+      </dl>
+    </div>
+
     <div class="points">
       <span class="lbl">핵심 포인트</span>
       <ul>
@@ -275,6 +362,25 @@ def remove_song(song):
     <h3><span class="idx">1-2</span> 함수의 활용 <span class="lesson">3~4주차</span></h3>
     <p class="lede">매개 변수를 더 유연하게 만들고, 여러 함수를 파일 단위로 묶어 모듈로 관리합니다.</p>
 
+    <div class="goalbox">
+      <span class="lbl">이 시간에 배울 내용</span>
+      <p class="q">함수와 모듈로 프로그램을 어떻게 효율적으로 만들까?</p>
+      <ul>
+        <li>기본값 매개 변수, 가변 인수 매개 변수처럼 여러 형태의 매개 변수를 쓸 수 있어요.</li>
+        <li>클래스로 객체의 설계도를 만들고 객체를 찍어 낼 수 있어요.</li>
+        <li>모듈·내장 함수·라이브러리를 골라 써서 프로그램을 쉽게 만들 수 있어요.</li>
+      </ul>
+    </div>
+
+    <div class="story">
+      <span class="lbl">생활 속 이야기 · 집 짓기</span>
+      <p>집 한 채를 지으려면 기초 공사, 벽돌 쌓기, 전기 공사, 실내 꾸미기가 필요해요. 한 사람이 다 하지 않아요. 기초는 기초 전문가가, 전기는 전기 기술자가, 실내는 디자이너가 맡아요. 각자 맡은 일을 따로 해도 마지막에는 하나의 집이 돼요.</p>
+      <p class="ask">프로그램도 이렇게 맡은 일별로 나누어 만들고, 필요할 때 가져다 쓸 수 있을까요?</p>
+    </div>
+
+    <figure class="photo"><img src="assets/img/blueprint.jpg" alt="손으로 그린 이층집의 정면 설계 도면" loading="lazy" width="880" height="668"><figcaption>설계도 한 장으로 같은 집을 여러 채 지을 수 있어요. 이 시간에 배울 <b>클래스</b>가 바로 프로그램 속 설계도예요.<span class="credit">사진: Alice Trythall Washburn · <a href="https://commons.wikimedia.org/wiki/File:Blueprint_of_elevation_by_Alice_Trythall_Washburn.jpg" target="_blank" rel="noopener">퍼블릭 도메인</a> · Wikimedia Commons</span></figcaption></figure>
+
+
     <h4>기본값 매개 변수</h4>
     <p>값을 전달하지 않아도 되도록 미리 값을 준비해 둔 매개 변수입니다. 그래서 <b>선택적 매개 변수</b>라고도 합니다. 반드시 <b>일반 매개 변수보다 뒤에</b> 놓아야 합니다.</p>
     <pre>def apply_discount(prices, discount=0):
@@ -284,6 +390,8 @@ def remove_song(song):
 
 apply_discount([1000, 2000])        # 할인 없음(기본값 0)
 apply_discount([1000, 2000], 0.3)   # 30% 할인</pre>
+
+    <div class="wact w-trace" data-w="{&quot;code&quot;: [&quot;def apply_discount(prices, discount=0):&quot;, &quot;    for price in prices:&quot;, &quot;        sale = round(price * (1 - discount))&quot;, &quot;        print(f&#x27;{price}원 → {sale}원&#x27;)&quot;, &quot;&quot;, &quot;apply_discount([1000, 2000])&quot;, &quot;apply_discount([1000, 2000], 0.3)&quot;], &quot;notes&quot;: {&quot;1&quot;: &quot;discount는 값을 안 주면 0이 돼요.&quot;, &quot;6&quot;: &quot;할인율을 주지 않았어요. 함수 칸의 discount 값을 보세요.&quot;, &quot;7&quot;: &quot;이번에는 0.3을 줬어요. discount가 기본값 대신 0.3이 돼요.&quot;}, &quot;steps&quot;: [{&quot;l&quot;: 1, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, []]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 6, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;apply_discount&quot;, &quot;함수&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;apply_discount&quot;, &quot;함수&quot;]]], [&quot;apply_discount()&quot;, [[&quot;prices&quot;, &quot;[1000, 2000]&quot;], [&quot;discount&quot;, &quot;0&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;apply_discount&quot;, &quot;함수&quot;]]], [&quot;apply_discount()&quot;, [[&quot;prices&quot;, &quot;[1000, 2000]&quot;], [&quot;discount&quot;, &quot;0&quot;], [&quot;price&quot;, &quot;1000&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;apply_discount&quot;, &quot;함수&quot;]]], [&quot;apply_discount()&quot;, [[&quot;prices&quot;, &quot;[1000, 2000]&quot;], [&quot;discount&quot;, &quot;0&quot;], [&quot;price&quot;, &quot;1000&quot;], [&quot;sale&quot;, &quot;1000&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;apply_discount&quot;, &quot;함수&quot;]]], [&quot;apply_discount()&quot;, [[&quot;prices&quot;, &quot;[1000, 2000]&quot;], [&quot;discount&quot;, &quot;0&quot;], [&quot;price&quot;, &quot;1000&quot;], [&quot;sale&quot;, &quot;1000&quot;]]]], &quot;o&quot;: &quot;1000원 → 1000원\n&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;apply_discount&quot;, &quot;함수&quot;]]], [&quot;apply_discount()&quot;, [[&quot;prices&quot;, &quot;[1000, 2000]&quot;], [&quot;discount&quot;, &quot;0&quot;], [&quot;price&quot;, &quot;2000&quot;], [&quot;sale&quot;, &quot;1000&quot;]]]], &quot;o&quot;: &quot;1000원 → 1000원\n&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;apply_discount&quot;, &quot;함수&quot;]]], [&quot;apply_discount()&quot;, [[&quot;prices&quot;, &quot;[1000, 2000]&quot;], [&quot;discount&quot;, &quot;0&quot;], [&quot;price&quot;, &quot;2000&quot;], [&quot;sale&quot;, &quot;2000&quot;]]]], &quot;o&quot;: &quot;1000원 → 1000원\n&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;apply_discount&quot;, &quot;함수&quot;]]], [&quot;apply_discount()&quot;, [[&quot;prices&quot;, &quot;[1000, 2000]&quot;], [&quot;discount&quot;, &quot;0&quot;], [&quot;price&quot;, &quot;2000&quot;], [&quot;sale&quot;, &quot;2000&quot;]]]], &quot;o&quot;: &quot;1000원 → 1000원\n2000원 → 2000원\n&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;apply_discount&quot;, &quot;함수&quot;]]], [&quot;apply_discount()&quot;, [[&quot;prices&quot;, &quot;[1000, 2000]&quot;], [&quot;discount&quot;, &quot;0&quot;], [&quot;price&quot;, &quot;2000&quot;], [&quot;sale&quot;, &quot;2000&quot;]]]], &quot;o&quot;: &quot;1000원 → 1000원\n2000원 → 2000원\n&quot;, &quot;r&quot;: &quot;None&quot;}, {&quot;l&quot;: 7, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;apply_discount&quot;, &quot;함수&quot;]]]], &quot;o&quot;: &quot;1000원 → 1000원\n2000원 → 2000원\n&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;apply_discount&quot;, &quot;함수&quot;]]], [&quot;apply_discount()&quot;, [[&quot;prices&quot;, &quot;[1000, 2000]&quot;], [&quot;discount&quot;, &quot;0.3&quot;]]]], &quot;o&quot;: &quot;1000원 → 1000원\n2000원 → 2000원\n&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;apply_discount&quot;, &quot;함수&quot;]]], [&quot;apply_discount()&quot;, [[&quot;prices&quot;, &quot;[1000, 2000]&quot;], [&quot;discount&quot;, &quot;0.3&quot;], [&quot;price&quot;, &quot;1000&quot;]]]], &quot;o&quot;: &quot;1000원 → 1000원\n2000원 → 2000원\n&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;apply_discount&quot;, &quot;함수&quot;]]], [&quot;apply_discount()&quot;, [[&quot;prices&quot;, &quot;[1000, 2000]&quot;], [&quot;discount&quot;, &quot;0.3&quot;], [&quot;price&quot;, &quot;1000&quot;], [&quot;sale&quot;, &quot;700&quot;]]]], &quot;o&quot;: &quot;1000원 → 1000원\n2000원 → 2000원\n&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;apply_discount&quot;, &quot;함수&quot;]]], [&quot;apply_discount()&quot;, [[&quot;prices&quot;, &quot;[1000, 2000]&quot;], [&quot;discount&quot;, &quot;0.3&quot;], [&quot;price&quot;, &quot;1000&quot;], [&quot;sale&quot;, &quot;700&quot;]]]], &quot;o&quot;: &quot;1000원 → 1000원\n2000원 → 2000원\n1000원 → 700원\n&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;apply_discount&quot;, &quot;함수&quot;]]], [&quot;apply_discount()&quot;, [[&quot;prices&quot;, &quot;[1000, 2000]&quot;], [&quot;discount&quot;, &quot;0.3&quot;], [&quot;price&quot;, &quot;2000&quot;], [&quot;sale&quot;, &quot;700&quot;]]]], &quot;o&quot;: &quot;1000원 → 1000원\n2000원 → 2000원\n1000원 → 700원\n&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;apply_discount&quot;, &quot;함수&quot;]]], [&quot;apply_discount()&quot;, [[&quot;prices&quot;, &quot;[1000, 2000]&quot;], [&quot;discount&quot;, &quot;0.3&quot;], [&quot;price&quot;, &quot;2000&quot;], [&quot;sale&quot;, &quot;1400&quot;]]]], &quot;o&quot;: &quot;1000원 → 1000원\n2000원 → 2000원\n1000원 → 700원\n&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;apply_discount&quot;, &quot;함수&quot;]]], [&quot;apply_discount()&quot;, [[&quot;prices&quot;, &quot;[1000, 2000]&quot;], [&quot;discount&quot;, &quot;0.3&quot;], [&quot;price&quot;, &quot;2000&quot;], [&quot;sale&quot;, &quot;1400&quot;]]]], &quot;o&quot;: &quot;1000원 → 1000원\n2000원 → 2000원\n1000원 → 700원\n2000원 → 1400원\n&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;apply_discount&quot;, &quot;함수&quot;]]], [&quot;apply_discount()&quot;, [[&quot;prices&quot;, &quot;[1000, 2000]&quot;], [&quot;discount&quot;, &quot;0.3&quot;], [&quot;price&quot;, &quot;2000&quot;], [&quot;sale&quot;, &quot;1400&quot;]]]], &quot;o&quot;: &quot;1000원 → 1000원\n2000원 → 2000원\n1000원 → 700원\n2000원 → 1400원\n&quot;, &quot;r&quot;: &quot;None&quot;}, {&quot;l&quot;: 0, &quot;k&quot;: &quot;end&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;apply_discount&quot;, &quot;함수&quot;]]], [&quot;apply_discount()&quot;, [[&quot;prices&quot;, &quot;[1000, 2000]&quot;], [&quot;discount&quot;, &quot;0.3&quot;], [&quot;price&quot;, &quot;2000&quot;], [&quot;sale&quot;, &quot;1400&quot;]]]], &quot;o&quot;: &quot;1000원 → 1000원\n2000원 → 2000원\n1000원 → 700원\n2000원 → 1400원\n&quot;}]}"><div class="wact-head"><span class="wact-lbl">코드 따라가기</span><h5>기본값 매개 변수 따라가기</h5></div><div class="wact-body"></div></div>
 
     <h4>가변 인수 매개 변수</h4>
     <p>몇 개가 들어올지 모를 때 <code>*</code>를 붙입니다. 전달된 인수 전부를 하나의 <b>튜플</b>로 관리하며, 한 함수에 <b>하나만</b>, 그리고 <b>맨 뒤에</b> 놓습니다.</p>
@@ -295,6 +403,24 @@ apply_discount([1000, 2000], 0.3)   # 30% 할인</pre>
 order_drinks('콜라', '사이다', '커피')
 order_drinks('녹차', '홍차')
 order_drinks()</pre>
+
+    <div class="wact w-predict" data-w="{&quot;code&quot;: &quot;def show(*items):\n    print(len(items), items)\n\nshow(&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;)\nshow()&quot;, &quot;opts&quot;: [&quot;3 [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;]\\n0 []&quot;, &quot;3 (&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;)\\n0 ()&quot;, &quot;3 (&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;)\\n오류가 난다&quot;, &quot;1 (&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;)\\n0 ()&quot;], &quot;ans&quot;: 1, &quot;exp&quot;: &quot;*가 붙은 매개 변수는 들어온 값을 모두 튜플 하나로 묶어요. 값을 하나도 주지 않으면 빈 튜플 ()이 돼요.&quot;}"><div class="wact-head"><span class="wact-lbl">결과 예측</span><h5>가변 인수는 무엇으로 묶일까?</h5></div><div class="wact-body"></div></div>
+
+    <div class="lab" id="lab-order">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>음료 주문 — 인수의 개수를 바꿔 호출하기</h5></div>
+      <div class="lab-body">
+        <div class="lx-picks" data-picks></div>
+        <div class="lx-code" data-code></div>
+        <div class="lx-out" data-out></div>
+        <div class="lab-ctrl">
+          <label>할인율 <select data-disc><option value="">안 줌 (기본값 사용)</option><option value="0.1">0.1</option><option value="0.3">0.3</option><option value="0.5">0.5</option></select></label>
+          <button class="btn btn-p" data-act="call">함수 호출하기</button>
+          <button class="btn" data-act="clear">주문 비우기</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite"></p>
+        <p class="lab-note">함수 <code>order(*drinks, discount=0)</code>은 음료를 몇 잔이든 받고, 할인율은 안 주면 0이에요. 음료를 눌러 인수를 늘렸다 줄였다 해 보세요. 음료 한 잔은 2,000원으로 계산해요.</p>
+      </div>
+    </div>
 
     <h4>여러 개의 값 반환</h4>
     <p><code>return</code>은 객체 하나만 반환하지만, 콤마로 나열하면 <b>튜플에 담아</b> 한 번에 돌려줍니다.</p>
@@ -352,6 +478,25 @@ t, v = free_fall(50)</pre>
 robot1 = Robot('로봇A')
 robot1.run()</pre>
 
+    <figure class="photo tall"><img src="assets/img/robot.jpg" alt="빨간 팔과 발을 가진 검은색 양철 장난감 로봇" loading="lazy" width="585" height="880"><figcaption>로봇마다 이름과 속도(속성)가 다르고, 말하기·걷기·달리기(메소드)를 할 수 있어요.<span class="credit">사진: GeorgeRexTA · <a href="https://commons.wikimedia.org/wiki/File:Toy_Robot,_large.jpg" target="_blank" rel="noopener">CC BY-SA 2.0</a> · Wikimedia Commons</span></figcaption></figure>
+
+    <div class="wact w-trace" data-w="{&quot;code&quot;: [&quot;class Robot:&quot;, &quot;    def __init__(self, name):&quot;, &quot;        self.name = name&quot;, &quot;        self.speed = 0&quot;, &quot;&quot;, &quot;    def run(self):&quot;, &quot;        self.speed = 10&quot;, &quot;&quot;, &quot;r1 = Robot(&#x27;로봇A&#x27;)&quot;, &quot;r2 = Robot(&#x27;로봇B&#x27;)&quot;, &quot;r1.run()&quot;, &quot;print(r1.speed, r2.speed)&quot;], &quot;notes&quot;: {&quot;2&quot;: &quot;생성자예요. Robot(&#x27;로봇A&#x27;)라고 부르는 순간 저절로 실행돼요.&quot;, &quot;3&quot;: &quot;이 객체(self)에 이름을 붙여요.&quot;, &quot;4&quot;: &quot;속도는 0에서 시작해요.&quot;, &quot;7&quot;: &quot;run()을 부른 그 객체의 속도만 10이 돼요.&quot;, &quot;9&quot;: &quot;객체 하나를 만들어요. 함수 칸에 self와 name이 생기는 것을 보세요.&quot;, &quot;10&quot;: &quot;같은 설계도로 두 번째 객체를 만들어요.&quot;, &quot;11&quot;: &quot;r1에게만 달리라고 해요. self는 r1이에요.&quot;, &quot;12&quot;: &quot;10 0 — 두 객체의 속성은 따로따로예요.&quot;}, &quot;steps&quot;: [{&quot;l&quot;: 1, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, []]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 1, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, []], [&quot;Robot()&quot;, []]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, []], [&quot;Robot()&quot;, []]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 6, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, []], [&quot;Robot()&quot;, []]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 6, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, []], [&quot;Robot()&quot;, [[&quot;run&quot;, &quot;함수&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;None&quot;}, {&quot;l&quot;: 9, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;Robot&quot;, &quot;클래스&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;Robot&quot;, &quot;클래스&quot;]]], [&quot;__init__()&quot;, [[&quot;self&quot;, &quot;Robot()&quot;], [&quot;name&quot;, &quot;&#x27;로봇A&#x27;&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;Robot&quot;, &quot;클래스&quot;]]], [&quot;__init__()&quot;, [[&quot;self&quot;, &quot;Robot(name=&#x27;로봇A&#x27;)&quot;], [&quot;name&quot;, &quot;&#x27;로봇A&#x27;&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;Robot&quot;, &quot;클래스&quot;]]], [&quot;__init__()&quot;, [[&quot;self&quot;, &quot;Robot(name=&#x27;로봇A&#x27;, speed=0)&quot;], [&quot;name&quot;, &quot;&#x27;로봇A&#x27;&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;None&quot;}, {&quot;l&quot;: 10, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;Robot&quot;, &quot;클래스&quot;], [&quot;r1&quot;, &quot;Robot(name=&#x27;로봇A&#x27;, speed=0)&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;Robot&quot;, &quot;클래스&quot;], [&quot;r1&quot;, &quot;Robot(name=&#x27;로봇A&#x27;, speed=0)&quot;]]], [&quot;__init__()&quot;, [[&quot;self&quot;, &quot;Robot()&quot;], [&quot;name&quot;, &quot;&#x27;로봇B&#x27;&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;Robot&quot;, &quot;클래스&quot;], [&quot;r1&quot;, &quot;Robot(name=&#x27;로봇A&#x27;, speed=0)&quot;]]], [&quot;__init__()&quot;, [[&quot;self&quot;, &quot;Robot(name=&#x27;로봇B&#x27;)&quot;], [&quot;name&quot;, &quot;&#x27;로봇B&#x27;&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;Robot&quot;, &quot;클래스&quot;], [&quot;r1&quot;, &quot;Robot(name=&#x27;로봇A&#x27;, speed=0)&quot;]]], [&quot;__init__()&quot;, [[&quot;self&quot;, &quot;Robot(name=&#x27;로봇B&#x27;, speed=0)&quot;], [&quot;name&quot;, &quot;&#x27;로봇B&#x27;&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;None&quot;}, {&quot;l&quot;: 11, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;Robot&quot;, &quot;클래스&quot;], [&quot;r1&quot;, &quot;Robot(name=&#x27;로봇A&#x27;, speed=0)&quot;], [&quot;r2&quot;, &quot;Robot(name=&#x27;로봇B&#x27;, speed=0)&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 7, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;Robot&quot;, &quot;클래스&quot;], [&quot;r1&quot;, &quot;Robot(name=&#x27;로봇A&#x27;, speed=0)&quot;], [&quot;r2&quot;, &quot;Robot(name=&#x27;로봇B&#x27;, speed=0)&quot;]]], [&quot;run()&quot;, [[&quot;self&quot;, &quot;Robot(name=&#x27;로봇A&#x27;, speed=0)&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 7, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;Robot&quot;, &quot;클래스&quot;], [&quot;r1&quot;, &quot;Robot(name=&#x27;로봇A&#x27;, speed=10)&quot;], [&quot;r2&quot;, &quot;Robot(name=&#x27;로봇B&#x27;, speed=0)&quot;]]], [&quot;run()&quot;, [[&quot;self&quot;, &quot;Robot(name=&#x27;로봇A&#x27;, speed=10)&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;None&quot;}, {&quot;l&quot;: 12, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;Robot&quot;, &quot;클래스&quot;], [&quot;r1&quot;, &quot;Robot(name=&#x27;로봇A&#x27;, speed=10)&quot;], [&quot;r2&quot;, &quot;Robot(name=&#x27;로봇B&#x27;, speed=0)&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 0, &quot;k&quot;: &quot;end&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;Robot&quot;, &quot;클래스&quot;], [&quot;r1&quot;, &quot;Robot(name=&#x27;로봇A&#x27;, speed=10)&quot;], [&quot;r2&quot;, &quot;Robot(name=&#x27;로봇B&#x27;, speed=0)&quot;]]]], &quot;o&quot;: &quot;10 0\n&quot;}]}"><div class="wact-head"><span class="wact-lbl">코드 따라가기</span><h5>객체가 만들어지고 움직이는 과정 따라가기</h5></div><div class="wact-body"></div></div>
+<div class="wact w-fill" data-w="{&quot;code&quot;: &quot;class Dog:\n    def ⟦__init__⟧(self, name):\n        ⟦self⟧.name = name\n        self.tricks = []\n\n    def learn(self, trick):\n        self.tricks.⟦append⟧(trick)\n\nd = ⟦Dog⟧(&#x27;바둑이&#x27;)\nd.learn(&#x27;앉아&#x27;)\nprint(d.name, d.tricks)     # 바둑이 [&#x27;앉아&#x27;]&quot;}"><div class="wact-head"><span class="wact-lbl">빈칸 채우기</span><h5>클래스 완성하기 — 강아지</h5></div><div class="wact-body"></div></div>
+
+    <div class="lab" id="lab-class">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>로봇 공장 — 클래스 하나로 객체 여러 개 만들기</h5></div>
+      <div class="lab-body">
+        <div class="lx-robots" data-robots></div>
+        <div class="lx-out" data-out></div>
+        <div class="lab-ctrl">
+          <button class="btn btn-p" data-act="new">Robot() 객체 만들기</button>
+          <button class="btn" data-act="reset">모두 없애기</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite"></p>
+        <p class="lab-note">로봇을 여러 대 만든 뒤 한 대에게만 ‘달리기’를 시켜 보세요. 다른 로봇의 속도는 바뀌지 않아요. 객체마다 자기만의 속성을 가지기 때문이에요.</p>
+      </div>
+    </div>
+
     <h4>모듈 · 패키지 · 라이브러리</h4>
     <figure>
       <div class="figbody">
@@ -393,6 +538,8 @@ robot1.run()</pre>
         </tbody>
       </table>
     </div>
+
+    <div class="wact w-predict" data-w="{&quot;code&quot;: &quot;from math import sqrt\n\nprint(sqrt(16))\nprint(math.sqrt(25))&quot;, &quot;opts&quot;: [&quot;4.0\\n5.0&quot;, &quot;4.0\\nNameError 오류&quot;, &quot;NameError 오류&quot;, &quot;4\\n5&quot;], &quot;ans&quot;: 1, &quot;exp&quot;: &quot;from math import sqrt는 sqrt 함수만 가져와요. math라는 이름 자체는 가져오지 않았으니 math.sqrt라고 쓰면 \&quot;math가 뭐지?\&quot; 하는 NameError가 나요. 첫 줄은 정상적으로 4.0을 출력해요.&quot;}"><div class="wact-head"><span class="wact-lbl">결과 예측</span><h5>모듈을 이렇게 불러오면?</h5></div><div class="wact-body"></div></div>
 
     <h4>자주 쓰는 내장 함수와 표준 라이브러리</h4>
     <div class="tablewrap">
@@ -480,6 +627,8 @@ print('두 숫자의 기하 평균:', round(gm, 2))
 print(int(random.random() * 6) + 1)      # 0.0 이상 1.0 미만 실수 → 1~6
 print(random.randint(1, 6))              # 1 이상 6 이하 정수
 print(random.choice(range(1, 7)))        # 목록에서 임의 선택</pre>
+
+    <div class="wact w-fill" data-w="{&quot;code&quot;: &quot;scores = [72, 95, 88, 64, 91]\n\nprint(&#x27;최고 점수:&#x27;, ⟦max⟧(scores))\nprint(&#x27;최저 점수:&#x27;, ⟦min⟧(scores))\nprint(&#x27;평균:&#x27;, ⟦round⟧(sum(scores) / ⟦len⟧(scores), 1))\nprint(&#x27;낮은 순서:&#x27;, ⟦sorted⟧(scores))&quot;}"><div class="wact-head"><span class="wact-lbl">빈칸 채우기</span><h5>내장 함수 골라 쓰기 — 시험 점수 분석</h5></div><div class="wact-body"></div></div>
 
     <h4>외부 라이브러리</h4>
     <p>파이썬을 설치할 때 포함되지 않아 <b>따로 설치해서 쓰는</b> 라이브러리입니다. 파이썬의 패키지 관리 시스템 <code>pip</code>로 설치합니다.</p>
@@ -608,6 +757,19 @@ play_game()</pre>
 • 펜 굵기 3 설정 → 삼각형·사각형·오각형 순서대로 그리기</pre>
     </div>
 
+    <div class="words">
+      <span class="lbl">낱말 풀이</span>
+      <dl>
+        <dt>기본값</dt><dd>값을 따로 주지 않았을 때 쓰도록 미리 정해 둔 값</dd>
+        <dt>튜플</dt><dd>여러 값을 묶은 것. 리스트와 비슷하지만 만든 뒤에는 바꿀 수 없어요</dd>
+        <dt>객체지향</dt><dd>데이터와 함수를 객체라는 덩어리로 묶어 프로그램을 짜는 방식</dd>
+        <dt>인스턴스</dt><dd>클래스(설계도)로 만들어 낸 객체 하나하나</dd>
+        <dt>모듈화</dt><dd>큰 프로그램을 맡은 일별로 작은 조각으로 나누는 것</dd>
+        <dt>난수</dt><dd>무엇이 나올지 미리 알 수 없는 무작위 수</dd>
+        <dt>pip</dt><dd>외부 라이브러리를 설치·삭제해 주는 파이썬의 관리 프로그램</dd>
+      </dl>
+    </div>
+
     <div class="points">
       <span class="lbl">핵심 포인트</span>
       <ul>
@@ -624,6 +786,30 @@ play_game()</pre>
   <article class="topic" id="t1-3">
     <h3><span class="idx">2-1</span> 재귀 구조의 이해 <span class="lesson">5주차</span></h3>
     <p class="lede">큰 문제를 “같은 모양의 더 작은 문제”로 바꿔 가며 푸는 방식입니다.</p>
+
+    <div class="goalbox">
+      <span class="lbl">이 시간에 배울 내용</span>
+      <p class="q">재귀 구조는 문제를 해결하는 데 어떤 역할을 할까?</p>
+      <ul>
+        <li>재귀 구조가 무엇인지 알고, 재귀 함수의 두 부분(기본 단계·재귀 단계)을 설명할 수 있어요.</li>
+        <li>재귀 함수가 호출되고 반환되는 순서를 따라갈 수 있어요.</li>
+        <li>반복 구조와 재귀 구조의 차이를 알고 알맞은 것을 고를 수 있어요.</li>
+      </ul>
+    </div>
+
+    <div class="story">
+      <span class="lbl">생활 속 이야기 · 인형 속의 인형</span>
+      <p>러시아 인형 마트료시카를 열면 똑같이 생긴 조금 작은 인형이 나와요. 그 인형을 열면 또 더 작은 인형이 나오고요. 가장 작은 인형이 나올 때까지 하나씩 모두 열어야 끝나요.</p>
+      <p class="ask">“인형을 연다 → 안에 인형이 있으면 그 인형에게 같은 일을 한다.” 이 한 줄만으로 인형이 몇 개든 모두 열 수 있어요. 어떻게 그럴까요?</p>
+    </div>
+
+    <div class="photo-row">
+      <figure class="photo"><img src="assets/img/matryoshka.jpg" alt="큰 것부터 작은 것까지 다섯 개가 나란히 놓인 러시아 인형 마트료시카" loading="lazy" width="880" height="660"><figcaption><b>마트료시카</b>큰 인형 안에 같은 모양의 작은 인형이 들어 있어요.<span class="credit">사진: Fanghong · <a href="https://commons.wikimedia.org/wiki/File:Russian-Matroshka.jpg" target="_blank" rel="noopener">CC BY-SA 3.0</a> · Wikimedia Commons</span></figcaption></figure>
+      <figure class="photo"><img src="assets/img/mirror.jpg" alt="마주 보는 거울 속에 같은 모습이 끝없이 반복되어 비치는 장면" loading="lazy" width="880" height="671"><figcaption><b>마주 보는 거울</b>거울 속에 거울이, 그 속에 또 거울이 보여요.<span class="credit">사진: Elsamuko · <a href="https://commons.wikimedia.org/wiki/File:Infinity_Mirror_Effect.jpg" target="_blank" rel="noopener">CC BY-SA 2.0</a> · Wikimedia Commons</span></figcaption></figure>
+      <figure class="photo"><img src="assets/img/romanesco.jpg" alt="작은 봉오리가 큰 봉오리와 같은 모양으로 반복되는 로마네스코 브로콜리" loading="lazy" width="880" height="660"><figcaption><b>로마네스코 브로콜리</b>작은 봉오리가 전체와 똑같은 모양이에요.<span class="credit">사진: Jon Sullivan · <a href="https://commons.wikimedia.org/wiki/File:Romanesco_broccoli_fractals.jpg" target="_blank" rel="noopener">퍼블릭 도메인</a> · Wikimedia Commons</span></figcaption></figure>
+      <figure class="photo"><img src="assets/img/fern.jpg" alt="작은 잎이 큰 잎과 같은 모양으로 달려 있는 고사리 잎" loading="lazy" width="880" height="660"><figcaption><b>고사리 잎</b>잎의 한 갈래가 잎 전체를 닮았어요.<span class="credit">사진: Kieran Roy Powell · <a href="https://commons.wikimedia.org/wiki/File:Struthiopteris_spicant_Craig_Rhosyfelin_Frond.jpg" target="_blank" rel="noopener">CC BY 4.0</a> · Wikimedia Commons</span></figcaption></figure>
+    </div>
+
 
     <div class="analogy">
       <span class="lbl">쉽게 말하면</span>
@@ -695,6 +881,8 @@ reach_peak(5)
       </table>
     </div>
 
+    <figure class="photo tall"><img src="assets/img/signpost.jpg" alt="바위산을 배경으로 여러 방향을 가리키는 노란색 등산로 이정표" loading="lazy" width="660" height="880"><figcaption>다음 이정표까지 가는 일을 되풀이하면 아무리 높은 산도 오를 수 있어요.<span class="credit">사진: Mojmir Churavy · <a href="https://commons.wikimedia.org/wiki/File:Signpost_657x615_Obertraun_Rakousko.jpg" target="_blank" rel="noopener">CC0</a> · Wikimedia Commons</span></figcaption></figure>
+
     <h4>호출과 반환은 반대 방향으로 일어난다</h4>
     <figure>
       <div class="figbody">
@@ -733,6 +921,8 @@ reach_peak(5)
       </div>
       <figcaption>재귀는 <b>끝까지 내려간 다음</b> 거꾸로 올라오면서 계산을 완성합니다. 그래서 결과는 가장 작은 문제부터 확정됩니다.</figcaption>
     </figure>
+
+    <div class="wact w-trace" data-w="{&quot;code&quot;: [&quot;def power(x, n):&quot;, &quot;    if n == 0:&quot;, &quot;        return 1&quot;, &quot;    return x * power(x, n - 1)&quot;, &quot;&quot;, &quot;print(power(2, 3))&quot;], &quot;notes&quot;: {&quot;2&quot;: &quot;n이 0인지 확인해요. 0이면 기본 단계예요.&quot;, &quot;3&quot;: &quot;기본 단계! 더 부르지 않고 1을 돌려줘요. 여기서부터 되돌아가요.&quot;, &quot;4&quot;: &quot;재귀 단계: n을 하나 줄여 자기 자신을 다시 불러요. 답이 올 때까지 이 줄에서 기다려요.&quot;, &quot;6&quot;: &quot;power(2, 3)을 불러요. 오른쪽에 함수 칸이 하나씩 쌓이는 것을 보세요.&quot;}, &quot;steps&quot;: [{&quot;l&quot;: 1, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, []]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 6, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;power&quot;, &quot;함수&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;power&quot;, &quot;함수&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;3&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;power&quot;, &quot;함수&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;3&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;power&quot;, &quot;함수&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;3&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;2&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;power&quot;, &quot;함수&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;3&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;2&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;power&quot;, &quot;함수&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;3&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;2&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;1&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;power&quot;, &quot;함수&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;3&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;2&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;1&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;power&quot;, &quot;함수&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;3&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;2&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;1&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;0&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;power&quot;, &quot;함수&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;3&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;2&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;1&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;0&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;power&quot;, &quot;함수&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;3&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;2&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;1&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;0&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;1&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;power&quot;, &quot;함수&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;3&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;2&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;1&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;2&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;power&quot;, &quot;함수&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;3&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;2&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;4&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;power&quot;, &quot;함수&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;3&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;8&quot;}, {&quot;l&quot;: 0, &quot;k&quot;: &quot;end&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;power&quot;, &quot;함수&quot;]]], [&quot;power()&quot;, [[&quot;x&quot;, &quot;2&quot;], [&quot;n&quot;, &quot;3&quot;]]]], &quot;o&quot;: &quot;8\n&quot;}]}"><div class="wact-head"><span class="wact-lbl">코드 따라가기</span><h5>재귀 호출 따라가기 — 함수 칸이 쌓였다가 풀리는 모습</h5></div><div class="wact-body"></div></div>
 
     <div class="lab" id="lab-recur">
       <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>재귀 호출 따라가기 — 함수 스택이 쌓이고 풀리는 과정</h5></div>
@@ -796,6 +986,9 @@ print(factorial(5))               # 120</pre>
     </div>
 
     <div class="callout"><b>재귀 호출의 최대 깊이</b> — 파이썬은 메모리 부족을 막기 위해 재귀 호출 횟수에 한계를 둡니다. <code>import sys; print(sys.getrecursionlimit())</code>로 확인할 수 있고, 필요하면 조정할 수 있습니다.</div>
+
+    <div class="wact w-fill" data-w="{&quot;code&quot;: &quot;def factorial(n):\n    if n ⟦==⟧ 1:                 # 기본 단계\n        return ⟦1⟧\n    return n * ⟦factorial⟧(n - ⟦1⟧)   # 재귀 단계\n\nprint(factorial(5))            # 120&quot;}"><div class="wact-head"><span class="wact-lbl">빈칸 채우기</span><h5>재귀 함수 완성하기 — 팩토리얼</h5></div><div class="wact-body"></div></div>
+<div class="wact w-predict" data-w="{&quot;code&quot;: &quot;def countup(n):\n    if n == 0:\n        return\n    countup(n - 1)\n    print(n, end=&#x27; &#x27;)\n\ncountup(3)&quot;, &quot;opts&quot;: [&quot;3 2 1&quot;, &quot;1 2 3&quot;, &quot;0 1 2 3&quot;, &quot;3 2 1 0&quot;], &quot;ans&quot;: 1, &quot;exp&quot;: &quot;countup(3)은 출력하기 전에 countup(2)를, countup(2)는 countup(1)을 먼저 불러요. 가장 안쪽인 countup(1)이 먼저 출력하고 끝나므로 1 2 3 순서가 돼요. print를 재귀 호출 위로 옮기면 3 2 1이 돼요.&quot;}"><div class="wact-head"><span class="wact-lbl">결과 예측</span><h5>출력 순서 예측하기</h5></div><div class="wact-body"></div></div>
 
     <h4>반복 구조와 재귀 구조 — 무엇이 다를까</h4>
 
@@ -877,6 +1070,8 @@ print(end - start)</pre></div>
       <p><b>정수형 오버플로</b>는 정수 자료형이 표현할 수 있는 최댓값을 넘을 때 생깁니다. 다만 파이썬은 숫자가 커지면 필요한 만큼 메모리를 동적으로 할당하므로 일반적인 상황에서는 정수형 오버플로가 발생하지 않습니다. 재귀에서 문제가 되는 것은 <b>호출이 너무 깊어질 때의 스택 오버플로</b>입니다.</p>
     </div>
 
+    <div class="wact w-trace" data-w="{&quot;code&quot;: [&quot;def fib(n):&quot;, &quot;    if n &lt;= 1:&quot;, &quot;        return n&quot;, &quot;    return fib(n - 1) + fib(n - 2)&quot;, &quot;&quot;, &quot;print(fib(3))&quot;], &quot;notes&quot;: {&quot;2&quot;: &quot;n이 0이나 1이면 기본 단계예요.&quot;, &quot;4&quot;: &quot;앞의 두 항을 구하려고 자기 자신을 두 번 불러요.&quot;, &quot;6&quot;: &quot;fib(1)이 몇 번 계산되는지 세어 보세요.&quot;}, &quot;steps&quot;: [{&quot;l&quot;: 1, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, []]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 6, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;2&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;2&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;2&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;1&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;2&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;1&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;2&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;1&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;1&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;2&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;0&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;2&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;0&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;2&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;0&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;0&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;2&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;1&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;1&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;1&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;1&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;1&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;2&quot;}, {&quot;l&quot;: 0, &quot;k&quot;: &quot;end&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;fib&quot;, &quot;함수&quot;]]], [&quot;fib()&quot;, [[&quot;n&quot;, &quot;3&quot;]]]], &quot;o&quot;: &quot;2\n&quot;}]}"><div class="wact-head"><span class="wact-lbl">코드 따라가기</span><h5>fib(3)은 몇 번 불릴까?</h5></div><div class="wact-body"></div></div>
+
     <h4>어떤 구조를 선택할까</h4>
     <p class="codecap">반복 구조가 알맞은 경우 — 리스트에서 최댓값 찾기(반복 횟수가 명확)</p>
     <pre>def find_max(data):
@@ -948,6 +1143,39 @@ def draw_tree(length, depth):
 draw_tree(80, 5)</pre>
     </div>
 
+    <div class="lab" id="lab-ftree">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>프랙털 나무 — 깊이를 바꿔 가며 재귀 그림 보기</h5></div>
+      <div class="lab-body">
+        <svg viewBox="0 0 600 330" role="img" aria-label="가지가 둘로 갈라지기를 반복하는 프랙털 나무" data-svg></svg>
+        <div class="counter">
+          <div><span class="cnum" data-calls>0</span><span class="clab">draw_tree() 호출 횟수</span></div>
+          <div><span class="cnum" data-lines>0</span><span class="clab">그린 가지 수</span></div>
+        </div>
+        <div class="lab-ctrl">
+          <label>깊이 <input type="range" data-depth min="0" max="10" value="5"> <b data-dl>5</b></label>
+          <label>벌어지는 각도 <input type="range" data-angle min="10" max="70" value="45"> <b data-al>45</b>°</label>
+          <label>줄어드는 비율 <input type="range" data-ratio min="50" max="80" value="70"> <b data-rl>0.7</b></label>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite"></p>
+        <p class="lab-note">깊이를 0부터 하나씩 올려 보세요. 깊이가 1 늘 때마다 가지 수가 약 두 배가 돼요. 가지 하나를 그리고, 양쪽으로 <b>더 작은 나무</b>를 그리는 일을 되풀이할 뿐이에요.</p>
+      </div>
+    </div>
+
+    <div class="wact w-parsons" data-w="{&quot;lines&quot;: [&quot;def total(n):&quot;, &quot;    if n &lt;= 0:&quot;, &quot;        return 0&quot;, &quot;    return n + total(n - 1)&quot;, &quot;print(total(10))&quot;]}"><div class="wact-head"><span class="wact-lbl">순서 맞추기</span><h5>순서 맞추기 — 1부터 n까지의 합을 재귀로</h5></div><div class="wact-body"></div></div>
+
+    <div class="words">
+      <span class="lbl">낱말 풀이</span>
+      <dl>
+        <dt>재귀</dt><dd>되풀이. 자기 자신을 다시 가리키거나 부르는 것</dd>
+        <dt>재귀 호출</dt><dd>함수가 자기 자신을 부르는 것</dd>
+        <dt>기본 단계</dt><dd>더 쪼갤 수 없는 가장 작은 문제. 재귀를 멈추는 곳 (종료 조건)</dd>
+        <dt>재귀 단계</dt><dd>문제를 더 작게 바꾸어 자기 자신을 다시 부르는 부분</dd>
+        <dt>프랙털</dt><dd>작은 부분이 전체와 닮은 모양이 되풀이되는 구조</dd>
+        <dt>오버플로</dt><dd>정해진 공간이나 한계를 넘쳐 버리는 것</dd>
+        <dt>최대공약수</dt><dd>두 수를 모두 나누어떨어지게 하는 수 가운데 가장 큰 수</dd>
+      </dl>
+    </div>
+
     <div class="points">
       <span class="lbl">핵심 포인트</span>
       <ul>
@@ -963,6 +1191,23 @@ draw_tree(80, 5)</pre>
   <article class="topic" id="t1-4">
     <h3><span class="idx">2-2</span> 재귀 구조의 활용 <span class="lesson">5주차</span></h3>
     <p class="lede">숫자·문자열·하노이 탑·파일 탐색 — 재귀가 진짜 힘을 내는 문제들입니다.</p>
+
+    <div class="goalbox">
+      <span class="lbl">이 시간에 배울 내용</span>
+      <p class="q">재귀 구조로 어떤 문제를 해결할 수 있을까?</p>
+      <ul>
+        <li>문제에서 재귀 관계(큰 문제와 작은 문제 사이의 관계)를 찾을 수 있어요.</li>
+        <li>재귀 구조를 설계하고 프로그램으로 만들 수 있어요.</li>
+        <li>재귀 호출을 두 번 이상 쓰는 문제도 풀 수 있어요.</li>
+      </ul>
+    </div>
+
+    <div class="story">
+      <span class="lbl">생활 속 이야기 · 숙제 파일 찾기</span>
+      <p>지난주에 저장한 숙제 파일이 어디 있는지 기억이 안 나요. 폴더를 열어 봐요. 파일이 없으면 그 안의 폴더를 열어 봐요. 거기에도 없으면 또 그 안의 폴더를 열어 봐요.</p>
+      <p class="ask">“폴더를 연다 → 파일이 있나 본다 → 없으면 안에 있는 폴더마다 같은 일을 한다.” 이것도 재귀예요. 어떻게 프로그램으로 만들까요?</p>
+    </div>
+
 
     <h4>① 숫자의 자릿수 합</h4>
     <p>숫자를 <b>마지막 자릿수</b>와 <b>나머지 자릿수</b>로 쪼개면, 나머지 부분이 똑같은 모양의 작은 문제가 됩니다.</p>
@@ -991,6 +1236,8 @@ print(f'10의 2진수 변환: {decimal_to_binary(10)}')   # 1010</pre>
 print(f'1010의 10진수 변환: {binary_to_decimal("1010")}')   # 10</pre>
     <div class="callout"><b>2진수</b>는 0과 1 두 숫자만으로 이루어진 수 체계로, 컴퓨터와 디지털 시스템의 기본 숫자 체계입니다. 10진수 2는 2진수로 <code>10</code>, 10진수 7은 <code>111</code>입니다.</div>
 
+    <div class="wact w-trace" data-w="{&quot;code&quot;: [&quot;def digit_sum(n):&quot;, &quot;    if n &lt; 10:&quot;, &quot;        return n&quot;, &quot;    return digit_sum(n // 10) + n % 10&quot;, &quot;&quot;, &quot;print(digit_sum(792))&quot;], &quot;notes&quot;: {&quot;2&quot;: &quot;한 자리 수인지 확인해요.&quot;, &quot;3&quot;: &quot;한 자리면 그 수가 곧 답이에요(기본 단계).&quot;, &quot;4&quot;: &quot;마지막 자리(n % 10)는 남겨 두고, 나머지(n // 10)를 다시 맡겨요.&quot;, &quot;6&quot;: &quot;792 → 79 → 7까지 내려갔다가 7, 16, 18로 돌아와요.&quot;}, &quot;steps&quot;: [{&quot;l&quot;: 1, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, []]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 6, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;digit_sum&quot;, &quot;함수&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;digit_sum&quot;, &quot;함수&quot;]]], [&quot;digit_sum()&quot;, [[&quot;n&quot;, &quot;792&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;digit_sum&quot;, &quot;함수&quot;]]], [&quot;digit_sum()&quot;, [[&quot;n&quot;, &quot;792&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;digit_sum&quot;, &quot;함수&quot;]]], [&quot;digit_sum()&quot;, [[&quot;n&quot;, &quot;792&quot;]]], [&quot;digit_sum()&quot;, [[&quot;n&quot;, &quot;79&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;digit_sum&quot;, &quot;함수&quot;]]], [&quot;digit_sum()&quot;, [[&quot;n&quot;, &quot;792&quot;]]], [&quot;digit_sum()&quot;, [[&quot;n&quot;, &quot;79&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;digit_sum&quot;, &quot;함수&quot;]]], [&quot;digit_sum()&quot;, [[&quot;n&quot;, &quot;792&quot;]]], [&quot;digit_sum()&quot;, [[&quot;n&quot;, &quot;79&quot;]]], [&quot;digit_sum()&quot;, [[&quot;n&quot;, &quot;7&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;digit_sum&quot;, &quot;함수&quot;]]], [&quot;digit_sum()&quot;, [[&quot;n&quot;, &quot;792&quot;]]], [&quot;digit_sum()&quot;, [[&quot;n&quot;, &quot;79&quot;]]], [&quot;digit_sum()&quot;, [[&quot;n&quot;, &quot;7&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;digit_sum&quot;, &quot;함수&quot;]]], [&quot;digit_sum()&quot;, [[&quot;n&quot;, &quot;792&quot;]]], [&quot;digit_sum()&quot;, [[&quot;n&quot;, &quot;79&quot;]]], [&quot;digit_sum()&quot;, [[&quot;n&quot;, &quot;7&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;7&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;digit_sum&quot;, &quot;함수&quot;]]], [&quot;digit_sum()&quot;, [[&quot;n&quot;, &quot;792&quot;]]], [&quot;digit_sum()&quot;, [[&quot;n&quot;, &quot;79&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;16&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;digit_sum&quot;, &quot;함수&quot;]]], [&quot;digit_sum()&quot;, [[&quot;n&quot;, &quot;792&quot;]]]], &quot;o&quot;: &quot;&quot;, &quot;r&quot;: &quot;18&quot;}, {&quot;l&quot;: 0, &quot;k&quot;: &quot;end&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;digit_sum&quot;, &quot;함수&quot;]]], [&quot;digit_sum()&quot;, [[&quot;n&quot;, &quot;792&quot;]]]], &quot;o&quot;: &quot;18\n&quot;}]}"><div class="wact-head"><span class="wact-lbl">코드 따라가기</span><h5>자릿수 합 따라가기</h5></div><div class="wact-body"></div></div>
+
     <h4>② 문자열의 모든 조합 생성하기</h4>
     <p>문자열을 다룰 때는 <b>현재 문자를 포함할지 말지</b>를 결정하고 나머지를 재귀에 맡기면 모든 조합을 만들 수 있습니다.</p>
     <pre>def comb(s, cur, idx):
@@ -1017,6 +1264,26 @@ comb('abc', '', 0)
 for s in ['radar', 'hello', 'level', 'world', 'madam']:
     print(f'\\'{s}\\'는 회문인가? {is_palindrome(s)}')
 # True, False, True, False, True</pre>
+
+    <div class="lab" id="lab-comb">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>넣을까 말까 — 선택에 따라 달라지는 조합</h5></div>
+      <div class="lab-body">
+        <div class="lx-comb" data-rows></div>
+        <div class="counter">
+          <div><span class="cnum" data-res>''</span><span class="clab">지금 만들어진 조합</span></div>
+          <div><span class="cnum" data-found>0 / 8</span><span class="clab">찾은 조합</span></div>
+        </div>
+        <div class="lx-chips" data-list></div>
+        <div class="lab-ctrl">
+          <label>문자열 <select data-str><option>abc</option><option>abcd</option><option>ab</option></select></label>
+          <button class="btn" data-act="reset">처음부터</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite"></p>
+        <p class="lab-note">글자마다 ‘넣기’와 ‘빼기’를 바꿔 가며 모든 조합을 찾아보세요. 글자가 n개면 조합은 2 × 2 × … = 2ⁿ가지예요.</p>
+      </div>
+    </div>
+
+    <div class="wact w-predict" data-w="{&quot;code&quot;: &quot;def comb(s, cur, idx):\n    if idx == len(s):\n        print(repr(cur), end=&#x27; &#x27;)\n        return\n    comb(s, cur, idx + 1)\n    comb(s, cur + s[idx], idx + 1)\n\ncomb(&#x27;ab&#x27;, &#x27;&#x27;, 0)&quot;, &quot;opts&quot;: [&quot;&#x27;a&#x27; &#x27;b&#x27; &#x27;ab&#x27;&quot;, &quot;&#x27;&#x27; &#x27;b&#x27; &#x27;a&#x27; &#x27;ab&#x27;&quot;, &quot;&#x27;ab&#x27; &#x27;a&#x27; &#x27;b&#x27; &#x27;&#x27;&quot;, &quot;&#x27;&#x27; &#x27;a&#x27; &#x27;b&#x27; &#x27;ab&#x27;&quot;], &quot;ans&quot;: 1, &quot;exp&quot;: &quot;먼저 &#x27;a&#x27;를 넣지 않는 쪽을 끝까지 가요. 그 안에서도 &#x27;b&#x27;를 넣지 않는 쪽(&#x27;&#x27;)이 먼저, 넣는 쪽(&#x27;b&#x27;)이 다음이에요. 그다음 &#x27;a&#x27;를 넣은 쪽에서 &#x27;a&#x27;, &#x27;ab&#x27;가 나와요.&quot;}"><div class="wact-head"><span class="wact-lbl">결과 예측</span><h5>넣을까 말까 — 출력 예측하기</h5></div><div class="wact-body"></div></div>
 
     <h4>③ 하노이 탑</h4>
     <div class="callout"><b>하노이 탑</b>은 프랑스 수학자 에두아르 뤼카가 1883년에 소개한, 재귀로 해결하는 대표적인 문제입니다. 조건은 두 가지 — ① 한 번에 원반 하나만 이동 ② 큰 원반이 작은 원반 위에 올 수 없음.</div>
@@ -1092,7 +1359,12 @@ hanoi_tower(3, 'A', 'C', 'B')</pre>
 
     <div class="callout"><b>원반 3개의 이동 과정</b> — ① 원반 1을 C로, ② 원반 2를 B로, ③ 원반 1을 B로, ④ 원반 3을 C로, ⑤ 원반 1을 A로, ⑥ 원반 2를 C로, ⑦ 원반 1을 C로. 총 7번 = 2³−1.</div>
 
+    <div class="wact w-trace" data-w="{&quot;code&quot;: [&quot;def hanoi(n, src, dst, tmp):&quot;, &quot;    if n == 1:&quot;, &quot;        print(f&#x27;원반 1: {src} → {dst}&#x27;)&quot;, &quot;        return&quot;, &quot;    hanoi(n - 1, src, tmp, dst)&quot;, &quot;    print(f&#x27;원반 {n}: {src} → {dst}&#x27;)&quot;, &quot;    hanoi(n - 1, tmp, dst, src)&quot;, &quot;&quot;, &quot;hanoi(2, &#x27;A&#x27;, &#x27;C&#x27;, &#x27;B&#x27;)&quot;], &quot;notes&quot;: {&quot;2&quot;: &quot;원반이 하나면 바로 옮기면 돼요(기본 단계).&quot;, &quot;5&quot;: &quot;① 위의 n−1개를 보조 기둥으로 (재귀)&quot;, &quot;6&quot;: &quot;② 가장 큰 원반을 목표 기둥으로&quot;, &quot;7&quot;: &quot;③ 보조 기둥의 n−1개를 목표 기둥으로 (재귀)&quot;, &quot;9&quot;: &quot;원반 2개를 A에서 C로. 함수 칸의 src, dst, tmp가 호출마다 바뀌는 것을 보세요.&quot;}, &quot;steps&quot;: [{&quot;l&quot;: 1, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, []]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 9, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;hanoi&quot;, &quot;함수&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;hanoi&quot;, &quot;함수&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;2&quot;], [&quot;src&quot;, &quot;&#x27;A&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;C&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;B&#x27;&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 5, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;hanoi&quot;, &quot;함수&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;2&quot;], [&quot;src&quot;, &quot;&#x27;A&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;C&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;B&#x27;&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;hanoi&quot;, &quot;함수&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;2&quot;], [&quot;src&quot;, &quot;&#x27;A&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;C&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;B&#x27;&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;1&quot;], [&quot;src&quot;, &quot;&#x27;A&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;B&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;C&#x27;&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;hanoi&quot;, &quot;함수&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;2&quot;], [&quot;src&quot;, &quot;&#x27;A&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;C&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;B&#x27;&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;1&quot;], [&quot;src&quot;, &quot;&#x27;A&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;B&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;C&#x27;&quot;]]]], &quot;o&quot;: &quot;&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;hanoi&quot;, &quot;함수&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;2&quot;], [&quot;src&quot;, &quot;&#x27;A&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;C&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;B&#x27;&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;1&quot;], [&quot;src&quot;, &quot;&#x27;A&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;B&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;C&#x27;&quot;]]]], &quot;o&quot;: &quot;원반 1: A → B\n&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;hanoi&quot;, &quot;함수&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;2&quot;], [&quot;src&quot;, &quot;&#x27;A&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;C&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;B&#x27;&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;1&quot;], [&quot;src&quot;, &quot;&#x27;A&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;B&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;C&#x27;&quot;]]]], &quot;o&quot;: &quot;원반 1: A → B\n&quot;, &quot;r&quot;: &quot;None&quot;}, {&quot;l&quot;: 6, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;hanoi&quot;, &quot;함수&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;2&quot;], [&quot;src&quot;, &quot;&#x27;A&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;C&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;B&#x27;&quot;]]]], &quot;o&quot;: &quot;원반 1: A → B\n&quot;}, {&quot;l&quot;: 7, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;hanoi&quot;, &quot;함수&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;2&quot;], [&quot;src&quot;, &quot;&#x27;A&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;C&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;B&#x27;&quot;]]]], &quot;o&quot;: &quot;원반 1: A → B\n원반 2: A → C\n&quot;}, {&quot;l&quot;: 2, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;hanoi&quot;, &quot;함수&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;2&quot;], [&quot;src&quot;, &quot;&#x27;A&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;C&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;B&#x27;&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;1&quot;], [&quot;src&quot;, &quot;&#x27;B&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;C&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;A&#x27;&quot;]]]], &quot;o&quot;: &quot;원반 1: A → B\n원반 2: A → C\n&quot;}, {&quot;l&quot;: 3, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;hanoi&quot;, &quot;함수&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;2&quot;], [&quot;src&quot;, &quot;&#x27;A&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;C&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;B&#x27;&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;1&quot;], [&quot;src&quot;, &quot;&#x27;B&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;C&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;A&#x27;&quot;]]]], &quot;o&quot;: &quot;원반 1: A → B\n원반 2: A → C\n&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;line&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;hanoi&quot;, &quot;함수&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;2&quot;], [&quot;src&quot;, &quot;&#x27;A&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;C&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;B&#x27;&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;1&quot;], [&quot;src&quot;, &quot;&#x27;B&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;C&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;A&#x27;&quot;]]]], &quot;o&quot;: &quot;원반 1: A → B\n원반 2: A → C\n원반 1: B → C\n&quot;}, {&quot;l&quot;: 4, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;hanoi&quot;, &quot;함수&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;2&quot;], [&quot;src&quot;, &quot;&#x27;A&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;C&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;B&#x27;&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;1&quot;], [&quot;src&quot;, &quot;&#x27;B&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;C&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;A&#x27;&quot;]]]], &quot;o&quot;: &quot;원반 1: A → B\n원반 2: A → C\n원반 1: B → C\n&quot;, &quot;r&quot;: &quot;None&quot;}, {&quot;l&quot;: 7, &quot;k&quot;: &quot;ret&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;hanoi&quot;, &quot;함수&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;2&quot;], [&quot;src&quot;, &quot;&#x27;A&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;C&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;B&#x27;&quot;]]]], &quot;o&quot;: &quot;원반 1: A → B\n원반 2: A → C\n원반 1: B → C\n&quot;, &quot;r&quot;: &quot;None&quot;}, {&quot;l&quot;: 0, &quot;k&quot;: &quot;end&quot;, &quot;s&quot;: [[&quot;전역&quot;, [[&quot;hanoi&quot;, &quot;함수&quot;]]], [&quot;hanoi()&quot;, [[&quot;n&quot;, &quot;2&quot;], [&quot;src&quot;, &quot;&#x27;A&#x27;&quot;], [&quot;dst&quot;, &quot;&#x27;C&#x27;&quot;], [&quot;tmp&quot;, &quot;&#x27;B&#x27;&quot;]]]], &quot;o&quot;: &quot;원반 1: A → B\n원반 2: A → C\n원반 1: B → C\n&quot;}]}"><div class="wact-head"><span class="wact-lbl">코드 따라가기</span><h5>하노이 탑 따라가기 (원반 2개)</h5></div><div class="wact-body"></div></div>
+
     <h4>④ 계단 오르기 — 재귀 관계 찾기</h4>
+
+    <figure class="photo"><img src="assets/img/stairs.jpg" alt="돌로 쌓은 오래된 야외 계단" loading="lazy" width="880" height="660"><figcaption>한 번에 한 칸 또는 두 칸씩 오를 수 있다면, 계단을 오르는 방법은 모두 몇 가지일까요?<span class="credit">사진: Bernard Gagnon · <a href="https://commons.wikimedia.org/wiki/File:Lato_-_Staircase_01.jpg" target="_blank" rel="noopener">CC BY-SA 3.0</a> · Wikimedia Commons</span></figcaption></figure>
+
     <p>한 번에 한 계단 또는 두 계단을 오를 수 있을 때, n개의 계단을 오르는 방법의 수를 구해 봅시다. 규칙은 ① 시작점은 0층이며 계단 수에 포함되지 않고 ② 마지막 계단은 반드시 밟아야 합니다.</p>
     <p>n번째 계단에 도착하는 방법은 <b>n−1번째에서 한 계단 오르거나, n−2번째에서 두 계단 오르는</b> 두 가지뿐입니다. 그래서 관계식이 이렇게 나옵니다.</p>
     <pre>f(1) = 1        # 한 계단: (1)
@@ -1107,6 +1379,8 @@ f(n) = f(n-1) + f(n-2)</pre>
 
 print(count_ways(10))   # 89</pre>
     <div class="callout">피보나치수열과 같은 모양입니다. 그래서 <b>중복 계산</b> 문제도 똑같이 생기고, Ⅲ단원의 <b>동적 계획법</b>으로 해결하게 됩니다.</div>
+
+    <div class="wact w-fill" data-w="{&quot;code&quot;: &quot;def count_ways(n):\n    if n == ⟦0⟧:              # 남은 계단이 딱 0이면 한 가지 방법 완성\n        return 1\n    if n ⟦&lt;⟧ 0:               # 계단을 넘어가면 세지 않음\n        return 0\n    return count_ways(n - ⟦1⟧) + count_ways(n - ⟦2⟧)\n\nprint(count_ways(4))          # 5&quot;}"><div class="wact-head"><span class="wact-lbl">빈칸 채우기</span><h5>재귀 관계 완성하기 — 계단 오르기</h5></div><div class="wact-body"></div></div>
 
     <h4>⑤ 폴더 안의 폴더 — 파일 찾기</h4>
     <p>폴더 안에 폴더가 들어 있는 구조 자체가 재귀입니다. 하위 폴더를 만나면 <b>같은 함수를 그 폴더에 대해 다시</b> 부르면 됩니다.</p>
@@ -1123,6 +1397,18 @@ def find_item(root_path, target):
             return item_path
     return None</pre>
 
+    <div class="words">
+      <span class="lbl">낱말 풀이</span>
+      <dl>
+        <dt>재귀 관계</dt><dd>큰 문제의 답을 더 작은 문제의 답으로 나타낸 관계</dd>
+        <dt>자릿수</dt><dd>수를 이루는 각 자리의 숫자. 7925의 자릿수는 7, 9, 2, 5</dd>
+        <dt>조합</dt><dd>여러 개 가운데 몇 개를 골라 만든 묶음</dd>
+        <dt>2진수</dt><dd>0과 1만으로 나타낸 수</dd>
+        <dt>디렉터리</dt><dd>폴더를 가리키는 다른 말</dd>
+        <dt>경로</dt><dd>파일이나 폴더가 있는 위치를 차례로 적은 것. 예: D:/dir_ex_1/test.txt</dd>
+      </dl>
+    </div>
+
     <div class="points">
       <span class="lbl">핵심 포인트</span>
       <ul>
@@ -1132,6 +1418,140 @@ def find_item(root_path, target):
         <li>계단 오르기(한 칸/두 칸)처럼 “직전 두 상태의 합”으로 정의되는 문제도 재귀 관계로 표현된다.</li>
       </ul>
     </div>
+  </article>
+
+  <!-- 마무리 -->
+  <article class="topic" id="t1-6">
+    <h3><span class="idx">정리</span> 단원 마무리 · 함께 풀어 보기 <span class="lesson">5주차</span></h3>
+    <p class="lede">함수와 재귀를 한자리에 모아 정리하고, 모둠이 함께 숫자 맞히기 게임을 만들어 봐요.</p>
+
+    <h4>한눈에 보는 Ⅰ단원</h4>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>배운 것</th><th>한 줄로 말하면</th><th>기억할 모양</th></tr></thead>
+        <tbody>
+          <tr><td>함수</td><td>특정한 일을 하는 독립적인 코드 묶음</td><td><code>def 이름(매개 변수): … return 값</code></td></tr>
+          <tr><td>인수와 매개 변수</td><td>보내는 값과 받는 변수</td><td><code>f(5, 7)</code> ↔ <code>def f(a, b)</code></td></tr>
+          <tr><td>지역·전역 변수</td><td>함수 안에서만 / 프로그램 어디서나</td><td>함수 안에서 전역을 바꾸려면 <code>global</code></td></tr>
+          <tr><td>기본값 매개 변수</td><td>안 주면 미리 정한 값으로</td><td><code>def f(a, b=0)</code> — 뒤쪽에</td></tr>
+          <tr><td>가변 인수 매개 변수</td><td>몇 개든 튜플로 받기</td><td><code>def f(*args)</code> — 하나만, 맨 뒤에</td></tr>
+          <tr><td>클래스와 객체</td><td>설계도와 그것으로 만든 실물</td><td><code>class Robot:</code> → <code>r = Robot('A')</code></td></tr>
+          <tr><td>모듈 · 라이브러리</td><td>파일 하나 · 도구 모음</td><td><code>import math</code>, <code>pip install …</code></td></tr>
+          <tr><td>재귀 함수</td><td>자기 자신을 부르는 함수</td><td>기본 단계(멈춤) + 재귀 단계(다시 부름)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>협력적 문제 해결 활동 — 숫자 맞히기!</h4>
+    <div class="story">
+      <span class="lbl">모둠 활동</span>
+      <p>컴퓨터가 1부터 100 사이의 수를 하나 정해요. 우리가 수를 말하면 컴퓨터는 “더 큰 수예요”, “더 작은 수예요”라고만 알려 줘요. 맞힐 때까지 몇 번이 걸렸는지 세어요.</p>
+      <p class="ask">이 게임을 기능별로 함수로 나누어, 모둠이 역할을 나눠 만들어 봐요.</p>
+    </div>
+    <div class="lab" id="lab-guess">
+      <div class="lab-head"><span class="lab-lbl">직접 해 보기</span><h5>숫자 맞히기 — 먼저 게임을 해 보고 규칙 찾기</h5></div>
+      <div class="lab-body">
+        <div class="lx-range"><span data-lo>1</span><div class="lx-track"><i data-bar></i></div><span data-hi>100</span></div>
+        <div class="counter">
+          <div><span class="cnum" data-tries>0</span><span class="clab">시도한 횟수</span></div>
+          <div><span class="cnum" data-left>100</span><span class="clab">남은 후보의 수</span></div>
+        </div>
+        <div class="lab-ctrl">
+          <label>내 추측 <input type="number" data-guess min="1" max="100" value="50"></label>
+          <button class="btn btn-p" data-act="go">확인</button>
+          <button class="btn" data-act="new">새 게임</button>
+        </div>
+        <p class="lab-status" data-status role="status" aria-live="polite"></p>
+        <p class="lab-note">어떤 수부터 말하는 것이 가장 좋을까요? 늘 남은 범위의 <b>가운데 수</b>를 말하면 7번 안에 반드시 맞힐 수 있어요. 그 까닭은 Ⅲ단원 ‘이진 탐색’에서 배워요.</p>
+      </div>
+    </div>
+    <div class="callout"><b>프로그램이 지켜야 할 조건</b> — ① 사용자는 1부터 100 사이의 수를 입력할 수 있어야 해요. ② 컴퓨터는 1부터 100 사이에서 무작위로 수를 골라요. ③ 잘못된 입력(글자, 범위 밖의 수)은 걸러 내고 다시 입력받아요. ④ 맞히면 축하 문장과 시도 횟수를 출력해요.</div>
+    <ol class="steps">
+      <li><b>문제 이해 및 분석</b> — 문제를 한 문장으로 정의하고, 필요한 기능을 목록으로 적어요. 재미를 더할 아이디어(힌트, 최고 기록, 난이도)도 생각해요.</li>
+      <li><b>화면(UI) 설계</b> — 게임 시작·진행·종료 때 화면에 무엇을 보여 주고 무엇을 입력받을지 정해요.</li>
+      <li><b>기능 구현</b> — 필요한 라이브러리와 변수를 정하고, 프로그램을 함수로 나눈 뒤 역할을 나누어 만들어요.</li>
+      <li><b>테스트 및 디버깅</b> — 기능마다 시험해 보고, 고칠 점을 반영해요.</li>
+      <li><b>발표 및 평가</b> — 모둠별로 해결 방법을 발표하고 좋았던 점과 아쉬웠던 점을 나눠요.</li>
+    </ol>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>기능</th><th>함수</th><th>쓰는 도구</th></tr></thead>
+        <tbody>
+          <tr><td>정답 수 정하기</td><td><code>make_answer()</code></td><td><code>random.randint(1, 100)</code></td></tr>
+          <tr><td>올바른 입력인지 검사</td><td><code>is_valid(text)</code></td><td><code>isdigit()</code>, 범위 비교</td></tr>
+          <tr><td>추측과 정답 견주기</td><td><code>check(guess, answer)</code></td><td>조건문</td></tr>
+          <tr><td>게임 진행</td><td><code>play(guesses)</code></td><td>반복문 또는 재귀 함수</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="codecap">예시 프로그램 — 추측할 수들을 한 줄에 띄어 써서 입력해요 (예: 50 75 62 68 65)</p>
+    <pre>import random
+
+def make_answer():                       # 정답 수 정하기
+    return random.randint(1, 100)
+
+def is_valid(text):                      # 올바른 입력인지 검사
+    return text.isdigit() and 1 &lt;= int(text) &lt;= 100
+
+def check(guess, answer):                # 추측과 정답 견주기
+    if guess == answer:
+        return '정답'
+    elif guess &lt; answer:
+        return '더 큰 수예요'
+    else:
+        return '더 작은 수예요'
+
+def play(guesses, answer, tries=1):      # 재귀 함수로 게임 진행
+    if not guesses:                      # 기본 단계: 추측이 다 떨어짐
+        print(f'기회를 모두 썼어요. 정답은 {answer}이었어요.')
+        return
+    text = guesses[0]
+    if not is_valid(text):
+        print(f"'{text}'은(는) 올바른 입력이 아니에요. 1~100 사이의 수를 넣어 주세요.")
+        play(guesses[1:], answer, tries)             # 횟수는 세지 않고 다음으로
+        return
+    result = check(int(text), answer)
+    print(f'{tries}번째 시도 {text}: {result}')
+    if result == '정답':
+        print(f'축하해요! {tries}번 만에 맞혔어요.')
+        return
+    play(guesses[1:], answer, tries + 1)             # 재귀 단계: 남은 추측으로 다시
+
+answer = make_answer()
+play(input('추측할 수들: ').split(), answer)</pre>
+    <div class="callout">코랩에서는 <code>while True:</code>와 <code>input()</code>을 써서 한 번에 하나씩 묻고 답하는 진짜 게임으로 고쳐 보세요. 함수 <code>make_answer()</code>, <code>is_valid()</code>, <code>check()</code>는 고치지 않고 그대로 쓸 수 있어요. <b>함수로 나누어 두면 이렇게 다시 쓰기 좋아요.</b></div>
+
+    <h4>대단원 평가 맛보기</h4>
+    <details class="check"><summary>(○/×) 전역 변수를 선언하려면 global 키워드를 사용한다.</summary><div class="ans"><p><b>×</b>. 전역 변수는 함수 바깥에서 값을 넣으면 만들어져요. <code>global</code>은 함수 <b>안에서</b> 전역 변수의 값을 바꾸고 싶을 때 써요.</p></div></details>
+    <details class="check"><summary>(○/×) 효율적인 메모리 사용과 빠른 실행 속도가 중요한 경우에는 반복 구조보다 재귀 구조가 유리하다.</summary><div class="ans"><p><b>×</b>. 그런 경우에는 반복 구조가 유리해요. 재귀 구조는 코드를 간결하고 읽기 쉽게 만들고 싶을 때 알맞아요.</p></div></details>
+    <details class="check"><summary><code>class Alarm:</code> 안에 <code>__init__(self, time='07:00')</code>, <code>set_time(self, time)</code>, <code>toggle(self)</code>가 있고 <code>a = Alarm()</code>으로 객체를 만들었어요. 옳지 <u>않은</u> 설명은? ① a는 Alarm 클래스의 인스턴스이다 ② set_time은 Alarm 클래스의 속성이다 ③ self는 해당 객체를 참조할 때 쓴다 ④ 초기 알람 시간은 7시 정각이다</summary><div class="ans"><p><b>②</b>. <code>set_time</code>은 속성이 아니라 <b>메소드</b>예요. 속성은 <code>self.time</code>, <code>self.is_on</code> 같은 데이터예요.</p></div></details>
+    <details class="check"><summary>리스트에서 값을 찾는 재귀 함수 <code>func(target, data)</code>는 <code>data[0] == target</code>이면 True를 돌려주고, 아니면 <code>func(target, data[1:])</code>를 불러요. <code>func(3, [1, 2, 3, 4, 5])</code>에서 재귀 호출은 몇 번 일어날까요?</summary><div class="ans"><p><b>2번</b>. [1, 2, 3, 4, 5]에서 1은 3이 아니므로 재귀 호출(1번째), [2, 3, 4, 5]에서 2도 아니므로 재귀 호출(2번째), [3, 4, 5]에서 찾았으니 멈춰요.</p></div></details>
+    <details class="check"><summary><code>s1 = 'ABCDEFG'</code>, <code>s2 = 'Star'</code>일 때 <code>s1[3:5]</code>와 s2의 소문자만 이어 붙이면?</summary><div class="ans"><p><b>DEtar</b>. <code>s1[3:5]</code>는 3번, 4번 글자인 ‘DE’이고, ‘Star’에서 소문자만 고르면 ‘tar’예요.</p></div></details>
+    <details class="check"><summary>(서술형) 함수가 왜 필요한지 설명해 보세요.</summary><div class="ans"><p>같은 코드를 여러 번 적지 않고 다시 쓸 수 있어 중복이 줄고(재사용성), 이름만 보고도 하는 일을 알 수 있어 읽기 쉬우며(가독성), 고칠 때 그 함수만 고치면 되므로 관리하기 쉬워요(유지 보수). 큰 문제를 작은 조각으로 나누어 여럿이 함께 만들기에도 좋아요.</p></div></details>
+    <details class="check"><summary>(서술형) 생활 속에서 재귀 구조가 쓰이는 예를 하나 들고, 왜 재귀적인지 설명해 보세요.</summary><div class="ans"><p>예: 컴퓨터의 폴더 구조. 폴더 안에 하위 폴더가 있고 그 안에 또 폴더가 있어서, “폴더를 살펴본다”는 같은 일을 더 작은 폴더에 되풀이해 적용할 수 있어요. 나뭇가지가 큰 가지에서 작은 가지로 계속 갈라지는 것도 같은 구조예요.</p></div></details>
+
+    <h4>직업 속으로 — 프로그래머 이야기</h4>
+    <div class="cards">
+      <div class="card"><span class="tag2">인공지능 프로그래머</span><h5>함께 이야기하고 싶은 AI 만들기</h5><p>대규모 언어 모델로 사람과 대화하는 인공지능을 만들어요. 고등학교 때 인공지능에 관심을 갖고 공부를 시작했고, 첫 업무로 파이썬으로 안내 챗봇을 만들며 <b>의사소통과 문제 해결 능력</b>의 중요성을 느꼈다고 해요.</p><p class="say">후배들에게: 남과 비교하지 말고 나만의 속도로 꾸준히 나아가기.</p></div>
+      <div class="card"><span class="tag2">게임 프로그래머</span><h5>세계 무대에서 일하기</h5><p>여러 나라의 엔지니어와 함께 스포츠 온라인 게임을 만들어요. 고등학생 때 프로그래밍을 배우다 푹 빠져 전공으로 골랐다고 해요. <b>적성에 맞는지 아는 것</b>, 그리고 일하고 싶은 나라의 언어를 준비하는 것이 중요하다고 해요.</p><p class="say">후배들에게: 흐름을 읽고 새 기술을 내 일에 잘 쓰기.</p></div>
+    </div>
+
+    <details class="check credits"><summary>이 단원에 쓴 사진의 출처</summary><div class="ans">
+      <ul class="credit-list">
+      <li><a href="https://commons.wikimedia.org/wiki/File:Cooking_instant_noodles.jpg" target="_blank" rel="noopener">Cooking instant noodles.jpg</a> — ProjectManhattan, CC BY-SA 3.0</li>
+      <li><a href="https://commons.wikimedia.org/wiki/File:Drink_vending_machine_at_Narita_Airport.jpg" target="_blank" rel="noopener">Drink vending machine at Narita Airport.jpg</a> — Chiara Coetzee, CC0</li>
+      <li><a href="https://commons.wikimedia.org/wiki/File:Lego_Color_Bricks.jpg" target="_blank" rel="noopener">Lego Color Bricks.jpg</a> — Alan Chia, CC BY-SA 2.0</li>
+      <li><a href="https://commons.wikimedia.org/wiki/File:Blueprint_of_elevation_by_Alice_Trythall_Washburn.jpg" target="_blank" rel="noopener">Blueprint of elevation by Alice Trythall Washburn.jpg</a> — Alice Trythall Washburn, 퍼블릭 도메인</li>
+      <li><a href="https://commons.wikimedia.org/wiki/File:Toy_Robot,_large.jpg" target="_blank" rel="noopener">Toy Robot, large.jpg</a> — GeorgeRexTA, CC BY-SA 2.0</li>
+      <li><a href="https://commons.wikimedia.org/wiki/File:Russian-Matroshka.jpg" target="_blank" rel="noopener">Russian-Matroshka.jpg</a> — Fanghong, CC BY-SA 3.0</li>
+      <li><a href="https://commons.wikimedia.org/wiki/File:Infinity_Mirror_Effect.jpg" target="_blank" rel="noopener">Infinity Mirror Effect.jpg</a> — Elsamuko, CC BY-SA 2.0</li>
+      <li><a href="https://commons.wikimedia.org/wiki/File:Romanesco_broccoli_fractals.jpg" target="_blank" rel="noopener">Romanesco broccoli fractals.jpg</a> — Jon Sullivan, 퍼블릭 도메인</li>
+      <li><a href="https://commons.wikimedia.org/wiki/File:Struthiopteris_spicant_Craig_Rhosyfelin_Frond.jpg" target="_blank" rel="noopener">Struthiopteris spicant Craig Rhosyfelin Frond.jpg</a> — Kieran Roy Powell, CC BY 4.0</li>
+      <li><a href="https://commons.wikimedia.org/wiki/File:Signpost_657x615_Obertraun_Rakousko.jpg" target="_blank" rel="noopener">Signpost 657x615 Obertraun Rakousko.jpg</a> — Mojmir Churavy, CC0</li>
+      <li><a href="https://commons.wikimedia.org/wiki/File:Lato_-_Staircase_01.jpg" target="_blank" rel="noopener">Lato - Staircase 01.jpg</a> — Bernard Gagnon, CC BY-SA 3.0</li>
+      </ul>
+      <p>모두 Wikimedia Commons에서 가져온 자유 이용 사진이며, 원본을 가로 880픽셀 이하로 축소했어요. 그 밖의 그림과 표는 이 사이트에서 직접 그렸어요.</p>
+    </div></details>
   </article>
 
   <article class="topic" id="t1-5">

@@ -968,6 +968,676 @@
     render();
     status.innerHTML = '지금이 현재 자리예요. <b>자리 바꾸기</b>를 누르면 고정 → 앞 선호 → 뒤 선호 → 나머지 순서로 다시 배정해요. 학생을 누르면 선호(앞/뒤/없음)를 바꿀 수 있어요.';
   })();
+
+  /* ============ Ⅰ·Ⅱ단원 체험 (u12 labs) ============ */
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function outLine(box, html) {
+    var d = document.createElement('div'); d.innerHTML = html; box.appendChild(d);
+    while (box.children.length > 40) box.removeChild(box.firstChild);
+    box.scrollTop = box.scrollHeight;
+  }
+
+  /* ---- 라면 로봇 (함수 정의와 호출) ---- */
+  (function () {
+    var root = labRoot('lab-func'); if (!root) return;
+    var code = root.querySelector('[data-code]'), out = root.querySelector('[data-out]'), cnt = root.querySelector('[data-count]'),
+        egg = root.querySelector('[data-egg]'), status = root.querySelector('[data-status]'), calls = 0;
+    var DEF = 'def cook_ramen(count, egg=False):        # 정의: 한 번만 적어 둠\n' +
+              '    water = 550 * count\n' +
+              "    print(f'물 {water}mL 끓이기')\n" +
+              "    print(f'면과 수프 {count}개씩 넣기')\n" +
+              '    if egg:\n' +
+              "        print('계란 넣기')\n" +
+              "    print('5분 끓이기 → 불 끄기 → 그릇에 담기')\n" +
+              "    return f'라면 {count}그릇 완성!'";
+    function callText() { var n = +cnt.value || 1; return 'cook_ramen(' + n + (egg.checked ? ', egg=True' : '') + ')'; }
+    function render() { code.innerHTML = esc(DEF) + '\n\n<b>print(' + esc(callText()) + ')</b>        # 호출'; }
+    function call() {
+      var n = Math.max(1, Math.min(5, +cnt.value || 1)); cnt.value = n; calls++;
+      outLine(out, '<span class="p">&gt;&gt;&gt; print(' + esc(callText()) + ')</span>');
+      outLine(out, '물 ' + (550 * n) + 'mL 끓이기');
+      outLine(out, '면과 수프 ' + n + '개씩 넣기');
+      if (egg.checked) outLine(out, '계란 넣기');
+      outLine(out, '5분 끓이기 → 불 끄기 → 그릇에 담기');
+      outLine(out, '<b>라면 ' + n + '그릇 완성!</b>');
+      status.innerHTML = '인수 <b>' + n + '</b>' + (egg.checked ? '와 <b>True</b>' : '') + '를 보냈어요. 함수 안에서 count = ' + n + ', egg = ' + (egg.checked ? 'True' : 'False(기본값)') +
+        '가 되어 본문이 실행됐고, <code>return</code>으로 돌려준 문장이 출력됐어요. 지금까지 <b>' + calls + '번</b> 호출했어요.';
+    }
+    cnt.addEventListener('input', render); egg.addEventListener('change', render);
+    labAct(root, function (act) { if (act === 'call') call(); else { out.innerHTML = ''; calls = 0; status.innerHTML = '출력을 지웠어요.'; } });
+    render();
+    status.innerHTML = '위가 함수의 정의예요. <b>함수 호출하기</b>를 눌러 보세요.';
+  })();
+
+  /* ---- 변수의 영역 ---- */
+  (function () {
+    var root = labRoot('lab-scope'); if (!root) return;
+    var g = root.querySelector('[data-g]'), l = root.querySelector('[data-l]'), lbox = root.querySelector('[data-lbox]'),
+        out = root.querySelector('[data-out]'), status = root.querySelector('[data-status]'), drink = 'coffee', timer = null;
+    function render() { g.textContent = "'" + drink + "'"; }
+    function flash(val, cb) {
+      clearTimeout(timer); lbox.classList.add('on'); l.textContent = val; cb();
+      timer = setTimeout(function () { lbox.classList.remove('on'); l.textContent = '—'; }, 1600);
+    }
+    labAct(root, function (act) {
+      if (act === 'local') flash("'lemonade'", function () {
+        outLine(out, '<span class="p">print_local_drink()</span> → 음료: lemonade');
+        status.innerHTML = '함수 안에 <b>새 지역 변수</b> drink가 잠깐 생겼다가, 함수가 끝나자 사라졌어요. 전역 drink는 그대로 <b>' + drink + '</b>예요.';
+      });
+      else if (act === 'global') { lbox.classList.remove('on'); l.textContent = '—'; drink = 'coke'; render();
+        outLine(out, '<span class="p">print_global_drink()</span> → 음료: coke');
+        status.innerHTML = '<code>global drink</code> 덕분에 지역 변수를 새로 만들지 않고 <b>전역 변수의 값 자체</b>를 coke로 바꿨어요.'; }
+      else if (act === 'print') { outLine(out, "<span class=\"p\">print('음료:', drink)</span> → 음료: " + drink);
+        status.innerHTML = '함수 바깥에서는 늘 <b>전역 변수</b>를 봐요. 지금 값은 <b>' + drink + '</b>예요.'; }
+      else { drink = 'coffee'; out.innerHTML = ''; render(); status.innerHTML = '처음 상태예요. 전역 변수 drink = \'coffee\''; }
+    });
+    render(); status.innerHTML = '버튼을 눌러 함수를 호출하고, 두 상자의 값이 어떻게 변하는지 보세요.';
+  })();
+
+  /* ---- 음료 주문 (가변 인수·기본값) ---- */
+  (function () {
+    var root = labRoot('lab-order'); if (!root) return;
+    var picks = root.querySelector('[data-picks]'), code = root.querySelector('[data-code]'), out = root.querySelector('[data-out]'),
+        disc = root.querySelector('[data-disc]'), status = root.querySelector('[data-status]'), list = [];
+    ['콜라', '사이다', '커피', '녹차', '주스'].forEach(function (d) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = '+ ' + d; b.dataset.d = d; picks.appendChild(b);
+    });
+    function callText() {
+      var a = list.map(function (d) { return "'" + d + "'"; });
+      if (disc.value) a.push('discount=' + disc.value);
+      return 'order(' + a.join(', ') + ')';
+    }
+    function render() {
+      code.innerHTML = 'def order(*drinks, discount=0):\n    # drinks = ' + esc('(' + list.map(function (d) { return "'" + d + "'"; }).join(', ') + (list.length === 1 ? ',' : '') + ')') +
+        '   ← 튜플로 묶여 들어옴\n    # discount = ' + (disc.value || '0   ← 안 줘서 기본값') + '\n\n<b>' + esc(callText()) + '</b>';
+    }
+    picks.addEventListener('click', function (e) { var b = e.target.closest('[data-d]'); if (!b) return; if (list.length >= 8) return; list.push(b.dataset.d); render(); });
+    disc.addEventListener('change', render);
+    labAct(root, function (act) {
+      if (act === 'clear') { list = []; out.innerHTML = ''; render(); status.innerHTML = '주문을 비웠어요.'; return; }
+      outLine(out, '<span class="p">&gt;&gt;&gt; ' + esc(callText()) + '</span>');
+      if (!list.length) { outLine(out, '주문한 음료가 없습니다.'); status.innerHTML = '인수를 하나도 주지 않아도 오류가 나지 않아요. drinks는 <b>빈 튜플 ()</b>이 돼요.'; return; }
+      var d = +(disc.value || 0), total = Math.round(list.length * 2000 * (1 - d));
+      outLine(out, esc(list.join(', ')) + ' 주문이 완료되었습니다. 합계 ' + fmt(total) + '원');
+      status.innerHTML = '인수 <b>' + list.length + '개</b>가 drinks 튜플 하나로 묶여 들어갔어요. 할인율은 ' + (disc.value ? '<b>' + d + '</b>을 직접 넣었어요.' : '안 줘서 <b>기본값 0</b>이 쓰였어요.');
+    });
+    render(); status.innerHTML = '음료 버튼을 눌러 인수를 늘린 뒤 <b>함수 호출하기</b>를 눌러 보세요. 아무것도 고르지 않고 불러도 돼요.';
+  })();
+
+  /* ---- 로봇 공장 (클래스와 객체) ---- */
+  (function () {
+    var root = labRoot('lab-class'); if (!root) return;
+    var wrap = root.querySelector('[data-robots]'), out = root.querySelector('[data-out]'), status = root.querySelector('[data-status]'),
+        robots = [], names = 'ABCDEF';
+    function render() {
+      wrap.innerHTML = '';
+      robots.forEach(function (r, i) {
+        var d = document.createElement('div'); d.className = 'lx-robot';
+        d.innerHTML = '<b>robot' + (i + 1) + '</b><span>name = \'' + r.name + '\'</span><span>speed = <i>' + r.speed + '</i></span>' +
+          '<div><button class="btn" data-m="speak" data-i="' + i + '">speak()</button><button class="btn" data-m="walk" data-i="' + i + '">walk()</button>' +
+          '<button class="btn" data-m="run" data-i="' + i + '">run()</button><button class="btn" data-m="up" data-i="' + i + '">change_speed()</button></div>';
+        wrap.appendChild(d);
+      });
+    }
+    wrap.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-m]'); if (!b) return;
+      var i = +b.dataset.i, r = robots[i], m = b.dataset.m, call = 'robot' + (i + 1) + '.' + (m === 'up' ? 'change_speed' : m) + '()', msg;
+      if (m === 'speak') msg = r.name + '가 말합니다.';
+      else if (m === 'walk') { r.speed = 3; msg = r.name + '가 3km/h로 걷습니다.'; }
+      else if (m === 'run') { r.speed = 10; msg = r.name + '가 10km/h로 달립니다.'; }
+      else { r.speed += 1; msg = r.name + '의 속도 ' + r.speed + 'km/h로 변경.'; }
+      outLine(out, '<span class="p">' + call + '</span> → ' + msg); render();
+      status.innerHTML = '<code>' + call + '</code>에서 self는 <b>robot' + (i + 1) + '</b>을 가리켜요. 그래서 이 로봇의 speed만 바뀌었어요.';
+    });
+    labAct(root, function (act) {
+      if (act === 'reset') { robots = []; out.innerHTML = ''; render(); status.innerHTML = '모든 객체를 없앴어요.'; return; }
+      if (robots.length >= 4) { status.innerHTML = '이 체험에서는 4대까지만 만들 수 있어요.'; return; }
+      var r = { name: '로봇' + names[robots.length], speed: 0 }; robots.push(r);
+      outLine(out, '<span class="p">robot' + robots.length + " = Robot('" + r.name + "')</span> → __init__ 실행: name, speed = 0");
+      render(); status.innerHTML = '설계도(클래스) 하나로 객체 <b>' + robots.length + '개</b>를 만들었어요. 객체마다 자기 속성을 따로 가져요.';
+    });
+    status.innerHTML = '<b>Robot() 객체 만들기</b>를 눌러 로봇을 만들어 보세요.';
+  })();
+
+  /* ---- 프랙털 나무 ---- */
+  (function () {
+    var root = labRoot('lab-ftree'); if (!root) return;
+    var svg = root.querySelector('[data-svg]'), dep = root.querySelector('[data-depth]'), ang = root.querySelector('[data-angle]'), rat = root.querySelector('[data-ratio]'),
+        dl = root.querySelector('[data-dl]'), al = root.querySelector('[data-al]'), rl = root.querySelector('[data-rl]'),
+        calls = root.querySelector('[data-calls]'), lines = root.querySelector('[data-lines]'), status = root.querySelector('[data-status]');
+    function draw() {
+      var D = +dep.value, A = +ang.value * Math.PI / 180, R = +rat.value / 100, segs = [], c = 0;
+      function tree(x, y, len, dir, depth) {
+        c++;
+        if (depth === 0) return;
+        var x2 = x + len * Math.cos(dir), y2 = y - len * Math.sin(dir);
+        segs.push('<line x1="' + x.toFixed(1) + '" y1="' + y.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) +
+          '" stroke-width="' + Math.max(0.6, depth * 0.9).toFixed(1) + '" class="' + (depth === D ? 'sv-line' : 'sv-a') + '"/>');
+        tree(x2, y2, len * R, dir + A, depth - 1);
+        tree(x2, y2, len * R, dir - A, depth - 1);
+      }
+      tree(300, 320, 85, Math.PI / 2, D);
+      svg.innerHTML = segs.join('');
+      dl.textContent = D; al.textContent = ang.value; rl.textContent = R.toFixed(2);
+      calls.textContent = fmt(c); lines.textContent = fmt(segs.length);
+      status.innerHTML = D === 0 ? '깊이 0이면 <b>기본 단계</b>라서 아무것도 그리지 않고 바로 끝나요.' :
+        '깊이 ' + D + ' — 가지 <b>' + fmt(segs.length) + '개</b> (2<sup>' + D + '</sup> − 1). 함수는 ' + fmt(c) + '번 불렸어요. 깊이 0으로 불린 ' + fmt(c - segs.length) + '번은 그리지 않고 바로 끝난 호출이에요.';
+    }
+    [dep, ang, rat].forEach(function (e) { e.addEventListener('input', draw); });
+    draw();
+  })();
+
+  /* ---- 넣을까 말까 (부분 집합) ---- */
+  (function () {
+    var root = labRoot('lab-comb'); if (!root) return;
+    var rows = root.querySelector('[data-rows]'), res = root.querySelector('[data-res]'), found = root.querySelector('[data-found]'),
+        listEl = root.querySelector('[data-list]'), sel = root.querySelector('[data-str]'), status = root.querySelector('[data-status]'), pick, seen;
+    function cur() { var s = sel.value, r = ''; for (var i = 0; i < s.length; i++) if (pick[i]) r += s[i]; return r; }
+    function render() {
+      var s = sel.value, r = cur(); rows.innerHTML = '';
+      for (var i = 0; i < s.length; i++) {
+        var d = document.createElement('div'); d.className = 'lx-cstep';
+        d.innerHTML = '<span>idx ' + i + ' · <b>' + s[i] + '</b></span><button type="button" class="btn' + (pick[i] ? '' : ' btn-p') + '" data-i="' + i + '" data-v="0">빼기</button>' +
+          '<button type="button" class="btn' + (pick[i] ? ' btn-p' : '') + '" data-i="' + i + '" data-v="1">넣기</button>';
+        rows.appendChild(d);
+      }
+      seen[r] = 1;
+      var total = Math.pow(2, s.length), keys = Object.keys(seen);
+      res.textContent = "'" + r + "'"; found.textContent = keys.length + ' / ' + total;
+      listEl.innerHTML = keys.sort(function (a, b) { return a.length - b.length || (a < b ? -1 : 1); }).map(function (k) { return '<span class="lx-chip">' + (k || '∅') + '</span>'; }).join('');
+      status.innerHTML = keys.length === total ? '<b>' + total + '가지를 모두 찾았어요!</b> 재귀 함수 <code>comb()</code>는 글자마다 “빼는 경우”와 “넣는 경우”로 자기 자신을 두 번 불러 이 ' + total + '가지를 빠짐없이 만들어요.' :
+        '지금 조합은 <b>\'' + r + '\'</b>. 아직 ' + (total - keys.length) + '가지가 남았어요.';
+    }
+    function reset() { pick = []; seen = {}; for (var i = 0; i < sel.value.length; i++) pick.push(false); render(); }
+    rows.addEventListener('click', function (e) { var b = e.target.closest('[data-i]'); if (!b) return; pick[+b.dataset.i] = b.dataset.v === '1'; render(); });
+    sel.addEventListener('change', reset); labAct(root, reset); reset();
+  })();
+
+  /* ---- 숫자 맞히기 ---- */
+  (function () {
+    var root = labRoot('lab-guess'); if (!root) return;
+    var lo, hi, ans, tries, done, inp = root.querySelector('[data-guess]'), status = root.querySelector('[data-status]');
+    function render() {
+      root.querySelector('[data-lo]').textContent = lo; root.querySelector('[data-hi]').textContent = hi;
+      var bar = root.querySelector('[data-bar]'); bar.style.left = (lo - 1) + '%'; bar.style.width = (hi - lo + 1) + '%';
+      root.querySelector('[data-tries]').textContent = tries; root.querySelector('[data-left]').textContent = done ? 1 : hi - lo + 1;
+    }
+    function reset() { lo = 1; hi = 100; ans = 1 + Math.floor(Math.random() * 100); tries = 0; done = false; inp.value = 50; render(); status.innerHTML = '1부터 100 사이의 수를 하나 정했어요. 맞혀 보세요!'; }
+    labAct(root, function (act) {
+      if (act === 'new') return reset();
+      if (done) { status.innerHTML = '이미 맞혔어요. <b>새 게임</b>을 눌러 주세요.'; return; }
+      var g = parseInt(inp.value, 10);
+      if (!(g >= 1 && g <= 100)) { status.innerHTML = '1부터 100 사이의 수를 넣어 주세요. (잘못된 입력은 횟수에 세지 않아요)'; return; }
+      tries++;
+      if (g === ans) { done = true; lo = hi = g; status.innerHTML = '<b>정답! ' + tries + '번 만에 맞혔어요.</b>' + (tries <= 7 ? ' 아주 잘했어요.' : ' 가운데 수를 고르면 7번 안에 맞힐 수 있어요.'); }
+      else if (g < ans) { lo = Math.max(lo, g + 1); status.innerHTML = '<b>' + g + '</b>보다 <b>큰 수</b>예요. 남은 후보는 ' + lo + '~' + hi + '.'; inp.value = Math.floor((lo + hi) / 2); }
+      else { hi = Math.min(hi, g - 1); status.innerHTML = '<b>' + g + '</b>보다 <b>작은 수</b>예요. 남은 후보는 ' + lo + '~' + hi + '.'; inp.value = Math.floor((lo + hi) / 2); }
+      render();
+    });
+    inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') root.querySelector('[data-act="go"]').click(); });
+    reset();
+  })();
+
+  /* ---- 괄호 검사기 ---- */
+  (function () {
+    var root = labRoot('lab-bracket'); if (!root) return;
+    var tape = root.querySelector('[data-tape]'), st = root.querySelector('[data-stack]'), expr = root.querySelector('[data-expr]'),
+        status = root.querySelector('[data-status]'), pos, stack, done, bad;
+    var PAIR = { ')': '(', ']': '[', '}': '{' };
+    function render() {
+      var s = expr.value; tape.innerHTML = '';
+      for (var i = 0; i < s.length; i++) {
+        var c = document.createElement('span'); var ch = s[i];
+        c.className = 'lx-tc' + ('([{)]}'.indexOf(ch) >= 0 ? ' br' : '') + (i < pos ? ' read' : '') + (i === pos - 1 ? ' cur' : '') + (i === bad ? ' bad' : '');
+        c.textContent = ch === ' ' ? '·' : ch; tape.appendChild(c);
+      }
+      st.innerHTML = stack.length ? stack.map(function (c) { return '<span class="lx-chip">' + esc(c) + '</span>'; }).join('') : '<span class="lx-sum">비어 있음</span>';
+    }
+    function reset() { pos = 0; stack = []; done = false; bad = -1; render(); status.innerHTML = '<b>한 글자 읽기</b>를 눌러 보세요. 여는 괄호는 스택에 넣고, 닫는 괄호가 나오면 맨 위의 것과 짝을 맞춰요.'; }
+    function step() {
+      if (done) return false;
+      var s = expr.value;
+      if (pos >= s.length) {
+        done = true; render();
+        status.innerHTML = stack.length ? '끝까지 읽었는데 스택에 <b>' + esc(stack.join(' ')) + '</b>가 남았어요. <b>False</b> — 여는 괄호와 닫는 괄호의 개수가 달라요(조건 ①).' :
+          '끝까지 읽었고 스택이 비었어요. <b>True</b> — 괄호가 올바르게 짝지어졌어요!';
+        return false;
+      }
+      var ch = s[pos++], msg;
+      if ('([{'.indexOf(ch) >= 0) { stack.push(ch); msg = '<b>' + esc(ch) + '</b>는 여는 괄호 → push.'; }
+      else if (PAIR[ch]) {
+        if (!stack.length) { done = true; bad = pos - 1; render(); status.innerHTML = '<b>' + esc(ch) + '</b>를 읽었는데 스택이 비어 있어요. <b>False</b> — 닫는 괄호가 먼저 나왔어요(조건 ②).'; return false; }
+        var top = stack.pop();
+        if (top !== PAIR[ch]) { done = true; bad = pos - 1; render(); status.innerHTML = '<b>' + esc(ch) + '</b>를 읽고 pop했더니 <b>' + esc(top) + '</b>가 나왔어요. 종류가 달라요. <b>False</b> — 괄호가 엇갈렸어요(조건 ③).'; return false; }
+        msg = '<b>' + esc(ch) + '</b>는 닫는 괄호 → pop한 <b>' + esc(top) + '</b>와 짝이 맞아요.';
+      } else msg = '<b>' + esc(ch === ' ' ? '공백' : ch) + '</b>는 괄호가 아니라서 지나가요.';
+      render(); status.innerHTML = msg; return true;
+    }
+    labAct(root, function (act) {
+      if (act === 'step') step(); else if (act === 'all') { var g = 0; while (step() && g++ < 200) {} if (!done) step(); } else reset();
+    });
+    root.addEventListener('click', function (e) { var b = e.target.closest('[data-ex]'); if (!b) return; expr.value = b.dataset.ex; reset(); });
+    expr.addEventListener('input', reset); reset();
+  })();
+
+  /* ---- 다리를 건너는 트럭 ---- */
+  (function () {
+    var root = labRoot('lab-truck'); if (!root) return;
+    var L = 2, MAXW = 10, TR = [7, 4, 5, 6], waitQ, bridge, done, time, status = root.querySelector('[data-status]');
+    function chip(t) { return '<span class="lx-chip">' + t + 'kg</span>'; }
+    function weight() { return bridge.reduce(function (a, b) { return a + b; }, 0); }
+    function render() {
+      root.querySelector('[data-wait]').innerHTML = waitQ.length ? waitQ.map(chip).join('') : '<span class="lx-sum">없음</span>';
+      root.querySelector('[data-done]').innerHTML = done.length ? done.map(chip).join('') : '<span class="lx-sum">없음</span>';
+      root.querySelector('[data-bridge]').innerHTML = bridge.map(function (t) { return '<span class="lx-cell' + (t ? ' on' : '') + '">' + (t ? t + 'kg' : '빈칸') + '</span>'; }).join('');
+      root.querySelector('[data-time]').textContent = time; root.querySelector('[data-weight]').textContent = weight();
+    }
+    function reset() { waitQ = TR.slice(); bridge = []; for (var i = 0; i < L; i++) bridge.push(0); done = []; time = 0; render(); status.innerHTML = '다리 길이 2칸, 무게 제한 10kg. <b>1초 진행</b>을 눌러 보세요.'; }
+    function step() {
+      if (!waitQ.length && !weight()) return false;
+      time++;
+      var off = bridge.shift(), msg = time + '초: ';
+      if (off) { done.push(off); msg += off + 'kg 트럭이 다 건넜어요. '; }
+      if (waitQ.length && weight() + waitQ[0] <= MAXW) { var t = waitQ.shift(); bridge.push(t); msg += t + 'kg 트럭이 다리에 올라갔어요.'; }
+      else { bridge.push(0); if (waitQ.length) msg += waitQ[0] + 'kg 트럭은 무게(' + weight() + ' + ' + waitQ[0] + ' > 10) 때문에 기다려요.'; }
+      render();
+      status.innerHTML = (!waitQ.length && !weight()) ? '<b>모든 트럭이 ' + time + '초 만에 건넜어요!</b> 이것이 가장 짧은 시간이에요.' : msg;
+      return true;
+    }
+    labAct(root, function (act) { if (act === 'step') step(); else if (act === 'all') { var g = 0; while (step() && g++ < 50) {} } else reset(); });
+    reset();
+  })();
+
+  /* ---- 이진 탐색 트리 ---- */
+  (function () {
+    var root = labRoot('lab-bst'); if (!root) return;
+    var svg = root.querySelector('[data-svg]'), val = root.querySelector('[data-val]'), status = root.querySelector('[data-status]'), tree, path, hit;
+    function ins(v) {
+      var p = [], n = tree;
+      if (!n) { tree = { v: v }; return [v]; }
+      while (true) {
+        p.push(n.v);
+        if (v === n.v) return null;
+        var k = v < n.v ? 'l' : 'r';
+        if (!n[k]) { n[k] = { v: v }; p.push(v); return p; }
+        n = n[k];
+      }
+    }
+    function depth(n) { return n ? 1 + Math.max(depth(n.l), depth(n.r)) : 0; }
+    function render() {
+      var h = [], d = depth(tree);
+      function walk(n, x, y, span, lvl) {
+        if (!n) return;
+        var dy = Math.min(60, 250 / Math.max(1, d - 1 || 1));
+        [['l', -1], ['r', 1]].forEach(function (k) {
+          if (n[k[0]]) {
+            var cx = x + k[1] * span, cy = y + dy, on = path.indexOf(n.v) >= 0 && path.indexOf(n[k[0]].v) >= 0;
+            h.push('<line x1="' + x + '" y1="' + y + '" x2="' + cx + '" y2="' + cy + '" class="' + (on ? 'sv-a' : 'sv-line') + '"/>');
+            walk(n[k[0]], cx, cy, span / 2, lvl + 1);
+          }
+        });
+        var onp = path.indexOf(n.v) >= 0;
+        h.push('<circle cx="' + x + '" cy="' + y + '" r="16" class="' + (n.v === hit ? 'sv-box-a' : onp ? 'sv-box-a' : 'sv-box') + '"' + (n.v === hit ? ' stroke-width="3"' : '') + '/>');
+        h.push('<text x="' + x + '" y="' + (y + 5) + '" class="sv-t-b" text-anchor="middle">' + n.v + '</text>');
+      }
+      walk(tree, 320, 24, 150, 0);
+      svg.setAttribute('viewBox', '0 0 640 ' + Math.max(120, Math.min(300, d * 60 + 20)));
+      svg.innerHTML = h.join('') || '<text x="320" y="150" class="sv-t-s" text-anchor="middle">비어 있어요. 값을 넣어 보세요.</text>';
+    }
+    function reset() { tree = null; path = []; hit = null; render(); status.innerHTML = '값을 넣으면 루트부터 견주어 내려가며 자리를 찾아요.'; }
+    function insert(v) {
+      if (depth(tree) >= 6 && !ins.dry) { /* 깊이 제한 검사 */ }
+      var p = ins(v); hit = v;
+      if (!p) { path = []; status.innerHTML = '<b>' + v + '</b>는 이미 트리에 있어요.'; render(); return; }
+      if (depth(tree) > 7) { status.innerHTML = '트리가 너무 깊어져서 그림이 작게 보일 수 있어요.'; }
+      path = p; render();
+      status.innerHTML = '<b>' + v + '</b> 넣기: ' + p.slice(0, -1).map(function (x) { return x + (v < x ? '보다 작아 왼쪽' : '보다 커서 오른쪽'); }).join(' → ') + (p.length > 1 ? ' → ' : '') + '빈자리에 저장. (트리 높이 ' + (depth(tree) - 1) + ')';
+    }
+    labAct(root, function (act) {
+      var v = parseInt(val.value, 10);
+      if (act === 'reset') return reset();
+      if (act === 'sample' || act === 'sorted') { reset(); (act === 'sample' ? [8, 3, 5, 10, 2, 14] : [1, 2, 3, 4, 5]).forEach(function (x) { ins(x); }); path = []; hit = null; render();
+        status.innerHTML = act === 'sample' ? '8, 3, 5, 10, 2, 14를 차례로 넣었어요. 이제 값을 찾아보세요.' : '1, 2, 3, 4, 5를 차례로 넣었더니 오른쪽으로만 늘어진 <b>한쪽으로 쏠린 트리</b>가 됐어요. 5를 찾으려면 5번이나 견주어야 해요.'; return; }
+      if (!(v >= 1 && v <= 99)) { status.innerHTML = '1부터 99 사이의 수를 넣어 주세요.'; return; }
+      if (act === 'insert') return insert(v);
+      var n = tree, p = [], c = 0;
+      while (n) { c++; p.push(n.v); if (v === n.v) break; n = v < n.v ? n.l : n.r; }
+      path = p; hit = n ? v : null; render();
+      status.innerHTML = n ? '<b>' + v + '</b>를 <b>' + c + '번</b> 견주어 찾았어요: ' + p.join(' → ') : '<b>' + v + '</b>는 없어요. ' + c + '번 견주어 빈자리에 닿았어요: ' + (p.join(' → ') || '빈 트리');
+    });
+    reset();
+  })();
+
+  /* ---- 그래프 그리기 (인접 행렬·리스트) ---- */
+  (function () {
+    var root = labRoot('lab-adj'); if (!root) return;
+    var svg = root.querySelector('[data-svg]'), mat = root.querySelector('[data-mat]'), lst = root.querySelector('[data-list]'),
+        dir = root.querySelector('[data-dir]'), status = root.querySelector('[data-status]');
+    var N = ['A', 'B', 'C', 'D', 'E'], P = [[150, 35], [265, 115], [222, 225], [78, 225], [35, 115]], E, sel = null;
+    function has(a, b) { return E.some(function (e) { return e[0] === a && e[1] === b || (!dir.checked && e[0] === b && e[1] === a); }); }
+    function render() {
+      var h = '<defs><marker id="lx-arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs>';
+      E.forEach(function (e) {
+        var a = P[e[0]], b = P[e[1]], dx = b[0] - a[0], dy = b[1] - a[1], L = Math.sqrt(dx * dx + dy * dy), ux = dx / L, uy = dy / L;
+        h += '<line x1="' + (a[0] + ux * 20) + '" y1="' + (a[1] + uy * 20) + '" x2="' + (b[0] - ux * 21) + '" y2="' + (b[1] - uy * 21) + '" class="sv-line"' + (dir.checked ? ' marker-end="url(#lx-arrow)"' : '') + '/>';
+      });
+      P.forEach(function (p, i) {
+        h += '<g data-n="' + i + '" style="cursor:pointer"><circle cx="' + p[0] + '" cy="' + p[1] + '" r="19" class="' + (sel === i ? 'sv-box-a' : 'sv-box') + '"/><text x="' + p[0] + '" y="' + (p[1] + 5) + '" class="sv-t-b" text-anchor="middle">' + N[i] + '</text></g>';
+      });
+      svg.innerHTML = h;
+      var t = '<tr><th></th>' + N.map(function (n) { return '<th>' + n + '</th>'; }).join('') + '</tr>', ones = 0, ltxt = [];
+      for (var i = 0; i < 5; i++) {
+        t += '<tr><th>' + N[i] + '</th>'; var row = [];
+        for (var j = 0; j < 5; j++) { var v = has(i, j) ? 1 : 0; ones += v; if (v) row.push(N[j]); t += '<td class="' + (v ? 'done' : '') + '">' + v + '</td>'; }
+        t += '</tr>'; ltxt.push('[' + N[i] + ']: ' + (row.join(' ') || '(없음)'));
+      }
+      mat.innerHTML = t; lst.textContent = '인접 리스트\n' + ltxt.join('\n');
+      root.querySelector('[data-links]').textContent = E.length; root.querySelector('[data-ones]').textContent = ones;
+    }
+    svg.addEventListener('click', function (e) {
+      var g = e.target.closest('[data-n]'); if (!g) return; var i = +g.dataset.n;
+      if (sel === null) { sel = i; render(); status.innerHTML = '<b>' + N[i] + '</b>를 골랐어요. 이을 노드를 하나 더 누르세요.'; return; }
+      if (sel === i) { sel = null; render(); status.innerHTML = '선택을 취소했어요.'; return; }
+      var a = sel, b = i, k = -1;
+      E.forEach(function (x, idx) { if ((x[0] === a && x[1] === b) || (!dir.checked && x[0] === b && x[1] === a)) k = idx; });
+      if (k >= 0) { E.splice(k, 1); status.innerHTML = N[a] + '–' + N[b] + ' 링크를 지웠어요.'; }
+      else { E.push([a, b]); status.innerHTML = dir.checked ? N[a] + '→' + N[b] + ' 화살표를 만들었어요. 행렬에서는 <b>' + N[a] + '줄 ' + N[b] + '칸 한쪽에만</b> 1이 생겨요.' :
+        N[a] + '–' + N[b] + ' 링크를 만들었어요. 무방향이라 행렬의 <b>양쪽(' + N[a] + '줄 ' + N[b] + '칸, ' + N[b] + '줄 ' + N[a] + '칸)</b>에 1이 생겨요.'; }
+      sel = null; render();
+    });
+    dir.addEventListener('change', function () { E = []; sel = null; render(); status.innerHTML = dir.checked ? '방향 그래프로 바꿨어요. 먼저 누른 노드에서 나중에 누른 노드로 화살표가 생겨요.' : '무방향 그래프로 바꿨어요.'; });
+    labAct(root, function (act) {
+      sel = null;
+      if (act === 'reset') E = [];
+      else if (act === 'sample') { dir.checked = false; E = [[0, 1], [0, 3], [1, 2], [1, 3], [2, 4]]; }
+      else { E = []; for (var i = 0; i < 5; i++) for (var j = 0; j < 5; j++) if (i !== j && (dir.checked || i < j)) E.push([i, j]); }
+      render();
+      status.innerHTML = act === 'complete' ? '완전 그래프예요. 노드 5개일 때 링크는 ' + (dir.checked ? '5 × 4 = 20개' : '5 × 4 / 2 = 10개') + '. 행렬이 대각선만 빼고 꽉 찼어요.' :
+        act === 'sample' ? '교과서의 탐색 예제 그래프예요(A–B, A–D, B–C, B–D, C–E). 행렬의 0이 아닌 칸이 링크 수의 두 배인 까닭은 무엇일까요?' : '모두 지웠어요.';
+    });
+    E = []; render(); status.innerHTML = '노드를 두 개 차례로 눌러 선을 이어 보세요.';
+  })();
+
+  /* ---- DFS와 BFS ---- */
+  (function () {
+    var root = labRoot('lab-search'); if (!root) return;
+    var svg = root.querySelector('[data-svg]'), mode = root.querySelector('[data-mode]'), start = root.querySelector('[data-start]'),
+        boxEl = root.querySelector('[data-box]'), boxLabel = root.querySelector('[data-boxlabel]'), orderEl = root.querySelector('[data-order]'), status = root.querySelector('[data-status]');
+    var N = ['A', 'B', 'C', 'D', 'E'], P = [[70, 115], [200, 45], [340, 45], [200, 185], [470, 115]];
+    var ADJ = [[1, 3], [0, 2, 3], [1, 4], [0, 1], [2]], EDGES = [[0, 1], [0, 3], [1, 2], [1, 3], [2, 4]];
+    var box, visited, order, from, cur;
+    function render() {
+      var h = '';
+      EDGES.forEach(function (e) { var on = from[e[1]] === e[0] || from[e[0]] === e[1]; h += '<line x1="' + P[e[0]][0] + '" y1="' + P[e[0]][1] + '" x2="' + P[e[1]][0] + '" y2="' + P[e[1]][1] + '" class="' + (on ? 'sv-a' : 'sv-mute') + '"' + (on ? ' stroke-width="3"' : '') + '/>'; });
+      P.forEach(function (p, i) {
+        var k = order.indexOf(i);
+        h += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="24" class="' + (i === cur ? 'sv-box-a' : 'sv-box') + '"' + (k >= 0 ? ' stroke-width="3"' : '') + '/>';
+        h += '<text x="' + p[0] + '" y="' + (p[1] + 5) + '" class="sv-t-b" text-anchor="middle">' + N[i] + '</text>';
+        if (k >= 0) h += '<text x="' + (p[0] + 26) + '" y="' + (p[1] - 20) + '" class="sv-t-a">' + (k + 1) + '</text>';
+      });
+      svg.innerHTML = h;
+      boxLabel.textContent = mode.value === 'dfs' ? '스택 (오른쪽이 top)' : '큐 (왼쪽이 front)';
+      boxEl.innerHTML = box.length ? box.map(function (i) { return '<span class="lx-chip">' + N[i] + '</span>'; }).join('') : '<span class="lx-sum">비어 있음</span>';
+      orderEl.innerHTML = order.map(function (i) { return '<span class="lx-chip">' + N[i] + '</span>'; }).join('') || '<span class="lx-sum">아직 없음</span>';
+    }
+    function reset() {
+      var s = N.indexOf(start.value); visited = {}; from = {}; order = [s]; visited[s] = 1; box = [s]; cur = s; render();
+      status.innerHTML = '<b>' + N[s] + '</b>를 방문하고 ' + (mode.value === 'dfs' ? '스택' : '큐') + '에 넣었어요. <b>다음 단계</b>를 눌러 보세요.';
+    }
+    function step() {
+      if (!box.length) return false;
+      if (mode.value === 'dfs') {
+        var top = box[box.length - 1], nxt = ADJ[top].filter(function (j) { return !visited[j]; })[0];
+        cur = top;
+        if (nxt === undefined) { box.pop(); cur = box.length ? box[box.length - 1] : null; render();
+          status.innerHTML = box.length ? '<b>' + N[top] + '</b>에서 더 갈 곳이 없어요 → 스택에서 꺼내고(pop) <b>' + N[box[box.length - 1]] + '</b>로 되돌아가요.' : '<b>' + N[top] + '</b>도 꺼내서 스택이 비었어요. <b>탐색 끝!</b> 방문 순서: ' + order.map(function (i) { return N[i]; }).join(' → ');
+          return box.length > 0; }
+        visited[nxt] = 1; from[nxt] = top; order.push(nxt); box.push(nxt); cur = nxt; render();
+        status.innerHTML = '<b>' + N[top] + '</b>와 이어진 곳 가운데 아직 안 간 <b>' + N[nxt] + '</b>로 들어가요 → 방문하고 스택에 push.';
+        return true;
+      }
+      var c = box.shift(), added = [];
+      cur = c;
+      ADJ[c].forEach(function (j) { if (!visited[j]) { visited[j] = 1; from[j] = c; order.push(j); box.push(j); added.push(N[j]); } });
+      render();
+      status.innerHTML = box.length || added.length ? '큐의 맨 앞 <b>' + N[c] + '</b>를 꺼내고, 이어진 곳 가운데 안 간 ' + (added.length ? '<b>' + added.join(', ') + '</b>를 모두 방문해 큐에 넣었어요.' : '곳이 없어요.') :
+        '큐가 비었어요. <b>탐색 끝!</b> 방문 순서: ' + order.map(function (i) { return N[i]; }).join(' → ');
+      if (!box.length && added.length === 0) return false;
+      return true;
+    }
+    labAct(root, function (act) {
+      if (act === 'step') { if (!step() && !box.length) status.innerHTML = status.innerHTML.indexOf('끝') >= 0 ? status.innerHTML : '<b>탐색 끝!</b> 방문 순서: ' + order.map(function (i) { return N[i]; }).join(' → '); }
+      else if (act === 'all') { var g = 0; while (box.length && g++ < 40) step(); status.innerHTML = '<b>탐색 끝!</b> 방문 순서: ' + order.map(function (i) { return N[i]; }).join(' → '); }
+      else reset();
+    });
+    mode.addEventListener('change', reset); start.addEventListener('change', reset); reset();
+  })();
+
+  /* ---- 미로 탐색 ---- */
+  (function () {
+    var root = labRoot('lab-maze'); if (!root) return;
+    var grid = root.querySelector('[data-grid]'), mode = root.querySelector('[data-mode]'), status = root.querySelector('[data-status]');
+    var M = [[0, 1, 0, 0, 0, 0], [0, 1, 0, 1, 1, 0], [0, 0, 0, 1, 0, 0], [1, 1, 0, 1, 0, 1], [0, 0, 0, 0, 0, 1], [0, 1, 1, 1, 0, 0]];
+    var S = [0, 0], G = [5, 5], box, seen, num, count, done, cur;
+    function key(p) { return p[0] + ',' + p[1]; }
+    function render() {
+      grid.innerHTML = '';
+      for (var r = 0; r < 6; r++) for (var c = 0; c < 6; c++) {
+        var d = document.createElement('span'), k = r + ',' + c, inBox = box.some(function (p) { return p[0] === r && p[1] === c; });
+        d.className = 'lx-mc' + (M[r][c] ? ' wall' : '') + (num[k] ? ' seen' : '') + (inBox ? ' wait' : '') + (cur && cur[0] === r && cur[1] === c ? ' cur' : '');
+        d.textContent = (r === S[0] && c === S[1]) ? '입구' : (r === G[0] && c === G[1]) ? (num[k] || '출구') : (num[k] || '');
+        grid.appendChild(d);
+      }
+      root.querySelector('[data-visited]').textContent = count;
+      root.querySelector('[data-box]').textContent = box.length;
+      root.querySelector('[data-boxlabel]').textContent = (mode.value === 'dfs' ? '스택' : '큐') + '에 든 칸 수';
+    }
+    function reset() { box = [S]; seen = {}; seen[key(S)] = 1; num = {}; count = 0; done = false; cur = null; render(); status.innerHTML = '입구 칸을 ' + (mode.value === 'dfs' ? '스택' : '큐') + '에 넣었어요. <b>한 칸 살펴보기</b>를 눌러 보세요.'; }
+    function step() {
+      if (done || !box.length) return false;
+      var p = mode.value === 'dfs' ? box.pop() : box.shift(); cur = p; count++; num[key(p)] = count;
+      if (p[0] === G[0] && p[1] === G[1]) { done = true; render(); status.innerHTML = '<b>출구 도착!</b> ' + count + '칸을 살펴봤어요. ' + (mode.value === 'dfs' ? '이번에는 큐(너비 우선)로도 해 보세요.' : '이번에는 스택(깊이 우선)으로도 해 보세요.'); return false; }
+      var add = [];
+      [[-1, 0], [1, 0], [0, -1], [0, 1]].forEach(function (d) {
+        var q = [p[0] + d[0], p[1] + d[1]];
+        if (q[0] >= 0 && q[0] < 6 && q[1] >= 0 && q[1] < 6 && !M[q[0]][q[1]] && !seen[key(q)]) { seen[key(q)] = 1; box.push(q); add.push('(' + q[0] + ',' + q[1] + ')'); }
+      });
+      render();
+      status.innerHTML = '(' + p[0] + ',' + p[1] + ') 칸을 살펴봤어요. ' + (add.length ? '갈 수 있는 이웃 ' + add.join(' ') + '를 ' + (mode.value === 'dfs' ? '스택' : '큐') + '에 넣었어요.' : '더 갈 수 있는 새 칸이 없어요.');
+      return true;
+    }
+    labAct(root, function (act) { if (act === 'step') step(); else if (act === 'all') { var g = 0; while (step() && g++ < 60) {} } else reset(); });
+    mode.addEventListener('change', reset); reset();
+  })();
+
+  /* ============ 코딩 활동 위젯 (따라가기 · 빈칸 · 순서 · 예측) ============ */
+  (function () {
+    function h(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    function data(el) { try { return JSON.parse(el.getAttribute('data-w')); } catch (e) { return null; } }
+
+    /* ---- 코드 따라가기 ---- */
+    function initTrace(el, d) {
+      var body = el.querySelector('.wact-body'), i = 0, timer = null, N = d.steps.length;
+      body.innerHTML =
+        '<div class="tr-grid"><ol class="tr-code"></ol><div class="tr-side">' +
+        '<div class="tr-note" aria-live="polite"></div><div class="tr-vars"></div>' +
+        '<div class="tr-outwrap"><span>출력</span><pre class="tr-out"></pre></div></div></div>' +
+        '<div class="tr-ctrl"><button type="button" class="btn" data-t="first">처음</button>' +
+        '<button type="button" class="btn" data-t="prev">◀ 이전</button>' +
+        '<button type="button" class="btn btn-p" data-t="next">다음 ▶</button>' +
+        '<button type="button" class="btn" data-t="auto">자동 재생</button>' +
+        '<span class="tr-count"></span></div>';
+      var codeEl = body.querySelector('.tr-code');
+      d.code.forEach(function (line, k) {
+        var li = document.createElement('li');
+        li.innerHTML = '<span class="tr-ln">' + (k + 1) + '</span><code>' + (h(line) || ' ') + '</code>';
+        codeEl.appendChild(li);
+      });
+      var lis = codeEl.children, noteEl = body.querySelector('.tr-note'), varsEl = body.querySelector('.tr-vars'),
+          outEl = body.querySelector('.tr-out'), cntEl = body.querySelector('.tr-count'), prevLine = 0;
+      function varsHtml(st, prev) {
+        var old = {};
+        if (prev) prev.s.forEach(function (fr, fi) { fr[1].forEach(function (v) { old[fi + ':' + v[0]] = v[1]; }); });
+        return st.s.map(function (fr, fi) {
+          var rows = fr[1].map(function (v) {
+            var changed = prev && old[fi + ':' + v[0]] !== v[1];
+            return '<tr' + (changed ? ' class="chg"' : '') + '><td>' + h(v[0]) + '</td><td>' + h(v[1]) + '</td></tr>';
+          }).join('');
+          return '<div class="tr-frame' + (fi === st.s.length - 1 ? ' top' : '') + '"><b>' + h(fr[0]) + '</b>' +
+            (rows ? '<table>' + rows + '</table>' : '<em>변수 없음</em>') + '</div>';
+        }).join('');
+      }
+      function show() {
+        var st = d.steps[i], prev = i ? d.steps[i - 1] : null;
+        for (var k = 0; k < lis.length; k++) lis[k].className = '';
+        if (prev && prev.l) lis[prev.l - 1].className = 'was';
+        if (st.l) { lis[st.l - 1].className = st.k === 'ret' ? 'ret' : 'now'; }
+        var note;
+        if (st.k === 'end') note = '<b>프로그램이 끝났어요.</b> 처음부터 다시 보거나, 다른 값으로 바꿔 생각해 보세요.';
+        else if (st.k === 'ret') note = '<b>' + h(st.s[st.s.length - 1][0]) + '</b> 함수가 끝나고 <b>' + h(st.r) + '</b>을(를) 돌려줘요. 부른 곳으로 되돌아가요.';
+        else note = (d.notes[st.l] ? h(d.notes[st.l]) : '<span class="tr-dim">' + st.l + '번 줄을 실행할 차례예요.</span>');
+        if (st.k === 'line' && st.s.length > 1) note = '<span class="tr-where">' + h(st.s[st.s.length - 1][0]) + ' 안</span> ' + note;
+        noteEl.innerHTML = note;
+        varsEl.innerHTML = varsHtml(st, prev);
+        outEl.textContent = st.o || '';
+        cntEl.textContent = (i + 1) + ' / ' + N;
+        if (st.l && lis[st.l - 1].scrollIntoView && codeEl.scrollHeight > codeEl.clientHeight) {
+          var top = lis[st.l - 1].offsetTop - codeEl.offsetTop;
+          if (top < codeEl.scrollTop || top > codeEl.scrollTop + codeEl.clientHeight - 30) codeEl.scrollTop = top - 40;
+        }
+      }
+      function stop() { if (timer) { clearInterval(timer); timer = null; body.querySelector('[data-t="auto"]').textContent = '자동 재생'; } }
+      body.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-t]'); if (!b) return;
+        var t = b.dataset.t;
+        if (t === 'auto') {
+          if (timer) return stop();
+          if (i >= N - 1) i = 0;
+          b.textContent = '멈춤';
+          timer = setInterval(function () { if (i >= N - 1) return stop(); i++; show(); }, 900);
+          return;
+        }
+        stop();
+        if (t === 'first') i = 0; else if (t === 'prev') i = Math.max(0, i - 1); else i = Math.min(N - 1, i + 1);
+        show();
+      });
+      show();
+    }
+
+    /* ---- 빈칸 채우기 ---- */
+    function initFill(el, d) {
+      var body = el.querySelector('.wact-body'), answers = [], htmlCode = '', rest = d.code, re = /⟦([^⟧]*)⟧/g, m, last = 0;
+      while ((m = re.exec(d.code))) {
+        htmlCode += h(d.code.slice(last, m.index));
+        var alts = m[1].split('|'), w = Math.max(3, alts[0].length + 1);
+        htmlCode += '<input type="text" class="fl-in" data-k="' + answers.length + '" size="' + w + '" autocomplete="off" spellcheck="false" aria-label="빈칸 ' + (answers.length + 1) + '">';
+        answers.push(alts);
+        last = re.lastIndex;
+      }
+      htmlCode += h(d.code.slice(last));
+      body.innerHTML = '<pre class="fl-code">' + htmlCode + '</pre>' +
+        '<div class="tr-ctrl"><button type="button" class="btn btn-p" data-f="check">채점하기</button>' +
+        '<button type="button" class="btn" data-f="hint">첫 글자 힌트</button>' +
+        '<button type="button" class="btn" data-f="show">정답 보기</button>' +
+        '<button type="button" class="btn" data-f="reset">다시 하기</button></div>' +
+        '<p class="w-msg" aria-live="polite">빈칸 ' + answers.length + '개를 채우고 <b>채점하기</b>를 눌러 보세요.</p>';
+      var ins = body.querySelectorAll('.fl-in'), msg = body.querySelector('.w-msg');
+      function norm(s) { return s.replace(/\s+/g, '').replace(/"/g, "'"); }
+      body.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-f]'); if (!b) return;
+        var f = b.dataset.f, ok = 0;
+        [].forEach.call(ins, function (inp, k) {
+          var a = answers[k];
+          if (f === 'reset') { inp.value = ''; inp.className = 'fl-in'; return; }
+          if (f === 'show') { inp.value = a[0]; inp.className = 'fl-in shown'; return; }
+          if (f === 'hint') { if (!inp.value) inp.value = a[0].charAt(0); return; }
+          var good = a.some(function (x) { return norm(x) === norm(inp.value); });
+          inp.className = 'fl-in ' + (good ? 'ok' : 'no');
+          if (good) ok++;
+        });
+        if (f === 'check') msg.innerHTML = ok === ins.length ? '<b>모두 맞았어요! 🎉</b> 이제 이 코드가 어떻게 동작하는지 말로 설명해 보세요.' :
+          '<b>' + ins.length + '개 중 ' + ok + '개</b> 맞았어요. 붉은 칸을 다시 생각해 보세요.';
+        else if (f === 'show') msg.innerHTML = '정답을 채웠어요. 왜 이 답인지 한 줄씩 짚어 보세요.';
+        else if (f === 'hint') msg.innerHTML = '빈칸에 첫 글자를 넣어 두었어요.';
+        else msg.innerHTML = '빈칸을 비웠어요.';
+      });
+      body.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && e.target.classList.contains('fl-in')) { e.preventDefault(); body.querySelector('[data-f="check"]').click(); }
+      });
+    }
+
+    /* ---- 순서 맞추기 ---- */
+    function initParsons(el, d) {
+      var body = el.querySelector('.wact-body'), order;
+      body.innerHTML = '<ol class="ps-list"></ol><div class="tr-ctrl"><button type="button" class="btn btn-p" data-p="check">확인하기</button>' +
+        '<button type="button" class="btn" data-p="shuffle">다시 섞기</button><button type="button" class="btn" data-p="show">정답 보기</button></div>' +
+        '<p class="w-msg" aria-live="polite">줄 오른쪽의 ▲▼ 버튼으로 줄을 옮겨 바른 순서로 맞춰 보세요. 들여쓰기는 그대로 두었어요.</p>';
+      var list = body.querySelector('.ps-list'), msg = body.querySelector('.w-msg');
+      function render(marks) {
+        list.innerHTML = '';
+        order.forEach(function (k, pos) {
+          var li = document.createElement('li');
+          li.className = marks ? (d.lines[k] === d.lines[pos] ? 'ok' : 'no') : '';
+          li.innerHTML = '<code>' + h(d.lines[k]) + '</code><span><button type="button" class="btn" data-m="-1" data-pos="' + pos + '" aria-label="위로">▲</button>' +
+            '<button type="button" class="btn" data-m="1" data-pos="' + pos + '" aria-label="아래로">▼</button></span>';
+          list.appendChild(li);
+        });
+      }
+      function shuffle() {
+        order = d.lines.map(function (_, k) { return k; });
+        do { for (var i = order.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = order[i]; order[i] = order[j]; order[j] = t; } }
+        while (order.length > 2 && order.every(function (k, p) { return d.lines[k] === d.lines[p]; }));
+        render();
+      }
+      body.addEventListener('click', function (e) {
+        var mv = e.target.closest('[data-m]');
+        if (mv) {
+          var p = +mv.dataset.pos, q = p + (+mv.dataset.m);
+          if (q < 0 || q >= order.length) return;
+          var t = order[p]; order[p] = order[q]; order[q] = t; render();
+          var btn = list.children[q] && list.children[q].querySelector('[data-m="' + mv.dataset.m + '"]'); if (btn) btn.focus();
+          return;
+        }
+        var b = e.target.closest('[data-p]'); if (!b) return;
+        if (b.dataset.p === 'shuffle') { shuffle(); msg.innerHTML = '다시 섞었어요.'; return; }
+        if (b.dataset.p === 'show') { order = d.lines.map(function (_, k) { return k; }); render(true); msg.innerHTML = '이것이 바른 순서예요. 왜 이 순서여야 하는지 생각해 보세요.'; return; }
+        var right = order.filter(function (k, p) { return d.lines[k] === d.lines[p]; }).length;
+        render(true);
+        msg.innerHTML = right === order.length ? '<b>완벽해요! 🎉</b> 바른 순서예요.' : '<b>' + order.length + '줄 중 ' + right + '줄</b>이 제자리에 있어요. 붉은 줄의 위치를 다시 생각해 보세요.';
+      });
+      shuffle();
+    }
+
+    /* ---- 결과 예측 ---- */
+    function initPredict(el, d) {
+      var body = el.querySelector('.wact-body');
+      body.innerHTML = '<pre class="pd-code">' + h(d.code) + '</pre><p class="pd-q">이 코드를 실행하면 무엇이 출력될까요? 먼저 골라 보세요.</p>' +
+        '<div class="pd-opts">' + d.opts.map(function (o, k) { return '<button type="button" class="pd-opt" data-o="' + k + '"><b>' + '①②③④⑤⑥'.charAt(k) + '</b> <span>' + h(o).replace(/\\n/g, '<br>') + '</span></button>'; }).join('') + '</div>' +
+        '<p class="w-msg" aria-live="polite"></p>';
+      var msg = body.querySelector('.w-msg'), done = false;
+      body.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-o]'); if (!b) return;
+        var k = +b.dataset.o;
+        if (k === d.ans) {
+          done = true;
+          [].forEach.call(body.querySelectorAll('.pd-opt'), function (x) { x.disabled = true; });
+          b.classList.add('ok');
+          msg.innerHTML = '<b>정답이에요!</b> ' + h(d.exp);
+        } else {
+          b.classList.add('no'); b.disabled = true;
+          msg.innerHTML = '아니에요. 코드를 한 줄씩 다시 따라가 보세요.';
+        }
+      });
+    }
+
+    [].forEach.call(document.querySelectorAll('.wact'), function (el) {
+      var d = data(el); if (!d) return;
+      if (el.classList.contains('w-trace')) initTrace(el, d);
+      else if (el.classList.contains('w-fill')) initFill(el, d);
+      else if (el.classList.contains('w-parsons')) initParsons(el, d);
+      else if (el.classList.contains('w-predict')) initPredict(el, d);
+    });
+  })();
 })();
 
 /* ============ 파이썬 코드 실행기 ============ */
