@@ -677,7 +677,7 @@ def lesson_page(k):
     <p class="crumbs"><a href="index.html">수업 홈</a> / <a href="lessons.html">차시 수업</a> / %d차시</p>
     <div class="bigr" aria-hidden="true">%d</div>
     <div>
-      <p class="kicker">%d차시 · %d주차 · <a href="unit%d.html">%s %s 전체 보기</a></p>
+      <p class="kicker">%d차시 · %d주차 · <a href="unit%d.html">%s %s 차시 목록</a></p>
       <h1>%s</h1>
       %s
       <div class="lprog" aria-label="전체 %d차시 중 %d차시"><i style="width:%.1f%%"></i></div>
@@ -695,8 +695,8 @@ def lesson_page(k):
     parts = [flow]
     parts.append('<section class="lsec" id="l-open"><h2><span class="ln">1</span>생각 열기</h2><div class="callout hook">%s</div><div class="lvideo" data-video="%d" hidden></div>%s%s</section>'
                  % (d.get("hook", "오늘 배울 내용을 떠올려 보세요."), k, board_html("hook", "내 생각을 짧게 적어 보드에 올려 보세요"),
-                    ('<div class="simlinks"><b>함께 보는 시뮬레이터</b>%s</div>' % "".join(
-                        '<a href="%s%s" target="_blank" rel="noopener">%s ↗</a>' % (LESSONS["sims_base"], s[0], s[1]) for s in sims)) if sims else ""))
+                    '<div class="simlinks" data-sims="%d"%s><b>함께 보는 시뮬레이터</b>%s</div>' % (k, "" if sims else " hidden", "".join(
+                        '<a href="%s%s" target="_blank" rel="noopener">%s ↗</a>' % (LESSONS["sims_base"], s[0], s[1]) for s in sims))))
     parts.append('<section class="lsec" id="l-learn"><h2><span class="ln">2</span>교과서로 배우기</h2>'
                  '<p class="lede">코드 아래 <b>💡 코드 설명</b>을 펼쳐 보고, <b>빈칸</b>이 있으면 채운 뒤 실행해 보세요.</p>%s</section>'
                  % lesson_content(k, d))
@@ -732,10 +732,10 @@ def lesson_page(k):
                 lfile(j), j, ' class="is-cur" aria-current="page"' if j == k else "", j, ltitle(j))
                 for j in range(1, NL + 1) if lunit(j) == un))
         for un in UNIT_NS if un)
-    toc = ('<aside class="toc ltoc" aria-label="이 차시 순서">%s<div class="toc-title">%d차시 순서</div>'
+    toc = ('<aside class="toc ltoc" aria-label="이 차시 순서">%s<div class="toc-title"><span>지금 · %d차시</span>%s</div>'
            '<nav id="toc-nav"><ol>%s</ol></nav>%s'
            '<details class="tlist"><summary>차시 목록 펼치기</summary>%s</details></aside>'
-           % (tnav("prev", "↑", k - 1), k,
+           % (tnav("prev", "↑", k - 1), k, title,
               "".join('<li><a href="#%s" data-level="0"><em>%d</em>%s</a></li>' % (a, i + 1, t) for i, (a, t) in enumerate(steps)),
               tnav("next", "↓", k + 1), tlist))
     body = (hero + '<div class="wrap lwrap">\n' + toc + '\n<main class="lpage" id="main">\n' + "\n".join(parts)
@@ -750,12 +750,13 @@ def video_rows():
     out = []
     for n in UNIT_NS:
         if not n: continue
-        out.append('<tr class="vgrp"><th colspan="3">%s %s</th></tr>' % (UNITS[n]["roman"], UNITS[n]["name"]))
+        out.append('<tr class="vgrp"><th colspan="4">%s %s</th></tr>' % (UNITS[n]["roman"], UNITS[n]["name"]))
         for k in range(1, NL + 1):
             if lunit(k) != n: continue
             out.append('<tr data-vk="%d"><td class="num">%d</td><td>%s<small data-vtitle></small></td>'
-                       '<td><input data-vurl type="text" inputmode="url" spellcheck="false" aria-label="%d차시 영상 주소" placeholder="유튜브 주소 (비우면 영상 없음)"></td></tr>'
-                       % (k, k, ltitle(k), k))
+                       '<td><input data-vurl type="text" inputmode="url" spellcheck="false" aria-label="%d차시 영상 주소" placeholder="유튜브 주소 (비우면 영상 없음)"></td>'
+                       '<td><textarea data-sims-in rows="2" spellcheck="false" aria-label="%d차시 시뮬레이터" placeholder="이름 | https://주소"></textarea></td></tr>'
+                       % (k, k, ltitle(k), k, k))
     return "\n".join(out)
 
 def lessons_index():
@@ -768,13 +769,33 @@ def lessons_index():
             if lunit(k) != n: continue
             rows.append('<a class="lrow" href="%s" data-lesson="%d"><span class="lk">%d</span><span class="lt">%s</span><span class="lw">%d주</span></a>'
                         % (lfile(k), k, k, ltitle(k), LTITLE[k][0]))
-        cols.append('<section class="lcol %s"><h3><a href="unit%d.html">%s %s</a><span>%s</span></h3>%s</section>'
+        cols.append('<section class="lcol %s" id="lu-%d"><h3>%s %s<span>%s</span></h3>%s</section>'
                     % (ucls(n), n, u["roman"], u["name"], wklabel(u), "".join(rows)))
     inner = ('<p class="kicker">LESSONS</p><h1>차시 수업</h1><p class="sub">한 차시(50분)씩 진행해요. 차시마다 <b>목표 → 교과서 → 빈칸 코드·실습 → 확인 문제 → 한 줄 정리</b> 순서예요. '
              '마친 차시에는 ✓가 붙어요.</p>')
     body = '<div class="lnow" data-lnow hidden></div><div class="lcols">%s</div>' % "".join(cols)
     return page("차시 수업 · 정보과학", TOOL["lessons"][2], "tool tool-lessons", "lessons",
                 pagehead("lessons", inner) + '<main class="xp" id="main">\n' + body + "</main>\n")
+
+# ---------- 차시로만 보기 ----------
+# 학생 화면은 차시 수업으로만 이어지게, 단원 페이지(I~IV)로 가는 링크를 그 내용을 다루는 차시로 바꾼다.
+# 단원 페이지 파일은 그대로 만들어 두되(주소로는 열림) 메뉴·홈·용어 사전에서는 연결하지 않는다. 0단원은 차시가 없어 그대로.
+TOPIC_LESSON = {}
+for _k in range(1, NL + 1):
+    for _r in LMAP[_k]:
+        TOPIC_LESSON.setdefault(re.match(r"t\d-\d+", _r).group(0), _k)
+def to_lessons(html):
+    def sub(m):
+        n, frag = int(m.group(1)), m.group(2) or ""
+        if n == 0: return m.group(0)
+        t = re.match(r"#(t\d-\d+)$", frag)
+        if t and t.group(1) in TOPIC_LESSON:
+            return 'href="%s"' % lfile(TOPIC_LESSON[t.group(1)])
+        return 'href="lessons.html#lu-%d"' % n
+    return re.sub(r'href="unit(\d)\.html(#[^"]*)?"', sub, html)
+_wr = wr
+def wr(p, s):
+    _wr(p, s if re.match(r"unit\d\.html$", p) or not p.endswith(".html") else to_lessons(s))
 
 # ---------- 출력 ----------
 CSS = ["base.css", "content.css", "tools.css"]
