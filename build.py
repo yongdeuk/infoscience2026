@@ -719,7 +719,10 @@ def lesson_page(k):
         return '<a class="%s" href="%s"><span class="dir">%s · %d차시</span><span class="ttl">%s</span></a>' % (cls, lfile(j), dr, j, ltitle(j))
     pager = '<nav class="pager" aria-label="차시 이동">%s%s</nav>\n' % (plink("prev", "← 이전", k - 1), plink("next", "다음 →", k + 1))
     data = '<script>window.LESSON=%s;</script>\n' % json.dumps({"n": k, "notes": d.get("code_notes", {})}, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
-    body = hero + '<main class="lpage" id="main">\n' + "\n".join(parts) + "\n</main>\n" + pager + data
+    toc = ('<aside class="toc" aria-label="이 차시 순서"><div class="toc-title">%d차시 순서</div><nav id="toc-nav"><ol>%s</ol></nav></aside>'
+           % (k, "".join('<li><a href="#%s" data-level="0"><em>%d</em>%s</a></li>' % (a, i + 1, t) for i, (a, t) in enumerate(steps))))
+    body = (hero + '<div class="wrap lwrap">\n' + toc + '\n<main class="lpage" id="main">\n' + "\n".join(parts)
+            + "\n</main>\n</div>\n" + pager + data)
     out = page("%d차시 %s · 정보과학" % (k, title), "%d주차 %d차시 — %s" % (wk, k, title), "lessonpage " + ucls(n), "lessons", body)
     if n:
         out = out.replace('class="unittab %s"' % ucls(n), 'class="unittab %s is-current"' % ucls(n), 1)
