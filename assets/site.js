@@ -2374,17 +2374,10 @@
           if (!name) return;
           set('name', name);
         }
-        var thinks = $$('[data-think]').map(function (ta) { return ta.value.trim(); });
-        var tasks = $$('.task pre[data-task]').map(function (p, i) {
-          return '[과제' + (i + 1) + (p.closest('.task').classList.contains('is-pass') ? ' ✓' : '') + ']\n' + p.textContent.trim();
-        });
-        var q = quizBest(key);
-        var data = {
-          name: name, lesson: L.n, title: document.title.replace(/ · 정보과학$/, ''),
-          exit: get('think.' + key + '.exit', ''), thinks: thinks.slice(0, -1).filter(Boolean).join('\n---\n'),
-          passed: $$('.task.is-pass').length + ' / ' + $$('.task pre[data-task]').length,
-          quiz: q === null ? '' : q + '점', code: tasks.join('\n\n').slice(0, 40000)
-        };
+        // 한 줄 정리만 보낸다
+        var ta = $('[data-think$=".exit"]'), exit = (ta ? ta.value : get('think.' + key + '.exit', '')).trim();
+        if (!exit) { msg.textContent = '한 줄 정리를 먼저 써 주세요.'; if (ta) ta.focus(); return; }
+        var data = { name: name, lesson: L.n, title: document.title.replace(/ · 정보과학$/, ''), exit: exit };
         btn.disabled = true; msg.textContent = '보내는 중…';
         fetch(st.submit_url, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) })
           .then(function () { msg.textContent = '보냈어요 ✓ (' + name + ') · ' + new Date().toLocaleTimeString('ko-KR'); set('sent.' + key, '1'); },

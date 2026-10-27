@@ -6,7 +6,7 @@
  *       → 나온 웹 앱 URL(…/exec)을 사이트의 교사 설정 「학생 제출·보드 주소」에 넣는다.
  *
  * 시트 두 장을 자동으로 만든다.
- *   제출: 차시를 마친 학생의 한 줄 정리, 생각 쓰기, 실습 코드, 확인 문제 점수
+ *   제출: 차시를 마친 학생의 한 줄 정리
  *   보드: 「생각 열기」「한 줄 정리」에 올린 짧은 글 (사이트에는 이름 없이 내용만 보인다)
  */
 var MAX_TEXT = 2000;
@@ -37,9 +37,9 @@ function doPost(e) {
       sheet_('보드', ['시각', '반', '이름', '차시', '칸', '내용'])
         .appendRow([now, klass_(d.name), clip_(d.name, 40), Number(d.lesson) || 0, clip_(d.slot, 20), clip_(d.text, MAX_TEXT)]);
     } else {
-      sheet_('제출', ['시각', '반', '이름', '차시', '제목', '한 줄 정리', '생각 쓰기', '실습 통과', '확인 문제', '실습 코드'])
-        .appendRow([now, klass_(d.name), clip_(d.name, 40), Number(d.lesson) || 0, clip_(d.title, 100), clip_(d.exit, MAX_TEXT),
-                    clip_(d.thinks, 5000), clip_(d.passed, 20), clip_(d.quiz, 20), clip_(d.code, 40000)]);
+      // 한 줄 정리만 받는다
+      sheet_('제출', ['시각', '반', '이름', '차시', '제목', '한 줄 정리'])
+        .appendRow([now, klass_(d.name), clip_(d.name, 40), Number(d.lesson) || 0, clip_(d.title, 100), clip_(d.exit, MAX_TEXT)]);
     }
     return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(ContentService.MimeType.JSON);
   } finally {
