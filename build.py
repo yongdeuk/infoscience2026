@@ -519,6 +519,7 @@ def tool_page(key):
     m = re.search(r'<header class="xp-hero">(.*?)</header>\s*', body, re.S)
     assert m, key
     rest = body[m.end():].replace("<!--GRADE-->", grade_table(SETTINGS)).replace("<!--RUBRICS-->", rubrics_html(SETTINGS)) \
+        .replace("<!--VIDEOS-->", video_rows() if key == "settings" else "") \
         .replace("<span data-grade-year>학년도</span>", "<span data-grade-year>%s학년도 %s</span>" % (SETTINGS["year"], SETTINGS["term"]))
     return page("%s · 정보과학" % name, desc, "tool tool-%s" % key, key,
                 pagehead(key, m.group(1)) + '<main class="xp" id="main">\n' + rest.strip() + "\n</main>\n")
@@ -692,8 +693,8 @@ def lesson_page(k):
     flow = '<nav class="lflow" aria-label="이 차시 순서">%s</nav>' % "".join(
         '<a href="#%s"><b>%d</b>%s</a>' % (a, i + 1, t) for i, (a, t) in enumerate(steps))
     parts = [flow]
-    parts.append('<section class="lsec" id="l-open"><h2><span class="ln">1</span>생각 열기</h2><div class="callout hook">%s</div>%s%s</section>'
-                 % (d.get("hook", "오늘 배울 내용을 떠올려 보세요."), board_html("hook", "내 생각을 짧게 적어 보드에 올려 보세요"),
+    parts.append('<section class="lsec" id="l-open"><h2><span class="ln">1</span>생각 열기</h2><div class="callout hook">%s</div><div class="lvideo" data-video="%d" hidden></div>%s%s</section>'
+                 % (d.get("hook", "오늘 배울 내용을 떠올려 보세요."), k, board_html("hook", "내 생각을 짧게 적어 보드에 올려 보세요"),
                     ('<div class="simlinks"><b>함께 보는 시뮬레이터</b>%s</div>' % "".join(
                         '<a href="%s%s" target="_blank" rel="noopener">%s ↗</a>' % (LESSONS["sims_base"], s[0], s[1]) for s in sims)) if sims else ""))
     parts.append('<section class="lsec" id="l-learn"><h2><span class="ln">2</span>교과서로 배우기</h2>'
@@ -743,6 +744,19 @@ def lesson_page(k):
     if n:
         out = out.replace('class="unittab %s"' % ucls(n), 'class="unittab %s is-current"' % ucls(n), 1)
     return out
+
+def video_rows():
+    """교사 설정: 차시별 생각 열기 영상 표. 값은 JS가 settings.json의 videos로 채운다."""
+    out = []
+    for n in UNIT_NS:
+        if not n: continue
+        out.append('<tr class="vgrp"><th colspan="3">%s %s</th></tr>' % (UNITS[n]["roman"], UNITS[n]["name"]))
+        for k in range(1, NL + 1):
+            if lunit(k) != n: continue
+            out.append('<tr data-vk="%d"><td class="num">%d</td><td>%s<small data-vtitle></small></td>'
+                       '<td><input data-vurl type="text" inputmode="url" spellcheck="false" aria-label="%d차시 영상 주소" placeholder="유튜브 주소 (비우면 영상 없음)"></td></tr>'
+                       % (k, k, ltitle(k), k))
+    return "\n".join(out)
 
 def lessons_index():
     cols = []
