@@ -34,8 +34,8 @@ SETTINGS_EDIT = "https://github.com/%s/edit/%s/settings.json" % (COURSE["repo"],
 
 # 도구 페이지: (파일 이름, 이름, 아이콘, 설명)
 TOOLS = [
-    ("lessons",  "차시 수업",   "🗓️", "48차시를 한 차시씩 — 목표, 교과서, 빈칸 코드, 실습, 확인 문제"),
     ("course",   "수업 안내",   "📋", "평가 · 수행평가 채점 기준 · 수업 약속 · AI 사용 신호등"),
+    ("lessons",  "차시 수업",   "🗓️", "48차시를 한 차시씩 — 목표, 교과서, 빈칸 코드, 실습, 확인 문제"),
     ("labs",     "실습실",      "🧪", "그래프 탐색 · 이진 탐색 트리 · 정렬 경주 등 직접 조작하는 시뮬레이터"),
     ("practice", "파이썬 실습", "🐍", "단원별 실습 세트를 Programiz로 실행 · 자주 나는 오류 해결표"),
     ("glossary", "용어 사전",   "📖", "전 단원 핵심 용어를 검색하고 본문으로 바로 가기"),
@@ -719,8 +719,24 @@ def lesson_page(k):
         return '<a class="%s" href="%s"><span class="dir">%s · %d차시</span><span class="ttl">%s</span></a>' % (cls, lfile(j), dr, j, ltitle(j))
     pager = '<nav class="pager" aria-label="차시 이동">%s%s</nav>\n' % (plink("prev", "← 이전", k - 1), plink("next", "다음 →", k + 1))
     data = '<script>window.LESSON=%s;</script>\n' % json.dumps({"n": k, "notes": d.get("code_notes", {})}, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
-    toc = ('<aside class="toc" aria-label="이 차시 순서"><div class="toc-title">%d차시 순서</div><nav id="toc-nav"><ol>%s</ol></nav></aside>'
-           % (k, "".join('<li><a href="#%s" data-level="0"><em>%d</em>%s</a></li>' % (a, i + 1, t) for i, (a, t) in enumerate(steps))))
+    def tnav(cls, arrow, j):
+        if j < 1 or j > NL:
+            return '<a class="tnav %s" href="lessons.html"><span>%s 차시 목록</span></a>' % (cls, arrow)
+        return '<a class="tnav %s" href="%s"><span>%s %s 차시 · %d차시</span><b>%s</b></a>' % (
+            cls, lfile(j), arrow, "이전" if cls == "prev" else "다음", j, ltitle(j))
+    tlist = "".join(
+        '<details%s><summary>%s %s</summary><ol>%s</ol></details>' % (
+            " open" if un == n else "", UNITS[un]["roman"], UNITS[un]["name"],
+            "".join('<li><a href="%s" data-lesson="%d"%s><em>%d</em>%s</a></li>' % (
+                lfile(j), j, ' class="is-cur" aria-current="page"' if j == k else "", j, ltitle(j))
+                for j in range(1, NL + 1) if lunit(j) == un))
+        for un in UNIT_NS if un)
+    toc = ('<aside class="toc ltoc" aria-label="이 차시 순서">%s<div class="toc-title">%d차시 순서</div>'
+           '<nav id="toc-nav"><ol>%s</ol></nav>%s'
+           '<details class="tlist"><summary>차시 목록 펼치기</summary>%s</details></aside>'
+           % (tnav("prev", "↑", k - 1), k,
+              "".join('<li><a href="#%s" data-level="0"><em>%d</em>%s</a></li>' % (a, i + 1, t) for i, (a, t) in enumerate(steps)),
+              tnav("next", "↓", k + 1), tlist))
     body = (hero + '<div class="wrap lwrap">\n' + toc + '\n<main class="lpage" id="main">\n' + "\n".join(parts)
             + "\n</main>\n</div>\n" + pager + data)
     out = page("%d차시 %s · 정보과학" % (k, title), "%d주차 %d차시 — %s" % (wk, k, title), "lessonpage " + ucls(n), "lessons", body)

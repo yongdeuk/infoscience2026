@@ -1475,3 +1475,15 @@ body.has-big{overflow:hidden}
 /* 차시 페이지: 넓은 화면은 왼쪽 목차가 현재 단계를 보여 주므로 위쪽 단계 표시는 좁은 화면에서만 */
 .lwrap .lpage{max-width:900px; margin:0; padding:0 0 2rem}
 @media (min-width:1080px){ .lwrap .lflow{display:none} .lwrap .toc{margin-top:1.6rem} }
+/* 차시 왼쪽 네비게이터: 이전·다음 차시와 접는 차시 목록 */
+.ltoc .tnav{display:block; border:1px solid var(--line); border-radius:var(--r-sm); background:var(--surface); padding:.4rem .6rem; margin:.2rem 0 .9rem; color:var(--ink2); text-decoration:none; line-height:1.4}
+.ltoc .tnav.next{margin:.9rem 0 .6rem}
+.ltoc .tnav span{display:block; font-family:var(--mono); font-size:.66rem; color:var(--ink3)}
+.ltoc .tnav b{display:block; font-size:.78rem; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.ltoc .tnav:hover{border-color:var(--accent); color:var(--ink); text-decoration:none}
+.ltoc .tlist > summary{cursor:pointer; font-weight:700; font-size:.8rem; padding:.3rem 0; color:var(--ink2)}
+.ltoc .tlist details{margin:.15rem 0 .15rem .3rem}
+.ltoc .tlist details > summary{cursor:pointer; font-size:.76rem; font-weight:700; color:var(--ink3); padding:.2rem 0}
+.ltoc .tlist ol a{padding:.18rem 0 .18rem .6rem; font-size:.74rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.ltoc .tlist ol a.is-cur{color:var(--accent-ink); font-weight:700; border-left-color:var(--accent); background:var(--accent-soft)}
+.ltoc .tlist ol a.is-done em::after{content:"✓"; color:var(--ok); margin-left:.15rem}
