@@ -2091,7 +2091,7 @@
   // 실측하므로 글자 크기·화면 배율이 달라져도 함께 맞는다.
   function lineOffset() {
     var h = topbarEl ? topbarEl.getBoundingClientRect().height : 0;
-    return h + 24;
+    return h + 32;  // 7rem 앵커 여백이 상단바+24px보다 조금 클 때도 방금 누른 항목이 강조되게
   }
 
   // rAF가 억제되는 환경(백그라운드 탭 등)에서도 갱신되도록 타이머를 함께 건다
