@@ -2230,6 +2230,13 @@
      배포된 settings.json을 매번 새로 읽는다(빌드 없이 GitHub에서 고치면 바로 반영).
      읽지 못하면 빌드할 때 넣어 둔 값(SITE.settings)을 쓴다. 교사가 '미리 보기'를 켜면 이 기기에서만 그 값을 쓴다. */
   function esc(t) { return String(t == null ? '' : t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  // 유튜브 주소(watch?v=, youtu.be/, embed/, shorts/, 공유 링크)나 11자 영상 ID에서 ID만 꺼낸다
+  function ytId(u) {
+    u = String(u || '').trim();
+    if (/^[\w-]{11}$/.test(u)) return u;
+    var m = u.match(/(?:[?&]v=|youtu\.be\/|\/embed\/|\/shorts\/|\/live\/)([\w-]{11})/);
+    return m ? m[1] : '';
+  }
   function previewSettings() { try { var v = get('settings.preview', ''); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
   function loadSettings(cb) {
     var pv = previewSettings();
@@ -2484,6 +2491,34 @@
     });
   })();
 
+  /* ---------- 차시: 생각 열기 영상 (settings.json의 videos) ----------
+     처음에는 썸네일만 보여 주고, 누르면 그 자리에서 유튜브를 재생한다(쿠키 없는 youtube-nocookie). */
+  (function () {
+    var box = $('[data-video]');
+    if (!box) return;
+    loadSettings(function (st) {
+      var v = (st.videos || {})[box.getAttribute('data-video')];
+      var id = v && ytId(v.id);
+      if (!id) return;
+      var title = v.title || '관련 영상';
+      box.hidden = false;
+      box.innerHTML = '<button class="lv-play" type="button" aria-label="영상 재생: ' + esc(title) + '">' +
+        '<img src="https://i.ytimg.com/vi/' + id + '/hqdefault.jpg" alt="" loading="lazy"><span class="lv-btn" aria-hidden="true">▶</span></button>' +
+        '<p class="lv-cap">🎬 <b>' + esc(title) + '</b> <a href="https://www.youtube.com/watch?v=' + id + '" target="_blank" rel="noopener">유튜브에서 보기 ↗</a></p>';
+      var img = $('.lv-play img', box);
+      img.addEventListener('error', function () { img.remove(); });
+      $('.lv-play', box).addEventListener('click', function () {
+        var f = document.createElement('iframe');
+        f.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+        f.title = title;
+        f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        f.allowFullscreen = true;
+        f.className = 'lv-frame';
+        this.replaceWith(f);
+      });
+    });
+  })();
+
   /* ---------- 교사 설정 페이지 ---------- */
   (function () {
     var form = $('[data-set-form]');
@@ -2503,6 +2538,7 @@
         term: F.term.value,
         semester_start: F.semester_start.value || null,
         submit_url: F.submit_url.value.trim(),
+        videos: readVideos(),
         grading: $$('tr', rowsEl).map(function (tr) {
           var o = {};
           $$('[data-k]', tr).forEach(function (i) { var k = i.getAttribute('data-k'); o[k] = k === 'ratio' ? (+i.value || 0) : i.value.trim(); });
@@ -2529,10 +2565,33 @@
       F.term.value = st.term || '1학기';
       F.semester_start.value = st.semester_start || '';
       F.submit_url.value = st.submit_url || '';
+      fillVideos(st.videos || {});
       rowsEl.innerHTML = (st.grading || []).map(rowHtml).join('');
       $$('tr', rowsEl).forEach(function (tr, i) { if (st.grading[i].rubric) tr._rubric = st.grading[i].rubric; });
       refresh();
     }
+    /* 차시별 생각 열기 영상: 주소 칸 → { "5": {"id": "…", "title": "…"} } */
+    function readVideos() {
+      var o = {};
+      $$('[data-vk]').forEach(function (tr) {
+        var id = ytId($('[data-vurl]', tr).value);
+        if (id) o[tr.getAttribute('data-vk')] = { id: id, title: tr._vt && tr._vid === id ? tr._vt : '' };
+      });
+      return o;
+    }
+    function fillVideos(v) {
+      $$('[data-vk]').forEach(function (tr) {
+        var x = v[tr.getAttribute('data-vk')];
+        tr._vid = x ? x.id : ''; tr._vt = x ? x.title : '';
+        $('[data-vurl]', tr).value = x ? 'https://youtu.be/' + x.id : '';
+        paintVideo(tr);
+      });
+    }
+    function paintVideo(tr) {
+      var id = ytId($('[data-vurl]', tr).value), t = $('[data-vtitle]', tr);
+      t.innerHTML = id ? ' <a href="https://www.youtube.com/watch?v=' + id + '" target="_blank" rel="noopener" title="새 탭에서 확인">▶ ' + esc(id === tr._vid && tr._vt ? tr._vt : '새 영상') + '</a>' : '';
+    }
+    $$('[data-vk] [data-vurl]').forEach(function (i) { i.addEventListener('input', function () { paintVideo(i.closest('[data-vk]')); }); });
     function say(t, bad) { msg.textContent = t; msg.classList.toggle('bad', !!bad); }
 
     /* 수행평가 채점 기준표: 엑셀·CSV 파일을 올리거나 표를 붙여 넣으면 settings.json에 함께 들어간다 */
@@ -2638,6 +2697,8 @@
       }).catch(function () { rbFail(card, '파일을 읽지 못했어요. 엑셀(xlsx)이나 CSV로 저장해 다시 올려 주세요.'); });
     });
     function valid(st) {
+      var badV = $$('[data-vk]').filter(function (tr) { var v = $('[data-vurl]', tr).value.trim(); return v && !ytId(v); })[0];
+      if (badV) { say(badV.getAttribute('data-vk') + '차시 영상 주소를 읽지 못했어요. 유튜브 주소를 그대로 붙여 넣어 주세요.', true); $('[data-vurl]', badV).focus(); return false; }
       if (st.submit_url && !/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(st.submit_url)) { say('Apps Script 주소는 https://script.google.com/macros/s/…/exec 모양이어야 해요.', true); return false; }
       if (total(st) !== 100) { say('비율 합계가 100%가 아니에요(지금 ' + total(st) + '%).', true); return false; }
       if (st.grading.some(function (g) { return !g.name; })) { say('이름이 빈 평가 항목이 있어요.', true); return false; }

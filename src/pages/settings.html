@@ -3,7 +3,7 @@
   <h1>교사 설정</h1>
   <p>해마다 바뀌는 <b>학기</b>, <b>평가 비율</b>, <b>수행평가 채점 기준표</b>를 여기서 고칩니다. 저장하면 홈의 학기·<b>이번 주 수업</b>과 <a href="course.html#grade">수업 안내</a>의 평가 표·채점 기준에 바로 반영됩니다.</p>
   <p class="muted">이 페이지는 메뉴에 없고, 페이지 맨 아래 <b>정보과학</b> 글자를 5번 연속 누르면 들어옵니다. 학생과 함께 쓰는 컴퓨터라면 다 쓴 뒤 <button class="btn" type="button" data-teacher-off>교사 모드 끄기</button>를 눌러 주세요.</p>
-  <nav class="xp-jump"><a href="#s-term">학기</a><a href="#s-submit">제출·보드</a><a href="#s-grade">평가 비율</a><a href="#s-rubric">채점 기준표</a><a href="#s-save">저장하기</a></nav>
+  <nav class="xp-jump"><a href="#s-term">학기</a><a href="#s-submit">제출·보드</a><a href="#s-video">차시 영상</a><a href="#s-grade">평가 비율</a><a href="#s-rubric">채점 기준표</a><a href="#s-save">저장하기</a></nav>
 </header>
 
 <form data-set-form autocomplete="off">
@@ -32,6 +32,15 @@
     </ol>
     <p class="muted">학생 이름·학번과 제출 내용은 선생님의 구글 시트에만 저장돼요. 보드에는 이름 없이 내용만 보입니다.</p>
   </details>
+</section>
+
+<section class="xp-sec" id="s-video">
+  <h2>차시별 생각 열기 영상</h2>
+  <p class="lede">차시 페이지의 <b>생각 열기</b>에서 바로 재생되는 유튜브 영상이에요. 유튜브 주소(<code>youtube.com/watch?v=…</code>, <code>youtu.be/…</code>, 공유 링크 모두 가능)를 붙여 넣으면 바뀌고, 칸을 비우면 그 차시는 영상 없이 나와요. 고친 뒤 아래 <b>저장하기</b>까지 해야 학생 화면에 반영돼요.</p>
+  <p class="muted">영상 제목 옆 <b>▶</b>를 누르면 새 탭에서 확인할 수 있어요. 올린 사람이 퍼가기를 막아 둔 영상은 차시 페이지에서 재생되지 않으니, 그럴 땐 다른 영상으로 바꿔 주세요.</p>
+  <div class="tablewrap"><table class="set-tbl vid-tbl"><thead><tr><th>차시</th><th>주제</th><th>영상 주소</th></tr></thead><tbody data-vid-rows>
+<!--VIDEOS-->
+  </tbody></table></div>
 </section>
 
 <section class="xp-sec" id="s-grade">

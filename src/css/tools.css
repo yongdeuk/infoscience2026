@@ -333,3 +333,14 @@ body.has-big{overflow:hidden}
 .ltoc .tlist ol a{padding:.18rem 0 .18rem .6rem; font-size:.74rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 .ltoc .tlist ol a.is-cur{color:var(--accent-ink); font-weight:700; border-left-color:var(--accent); background:var(--accent-soft)}
 .ltoc .tlist ol a.is-done em::after{content:"✓"; color:var(--ok); margin-left:.15rem}
+/* 생각 열기 영상 */
+.lvideo{margin:1rem 0; max-width:720px}
+.lvideo .lv-play,.lvideo .lv-frame{display:block; width:100%; aspect-ratio:16/9; border:0; border-radius:var(--r); overflow:hidden; background:#000}
+.lvideo .lv-play{position:relative; padding:0; cursor:pointer}
+.lvideo .lv-play img{width:100%; height:100%; object-fit:cover; display:block; opacity:.9}
+.lvideo .lv-btn{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:4.2rem; height:3rem; border-radius:.8rem; background:#e00; color:#fff; font-size:1.4rem; display:grid; place-items:center}
+.lvideo .lv-play:hover .lv-btn,.lvideo .lv-play:focus-visible .lv-btn{background:#c00}
+.lvideo .lv-cap{margin:.45rem 0 0; font-size:.88rem; color:var(--ink2)}
+.vid-tbl td small{display:block; font-size:.75rem; margin-top:.15rem}
+.vid-tbl tr.vgrp th{text-align:left; background:var(--surface-2,var(--accent-soft))}
+.vid-tbl input{width:100%; min-width:12rem}
