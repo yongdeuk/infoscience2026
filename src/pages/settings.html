@@ -3,7 +3,7 @@
   <h1>교사 설정</h1>
   <p>해마다 바뀌는 <b>학기</b>, <b>평가 비율</b>, <b>수행평가 채점 기준표</b>를 여기서 고칩니다. 저장하면 홈의 학기·<b>이번 주 수업</b>과 <a href="course.html#grade">수업 안내</a>의 평가 표·채점 기준에 바로 반영됩니다.</p>
   <p class="muted">이 페이지는 메뉴에 없고, 페이지 맨 아래 <b>정보과학</b> 글자를 5번 연속 누르면 들어옵니다. 학생과 함께 쓰는 컴퓨터라면 다 쓴 뒤 <button class="btn" type="button" data-teacher-off>교사 모드 끄기</button>를 눌러 주세요.</p>
-  <nav class="xp-jump"><a href="#s-term">학기</a><a href="#s-submit">제출·보드</a><a href="#s-video">차시 영상</a><a href="#s-grade">평가 비율</a><a href="#s-rubric">채점 기준표</a><a href="#s-save">저장하기</a></nav>
+  <nav class="xp-jump"><a href="#s-term">학기</a><a href="#s-submit">제출·보드</a><a href="#s-video">차시 영상·시뮬레이터</a><a href="#s-grade">평가 비율</a><a href="#s-rubric">채점 기준표</a><a href="#s-save">저장하기</a></nav>
 </header>
 
 <form data-set-form autocomplete="off">
@@ -13,6 +13,7 @@
     <label>학년도<input type="number" name="year" min="2024" max="2100" required></label>
     <label>학기<select name="term"><option>1학기</option><option>2학기</option></select></label>
     <label>학기 시작일 <small>첫 주 월요일</small><input type="date" name="semester_start"></label>
+    <label>이번 주 직접 정하기 <small>비우면 날짜로 자동</small><select name="current_week"><option value="">자동 (학기 시작일 기준)</option><option value="1">1주차 · 1~3차시</option><option value="2">2주차 · 4~6차시</option><option value="3">3주차 · 7~9차시</option><option value="4">4주차 · 10~12차시</option><option value="5">5주차 · 13~15차시</option><option value="6">6주차 · 16~18차시</option><option value="7">7주차 · 19~21차시</option><option value="8">8주차 · 22~24차시</option><option value="9">9주차 · 25~27차시</option><option value="10">10주차 · 28~30차시</option><option value="11">11주차 · 31~33차시</option><option value="12">12주차 · 34~36차시</option><option value="13">13주차 · 37~39차시</option><option value="14">14주차 · 40~42차시</option><option value="15">15주차 · 43~45차시</option><option value="16">16주차 · 46~48차시</option></select></label>
   </div>
   <p class="muted" data-set-week></p>
 </section>
@@ -35,10 +36,11 @@
 </section>
 
 <section class="xp-sec" id="s-video">
-  <h2>차시별 생각 열기 영상</h2>
+  <h2>차시별 생각 열기 영상 · 시뮬레이터</h2>
   <p class="lede">차시 페이지의 <b>생각 열기</b>에서 바로 재생되는 유튜브 영상이에요. 유튜브 주소(<code>youtube.com/watch?v=…</code>, <code>youtu.be/…</code>, 공유 링크 모두 가능)를 붙여 넣으면 바뀌고, 칸을 비우면 그 차시는 영상 없이 나와요. 고친 뒤 아래 <b>저장하기</b>까지 해야 학생 화면에 반영돼요.</p>
   <p class="muted">영상 제목 옆 <b>▶</b>를 누르면 새 탭에서 확인할 수 있어요. 올린 사람이 퍼가기를 막아 둔 영상은 차시 페이지에서 재생되지 않으니, 그럴 땐 다른 영상으로 바꿔 주세요.</p>
-  <div class="tablewrap"><table class="set-tbl vid-tbl"><thead><tr><th>차시</th><th>주제</th><th>영상 주소</th></tr></thead><tbody data-vid-rows>
+  <p class="muted"><b>시뮬레이터</b> 칸에는 생각 열기 아래에 나오는 링크를 <b>한 줄에 하나씩</b> <code>이름 | 주소</code> 모양으로 적어요(예: <code>정렬 시뮬레이터 | https://…</code>). 비우면 그 차시에는 시뮬레이터 링크가 나오지 않아요.</p>
+  <div class="tablewrap"><table class="set-tbl vid-tbl"><thead><tr><th>차시</th><th>주제</th><th>영상 주소</th><th>시뮬레이터</th></tr></thead><tbody data-vid-rows>
 <!--VIDEOS-->
   </tbody></table></div>
 </section>

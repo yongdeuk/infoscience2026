@@ -2,6 +2,7 @@
   "year": 2026,
   "term": "2학기",
   "semester_start": "2026-08-13",
+  "current_week": null,
   "submit_url": "",
   "videos": {
     "1": {
@@ -196,6 +197,130 @@
       "id": "0ErmlV9p_vs",
       "title": "발표 시작 10초, 이렇게 하면 청중이 집중합니다｜말 잘하는 오프닝 기술 5가지"
     }
+  },
+  "sims": {
+    "15": [
+      {
+        "label": "하노이의 탑",
+        "url": "https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/ai/search-tower-of-hanoi.html"
+      }
+    ],
+    "16": [
+      {
+        "label": "선형 자료구조 (스택·큐)",
+        "url": "https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/cs/linear.html"
+      }
+    ],
+    "17": [
+      {
+        "label": "선형 자료구조 (스택·큐)",
+        "url": "https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/cs/linear.html"
+      }
+    ],
+    "18": [
+      {
+        "label": "선형 자료구조 (스택·큐)",
+        "url": "https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/cs/linear.html"
+      }
+    ],
+    "19": [
+      {
+        "label": "선형 자료구조 (스택·큐)",
+        "url": "https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/cs/linear.html"
+      }
+    ],
+    "20": [
+      {
+        "label": "선형 자료구조 (스택·큐)",
+        "url": "https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/cs/linear.html"
+      }
+    ],
+    "21": [
+      {
+        "label": "선형 자료구조 (스택·큐)",
+        "url": "https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/cs/linear.html"
+      }
+    ],
+    "22": [
+      {
+        "label": "트리",
+        "url": "https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/cs/tree.html"
+      }
+    ],
+    "23": [
+      {
+        "label": "트리",
+        "url": "https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/cs/tree.html"
+      }
+    ],
+    "24": [
+      {
+        "label": "트리",
+        "url": "https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/cs/tree.html"
+      }
+    ],
+    "25": [
+      {
+        "label": "트리",
+        "url": "https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/cs/tree.html"
+      }
+    ],
+    "27": [
+      {
+        "label": "맹목적 탐색 (BFS·DFS)",
+        "url": "https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/ai/search-bfs-dfs.html"
+      }
+    ],
+    "31": [
+      {
+        "label": "8-퍼즐",
+        "url": "https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/ai/search-8-puzzle.html"
+      }
+    ],
+    "32": [
+      {
+        "label": "탐색 알고리즘",
+        "url": "https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/cs/search.html"
+      }
+    ],
+    "33": [
+      {
+        "label": "맹목적 탐색 (BFS·DFS)",
+        "url": "https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/ai/search-bfs-dfs.html"
+      },
+      {
+        "label": "N-Queen",
+        "url": "https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/ai/search-n-queen.html"
+      }
+    ],
+    "34": [
+      {
+        "label": "탐색 알고리즘",
+        "url": "https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/cs/search.html"
+      }
+    ],
+    "36": [
+      {
+        "label": "N-Queen",
+        "url": "https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/ai/search-n-queen.html"
+      },
+      {
+        "label": "정보 이용 탐색",
+        "url": "https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/ai/search-heuristic.html"
+      }
+    ],
+    "37": [
+      {
+        "label": "하노이의 탑",
+        "url": "https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/ai/search-tower-of-hanoi.html"
+      }
+    ],
+    "38": [
+      {
+        "label": "정렬 알고리즘",
+        "url": "https://luminousky.com/Visual-Assets-for-CS-Teacher/simulator/cs/sort.html"
+      }
+    ]
   },
   "grading": [
     {

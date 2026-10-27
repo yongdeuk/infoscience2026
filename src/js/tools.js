@@ -82,6 +82,8 @@
       .then(function (j) { cb(j, false); }, function () { cb(fallback, false); });
   }
   function weekOf(st) {
+    // 교사 설정에서 '이번 주'를 직접 정했으면 날짜 계산보다 먼저 쓴다
+    if (st && +st.current_week >= 1) return +st.current_week;
     if (!st || !st.semester_start) return null;
     var t0 = new Date(st.semester_start + 'T00:00:00');
     if (isNaN(t0)) return null;
@@ -325,6 +327,20 @@
     });
   })();
 
+  /* ---------- 차시: 시뮬레이터 링크 (settings.json의 sims가 있으면 그것을 쓴다) ---------- */
+  (function () {
+    var box = $('[data-sims]');
+    if (!box) return;
+    loadSettings(function (st) {
+      if (!st.sims) return;   // 설정에 sims가 없으면 빌드 때 넣은 기본 링크를 그대로 둔다
+      var a = (st.sims[box.getAttribute('data-sims')] || []).filter(function (x) { return x && /^https?:\/\//.test(x.url); });
+      box.hidden = !a.length;
+      box.innerHTML = '<b>함께 보는 시뮬레이터</b>' + a.map(function (x) {
+        return '<a href="' + esc(x.url) + '" target="_blank" rel="noopener">' + esc(x.label || '시뮬레이터') + ' ↗</a>';
+      }).join('');
+    });
+  })();
+
   /* ---------- 차시: 생각 열기 영상 (settings.json의 videos) ----------
      처음에는 썸네일만 보여 주고, 누르면 그 자리에서 유튜브를 재생한다(쿠키 없는 youtube-nocookie). */
   (function () {
@@ -371,8 +387,10 @@
         year: +F.year.value || null,
         term: F.term.value,
         semester_start: F.semester_start.value || null,
+        current_week: +F.current_week.value || null,
         submit_url: F.submit_url.value.trim(),
         videos: readVideos(),
+        sims: readSims(),
         grading: $$('tr', rowsEl).map(function (tr) {
           var o = {};
           $$('[data-k]', tr).forEach(function (i) { var k = i.getAttribute('data-k'); o[k] = k === 'ratio' ? (+i.value || 0) : i.value.trim(); });
@@ -388,7 +406,8 @@
       totalEl.classList.toggle('bad', t !== 100);
       $('[data-set-preview]').innerHTML = gradeTable(st);
       drawRubrics(st);
-      $('[data-set-week]').textContent = !st.semester_start ? '학기 시작일을 넣으면 홈에 이번 주 수업이 나옵니다.'
+      $('[data-set-week]').textContent = st.current_week ? '이번 주를 ' + st.current_week + '주차(' + ((st.current_week - 1) * 3 + 1) + '~' + st.current_week * 3 + '차시)로 정해 두었어요. 칸을 비우면 학기 시작일로 자동 계산해요.'
+        : !st.semester_start ? '학기 시작일을 넣으면 홈에 이번 주 수업이 나옵니다.'
         : wk < 1 ? '학기 시작 전이에요. 시작일이 든 주를 1주차로 셉니다.'
         : wk > 16 ? '16주가 지났어요(' + wk + '주차). 홈에는 이번 주 카드 대신 시작 안내가 보입니다.'
         : '오늘은 ' + wk + '주차입니다.';
@@ -398,8 +417,10 @@
       F.year.value = st.year || new Date().getFullYear();
       F.term.value = st.term || '1학기';
       F.semester_start.value = st.semester_start || '';
+      F.current_week.value = st.current_week || '';
       F.submit_url.value = st.submit_url || '';
       fillVideos(st.videos || {});
+      fillSims(st.sims || {});
       rowsEl.innerHTML = (st.grading || []).map(rowHtml).join('');
       $$('tr', rowsEl).forEach(function (tr, i) { if (st.grading[i].rubric) tr._rubric = st.grading[i].rubric; });
       refresh();
@@ -419,6 +440,24 @@
         tr._vid = x ? x.id : ''; tr._vt = x ? x.title : '';
         $('[data-vurl]', tr).value = x ? 'https://youtu.be/' + x.id : '';
         paintVideo(tr);
+      });
+    }
+    /* 차시별 시뮬레이터: 한 줄에 '이름 | 주소' → { "15": [{"label": "…", "url": "…"}] } */
+    function simLine(l) {
+      var m = l.trim().match(/^(.*?)\s*\|\s*(https?:\/\/\S+)$/) || l.trim().match(/^()(https?:\/\/\S+)$/);
+      return m ? { label: m[1] || '시뮬레이터', url: m[2] } : null;
+    }
+    function readSims() {
+      var o = {};
+      $$('[data-vk]').forEach(function (tr) {
+        var a = $('[data-sims-in]', tr).value.split('\n').map(simLine).filter(Boolean);
+        if (a.length) o[tr.getAttribute('data-vk')] = a;
+      });
+      return o;
+    }
+    function fillSims(v) {
+      $$('[data-vk]').forEach(function (tr) {
+        $('[data-sims-in]', tr).value = (v[tr.getAttribute('data-vk')] || []).map(function (x) { return x.label + ' | ' + x.url; }).join('\n');
       });
     }
     function paintVideo(tr) {
@@ -531,6 +570,13 @@
       }).catch(function () { rbFail(card, '파일을 읽지 못했어요. 엑셀(xlsx)이나 CSV로 저장해 다시 올려 주세요.'); });
     });
     function valid(st) {
+      var badS = null;
+      $$('[data-vk]').some(function (tr) {
+        return $('[data-sims-in]', tr).value.split('\n').some(function (l) {
+          if (l.trim() && !simLine(l)) { badS = [tr, l.trim()]; return true; }
+        });
+      });
+      if (badS) { say(badS[0].getAttribute('data-vk') + '차시 시뮬레이터 줄을 읽지 못했어요: "' + badS[1] + '" → 이름 | https://주소 모양으로 적어 주세요.', true); $('[data-sims-in]', badS[0]).focus(); return false; }
       var badV = $$('[data-vk]').filter(function (tr) { var v = $('[data-vurl]', tr).value.trim(); return v && !ytId(v); })[0];
       if (badV) { say(badV.getAttribute('data-vk') + '차시 영상 주소를 읽지 못했어요. 유튜브 주소를 그대로 붙여 넣어 주세요.', true); $('[data-vurl]', badV).focus(); return false; }
       if (st.submit_url && !/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(st.submit_url)) { say('Apps Script 주소는 https://script.google.com/macros/s/…/exec 모양이어야 해요.', true); return false; }
@@ -698,14 +744,30 @@
       var pct = max ? Math.round(val / max * 100) : 0;
       return '<div class="pbar"><span class="nm">' + name + '</span><span class="tr"><span class="fl" style="width:' + pct + '%"></span></span><span class="vl">' + label + '</span></div>';
     }
+    // 차시 진도: 단원마다 마친 차시 수와 확인 문제 평균(푼 차시만)
+    function lessonsOf(u) {
+      var w = (SITE.units[u] || {}).weeks, out = [];
+      if (!w) return out;
+      for (var k = (w[0] - 1) * 3 + 1; k <= w[1] * 3; k++) out.push(k);
+      return out;
+    }
+    function lessonStat(u) {
+      var ks = lessonsOf(u), done = 0, sum = 0, n = 0;
+      ks.forEach(function (k) {
+        if (get('lesson.' + k) === '1') done++;
+        var q = quizBest('L' + (k < 10 ? '0' : '') + k);
+        if (q !== null) { sum += q; n++; }
+      });
+      return { total: ks.length, done: done, avg: n ? Math.round(sum / n) : null, n: n };
+    }
     function render() {
-      doneBox.innerHTML = UNITS.map(function (u) {
-        var d = doneCount(u);
-        return '<div class="u' + u + '">' + bar(UNIT_NAME[u], d, TOPICS[u].length, d + ' / ' + TOPICS[u].length) + '</div>';
+      doneBox.innerHTML = UNITS.filter(function (u) { return +u > 0; }).map(function (u) {
+        var s = lessonStat(u);
+        return '<div class="u' + u + '">' + bar(UNIT_NAME[u], s.done, s.total, s.done + ' / ' + s.total) + '</div>';
       }).join('');
-      $('[data-my-quiz]').innerHTML = UNITS.map(function (u) {
-        var q = quizBest(u);
-        return '<div class="u' + u + '">' + bar(UNIT_NAME[u], q || 0, 100, q === null ? '안 풂' : q + '점') + '</div>';
+      $('[data-my-quiz]').innerHTML = UNITS.filter(function (u) { return +u > 0; }).map(function (u) {
+        var s = lessonStat(u);
+        return '<div class="u' + u + '">' + bar(UNIT_NAME[u], s.avg || 0, 100, s.avg === null ? '안 풂' : s.avg + '점 (' + s.n + '차시)') + '</div>';
       }).join('');
     }
     render();
@@ -725,9 +787,10 @@
     $('[data-my-export]').addEventListener('click', function () {
       var NL = '\r\n', out = ['정보과학 학습 기록', '이름: ' + (nameIn.value || '-'), '내보낸 날: ' + new Date().toLocaleString('ko-KR'), ''];
       UNITS.forEach(function (u) {
-        var q = quizBest(u);
+        if (+u === 0) return;
+        var st = lessonStat(u);
         out.push('■ ' + UNIT_NAME[u]);
-        out.push('  해 봤어요: ' + doneCount(u) + ' / ' + TOPICS[u].length + '   퀴즈 최고: ' + (q === null ? '안 풂' : q + '점'));
+        out.push('  마친 차시: ' + st.done + ' / ' + st.total + '   확인 문제 평균: ' + (st.avg === null ? '안 풂' : st.avg + '점 (' + st.n + '차시)'));
         out.push('  [정리 노트]');
         out.push((get('note.u' + u, '') || '(비어 있음)').split('\n').map(function (l) { return '  ' + l; }).join(NL));
         out.push('');
@@ -741,7 +804,7 @@
     });
     $('[data-my-print]').addEventListener('click', function () { window.print(); });
     $('[data-my-reset]').addEventListener('click', function () {
-      if (!window.confirm('해 봤어요 체크, 퀴즈 점수, 정리 노트를 모두 지울까요? 되돌릴 수 없어요.')) return;
+      if (!window.confirm('마친 차시, 확인 문제 점수, 정리 노트를 모두 지울까요? 되돌릴 수 없어요.')) return;
       try {
         Object.keys(localStorage).forEach(function (k) { if (k.indexOf('is.') === 0) localStorage.removeItem(k); });
       } catch (e) {}
