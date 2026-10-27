@@ -732,10 +732,10 @@ def lesson_page(k):
                 lfile(j), j, ' class="is-cur" aria-current="page"' if j == k else "", j, ltitle(j))
                 for j in range(1, NL + 1) if lunit(j) == un))
         for un in UNIT_NS if un)
-    toc = ('<aside class="toc ltoc" aria-label="이 차시 순서">%s<div class="toc-title">%d차시 순서</div>'
+    toc = ('<aside class="toc ltoc" aria-label="이 차시 순서">%s<div class="toc-title"><span>지금 · %d차시</span>%s</div>'
            '<nav id="toc-nav"><ol>%s</ol></nav>%s'
            '<details class="tlist"><summary>차시 목록 펼치기</summary>%s</details></aside>'
-           % (tnav("prev", "↑", k - 1), k,
+           % (tnav("prev", "↑", k - 1), k, title,
               "".join('<li><a href="#%s" data-level="0"><em>%d</em>%s</a></li>' % (a, i + 1, t) for i, (a, t) in enumerate(steps)),
               tnav("next", "↓", k + 1), tlist))
     body = (hero + '<div class="wrap lwrap">\n' + toc + '\n<main class="lpage" id="main">\n' + "\n".join(parts)
