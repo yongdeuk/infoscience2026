@@ -2389,7 +2389,7 @@
 
   /* ---------- 모두의 생각 보드 (Apps Script) ---------- */
   (function () {
-    var L = window.LESSON, boards = $$('[data-board]');
+    var L = window.LESSON, boards = $$('.board[data-board]');
     if (!L || !boards.length) return;
     loadSettings(function (st) {
       var url = st.submit_url;

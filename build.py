@@ -711,9 +711,9 @@ def lesson_page(k):
         num += 1
     parts.append('<section class="lsec" id="l-wrap"><h2><span class="ln">%d</span>한 줄 정리</h2><p><b>%s</b></p>'
                  '<textarea class="think" data-think="L%02d.exit" rows="3" placeholder="내 말로 한두 문장"></textarea><p class="muted small" data-think-saved></p>'
-                 '%s<div class="donebar"><button class="btn donebtn" type="button" data-lesson-done="%d">☐ 이 차시 마쳤어요</button><span>체크하면 <a href="lessons.html">차시 수업</a> 목록에 표시돼요.</span></div>'
+                 '<div class="donebar"><button class="btn donebtn" type="button" data-lesson-done="%d">☐ 이 차시 마쳤어요</button><span>체크하면 <a href="lessons.html">차시 수업</a> 목록에 표시돼요.</span></div>'
                  '<div class="submitbox" data-submit hidden><button class="btn btn-p" type="button">선생님께 제출</button> <span class="muted small" data-submit-msg>한 줄 정리만 보내요.</span></div></section>'
-                 % (num, d.get("exit", "오늘 배운 것을 한 문장으로 정리해 보세요."), k, board_html("exit", "한 줄 정리를 보드에도 올려 보세요"), k))
+                 % (num, d.get("exit", "오늘 배운 것을 한 문장으로 정리해 보세요."), k, k))
     def plink(cls, dr, j):
         if j < 1 or j > NL:
             return '<a class="%s" href="lessons.html"><span class="dir">%s</span><span class="ttl">차시 목록</span></a>' % (cls, dr)
